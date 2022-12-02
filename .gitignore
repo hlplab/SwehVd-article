@@ -1,6 +1,6 @@
 .DS_Store
 *.Rproj
-
+*.rds
 *.log
 *.gz
 *.Rproj
