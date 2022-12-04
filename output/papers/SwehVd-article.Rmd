@@ -1722,7 +1722,7 @@ The purpose of this study is therefore to investigate the robustness of the effe
 
 In Study II, we add to the few existing studies relating the consequences of normalization to perception [see e.g. @barreda2018a; @escudero2007; @nearey1989; @richter2017], but also expand on previous research, by using a computational model that allows us to assess the consequences of normalization for perception while considering the entire vowel system. We use a computational model based on Bayesian inference, ideal observers (IO; REF), to simulate the effects and evaluate the predicted consequences of normalization accounts for speech perception from production data.-->
 
-Previous studies have related the consequences of normalization to predicted perception using a variety of different measures. Most previous work have either used more indirect approaches, such as comparing the distance between talker-specific category means for unnormalized and normalized vowel data [e.g., @barreda2018a; @lobanov1971]<!-- AP: is this necessary to bring up here? B&N does this whole analysis of suitablility of approaches as models of human cognition, where these measures are included, but it is relevant here?: calculating amount of error in normalization parameter estimates [e.g., @barreda2018a]-->, or more direct approaches essentially aiming at categorizing tokens [e.g., @adank2004; @barreda2018a; @carpenter1993; @escudero2007; @syrda1985]. Different models have been used in these studies, e.g., linear discriminant analysis [e.g., @adank2004; @syrda1985], fuzzy ARTMAP and K-nearest neighbour [e.g., @carpenter1993], or constraint ranking grammars [e.g., @escudero2007]. 
+Previous studies have related the consequences of normalization to predicted perception using a variety of different measures. Most previous work have either used more indirect approaches, such as comparing the distance between talker-specific category means for unnormalized and normalized vowel data [e.g., @barreda2018a; @lobanov1971]<!-- AP: B&N does this whole analysis of suitablility of approaches as models of human cognition, where these measures are included, but is it relevant here?: calculating amount of error in normalization parameter estimates [e.g., @barreda2018a]-->, or more direct approaches essentially aiming at categorizing tokens [e.g., @adank2004; @barreda2018a; @carpenter1993; @escudero2007; @syrda1985]. Different models have been used in these studies, e.g., linear discriminant analysis [e.g., @adank2004; @syrda1985], fuzzy ARTMAP and K-nearest neighbour [e.g., @carpenter1993], or constraint ranking grammars [e.g., @escudero2007]. 
 
 Here, we use a computational model based on Bayesian inference, ideal observers (IO), that lets us evaluate normalization models in terms of their categorization accuracy against the category intended by the talker. Ideal observers provide an analytical framework for estimating how a rational listener would optimally behave in response to input (here: $n$-way alternative forced choice categorization). IO models have been found to provide a good qualitative and quantitative fit against human speech perception [e.g., @clayards2008; @feldman2009; @kleinschmidt-jaeger2015; @kronrod2016; @norris-mcqueen2008; @xie2021cognition]. Unlike most other models, IOs have zero degrees of freedom in the link from production to perception: once the IO is trained on phonetic data, its predictions about perception are not mediated by additional parameters (unlike, e.g., exemplar models). This removes researchers' degrees of freedom in the evaluation of normalization accounts, which is the reason we chose IOs for Study 2.
 
@@ -1741,11 +1741,12 @@ The performance of each IO during test is assessed by calculating the IO's predi
 
 ## Results {#sec:resultsII}
 Figure \@ref(fig:predictions) visualizes the unnormalized and normalized models' predictions for perception of Stockholm Swedish vowels, under different assumptions about the relevant cues. The posterior probability of recognizing a certain vowel as intended by talkers, is displayed on the y-axis. 
-Previous research assessing differences in normalization accounts' predictions for perception, have not investigated quantity distinctions, most investigations have used vowel inventories that can be considered as primarily comparable to the long vowels in our study [e.g., @adank2004; @barreda2018a; @escudero2007; @syrda1985]. With regard to our models' predictions for the long vowels, the following observations can be made based on Figure \@ref(fig:predictions), leftmost column. (1) All models perform substantially above chance (9.1% in an 11-way forced choice task). (2) Transformations from the acoustic space into perceptual spaces does not seem to improve the models' performance, but (3) normalization can. General statistical operations such as centering (e.g., Nearey, C-CuRE) and/or scaling (e.g., Lobanov) are the best performing models. Notably, general purpose accounts such as C-CuRE, perform as well as other centering accounts. The high performance of these normalization models (as well as the lower performance of scale transformation models) replicates previous findings that compares normalization against simulated responses [e.g., @adank2004; @barreda2018a; @escudero2007; @syrda1985]. (4) As more cues are included in the models (Figure \@ref(fig:predictions), from **Panel A** to **Panel C**), the general pattern persist, and in addition, the accuracy of the models in predicting the intended category increases. Of note is that the relative difference between centering and scaling accounts diminishes, especially when duration is included as cue (**Panel C**, Figure \@ref(fig:predictions)). Given that including more cues presumably makes the models more human-like, humans might potentially do equally well with a simple centering approach as with a simple scaling approach. Even if normalization in general improve categorization accuracy, (5) some normalization accounts do not perform better that perceptual scale models. This is true for the intrinsic normalization accounts [@miller1989c; @Syrdal1986]. Previous work have indicated similar results for Dutch vowels [@adank2004], contrary to some evaluations of English [e.g., @syrda1985]. @adank2004 speculated that the discrepancy in results might be attributed to implementations of the bark-transformation, or to what @syrda1985 describe as language-specificity of the second dimension of @Syrdal1986 normalization. It might thus not generate the same results for different languages. The low performance of @Syrdal1986 and @miller1989c might also be related to the fact that they do not seem to increase category separability much, in comparison to other accounts (see Section \@ref(sec:normVowelSpace)) <!-- AP: this might be changed, if SI changes.-->.
+Previous research assessing differences in normalization accounts' predictions for perception, have not investigated quantity distinctions. Most investigations have used vowel inventories that can be considered as primarily comparable to the long vowels in our study [e.g., @adank2004; @barreda2018a; @escudero2007; @syrda1985]. With regard to our models' predictions for the long vowels, the following observations can be made based on Figure \@ref(fig:predictions), leftmost column. (1) All models perform substantially above chance (9.1% in an 11-way forced choice task). (2) Transformations from the acoustic space into perceptual spaces does not seem to improve the models' performance, but (3) normalization can. General statistical operations such as centering (e.g., Nearey, C-CuRE) and/or scaling (e.g., Lobanov) are the best performing models. Notably, general purpose accounts such as C-CuRE, perform as well as other centering accounts. The high performance of these normalization models (as well as the lower performance of scale transformation models) replicates previous findings that compares normalization against simulated responses [e.g., @adank2004; @barreda2018a; @escudero2007; @syrda1985]. (4) As more cues are included in the models (Figure \@ref(fig:predictions), from **Panel A** to **Panel C**), the general pattern persist, and in addition, the accuracy of the models in predicting the intended category increases. Of note is that the relative difference between centering and scaling accounts diminishes, especially when duration is included as cue (**Panel C**, Figure \@ref(fig:predictions)). Given that including more cues presumably makes the models more human-like, humans might potentially do equally well with a simple centering approach as with a simple scaling approach. 
+Even if normalization in general improve categorization accuracy, (5) some normalization accounts do not perform better that perceptual scale models. This is true for the intrinsic normalization accounts [@miller1989c; @Syrdal1986]. Previous work have indicated similar results for Dutch vowels [@adank2004], contrary to some evaluations of English [e.g., @syrda1985]. @adank2004 speculated that the discrepancy in results might be attributed to implementations of the bark-transformation, or to what @syrda1985 describe as language-specificity of the second dimension of @Syrdal1986 normalization. It might thus not generate the same results for different languages. The low performance of @Syrdal1986 and @miller1989c might also be related to the fact that they do not seem to increase category separability much, in comparison to other accounts (see Section \@ref(sec:normVowelSpace)) <!-- AP: this might be changed, if SI changes.-->.
 
-Points 1-5 hold for the models trained on the short vowels as well (Figure \@ref(fig:predictions), middle column). (6) The normalization accounts pattern the same, and in comparison to the long vowels, the categorization accuracy of the models predicting the intended category is now well above 75% (chance level being 10% in a 10-way forced-choice task). Here, we evaluate against a 10 category vowel space, thus one category less than in the previous evaluation. However, this increase in performance cannot be attributed to this difference alone, accuracy increase more than is expected based on the removal of one category. Given that phonological descriptions of Swedish vowels characterize the short vowels as being more centralized, constituting a smaller space [e.g., @riad2014], which is also confirmed by visualizations of the SwehVd (see Section \@ref(sec:characterizing-swehvd), this result might initially seem puzzling. However, the short vowels also exhibit less category variability and less category overlap, which presumably is driving this difference in performance between models trained on long and short vowels separately.
+Points 1-5 hold for the models trained on the short vowels as well (Figure \@ref(fig:predictions), middle column). (6) The normalization accounts pattern the same, and in comparison to the long vowels, the categorization accuracy of the models predicting the intended category is now well above 75% (chance level being 10% in a 10-way forced-choice task). Here, we evaluate against a 10 category vowel space, thus one category less than in the previous evaluation. However, this increase in performance cannot be attributed to this difference alone, accuracy increase more than is expected based on the removal of one category. Given that phonological descriptions of Swedish vowels characterize the short vowels as being more centralized, constituting a smaller space [e.g., @riad2014], also confirmed by visualizations of the SwehVd (see Section \@ref(sec:characterizing-swehvd), this result might initially seem puzzling. However, the short vowels exhibit less category variability and less category overlap, which presumably is driving this difference in performance between models trained on long and short vowels separately.
 
-Finally, evaluating predictions for the entire vowel space of 21 categories (Figure \@ref(fig:predictions), right column), which is presumably the most complex problem, we see that the normalization accounts pattern the same. Lobanov is the best performing normalization model, but this advantage is substantially reduced when considering all cues. In comparison to the models trained on long and short vowels separately, these models perform quite poorly when trained on F1-F2 and F1-F3 cues alone, with an accuracy of around 50% or less. Fifty percent is of course still substantially above chance, now being at only 4.8% (in a 21-way forced choice task). When including duration in the final evaluation, however, the models achieve around 75% accuracy, which is almost as high as models trained on long and short vowels separately. This points to the importance of duration as cue for a complex vowel system with quantity distinctions, such as the Swedish vowel space.
+Finally, evaluating predictions for the entire vowel space of 21 categories (Figure \@ref(fig:predictions), right column), presumably the most complex problem, we see that (7) the normalization accounts pattern the same as in previous evaluations. Lobanov is the best performing normalization model, but this advantage is substantially reduced when considering all cues. In comparison to the models trained on long and short vowels separately, these models perform quite poorly when trained on F1-F2 and F1-F3 cues alone, with an accuracy of around 50% or less. Fifty percent is of course still substantially above chance, now being at only 4.8% (in a 21-way forced choice task). When including duration in the final evaluation, however, the models achieve around 75% accuracy, which is almost as high as models trained on long and short vowels separately. This points to the importance of duration as cue for a complex vowel system with quantity distinctions, such as the Swedish vowel space.
 
 ```{r}
 train_io <- function(cues, data, group = NULL, no_noise = T, n.category = length(unique(data$category)), verbose = F) {
@@ -1964,7 +1965,7 @@ cowplot::plot_grid(
   labels = c("A", "B", "C"), nrow = 3, align = "hv", scale = 0.9)
 ```
 
-Considering the models' predictions for each vowel separately, the results overall hold. We will, however, make a couple of points in passing. For reference, Figure \@ref(fig:predictions-per-vowel) visualizes the predicted categorization accuracy per vowel, by the unnormalized and normalized IO models trained on F1-F2 (the SI contains similar plots for models trained on F1-F3, and all five cues, see <!-- insert reference here--> ). Even though the models pattern more or less the same way across vowels, there are some vowels for which models are overall good at predicting the intended category, across cue evaluations and across space sizes, e.g., [`r linguisticsdown::cond_cmpl("ɑː")`], [`r linguisticsdown::cond_cmpl("ɑ")`] and [`r linguisticsdown::cond_cmpl("ɵ")`]. Similarly, there are also some vowels for which model performance is specially low, in particular [`r linguisticsdown::cond_cmpl("iː")`], but also to a certain extent [`r linguisticsdown::cond_cmpl("oː")`] and [`r linguisticsdown::cond_cmpl("uː")`]. Of note is also that one of these vowels does not seem to benefit at all from normalization, across evaluations, [`r linguisticsdown::cond_cmpl("iː")`]. The unnormalized model perform similarly to normalized models for this vowel. Which vowels are aided by normalization will naturally vary between languages, reflecting the language-specific properties of the vowel space. While [`r linguisticsdown::cond_cmpl("iː")`] does not seem to benefit from normalization in Swedish, it is often described as more easily recognized in previous work on other languages. Its recognition accuracy is often attributed to either its absolute location in the space (peripheral vowel), or to the fact that it does not have close competitors. Given the density of the Swedish vowel space along the height dimension, vowels such as [`r linguisticsdown::cond_cmpl("iː")`] have, on the contrary, many close competitors, which might explain the performance of the IOs.
+The approach that we have taken here lets us assess vowel-specific effects on the predictions of the IOs. This is however not the main focus of this paper, but might be of interest to other researchers. In SI, we therefore plot both the predicted categorization accuracy per vowel in the different evaluations (see \@ref(sec:accuracy-per-vowel)), as well as confusion matrices of the best and the worst performing IOs (see \@ref(sec:confusion)), to further investigate the beliefs IOs hold about the Swedish vowel space. Here, we briefly mention some of the main general points from these visualizations, beginning with the models' predictions for each vowels separately. For reference, Figure \@ref(fig:predictions-per-vowel) visualizes the predicted categorization accuracy per vowel, by the unnormalized and normalized IO models trained on F1-F2 (the SI contains plots for models trained on F1-F3, and all five cues (\@ref(sec:accuracy-per-vowel)). Even though the models pattern more or less the same across vowels, there are some vowels for which models are overall good at predicting the intended category, across cue evaluations and across space sizes, e.g., [`r linguisticsdown::cond_cmpl("ɑː")`], [`r linguisticsdown::cond_cmpl("ɑ")`] and [`r linguisticsdown::cond_cmpl("ɵ")`]. Similarly, there are also some vowels for which model performance is particularly low, e.g., [`r linguisticsdown::cond_cmpl("iː")`] and [`r linguisticsdown::cond_cmpl("iː")`]. Of note is also that one of these vowels, [`r linguisticsdown::cond_cmpl("iː")`], does not seem to benefit from normalization, across evaluations. Which vowels will benefit by normalization will naturally vary between languages, reflecting the language-specific properties of the vowel space. [`r linguisticsdown::cond_cmpl("iː")`] is often described as more easily recognized in previous work on other languages. Its recognition accuracy is often attributed to either its absolute location in the space (peripheral vowel), or to the fact that it does not have close competitors[@REFS]. Given the density of the Swedish vowel space along the height dimension, vowels such as [`r linguisticsdown::cond_cmpl("iː")`] have, on the contrary, many close competitors, which might explain the performance of the IOs.
 
 (ref:predictions-per-vowel) Per-vowel predicted categorization accuracy of the ideal observers trained on F1 and F2. Predictions for the long (Panel A) and short (Panel B) Central Swedish vowels. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
@@ -2055,9 +2056,9 @@ cowplot::plot_grid(
 # summary(model)
 ```
 
-The approach that we have taken here lets us assess vowel-specific effects on the predictions of the IOs. This is however not the main focus of this paper, but might be of interest to other researchers. In SI (\@ref(sec:confusion), we therefore plot confusion matrices of the best and the worst performing IOs, to further investigate the beliefs IOs hold about the Swedish vowel space, in terms of which vowel categories are more easily confused, and with what. Here, we briefly mention some of the main general points, illustrated by Figure \@ref(fig:confusion-matrix) that displays the models' predictions about the entire Swedish vowel space. (1) When there is high competition from many close neighbours, models are more inclined to confuse categories with one of there neighbours. This is especially evident among the overlapping high vowels, but also for the allophones to [`r linguisticsdown::cond_cmpl("ɛ")`] and [`r linguisticsdown::cond_cmpl("ø")`]. (2) Given that the closest neighbour is not necessarily the categories' short/long counterpart, it is not primary the case that quantity distinctions are the cause of models' confusion. (3) As more information is given the models, the confusion declines substantially (panel B, Figure \@ref(fig:confusion-matrix)). Including F3 as cue reduces the confusion among some of the high vowels, including duration reduces quantity confusions down to one category distinction (between [`r linguisticsdown::cond_cmpl("uː")`] and [`r linguisticsdown::cond_cmpl("ʊ")`] for the worst performing model). 
+To further investigate the effects of neighbouring categories, and understand which categories are more easily confused by the IOs, and with what, we plot a confusion matrix that displays the best and worst performing IOs' predictions about the entire Swedish vowel space (see Figure \@ref(fig:confusion-matrix)). Three general observations can be made. (1) When there is high competition from many close neighbours, models are more inclined to confuse categories with one of their neighbours. This is especially evident for the overlapping high vowels, but also for the allophones to [`r linguisticsdown::cond_cmpl("ɛ")`] and [`r linguisticsdown::cond_cmpl("ø")`]. (2) Given that the closest neighbour is not necessarily the categories' short/long counterpart, it is not primarily the case that quantity distinctions are the cause of models' confusion. (3) As more information is given the models, confusability declines substantially (panel B, Figure \@ref(fig:confusion-matrix)). Including F3 as cue reduces the confusability among some of the high vowels, including duration reduces quantity confusions down to one category distinction (between [`r linguisticsdown::cond_cmpl("uː")`] and [`r linguisticsdown::cond_cmpl("ʊ")`], for the worst performing model). 
 
-In sum, these results might suggest that even if duration is cue to quantity distinctions between long and short vowels in Stockholm Central Swedish, successful vowel recognition when all vowels are taken into account, most likely relies on more cues.
+In sum, these results suggest that confusability seems to primarily be driven by the number of close, or overlapping, neighbouring categories. As models presumably become more human-like, confusability decreases.
 
 ```{r}
 plot_io_confusion <- function(
@@ -2098,7 +2099,7 @@ p.confusion.all.all.best <- plot_io_confusion(
 legend.confusion <- cowplot::get_legend(p.confusion.all.all.best +
   guides(fill = guide_legend(nrow = 1, byrow = TRUE)))
 ```
-(ref:confusion-matrix) Confusion matrices for the worst (left) and best (right) performing ideal observers in predicting all 21 Swedish vowels, under different assumptions about the relevant cues: F1-F2 (panel A), F0-F3 and vowel duration (panel B). Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel.
+(ref:confusion-matrix) Confusion matrices for the worst (left) and best (right) performing ideal observers in predicting all 21 Swedish vowels, under different assumptions about the relevant cues: F1-F2 (**Panel A**), F0-F3 and vowel duration (**Panel B**). Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel.
 ```{r confusion-matrix, fig.width=base.width*3, fig.height=base.height*3+.5, fig.align='center', fig.cap="(ref:confusion-matrix)"}
 cowplot::plot_grid(legend.confusion,
   cowplot::plot_grid(
@@ -2108,7 +2109,7 @@ cowplot::plot_grid(legend.confusion,
 ```
 
 # General discussion {#sec:discussion}
-This paper has investigated the effect of low-level pre-linguistic normalization on Stockholm Swedish vowels, by assessing the effects on category separability, and on predicted consequences for perception. The evaluation of the 15 different normalization accounts against the dense vowel space of Swedish, has allowed us to assess whether the same normalization accounts that work well for vowel systems with fewer categories, work equally well for more complex systems. Investigating a language with quantity distinction has allowed for a bridging of the literature on vowel-specific accounts and on general normalization accounts [such as C-CuRE; @mcmurray-jongman2011], and for expanding on previous research that primarily has focused on the first two (or three) formants. 
+This paper has investigated the effect of low-level pre-linguistic normalization on Stockholm Swedish vowels, by assessing its effects on category separability, and on predicted consequences for perception. Evaluating 15 different normalization accounts against the dense vowel space of Swedish, has allowed us to assess whether the same normalization accounts that work well for vowel systems with fewer categories, work equally well for more complex systems. Investigating a language with quantity distinction has furthermore allowed for a bridging of the literature on vowel-specific accounts and on general normalization accounts [such as C-CuRE; @mcmurray-jongman2011], and for expanding on previous research that primarily has focused on the first two (or three) formants. 
 
 The speech materials used was a subset of the SwehVd database, a new phonetically annotated database of Stockholm Swedish vowels that was presented and released in this paper. The following methods were used for evaluation. In Study I, we compared the reduction of within-category variability relative to between-category variability by calculating a separability index (i.e., an F-statistics). Using this type of metric facilitates comparison to previous studies.<!--AP: more here ---> In Study II, we assessed the predicted consequences for perception by training ideal observer models on the vowel data in different normalization spaces, under different assumptions about the relevant cues. This approach comes with a set of simplifying assumptions: for instance, we assume that categories can be represented as Gaussian distributions by their means and covariance matrices, we furthermore assume uniform category priors... All of these assumptions can, however, be revisited as code is provided in the SI/OFS... The advantage of the model in having 0 degrees of freedom, strikes a middle ground between less parsimonious models such as exemplar models, and more parsimonious, such as models of cue integration...<!-- AP: more here on modelling approach-->
 
@@ -2321,57 +2322,6 @@ d.SwehVd.normalization_constants_based_on_training <-
 #Remove constants dataframe after addressed in norm_accounts table
 rm(d.SwehVd.normalization_constants_based_on_training)
 ```
-
-## Per-vowel categorization accuracy of models trained on long and short vowels separately
-
-(ref:predictions-per-vowel-F1F3) Per-vowel predicted categorization accuracy of the ideal observers trained on F1-F3. Predictions for the long (Panel A) and short (Panel B) Central Swedish vowels. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
-
-```{r}
-p.accuracy.io.F1F3_long <- plot_io_results_per_vowel(
-  m.io.SwehVd.F1F3_by_quantity %>% filter(IO.Quantity == "long")) + 
-  facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.long))
-p.accuracy.io.F1F3_short <- plot_io_results_per_vowel(
-  m.io.SwehVd.F1F3_by_quantity %>% filter(IO.Quantity == "short")) + 
-  facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.short))
-p.accuracy.io.all_long <- plot_io_results_per_vowel(
-  m.io.SwehVd.all_by_quantity %>% filter(IO.Quantity == "long")) + 
-  facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.long))
-p.accuracy.io.all_short <- plot_io_results_per_vowel(
-  m.io.SwehVd.all_by_quantity %>% filter(IO.Quantity == "short")) + 
-  facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.short))
-```
-\begin{landscape}
-
-```{r predictions-per-vowel-F1F3, fig.width=base.width * 5 + 5, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:predictions-per-vowel-F1F3)"}
-cowplot::plot_grid(
-  p.accuracy.io.F1F3_long, p.accuracy.io.F1F3_short, ncol = 2, align = "hv", axis = "btlr", labels = c("A", "B"), nrow = 1)
-```
-\end{landscape}
-
-(ref:predictions-per-vowel-all) Per-vowel predicted categorization accuracy of the ideal observers trained on all five cues. Predictions for the long (Panel A) and short (Panel B) Central Swedish vowels. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
-
-\begin{landscape}
-
-```{r predictions-per-vowel-all, fig.width=base.width * 5 + 5, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:predictions-per-vowel-all)"}
-cowplot::plot_grid(
-  p.accuracy.io.all_long, p.accuracy.io.all_short, ncol = 2, align = "hv", axis = "btlr", labels = c("A", "B"), nrow = 1)
-```
-\end{landscape}
-
-(ref:predictions-per-vowel-all-all) Per-vowel predicted categorization accuracy of the ideal observers trained on all vowels. Predictions for the vowels under the assumption of F1-F3 as cues (Panel A) and under the assumption of all five cues (Panel B). Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
-
-\begin{landscape}
-
-```{r predictions-per-vowel-all-all, fig.width=base.width * 5 + 5, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:predictions-per-vowel-all-all)"}
-p.accuracy.io.F1F3 <- plot_io_results_per_vowel(
-  m.io.SwehVd.F1F3) + 
-  facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
-p.accuracy.io.all <- plot_io_results_per_vowel(
-  m.io.SwehVd.all) + 
-  facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
-```
-
-\end{landscape}
 
 ## Correlation matrices for all normalization accounts {#sec:correlation-matrices}
 
@@ -2767,9 +2717,58 @@ Given that these two accounts change the vowel space more drastically than the o
 ## Performance of ideal observer models on test data without distributional outliers
 In Section \@ref(sec:distrProp), we visualized the outliers generated by the different normalization accounts. In order to have a balanced dataset, we decided to keep the identified outliers in the test data. Here, we plot the performance of the models where we have excluded all distributional outliers from the test data.
 
-```{r}
 
+## Per-vowel categorization accuracy of models trained on long and short vowels separately {#sec:accuracy-per-vowel}
+
+(ref:predictions-per-vowel-F1F3) Per-vowel predicted categorization accuracy of the ideal observers trained on F1-F3. Predictions for the long (Panel A) and short (Panel B) Central Swedish vowels. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+
+```{r}
+p.accuracy.io.F1F3_long <- plot_io_results_per_vowel(
+  m.io.SwehVd.F1F3_by_quantity %>% filter(IO.Quantity == "long")) + 
+  facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.long))
+p.accuracy.io.F1F3_short <- plot_io_results_per_vowel(
+  m.io.SwehVd.F1F3_by_quantity %>% filter(IO.Quantity == "short")) + 
+  facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.short))
+p.accuracy.io.all_long <- plot_io_results_per_vowel(
+  m.io.SwehVd.all_by_quantity %>% filter(IO.Quantity == "long")) + 
+  facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.long))
+p.accuracy.io.all_short <- plot_io_results_per_vowel(
+  m.io.SwehVd.all_by_quantity %>% filter(IO.Quantity == "short")) + 
+  facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.short))
 ```
+\begin{landscape}
+
+```{r predictions-per-vowel-F1F3, fig.width=base.width * 5 + 5, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:predictions-per-vowel-F1F3)"}
+cowplot::plot_grid(
+  p.accuracy.io.F1F3_long, p.accuracy.io.F1F3_short, ncol = 2, align = "hv", axis = "btlr", labels = c("A", "B"), nrow = 1)
+```
+\end{landscape}
+
+(ref:predictions-per-vowel-all) Per-vowel predicted categorization accuracy of the ideal observers trained on all five cues. Predictions for the long (Panel A) and short (Panel B) Central Swedish vowels. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+
+\begin{landscape}
+
+```{r predictions-per-vowel-all, fig.width=base.width * 5 + 5, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:predictions-per-vowel-all)"}
+cowplot::plot_grid(
+  p.accuracy.io.all_long, p.accuracy.io.all_short, ncol = 2, align = "hv", axis = "btlr", labels = c("A", "B"), nrow = 1)
+```
+\end{landscape}
+
+(ref:predictions-per-vowel-all-all) Per-vowel predicted categorization accuracy of the ideal observers trained on all vowels. Predictions for the vowels under the assumption of F1-F3 as cues (Panel A) and under the assumption of all five cues (Panel B). Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+
+\begin{landscape}
+
+```{r predictions-per-vowel-all-all, fig.width=base.width * 5 + 5, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:predictions-per-vowel-all-all)"}
+p.accuracy.io.F1F3 <- plot_io_results_per_vowel(
+  m.io.SwehVd.F1F3) + 
+  facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
+p.accuracy.io.all <- plot_io_results_per_vowel(
+  m.io.SwehVd.all) + 
+  facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
+```
+
+\end{landscape}
+
 
 ## Confusion matrices of ideal observers {#sec:confusion}
 We plot confusion matrices of the worst and best performing IOs trained on the long, short or all Swedish vowels, under the different assumptions about the relevant cues. Figure \@ref(fig:confusion-matrix-long) displays the worst (left column) and best (right column) performing models' predictions for each of the long vowels, under different assumptions about the relevant cues. Figure \@ref(fig:confusion-matrix-short) displays the worst (left column) and best (right column) performing models' predictions for each of the short vowels, and finally, Figure \@ref(fig:confusion-matrix-allVowels) displays the worst (left column) and best (right column) performing models' predictions for all of the Swedish vowels. 
