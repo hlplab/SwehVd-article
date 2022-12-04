@@ -636,6 +636,7 @@ d.SwehVd %>%
   scale_x_reverse("F2 (in Hz)", position = "top", breaks = scales::breaks_pretty(6)) +
   scale_y_reverse("F1 (in Hz)", position = "right", breaks = scales::breaks_pretty(6)) +
   guides(color = "none") +
+  myBigPlot.theme +
   theme(legend.position = "top")
 ```
 

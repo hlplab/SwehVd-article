@@ -115,6 +115,18 @@ myGplot.defaults = function(
   if (set_theme) theme_set(theme_bw(base_size=base_size) + t) else return(t)
 }
 
+myBigPlot.theme <-
+  theme(axis.text.x = element_text(size=8, vjust=1),
+        axis.text.y = element_text(size=8, hjust=1, vjust=.5),
+        axis.title.x = element_text(size=8 , vjust=0, hjust=0.5, face = "bold"),
+        axis.title.y = element_text(size=8, hjust= 0.5, vjust=0.5, face = "bold"),
+        strip.text = element_text(size=8, color = "white"),
+        strip.background = element_rect(fill = "black", color = "black"),
+        legend.title = element_text(size=8, face = "bold", hjust= 0),
+        legend.text = element_text(size=8),
+        plot.margin = margin(0.6, 0.5, 0.5, 0.3, "cm"),
+        aspect.ratio = 1)
+
 ## General functions ------------------------------------------------------------------
 se <- function(x) sqrt(var(x) / (length(x) - 1))
 
