@@ -151,10 +151,10 @@ base.height = 2.5
   * FIGs
     * fix fig sizes
     * write function for large_plot_theme
-    * clean up the diphthong plot + add text
   * Have all tables be the same size
   * Adjust font size of plot labels, legends and titles (should be slightly smaller than caption label).
   * REFs
+    * add REF on coarticulation with /d/ in coda
   * Apply normalization to the data at all three time points
   * convert noise to apply to all IOs (incl in hz, erb, bark etc.)?
   * Supplementary information
@@ -505,14 +505,10 @@ The procedure of adding written guides to *hod* and *hodd* to facilitate vowel i
 
 For the vast majority of talkers, *hädd* productions elicited the same vowel as *hedd* (see Figure \@ref(fig:hedd)). This confirms the common assumption that the short allophone to /e/ neutralizes with the short allophone to [`r linguisticsdown::cond_cmpl("ɛ")`] in Central Swedish.
 
-Figure \@ref(fig:diphthongs) shows the trajectory of the average F1-F2 values across the five time-points for each of the vowels in the SwehVd database. It is clear from this plot that there is some movement across time-points, in particular for some of the long vowels. The vowels that exhibit most movement have been discussed in previous studies on diphthongisation, e.g., [`r linguisticsdown::cond_cmpl("eː")`] and  [`r linguisticsdown::cond_cmpl("oː")`] [e.g., @eklund1997; @elert2000]. The high front vowels (`[r linguisticsdown::cond_cmpl("[iː]")]`, [`r linguisticsdown::cond_cmpl("[yː]")`]) does not display any movement, the remaining vowels display some. The movement is primarily along F1, but also F2. There is also movement in some of the short vowels, which could also indicate co-articulation with the subsequent /d/.<!-- AP: check and cite papers here. e.g. Sussman et al., 1997, Parker, 1974; what do you expect from a final /d/? Also, check what context Eklund and Elert are using--> Across vowels, the movement is largest between the last two steps, at 65% and 80% of the vowel. We decided to exclude vowels where there was a significant systematic upward movement along F1. We did so by running separate mixed effect regressions for each vowel, with F1 as dependent variable and time-point as predictor, and the interaction of time-point and Talker as random effects.
-
-(ref:diphthongs) The trajectory of all vowels across the five time points, along F1-F2. Each number corresponds to one of the time-points.
-
 (ref:hedd) The *hedd* and *hädd* words in the SwehVd vowel data in unnormalized F1-F2 space. Points show recordings of the *hedd* and *hädd* words ([`r linguisticsdown::cond_cmpl("ɛ")`]) by 16 female native talkers in the database, averaged across the five measurement points within each vowel segment. Word labels indicate word means across talkers. Since *hädd* and *hedd* resulted in the same allophone, we exclude *hädd* from this and all other visualizations below. This facilitates comparison of, for example, densities across vowels (see diagonal of Figure \@ref(fig:swe-vowels-all-cues)).
 
-```{r }
-p.hedd <- d.SwehVd %>% 
+```{r hedd, out.width = '50%', fig.align='center', fig.cap="(ref:hedd)"}
+d.SwehVd %>% 
   filter(Transcribed_vowel == "targeted", Word %in% c("hedd", "hädd")) %>%
   # Get the geometric mean F1-F2 across the five time points
   group_by(Talker, Word, Token) %>%
@@ -540,52 +536,52 @@ p.hedd <- d.SwehVd %>%
   scale_y_reverse("F1 (in Hz)", position = "right", breaks = scales::breaks_pretty(6)) +
   guides(color = "none") +
   theme(legend.position = "top")
-
-p.diphthongs.average <- 
-  d.SwehVd %>%
-    mutate(Location = as.character(Location)) %>%
-    group_by(Talker, category, Location) %>%
-    summarise(across(c(F1, F2), ~geometric.mean(.x))) %>%
-    group_by(category, Location) %>%
-    summarise(across(c(F1, F2), ~geometric.mean(.x))) %>%
-    ggplot(
-      aes(
-        x = F2,
-        y = F1,
-        color = category,
-        group = NULL)) +
-    geom_text(aes(label = as.numeric(as.factor(Location)))) +
-    geom_path(
-      alpha = .5) +
-    geom_label(
-      data = d.SwehVd %>% 
-        group_by(category, Quantity) %>%
-        summarise(across(c(F1, F2), ~ geometric.mean(.x))),
-      mapping = aes(
-        colour = category,
-        label = category,
-        fontface = ifelse(category %in% levels.vowel.IPA.swe.long, 2, 1)),
-      alpha = .8,
-      size = 4,
-      label.size = NA) +
-    scale_color_manual(name = "category", values = colors.vowel.swe) +
-    scale_x_reverse("F2 (in Hz)", position = "top", breaks = scales::breaks_pretty(6)) +
-    scale_y_reverse("F1 (in Hz)", position = "right", breaks = scales::breaks_pretty(6)) +
-  guides(color = "none")
-
+```
+```{r echo=FALSE}
 # d.SwehVd %<>%
 #   mutate(Location = factor(Location))
 # contrasts(d.SwehVd$Location) <- MASS::contr.sdif(5)
-# m <- lme4::lmer(F1~ Location + (1 + Location | Talker), data = d.SwehVd %>% filter(Quantity == "long", category == "[ɑː]"))
+# m <- lmerTest::lmer(F2~ Location + (1 + Location | Talker), data = d.SwehVd %>% filter(category == "[iː]"))
 # summary(m)
 ```
 
-```{r hedd, out.width = '50%', fig.align='center', fig.cap="(ref:hedd)"}
-p.hedd
-```
+Figure \@ref(fig:diphthongs) shows the trajectory of the average F1-F2 values across the five time-points for each of the vowels in the SwehVd database. It is clear from this plot that there is some movement across time-points. Across vowels, the movement is largest going from time-point 3 to 5, that is, from vowel mid-point to at 80% of the vowel. The vowels that exhibit most movement are [`r linguisticsdown::cond_cmpl("eː")`] and  [`r linguisticsdown::cond_cmpl("oː")`] [in line with e.g., @eklund1997; @elert2000]. The high front vowels ([`r linguisticsdown::cond_cmpl("iː")`], [`r linguisticsdown::cond_cmpl("yː")`], and their short counterparts) display very little movement. The directionality is primarily along F1, towards a higher position for all vowels besides [`r linguisticsdown::cond_cmpl("eː")`] and  [`r linguisticsdown::cond_cmpl("oː")`], that move towards a more centralized position. There is also some movement along F2. The directionality and systematicity of the movement was confirmed when running separate mixed effect regressions for each vowel, with F1 as dependent variable and time-point as predictor, and the interaction of time-point and Talker as random effects.<!-- AP: So, where the t-value was always negative and significant for all time-points 3-5? For F2: positive movement - ʊ, ɔ, œ, ɵ, œː ; negative - ø, ɛ, øː, ɛː, eː, ʉː, yː --> The models indicate a significant and systematic upward movement along F1 from mid-point to 80% into the vowel for [`r linguisticsdown::cond_cmpl("uː")`], [`r linguisticsdown::cond_cmpl("ʉː")`], [`r linguisticsdown::cond_cmpl("æː")`], [`r linguisticsdown::cond_cmpl("ɛ")`], [`r linguisticsdown::cond_cmpl("æ")`], [`r linguisticsdown::cond_cmpl("ø")`], [`r linguisticsdown::cond_cmpl("œ")`], [`r linguisticsdown::cond_cmpl("a")`], and [`r linguisticsdown::cond_cmpl("ɔ")`], and a downward movement for [`r linguisticsdown::cond_cmpl("eː")`] and  [`r linguisticsdown::cond_cmpl("oː")`]. These results does not entirely replicate previous descriptions of diphthongisation of Swedish vowels. In @eklund1997, all long vowels moved towards a more open quality. They however used the letter names for recording, which might indicate that what we see here is partly the result of co-articulation with the subsequent /d/ [@REFS].<!-- AP: check and cite papers here. e.g. Sussman et al., 1997, Parker, 1974; what do you expect from a final /d/? Also, check what context Elert is using-->
+
+(ref:diphthongs) The trajectory of all vowels across the five time points, along F1-F2. Each number correspond to the five time-points at 20%, 35%, 50%, 65% and 80% into the vowel.
 
 ```{r diphthongs, out.width = '50%', fig.align='center', fig.cap="(ref:diphthongs)"}
-p.diphthongs.average
+d.SwehVd %>%
+  filter(Transcribed_vowel == "targeted", Word != "hädd") %>%
+  mutate(Location = as.character(Location)) %>%
+  group_by(Talker, category, Location) %>%
+  summarise(across(c(F1, F2), ~geometric.mean(.x))) %>%
+  group_by(category, Location) %>%
+  summarise(across(c(F1, F2), ~geometric.mean(.x))) %>%
+  ggplot(
+    aes(
+      x = F2,
+      y = F1,
+      color = category,
+      group = NULL)) +
+  geom_text(aes(label = as.numeric(as.factor(Location)))) +
+  geom_path(
+    alpha = .5) +
+  geom_label(
+    data = d.SwehVd %>%
+      group_by(category, Quantity) %>%
+      summarise(across(c(F1, F2), ~ geometric.mean(.x))),
+    mapping = aes(
+      colour = category,
+      label = category,
+      fontface = ifelse(category %in% levels.vowel.IPA.swe.long, 2, 1)),
+    alpha = .6,
+    size = 4,
+    label.size = NA,
+    position = position_nudge(120)) +
+  scale_color_manual(name = "category", values = colors.vowel.swe) +
+  scale_x_reverse("F2 (in Hz)", position = "top", breaks = scales::breaks_pretty(6)) +
+  scale_y_reverse("F1 (in Hz)", position = "right", breaks = scales::breaks_pretty(6)) +
+  guides(color = "none")
 ```
 
 ## Characterizing vowel productions in SwehVd {#sec:characterizing-swehvd}
@@ -593,7 +589,7 @@ Figure \@ref(fig:swe-vowels) visualizes the vowel data from the SwehVd in F1-F2 
 
 In line with Riad [-@riad2014, cf. Table \@ref(tab:swedish-vowels) above], the short vowels are overall more centralized and form a more condensed space, whereas the long vowels are more dispersed. Differences in formant patterns between long and short vowels have been found to be smallest for the allophones to [`r linguisticsdown::cond_cmpl("ɛ")`] and [`r linguisticsdown::cond_cmpl("ø")`], and largest for /u/ ([`r linguisticsdown::cond_cmpl("ʉː")`] and [`r linguisticsdown::cond_cmpl("ɵ")`]), and /a/ ([`r linguisticsdown::cond_cmpl("ɑː")`] and [`r linguisticsdown::cond_cmpl("a")`]) [@fant2001]. This pattern does not entirely replicate here. We do see large differences in F1-F2 for the allophones to /u/ and /a/, but also substantial differences between [`r linguisticsdown::cond_cmpl("ɛ")`] and [`r linguisticsdown::cond_cmpl("ɛː")`]. Formant differences are apparent even for some category distinctions for which quantity has been found to be the primary cue [as shown in perceptual studies, see e.g., @behne1997; @haddingkoch1964], ([`r linguisticsdown::cond_cmpl("ɛː")`] - [`r linguisticsdown::cond_cmpl("ɛ")`], [`r linguisticsdown::cond_cmpl("øː")`] - [`r linguisticsdown::cond_cmpl("ø")`], [`r linguisticsdown::cond_cmpl("iː")`] - [`r linguisticsdown::cond_cmpl("ɪ")`], and [`r linguisticsdown::cond_cmpl("oː")`] - [`r linguisticsdown::cond_cmpl("ɔ")`]).
 
-Figure \@ref(fig:swe-vowels-all-cues) visualizes the vowel data from the SwehVd database for all pairwise combinations of five cues: F0, F1, F2, F3 and vowel duration. As is to be expected, vowels differing in quality are most separated in the F1-F2 plot, indicating the two cues most important for vowel category distinction. However, the F1-F3 and F3-F2 plots both display less overlap between the high vowels [`r linguisticsdown::cond_cmpl("iː")`], [`r linguisticsdown::cond_cmpl("yː")`] and [`r linguisticsdown::cond_cmpl("ʉː")`], comparing to when plotted along F1-F2. The increased separation of these categories along F3 in vowel production data could point to the importance of F3 for some category distinctions, as found in previous studies [see e.g., @Fant1973; @fujimura1967, for [`r linguisticsdown::cond_cmpl("iː")`] and [`r linguisticsdown::cond_cmpl("yː")`] categorization]<!--AP: double-check Fant 1973 when I get it-->.^[The separation of [`r linguisticsdown::cond_cmpl("iː")`] and [`r linguisticsdown::cond_cmpl("yː")`] is however not as large as one would expect, given that F3 is claimed to be the only distinctive feature between these two categories. A recent study by @gross2020, concluded that a process of merger of these two categories might be taking place among young talkers, indicated by both acoustic analysis of production data, and a subsequent vowel perception experiment.]<!-- AP: should I mention something here on impressionistic evidence for not much of a distinction in some of our talkers?-->
+Figure \@ref(fig:swe-vowels-all-cues) visualizes the vowel data from the SwehVd database for all pairwise combinations of five cues: F0, F1, F2, F3 and vowel duration. As is to be expected, vowels differing in quality are most separated in the F1-F2 plot, indicating the two cues most important for vowel category distinction. However, the F1-F3 and F3-F2 plots both display less overlap between the high vowels [`r linguisticsdown::cond_cmpl("iː")`], [`r linguisticsdown::cond_cmpl("yː")`] and [`r linguisticsdown::cond_cmpl("ʉː")`], comparing to when plotted along F1-F2. The increased separation of these categories along F3 in vowel production data could point to the importance of F3 for some category distinctions, as found in previous studies [see e.g., @Fant1973; @fujimura1967, for [`r linguisticsdown::cond_cmpl("iː")`] and [`r linguisticsdown::cond_cmpl("yː")`] categorization]<!--AP: double-check Fant 1973 when I get it-->.^[The separation of [`r linguisticsdown::cond_cmpl("iː")`] and [`r linguisticsdown::cond_cmpl("yː")`] is however not as large as one would expect, given that F3 is claimed to be the only distinctive feature between these two categories. A recent study by @gross2020, concluded that a process of merger of these two categories might be taking place among young talkers, indicated by both acoustic analysis of production data, and a subsequent vowel perception experiment.]<!-- AP: should I mention something here on impressionistic evidence for not much of a distinction in some of our talkers? ALSO, include Björnsten & Engstrand, 1999.-->
 
 Also as expected, duration is the primary cue that distinguishes vowel quantity: in the last column of Figure \@ref(fig:swe-vowels-all-cues), the short vowels cluster on the left, and the long vowels on the right. They are separable, but overlapping. Overall, the short vowels seem to display less variability in duration than the long vowels, a common pattern for measures with a lower bound. In addition to duration, F1-F3 can also carry information about vowels differing in quantity. This is evident, for example, for [`r linguisticsdown::cond_cmpl("iː")`] vs. [`r linguisticsdown::cond_cmpl("ɪ")`], [`r linguisticsdown::cond_cmpl("yː")`] vs. [`r linguisticsdown::cond_cmpl("ʏ")`], [`r linguisticsdown::cond_cmpl("ʉː")`] vs. [`r linguisticsdown::cond_cmpl("ɵ")`], [`r linguisticsdown::cond_cmpl("ɑː")`] vs. [`r linguisticsdown::cond_cmpl("a")`], [`r linguisticsdown::cond_cmpl("ɛː")`] vs. [`r linguisticsdown::cond_cmpl("ɛ")`] in F1-F2 space, and for [`r linguisticsdown::cond_cmpl("iː")`] vs. [`r linguisticsdown::cond_cmpl("ɪ")`], [`r linguisticsdown::cond_cmpl("yː")`] vs. [`r linguisticsdown::cond_cmpl("ʏ")`], [`r linguisticsdown::cond_cmpl("ʉː")`] vs. [`r linguisticsdown::cond_cmpl("ɵ")`] in F2-F3 space.
 
@@ -603,7 +599,7 @@ Finally, the densities along the diagonal of Figure \@ref(fig:swe-vowels-all-cue
 
 (ref:swe-vowels-all-cues) The SwehVd vowel data. Points show recordings of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space, averaged across all five measurement points. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means. Note that, unlike in Figure \@ref(fig:swe-vowels), axis directions are not reversed. Vowels that mismatched the intended label are excluded (`r signif((d.SwehVd %>% filter(Transcribed_vowel != "targeted") %>% nrow() / d.SwehVd %>% nrow()) * 100)`% of all recordings).
 
-```{r swe-vowels, out.width = '100%', fig.align='center', fig.cap="(ref:swe-vowels)"}
+```{r swe-vowels, out.width = '100%', out.height = '100%', fig.align='center', fig.cap="(ref:swe-vowels)"}
 d.SwehVd %>% 
   filter(Transcribed_vowel == "targeted", Word != "hädd") %>%
   # Get the geometric mean F1-F2 across the five time points
@@ -635,9 +631,7 @@ d.SwehVd %>%
   scale_colour_manual(name = "category", values = colors.vowel.swe) +
   scale_x_reverse("F2 (in Hz)", position = "top", breaks = scales::breaks_pretty(6)) +
   scale_y_reverse("F1 (in Hz)", position = "right", breaks = scales::breaks_pretty(6)) +
-  guides(color = "none") +
-  myBigPlot.theme +
-  theme(legend.position = "top")
+  guides(color = "none")
 ```
 
 ```{r swe-vowels-all-cues, fig.width=base.width*5, fig.height=base.height*5+.5, fig.cap="(ref:swe-vowels-all-cues)"}
@@ -826,7 +820,7 @@ d.SwehVd.forStudy %<>%
 ### Speech materials {#sec:speechMaterialsI}
 We use the SwehVd database with some exclusions. Since we are interested in assessing the effects of normalization, we excluded any productions on which the talker did not produce the targeted vowel. We then excluded all talkers (N = `r n_distinct(d.SwehVd.exclusions$Talker)`) with fewer than 5 remaining recordings for at least one of the vowels. Five of these talkers rarely ever produced the targeted [`r linguisticsdown::cond_cmpl("ʊ")`] vowel despite our recording instructions (see Section \@ref(sec:cue-extraction)). Instead, these talkers often mispronounced the vowel (for three of these five talkers, there was overall less data since they only attended the first recording session). Two additional talkers mispronounced the vowel once, but since these talkers only attended the first recording session, they were nevertheless excluded. This left data from `r n_distinct(d.SwehVd$Talker) - n_distinct(d.SwehVd.exclusions$Talker)` female native talkers, with on average `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = mean(n)) %>% pull() %>% round(digits = 0)` (se= `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = se(n)) %>% pull() %>% round(digits = 1)`) tokens per vowel (range = `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = min(n)) %>% pull() %>% round(digits = 0)` to `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = max(n)) %>% pull() %>% round(digits = 0)`), for a total of `r nrow(d.SwehVd.forStudy)` observations. 
 
-Since our goal is to obtain a reliable estimate of the formant values during the steady state of the vowel, we use only the three formant measurements extracted from the middle of the vowel (at 35%, 50%, and 65% into the vowel).
+Since our goal is to obtain a reliable estimate of the formant values during the steady state of the vowel, we use only the three formant measurements extracted from the middle of the vowel (at 35%, 50%, and 65% into the vowel).<!--AP: should be time-point 2-3 instead?-->
 
 We also exclude all *hädd* productions, as they elicited the same vowel as *hedd* (see Section \@ref(sec:cue-extraction)). This way, we have about equally many tokens from all vowels, simplifying the cross-validation procedure presented below and facilitating visual comparisons across vowels in our figures.
 
@@ -1963,7 +1957,7 @@ cowplot::plot_grid(
   cowplot::plot_grid(p.accuracy.io.overall.F1F2_by_quantity, p.accuracy.io.overall.F1F2, ncol = 2, rel_widths = c(2/3, 1/3), align = "hv", axis = "btlr"),
   cowplot::plot_grid(p.accuracy.io.overall.F1F3_by_quantity, p.accuracy.io.overall.F1F3, ncol = 2, rel_widths = c(2/3, 1/3), align = "hv", axis = "btlr"),
   cowplot::plot_grid(p.accuracy.io.overall.all_by_quantity, p.accuracy.io.overall.all, ncol = 2, rel_widths = c(2/3, 1/3), align = "hv", axis = "btlr"),
-  labels = c("A", "B", "C"), nrow = 3, align = "hv", scale = 0.9)
+  labels = c("A", "B", "C"), nrow = 3, align = "hv", axis = "btlr", scale = 0.9)
 ```
 
 The approach that we have taken here lets us assess vowel-specific effects on the predictions of the IOs. This is however not the main focus of this paper, but might be of interest to other researchers. In SI, we therefore plot both the predicted categorization accuracy per vowel in the different evaluations (see \@ref(sec:accuracy-per-vowel)), as well as confusion matrices of the best and the worst performing IOs (see \@ref(sec:confusion)), to further investigate the beliefs IOs hold about the Swedish vowel space. Here, we briefly mention some of the main general points from these visualizations, beginning with the models' predictions for each vowels separately. For reference, Figure \@ref(fig:predictions-per-vowel) visualizes the predicted categorization accuracy per vowel, by the unnormalized and normalized IO models trained on F1-F2 (the SI contains plots for models trained on F1-F3, and all five cues (\@ref(sec:accuracy-per-vowel)). Even though the models pattern more or less the same across vowels, there are some vowels for which models are overall good at predicting the intended category, across cue evaluations and across space sizes, e.g., [`r linguisticsdown::cond_cmpl("ɑː")`], [`r linguisticsdown::cond_cmpl("ɑ")`] and [`r linguisticsdown::cond_cmpl("ɵ")`]. Similarly, there are also some vowels for which model performance is particularly low, e.g., [`r linguisticsdown::cond_cmpl("iː")`] and [`r linguisticsdown::cond_cmpl("iː")`]. Of note is also that one of these vowels, [`r linguisticsdown::cond_cmpl("iː")`], does not seem to benefit from normalization, across evaluations. Which vowels will benefit by normalization will naturally vary between languages, reflecting the language-specific properties of the vowel space. [`r linguisticsdown::cond_cmpl("iː")`] is often described as more easily recognized in previous work on other languages. Its recognition accuracy is often attributed to either its absolute location in the space (peripheral vowel), or to the fact that it does not have close competitors[@REFS]. Given the density of the Swedish vowel space along the height dimension, vowels such as [`r linguisticsdown::cond_cmpl("iː")`] have, on the contrary, many close competitors, which might explain the performance of the IOs.
