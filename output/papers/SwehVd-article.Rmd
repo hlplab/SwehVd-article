@@ -1135,7 +1135,8 @@ d.SwehVd.forStudy.SI <- rbind(
 
 d.SwehVd.forStudy.SI.long <- 
   d.SwehVd.forStudy.SI %>%
-  select(c(Normalization.Type, crossvalidation_group, Quantity, SI_F1F2, SI_F1F3, SI_all)) %>%
+  # DEBUGGING --------------------------include all separate SIs for now
+  select(c(Normalization.Type, crossvalidation_group, Quantity, SI_F1F2, SI_F1F3, SI_Duration, SI_F0, SI_F1, SI_F2, SI_F3, SI_all)) %>%
   pivot_longer(
     cols = starts_with("SI_", ignore.case = FALSE),
     names_to = c("SI", "Cues"),
@@ -1182,6 +1183,25 @@ debug.crossval <- d.SwehVd.forStudy.long %>%
   summarise(across(starts_with("F"), mean)) %>%
   arrange(fold_type, crossvalidation_group)
 
+# Plot the F3 densities for each test fold
+p.F3.test.long <- d.SwehVd.forStudy.long %>% 
+  filter(Quantity == "long", fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)", "Lobanov (Hz)")) %>%
+  ggplot(
+    aes(F3)) +
+  geom_density(
+    mapping = aes(fill = category, linetype = Quantity), 
+    alpha = .3, position = "identity") +
+  scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = c("colour", "fill")) +
+  guides(linetype = "none", shape = guide_legend(override.aes = list(alpha = .4))) +
+  facet_wrap(Normalization.Type ~ crossvalidation_group, scales = "free", ncol = 5)
+
+p.F3.test.short <- p.F3.test.long %+%
+  (d.SwehVd.forStudy.long %>% 
+  filter(Quantity == "short", fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)", "Lobanov (Hz)")))
+```
+
+
+```{r}
 debug.Talker <- d.SwehVd.forStudy.long %>%
   select(Talker, category, Token, Normalization.Type, fold_type, formants_mean, formants_sd) %>%
   mutate(
@@ -1607,6 +1627,18 @@ plot_separability <- function(data) {
     axis.title.y = element_blank()) +
   guides(color = "none")
 }
+
+#DEBUG----- generate SIs for F3 only
+p.separability.F3_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
+  filter(Cues == "F3")) + facet_grid(~ Quantity)
+p.separability.F2_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
+  filter(Cues == "F2")) + facet_grid(~ Quantity)
+p.separability.F1_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
+  filter(Cues == "F1")) + facet_grid(~ Quantity)
+p.separability.F0_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
+  filter(Cues == "F0")) + facet_grid(~ Quantity)
+p.separability.Duration_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
+  filter(Cues == "Duration")) + facet_grid(~ Quantity)
 
 p.separability.F1F2_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
   filter(Cues == "F1F2", Quantity != "all vowels")) + facet_grid(~ Quantity)
