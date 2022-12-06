@@ -563,13 +563,13 @@ d.SwehVd %>%
       y = F1,
       color = category,
       group = NULL)) +
-  geom_text(aes(label = as.numeric(as.factor(Location)))) +
+  #geom_text(aes(label = as.numeric(as.factor(Location)))) +
   geom_path(
-    alpha = .5) +
+    alpha = .5,
+    arrow = arrow(ends = "last", type = "closed", angle = "22.5", length = unit(.1, "cm"))) +
   geom_label(
-    data = d.SwehVd %>%
-      group_by(category, Quantity) %>%
-      summarise(across(c(F1, F2), ~ geometric.mean(.x))),
+    data = . %>%
+      filter(Location == "50"),
     mapping = aes(
       colour = category,
       label = category,
@@ -577,7 +577,7 @@ d.SwehVd %>%
     alpha = .6,
     size = 4,
     label.size = NA,
-    position = position_nudge(120)) +
+    label.padding = unit(.01, "cm")) +
   scale_color_manual(name = "category", values = colors.vowel.swe) +
   scale_x_reverse("F2 (in Hz)", position = "top", breaks = scales::breaks_pretty(6)) +
   scale_y_reverse("F1 (in Hz)", position = "right", breaks = scales::breaks_pretty(6)) +
