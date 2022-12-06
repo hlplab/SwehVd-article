@@ -599,7 +599,7 @@ Finally, the densities along the diagonal of Figure \@ref(fig:swe-vowels-all-cue
 
 (ref:swe-vowels-all-cues) The SwehVd vowel data. Points show recordings of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space, averaged across all five measurement points. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means. Note that, unlike in Figure \@ref(fig:swe-vowels), axis directions are not reversed. Vowels that mismatched the intended label are excluded (`r signif((d.SwehVd %>% filter(Transcribed_vowel != "targeted") %>% nrow() / d.SwehVd %>% nrow()) * 100)`% of all recordings).
 
-```{r swe-vowels, fig.width=base.width*2.5, fig.height=base.height*2.5, out.width='70%', fig.align='center', fig.cap="(ref:swe-vowels)"}
+```{r swe-vowels, fig.width=base.width*2, fig.height=base.height*2.5, out.width='50%', fig.align='center', fig.cap="(ref:swe-vowels)"}
 d.SwehVd %>% 
   filter(Transcribed_vowel == "targeted", Word != "hädd") %>%
   # Get the geometric mean F1-F2 across the five time points
@@ -961,9 +961,10 @@ p.vowels.norm.long <-
     theme(
       strip.background = element_blank(),
       strip.text = element_textbox_highlight(
-        size = 8,
+        size = 7,
         color = "black", fill = "#C9C0BB", box.color = "#C9C0BB",
-        halign = 0.5, linetype = 1, r = unit(3, "pt"),
+        halign = 0.5, linetype = 1, r = unit(3, "pt"), 
+        #width = unit(1, "npc"),
         padding = margin(2, 0, 1, 0), margin = margin(3, 3, 3, 3),
         #margin = margin(0.6, 0.5, 0.5, 0.3),
         # this is new relative to element_textbox():
@@ -976,12 +977,12 @@ p.vowels.norm.long <-
         # add third set
         hi.labels3 = c("Gerstman (Hz)", "Lobanov (Hz)"), 
         hi.fill3 = "#DDADAF", hi.col3 = "black", hi.box.col3 = "#DDADAF"),
-      axis.text.x = element_text(size=8, vjust=1),
-      axis.text.y = element_text(size=8, hjust=1, vjust=.5),
-      axis.title.x = element_text(size=8, vjust=0, hjust=0.5, face = "bold"),
-      axis.title.y = element_text(size=8, hjust= 0.5, vjust=0.5, face = "bold"),
-      legend.title = element_text(size=8, face = "bold", hjust= 0),
-      legend.text = element_text(size=8),
+      axis.text.x = element_text(size=7, vjust=1),
+      axis.text.y = element_text(size=7, hjust=1, vjust=.5),
+      axis.title.x = element_text(size=7, vjust=0, hjust=0.5, face = "bold"),
+      axis.title.y = element_text(size=7, hjust= 0.5, vjust=0.5, face = "bold"),
+      legend.title = element_text(size=7, face = "bold", hjust= 0),
+      legend.text = element_text(size=7),
       strip.placement = "outside",
       aspect.ratio = 1,
       panel.grid.major = element_blank())
@@ -1658,7 +1659,7 @@ p.separability.all.overall <- plot_separability(d.SwehVd.forStudy.SI.long %>%
 
 (ref:separability) Separability indices for the Central Swedish long and short vowels separately (panel A) and together (panel B) in the unnormalized and normalized test data, under the assumption of F1-F2, F1-F3, F1-F3 and vowel duration as cues. Labels indicate mean separability across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.
 
-```{r separability, fig.width= base.width * 4, fig.height = base.height * 5.5, fig.align='center', fig.cap="(ref:separability)"}
+```{r separability, fig.width= base.width * 3.5, fig.height = base.height * 5, fig.align='center', fig.cap="(ref:separability)"}
 cowplot::plot_grid(
   cowplot::plot_grid(p.separability.F1F2_by_quantity, p.separability.F1F2.overall, ncol = 2, rel_widths = c(2/3, 1/3), align = "hv", axis = "btlr"),
   cowplot::plot_grid(p.separability.F1F3_by_quantity, p.separability.F1F3.overall, ncol = 2, rel_widths = c(2/3, 1/3), align = "hv", axis = "btlr"),
@@ -1986,7 +1987,7 @@ p.accuracy.io.overall.all <- plot_io_results(m.io.SwehVd.all) + facet_grid(~ IO.
 ```
 (ref:predictions) Predicted categorization accuracy of the 16 ideal observers in categorizing the Swedish vowels, under different assumptions about the relevant cues: F1-F2 (**Panel A**), F1-F3 (**Panel B**), F0-F3 and duration (**Panel C**). On the left-hand side is the predicted categorization accuracy for the IOs trained on long and short vowels separately, right-hand column displays the categorization accuracy for the IOs trained on all 21 vowels. The IOs have been trained on the acoustic cue distributions in either unnormalized Hertz space or one of the 15 normalization spaces indicated in Table \@ref(tab:norm-accounts). Pointranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line on the y-axis. 
 
-```{r predictions, fig.width= base.width * 4, fig.height = base.height * 5.5, fig.align='center', fig.cap="(ref:predictions)"}
+```{r predictions, fig.width= base.width * 4, fig.height = base.height * 5, fig.align='center', fig.cap="(ref:predictions)"}
 cowplot::plot_grid(
   cowplot::plot_grid(p.accuracy.io.overall.F1F2_by_quantity, p.accuracy.io.overall.F1F2, ncol = 2, rel_widths = c(2/3, 1/3), align = "hv", axis = "btlr"),
   cowplot::plot_grid(p.accuracy.io.overall.F1F3_by_quantity, p.accuracy.io.overall.F1F3, ncol = 2, rel_widths = c(2/3, 1/3), align = "hv", axis = "btlr"),
@@ -2129,7 +2130,7 @@ legend.confusion <- cowplot::get_legend(p.confusion.all.all.best +
   guides(fill = guide_legend(nrow = 1, byrow = TRUE)))
 ```
 (ref:confusion-matrix) Confusion matrices for the worst (left) and best (right) performing ideal observers in predicting all 21 Swedish vowels, under different assumptions about the relevant cues: F1-F2 (**Panel A**), F0-F3 and vowel duration (**Panel B**). Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel.
-```{r confusion-matrix, fig.width=base.width*3, fig.height=base.height*3+.5, fig.align='center', fig.cap="(ref:confusion-matrix)"}
+```{r confusion-matrix, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, out.height='60%', fig.align='center', fig.cap="(ref:confusion-matrix)"}
 cowplot::plot_grid(legend.confusion,
   cowplot::plot_grid(
     cowplot::plot_grid(p.confusion.F1F2.all.worst, p.confusion.F1F2.all.best),
