@@ -1017,10 +1017,13 @@ p.vowels.norm.short
 \end{landscape}
 
 ### The effect of normalization accounts on the variability of Central Swedish vowels {#sec:normVariability}
-Figure \@ref(fig:separability) shows the separability index for the normalization accounts investigated under the different assumptions about the relevant cues (Panel A-C) and depending on whether separability was calculated separately for the long and short vowels, or together. We make the following observations. (1) Across evaluations, accounts that center against the talker's overall formant mean, such as C-CuRE [@mcmurray-jongman2011] or @nearey1978 (in blue), are among the highest performing normalization accounts. No matter the assumed perceptual scale, centering always improves category separability (compare transformation accounts, in grey, normalized with C-CuRE, in blue). (2) The performance of what has been considered high-performing accounts in previous studies, such as @gerstman1968 and @lobanov1971 (in pink), varies as more cues are considered. Considering F1-F2, the results overall replicate previous findings [e.g., @disner1980; @fabricius2009; @Flynn2011]. When including F3, and further vowel duration, the same accounts perform considerably worse, with a separability index even lower than unnormalized cues. This does not replicate previous findings where F3 has been included [e.g., @adank2004]. However, these studies used a different effect measure. It might be the case that the inclusion of additional cues that display large between-talker variability but rather small between-category variance, such as F0, generates lower separability indices. (3) Some transformations to perceptual scales compare quite well with other accounts across evaluations, e.g. Bark. They do not outperform normalization accounts, but they do rank as good as some accounts, e.g. @miller1989c This replicates previous findings[@REFS]. (4) The separability index varies between long and short vowels for some normalization accounts. In general, category separability is higher for the short vowels across evaluations. Given that the short vowels form a more centralized and dense space, this result might appear puzzling. However, as indicated in Figure \@ref(fig:swe-vowels), the long vowels are more overlapping than the short, especially in F1-F2 space. Overall, the separability indices more or less aligns with the results from the visual inspection of scatter reduction introduced by applying normalization accounts (see Figures \@ref(fig:swe-vowels-normalized-long) and \@ref(fig:swe-vowels-normalized-short)). For instance, short vowels are visually more separated under C-CuRE comparing to the long vowels. (5) As more cues are included, the separability index goes down. The pattern with higher indices for the short vowels persist across evaluations. (6) (5) is also true when including vowel duration as additional cue. (7) Evaluating effects on category separability for all vowels together does not seem to make much difference. <!-- relate back to matrix plot?!-->Comparing to previous work, assessing effect of normalization on category variability using F-statistics (e.g., @labov2010), we note that the same top performing accounts for F1 and F2 are <!-- fill in here-->. However, since vowel duration has not been evaluated as cue...
-<!-- AP: reorganize the results section. Both F0 and F3 are know to vary not as much by category as by talker - REF Kuronen - for F3 across vowels. The high performance of SyrdalGopal and Miller seems to be driven by their ability to increase category separability in F3. Neither of the previous studies that assessed efficacy by reduction in variance, and found Lobanov among the top two, looked at other cues besides F1 and F2: @fabricius2009 and @Flynn2011 assessed by variance reduction, Labov at F-stats. Furthermore, Labov didn't even include Lobanov or any other scaling procedure.-->
+We begin by investigating the effects of normalization on the category separability separately for each of the five cues, for the long and short vowels, or all vowels together (Figure \@ref(fig:separability-by-cue)). For F1 (**Panel A**, Figure \@ref(fig:separability-by-cue)), we see a clear difference between centering and not centering accounts, but also that scaling, such as Lobanov, further improves category separability along F1. The difference between accounts emerge differently along F2 (**Panel B**, Figure \@ref(fig:separability-by-cue)), where it appears as if the variability within each group of accounts is larger than between, for instance, scaling and the others. The large difference between centering and non centering accounts for F1, is considerably smaller for F2. It seems as if scaling accounts efficiently increase separability along F1, but less so along F2. Nearey2 is now performing better than Nearey1, and Gerstman still worse than Lobanov. <!-- AP: should the large CIs be commented?--> For category separability along F3 (**Panel C**, Figure \@ref(fig:separability-by-cue)), the results change drastically compared to F1 and F2. Intrinsic accounts perform really well, and all other accounts very poorly. To further investigate what might be the cause of this, we plot the F3 densities of each of the categories (Figure \@ref(fig:F3-densities)). Figure \@ref(fig:F3-densities) further indicate that the intrinsic accounts performs really well in separating the categories. We also see that all of the category densities normalized by Lobanov, have non-0 values, but many of them are overlapping. Critically, almost all of the densities have points that are far away from the mean, leading to category overlap. It is possible that those points might be outliers caused by measurement error, that we did not manage to capture. However, we used the same procedure as for F1 and F2, and the densities do overlap. <!-- AP: develop this part.-->
 
-<!-- why?--> <!-- the adding of information/a dimension to the separability index for which there is a lot of inter-talker variability but that does not necessarily aid in categorization, might just provide the index with irrelevant information. This parameter adds substantial within-talker variation, which leads to the between-talker variance going up (since F0 adds variability between talkers but not between categories), which in turn pulls down the separability index. Might be more informative to exclude F0? Might be a misleading cue in this sense.-->
+Coming back to Figure \@ref(fig:separability-by-cue) and the separability along F0 (**Panel D**), 
+Finally, **Panel E**, Figure \@ref(fig:separability-by-cue), indicate separability along Duration. Clearly, all of the C-CuRE accounts group together, given that these are the only accounts that permits other cues than spectral properties. We had the choice to C-CuRE duration for all other accounts as well, but since the other approaches does not account for duration, we believed it to be more informative to show how C-CuRE performs in comparison to other approaches that does not account for duration.
+
+•	F3 by itself, what’s going on. Might have a density plot. A plot that would illustrate how – one of those densities, see that all of them have non-0 value. But a lot of them are overlapping.  Compared to SyrdalGopal. Put the label at the mean – does it carry information about rounding?
+
 
 ```{r}
 cues <- c("F0", "F1", "F2", "F3", "Duration")
@@ -1141,7 +1144,7 @@ d.SwehVd.forStudy.SI <- rbind(
 
 d.SwehVd.forStudy.SI.long <- 
   d.SwehVd.forStudy.SI %>%
-  # DEBUGGING --------------------------include all separate SIs for now
+  # include all separate SIs
   select(c(Normalization.Type, crossvalidation_group, Quantity, SI_F1F2, SI_F1F3, SI_Duration, SI_F0, SI_F1, SI_F2, SI_F3, SI_all)) %>%
   pivot_longer(
     cols = starts_with("SI_", ignore.case = FALSE),
@@ -1153,6 +1156,109 @@ d.SwehVd.forStudy.SI.long <-
     values_from = "Cue.Value")
 ```
 
+```{r}
+plot_separability <- function(data) {
+  data %>%
+    ggplot(
+    aes(x = Normalization.Type,
+        y = SI,
+        color = Normalization.Type)) +
+  stat_summary(
+     fun.data = mean_cl_boot,
+     geom = "linerange") +
+  stat_summary(
+    fun.y = mean,
+    geom = "label",
+    aes(label = signif(..y..,2),
+        x = as.integer(Normalization.Type)),
+    size = 3, label.size = 0) +
+  scale_colour_manual(
+    labels = labels.normalization, 
+    values = colors.all.procedures) +
+  scale_y_continuous("Separability index (F-value)") +
+  theme(
+    axis.text.x = ggtext::element_markdown(angle = 45, vjust = 1, hjust=1, colour = colors.all.procedures),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank()) +
+  guides(color = "none")
+}
+
+# generate SIs for each cue separately
+p.separability.F3_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
+  filter(Cues == "F3")) + facet_grid(~ factor(Quantity, levels = c("long vowels", "short vowels", "all vowels")))
+p.separability.F2_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
+  filter(Cues == "F2")) + facet_grid(~ factor(Quantity, levels = c("long vowels", "short vowels", "all vowels")))
+p.separability.F1_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
+  filter(Cues == "F1")) + facet_grid(~ factor(Quantity, levels = c("long vowels", "short vowels", "all vowels")))
+p.separability.F0_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
+  filter(Cues == "F0")) + facet_grid(~ factor(Quantity, levels = c("long vowels", "short vowels", "all vowels")))
+p.separability.Duration_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
+  filter(Cues == "Duration")) + facet_grid(~ factor(Quantity, levels = c("long vowels", "short vowels", "all vowels")))
+```
+
+(ref:separability-by-cue) Separability indices for the Central Swedish long and short vowels separately and together in the unnormalized and normalized test data, for each of the five cues: F1 (**Panel A**), F2 (**Panel B**), F3 (**Panel C**), F0 (**Panel D**) and Duration (**Panel E**). Labels indicate mean separability across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.
+
+```{r separability-by-cue, fig.width= base.width * 3.5, fig.height = base.height * 5, fig.align='center', fig.cap="(ref:separability-by-cue)"}
+cowplot::plot_grid(p.separability.F1_by_quantity + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()), 
+                   p.separability.F2_by_quantity + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()), 
+                   p.separability.F3_by_quantity + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()), 
+                   p.separability.F0_by_quantity + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()), 
+                   p.separability.Duration_by_quantity, ncol = 1, align = "hv", axis = "btlr", labels = c("A", "B", "C", "D", "E"), scale = 0.9)
+```
+(ref:F3-densities) Category F3 densities for the Central Swedish long (**Panel A**) and short (**Panel B**) vowels in unnormalized Hz and normalized test data (Syrdal & Gopal normalization, and Lobanov normalization). Number in label indicates test-fold (1-5).
+
+```{r F3-densities, fig.width= base.width * 3.5, fig.height = base.height * 3.5, fig.align='center', fig.cap="(ref:F3-densities)"}
+# Plot the F3 densities for each test fold
+p.F3.test.long <- d.SwehVd.forStudy.long %>% 
+  filter(Quantity == "long", fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)", "Lobanov (Hz)")) %>%
+  ggplot(
+    aes(F3)) +
+  geom_density(
+    mapping = aes(fill = category, linetype = Quantity), 
+    alpha = .3, position = "identity") +
+  scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = c("colour", "fill")) +
+  guides(linetype = "none", shape = guide_legend(override.aes = list(alpha = .4))) +
+  theme(legend.position = "top") +
+  guides(color = guide_legend(nrow = 1)) + 
+  facet_wrap(Normalization.Type ~ crossvalidation_group, scales = "free", ncol = 5)
+
+d.SwehVd.forStudy.long %>% 
+  filter(Quantity == "long", fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)")) %>%
+  ggplot(
+    aes(F3, fill = factor(category))) +
+  geom_density(alpha = .5) +
+  geomtextpath::geom_textdensity(aes(label = category),
+                                 hjust = "ymax",
+                                 vjust = -0.5, text_only = T) +
+  theme(legend.position = "none") +
+  scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = c("colour", "fill")) +
+  guides(linetype = "none", color = "none", fill = "none") +
+  facet_wrap(Normalization.Type ~ crossvalidation_group, scales = "free", ncol = 5)
+
+d.SwehVd.forStudy.long %>% 
+  filter(Quantity == "long", fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)", "Lobanov (Hz)")) %>%
+  ggplot(
+    aes(F3, 
+        label = category,
+        color = category)) +
+  geomtextpath::geom_textdensity(mapping = aes(linetype = Quantity),
+                                  alpha = .3, position = "identity") +
+  scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = c("color", "fill")) + 
+  guides(linetype = "none", shape = guide_legend(override.aes = list(alpha = .4))) +
+  facet_wrap(Normalization.Type ~ crossvalidation_group, scales = "free", ncol = 5)
+
+p.F3.test.short <- p.F3.test.long %+%
+  (d.SwehVd.forStudy.long %>% 
+  filter(Quantity == "short", fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)", "Lobanov (Hz)")))
+
+cowplot::plot_grid(p.F3.test.long, p.F3.test.short, labels = c("A", "B"), ncol = 1)
+```
+
+
+shows the separability index for the normalization accounts investigated, under the different assumptions about the relevant cues (Panel A-C) and depending on whether separability was calculated separately for the long and short vowels, or together. We make the following observations. (1) Across evaluations, accounts that center against the talker's overall formant mean, such as C-CuRE [@mcmurray-jongman2011] or @nearey1978 (in blue), are among the highest performing normalization accounts. No matter the assumed perceptual scale, centering always improves category separability (compare transformation accounts, in grey, normalized with C-CuRE, in blue). (2) The performance of what has been considered high-performing accounts in previous studies, such as @gerstman1968 and @lobanov1971 (in pink), varies as more cues are considered. Considering F1-F2, the results overall replicate previous findings [e.g., @disner1980; @fabricius2009; @Flynn2011]. When including F3, and further vowel duration, the same accounts perform considerably worse, with a separability index even lower than unnormalized cues. This does not replicate previous findings where F3 has been included [e.g., @adank2004]. However, these studies used a different effect measure. It might be the case that the inclusion of additional cues that display large between-talker variability but rather small between-category variance, such as F0, generates lower separability indices. (3) Some transformations to perceptual scales compare quite well with other accounts across evaluations, e.g. Bark. They do not outperform normalization accounts, but they do rank as good as some accounts, e.g. @miller1989c This replicates previous findings[@REFS]. (4) The separability index varies between long and short vowels for some normalization accounts. In general, category separability is higher for the short vowels across evaluations. Given that the short vowels form a more centralized and dense space, this result might appear puzzling. However, as indicated in Figure \@ref(fig:swe-vowels), the long vowels are more overlapping than the short, especially in F1-F2 space. Overall, the separability indices more or less aligns with the results from the visual inspection of scatter reduction introduced by applying normalization accounts (see Figures \@ref(fig:swe-vowels-normalized-long) and \@ref(fig:swe-vowels-normalized-short)). For instance, short vowels are visually more separated under C-CuRE comparing to the long vowels. (5) As more cues are included, the separability index goes down. The pattern with higher indices for the short vowels persist across evaluations. (6) (5) is also true when including vowel duration as additional cue. (7) Evaluating effects on category separability for all vowels together does not seem to make much difference. <!-- relate back to matrix plot?!-->Comparing to previous work, assessing effect of normalization on category variability using F-statistics (e.g., @labov2010), we note that the same top performing accounts for F1 and F2 are <!-- fill in here-->. However, since vowel duration has not been evaluated as cue...
+<!-- AP: reorganize the results section. Both F0 and F3 are know to vary not as much by category as by talker - REF Kuronen - for F3 across vowels. The high performance of SyrdalGopal and Miller seems to be driven by their ability to increase category separability in F3. Neither of the previous studies that assessed efficacy by reduction in variance, and found Lobanov among the top two, looked at other cues besides F1 and F2: @fabricius2009 and @Flynn2011 assessed by variance reduction, Labov at F-stats. Furthermore, Labov didn't even include Lobanov or any other scaling procedure.-->
+
+<!-- why?--> <!-- the adding of information/a dimension to the separability index for which there is a lot of inter-talker variability but that does not necessarily aid in categorization, might just provide the index with irrelevant information. This parameter adds substantial within-talker variation, which leads to the between-talker variance going up (since F0 adds variability between talkers but not between categories), which in turn pulls down the separability index. Might be more informative to exclude F0? Might be a misleading cue in this sense.-->
 
 #DEBUG --------------------
 
@@ -1188,22 +1294,6 @@ debug.crossval <- d.SwehVd.forStudy.long %>%
   group_by(crossvalidation_group, fold_type) %>%
   summarise(across(starts_with("F"), mean)) %>%
   arrange(fold_type, crossvalidation_group)
-
-# Plot the F3 densities for each test fold
-p.F3.test.long <- d.SwehVd.forStudy.long %>% 
-  filter(Quantity == "long", fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)", "Lobanov (Hz)")) %>%
-  ggplot(
-    aes(F3)) +
-  geom_density(
-    mapping = aes(fill = category, linetype = Quantity), 
-    alpha = .3, position = "identity") +
-  scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = c("colour", "fill")) +
-  guides(linetype = "none", shape = guide_legend(override.aes = list(alpha = .4))) +
-  facet_wrap(Normalization.Type ~ crossvalidation_group, scales = "free", ncol = 5)
-
-p.F3.test.short <- p.F3.test.long %+%
-  (d.SwehVd.forStudy.long %>% 
-  filter(Quantity == "short", fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)", "Lobanov (Hz)")))
 ```
 
 
@@ -1369,283 +1459,6 @@ d.debug.norm %<>%
 
 
 ```{r}
-#DOING THE OLD CODE JUST TO RULE OUT SI CODE ERROR --------------------------------------------------
-# d.Swe.withincat.MS <- d.SwehVd.forStudy.long %>%
-#     filter(fold_type == "test") %>%
-#     # Get within category MS and pseudo-MS
-#   group_by(Normalization.Type, category, crossvalidation_group) %>% 
-#   summarise(
-#     # First obtain df and SS for each cues
-#     across(
-#       .cols = c(F0, F1, F2, F3, Duration), 
-#             .fns = list(
-#         "df" = ~ sum(!is.na(.x)) - 1, 
-#         "mean" = ~ mean(.x, na.rm = T)), 
-#          .names = "{.fn}_{.col}"),
-#         # Since f1 and f2 are always observed, and thus there are equally many f1 and f2 values, we only need one df
-#     SS_F0 = sum((F0 - mean_F0)^2, na.rm = T),
-#     pseudo_MS_F0 = SS_F0 / (df_F0),
-#     SS_F1 = sum((F1 - mean_F1)^2, na.rm = T),
-#     pseudo_MS_F1 = SS_F1 / (df_F1), 
-#     SS_F2 = sum((F2 - mean_F2)^2, na.rm = T),
-#     pseudo_MS_F2 = SS_F2 / (df_F2),
-#     SS_F3 = sum((F3 - mean_F3)^2, na.rm = T),
-#     pseudo_MS_F3 = SS_F3 / (df_F3),
-#     SS_Duration = sum((Duration - mean_Duration)^2, na.rm = T),
-#     pseudo_MS_Duration = SS_Duration / (df_Duration),
-#     # Since f1 and f2 are always observed, and thus there are equally many f1 and f2 values, the SS F1F2 is just the sum of the SS_F1 and SS_F2
-#     SS_F1F2 = SS_F1 + SS_F2,
-#     pseudo_MS_F1F2 = SS_F1F2 / (df_F1),
-#     SS_F1F3 = SS_F1 + SS_F2 + SS_F3,
-#     pseudo_MS_F1F3 = SS_F1F3 / (df_F1),
-#     SS_F0F3Dur = SS_F0 + SS_F1 + SS_F2 + SS_F3 + SS_Duration,
-#     pseudo_MS_F0F3Dur = SS_F0F3Dur / (df_F1))
-#   
-# d.Swe.separability.long <- d.Swe.withincat.MS %>%
-#   filter(category %in% levels.vowel.IPA.swe.long) %>%
-#     group_by(Normalization.Type, crossvalidation_group) %>%
-#   summarise(
-#     within_MS_F0 = sum(SS_F0, na.rm = T) / sum(df_F0, na.rm = T),
-#     within_MS_F1 = sum(SS_F1, na.rm = T) / sum(df_F1, na.rm = T),
-#     within_MS_F2 = sum(SS_F2, na.rm = T) / sum(df_F2, na.rm = T),
-#     within_MS_F3 = sum(SS_F3, na.rm = T) / sum(df_F3, na.rm = T),
-#     within_MS_Duration = sum(SS_Duration, na.rm = T) / sum(df_Duration, na.rm = T),
-#     within_MS_F1F2 = sum(SS_F1F2, na.rm = T) / sum(df_F1, na.rm = T),
-#     within_MS_F1F3 = sum(SS_F1F3, na.rm = T) / sum(df_F1, na.rm = T),
-#     within_MS_F0F3Dur = sum(SS_F0F3Dur, na.rm = T) / sum(df_F1, na.rm = T)) %>%
-#     left_join(
-#     d.SwehVd.forStudy.long %>%
-#         filter(fold_type == "test") %>%
-#       # Get overall mean within each normalization approach
-#       group_by(Normalization.Type, crossvalidation_group) %>% 
-#       mutate(
-#         overall_mean_F0 = mean(F0, na.rm = T),
-#         overall_mean_F1 = mean(F1, na.rm = T),
-#         overall_mean_F2 = mean(F2, na.rm = T),
-#         overall_mean_F3 = mean(F3, na.rm = T),
-#         overall_mean_Duration = mean(Duration, na.rm = T)) %>% 
-#             group_by(Normalization.Type, category, crossvalidation_group) %>%
-#       # Get category means and carry through overall mean
-#       summarise(
-#         across(
-#           c(
-#             overall_mean_F0,
-#             overall_mean_F1, 
-#             overall_mean_F2,
-#             overall_mean_F3,
-#             overall_mean_Duration), 
-#                 first), 
-#         mean_F0 = mean(F0, na.rm = T),
-#         mean_F1 = mean(F1, na.rm = T),
-#         mean_F2 = mean(F2, na.rm = T),
-#         mean_F3 = mean(F3, na.rm = T),
-#         mean_Duration = mean(Duration, na.rm = T),
-#         mean_F1F2 = (mean(F1, na.rm = T) + mean(F2, na.rm = T)) / 2,
-#         mean_F1F3 = (mean(F1, na.rm = T) + mean(F2, na.rm = T) + mean(F3, na.rm = T)) / 3,
-#         mean_F0F3Dur = (mean(F0, na.rm = T) + mean(F1, na.rm = T) + mean(F2, na.rm = T) + mean(F3, na.rm = T) + mean(Duration, na.rm = T)) / 5) %>%
-#       # Get between MS
-#             group_by(Normalization.Type, crossvalidation_group) %>%
-#       summarise(
-#         between_MS_F0 = sum((mean_F0 - overall_mean_F0)^2, na.rm = T) / (sum(!is.na(mean_F0)) - 1),
-#         between_MS_F1 = sum((mean_F1 - overall_mean_F1)^2, na.rm = T) / (sum(!is.na(mean_F1)) - 1),
-#         between_MS_F2 = sum((mean_F2 - overall_mean_F2)^2, na.rm = T) / (sum(!is.na(mean_F2)) - 1),
-#         between_MS_F3 = sum((mean_F3 - overall_mean_F3)^2, na.rm = T) / (sum(!is.na(mean_F3)) - 1),
-#         between_MS_Duration = sum((mean_Duration - overall_mean_Duration)^2, na.rm = T) / (sum(!is.na(mean_Duration)) - 1),
-#         between_MS_F1F2 = sum((mean_F1 - overall_mean_F1)^2 + (mean_F2 - overall_mean_F2)^2, na.rm = T) / (sum(!is.na(mean_F1) & !is.na(mean_F2)) - 1),
-#         between_MS_F1F3 = sum((mean_F1 - overall_mean_F1)^2 + (mean_F2 - overall_mean_F2)^2 + (mean_F3 - overall_mean_F3)^2, na.rm = T) / (sum(!is.na(mean_F1) & !is.na(mean_F2) & !is.na(mean_F3)) - 1),
-#         between_MS_F0F3Dur = sum((mean_F0 - overall_mean_F0)^2 + (mean_F1 - overall_mean_F1)^2 + (mean_F2 - overall_mean_F2)^2 + (mean_F3 - overall_mean_F3)^2 + (mean_Duration - overall_mean_Duration)^2, na.rm = T) / (sum(!is.na(mean_F0) & !is.na(mean_F1) & !is.na(mean_F2) & !is.na(mean_F3) & !is.na(mean_Duration)) - 1)),
-#     by = c("Normalization.Type", "crossvalidation_group")) %>%
-#     # Now get the separability index
-#   mutate(
-#     SI_F1F2 = between_MS_F1F2 / within_MS_F1F2,
-#     SI_F1F3 = between_MS_F1F3 / within_MS_F1F3,
-#     SI_F0F3Dur = between_MS_F0F3Dur / within_MS_F0F3Dur) %>%
-#   mutate_if(is.numeric, round, digits = 4)
-# 
-# d.Swe.separability.short <- d.Swe.withincat.MS %>%
-#    filter(category %in% levels.vowel.IPA.swe.short) %>%
-#   group_by(Normalization.Type, crossvalidation_group) %>%
-#   summarise(
-#     within_MS_F0 = sum(SS_F0, na.rm = T) / sum(df_F0, na.rm = T),
-#     within_MS_F1 = sum(SS_F1, na.rm = T) / sum(df_F1, na.rm = T),
-#     within_MS_F2 = sum(SS_F2, na.rm = T) / sum(df_F2, na.rm = T),
-#     within_MS_F3 = sum(SS_F3, na.rm = T) / sum(df_F3, na.rm = T),
-#     within_MS_Duration = sum(SS_Duration, na.rm = T) / sum(df_Duration, na.rm = T),
-#     within_MS_F1F2 = sum(SS_F1F2, na.rm = T) / sum(df_F1, na.rm = T),
-#     within_MS_F1F3 = sum(SS_F1F3, na.rm = T) / sum(df_F1, na.rm = T),
-#     within_MS_F0F3Dur = sum(SS_F0F3Dur, na.rm = T) / sum(df_F1, na.rm = T)) %>%
-#   left_join(
-#     d.SwehVd.forStudy.long %>%
-#       # Get overall mean within each normalization approach
-#       group_by(Normalization.Type, crossvalidation_group) %>% 
-#       mutate(
-#         overall_mean_F0 = mean(F0, na.rm = T),
-#         overall_mean_F1 = mean(F1, na.rm = T),
-#         overall_mean_F2 = mean(F2, na.rm = T),
-#         overall_mean_F3 = mean(F3, na.rm = T),
-#         overall_mean_Duration = mean(Duration, na.rm = T)) %>% 
-#       group_by(Normalization.Type, category, crossvalidation_group) %>%
-#       # Get category means and carry through overall mean
-#       summarise(
-#         across(
-#           c(
-#             overall_mean_F0,
-#             overall_mean_F1, 
-#             overall_mean_F2,
-#             overall_mean_F3,
-#             overall_mean_Duration), 
-#           first), 
-#         mean_F0 = mean(F0, na.rm = T),
-#         mean_F1 = mean(F1, na.rm = T),
-#         mean_F2 = mean(F2, na.rm = T),
-#         mean_F3 = mean(F3, na.rm = T),
-#         mean_Duration = mean(Duration, na.rm = T),
-#         mean_F1F2 = (mean(F1, na.rm = T) + mean(F2, na.rm = T)) / 2,
-#         mean_F1F3 = (mean(F1, na.rm = T) + mean(F2, na.rm = T) + mean(F3, na.rm = T)) / 3,
-#         mean_F0F3Dur = (mean(F0, na.rm = T) + mean(F1, na.rm = T) + mean(F2, na.rm = T) + mean(F3, na.rm = T) + mean(Duration, na.rm = T)) / 5) %>%
-#       # Get between MS
-#       group_by(Normalization.Type, crossvalidation_group) %>%
-#       summarise(
-#         between_MS_F0 = sum((mean_F0 - overall_mean_F0)^2, na.rm = T) / (sum(!is.na(mean_F0)) - 1),
-#         between_MS_F1 = sum((mean_F1 - overall_mean_F1)^2, na.rm = T) / (sum(!is.na(mean_F1)) - 1),
-#         between_MS_F2 = sum((mean_F2 - overall_mean_F2)^2, na.rm = T) / (sum(!is.na(mean_F2)) - 1),
-#         between_MS_F3 = sum((mean_F3 - overall_mean_F3)^2, na.rm = T) / (sum(!is.na(mean_F3)) - 1),
-#         between_MS_Duration = sum((mean_Duration - overall_mean_Duration)^2, na.rm = T) / (sum(!is.na(mean_Duration)) - 1),
-#         between_MS_F1F2 = sum((mean_F1 - overall_mean_F1)^2 + (mean_F2 - overall_mean_F2)^2, na.rm = T) / (sum(!is.na(mean_F1) & !is.na(mean_F2)) - 1),
-#         between_MS_F1F3 = sum((mean_F1 - overall_mean_F1)^2 + (mean_F2 - overall_mean_F2)^2 + (mean_F3 - overall_mean_F3)^2, na.rm = T) / (sum(!is.na(mean_F1) & !is.na(mean_F2) & !is.na(mean_F3)) - 1),
-#         between_MS_F0F3Dur = sum((mean_F0 - overall_mean_F0)^2 + (mean_F1 - overall_mean_F1)^2 + (mean_F2 - overall_mean_F2)^2 + (mean_F3 - overall_mean_F3)^2 + (mean_Duration - overall_mean_Duration)^2, na.rm = T) / (sum(!is.na(mean_F0) & !is.na(mean_F1) & !is.na(mean_F2) & !is.na(mean_F3) & !is.na(mean_Duration)) - 1)),
-#     by = c("Normalization.Type", "crossvalidation_group")) %>%
-#   # Now get the separability index
-#   mutate(
-#     SI_F1F2 = between_MS_F1F2 / within_MS_F1F2,
-#     SI_F1F3 = between_MS_F1F3 / within_MS_F1F3,
-#     SI_F0F3Dur = between_MS_F0F3Dur / within_MS_F0F3Dur) %>%
-#   mutate_if(is.numeric, round, digits = 4)
-# 
-# d.Swe.separability.F0.F3.dur <- d.Swe.withincat.MS %>%
-#   group_by(Normalization.Type, crossvalidation_group) %>%
-#   summarise(
-#     within_MS_F0 = sum(SS_F0, na.rm = T) / sum(df_F0, na.rm = T),
-#     within_MS_F1 = sum(SS_F1, na.rm = T) / sum(df_F1, na.rm = T),
-#     within_MS_F2 = sum(SS_F2, na.rm = T) / sum(df_F2, na.rm = T),
-#     within_MS_F3 = sum(SS_F3, na.rm = T) / sum(df_F3, na.rm = T),
-#     within_MS_Duration = sum(SS_Duration, na.rm = T) / sum(df_Duration, na.rm = T),
-#     within_MS_F1F2 = sum(SS_F1F2, na.rm = T) / sum(df_F1, na.rm = T),
-#     within_MS_F1F3 = sum(SS_F1F3, na.rm = T) / sum(df_F1, na.rm = T),
-#     within_MS_F0F3Dur = sum(SS_F0F3Dur, na.rm = T) / sum(df_F1, na.rm = T)) %>%
-#   left_join(
-#     d.SwehVd.forStudy.long %>%
-#       # Get overall mean within each normalization approach
-#       group_by(Normalization.Type, crossvalidation_group) %>% 
-#       mutate(
-#         overall_mean_F0 = mean(F0, na.rm = T),
-#         overall_mean_F1 = mean(F1, na.rm = T),
-#         overall_mean_F2 = mean(F2, na.rm = T),
-#         overall_mean_F3 = mean(F3, na.rm = T),
-#         overall_mean_Duration = mean(Duration, na.rm = T)) %>% 
-#       group_by(Normalization.Type, category, crossvalidation_group) %>%
-#       # Get category means and carry through overall mean
-#       summarise(
-#         across(
-#           c(
-#             overall_mean_F0,
-#             overall_mean_F1, 
-#             overall_mean_F2,
-#             overall_mean_F3,
-#             overall_mean_Duration), 
-#           first), 
-#         mean_F0 = mean(F0, na.rm = T),
-#         mean_F1 = mean(F1, na.rm = T),
-#         mean_F2 = mean(F2, na.rm = T),
-#         mean_F3 = mean(F3, na.rm = T),
-#         mean_Duration = mean(Duration, na.rm = T),
-#         mean_F1F2 = (mean(F1, na.rm = T) + mean(F2, na.rm = T)) / 2,
-#         mean_F1F3 = (mean(F1, na.rm = T) + mean(F2, na.rm = T) + mean(F3, na.rm = T)) / 3,
-#         mean_F0F3Dur = (mean(F0, na.rm = T) + mean(F1, na.rm = T) + mean(F2, na.rm = T) + mean(F3, na.rm = T) + mean(Duration, na.rm = T)) / 5) %>%
-#       # Get between MS
-#       group_by(Normalization.Type, crossvalidation_group) %>%
-#       summarise(
-#         between_MS_F0 = sum((mean_F0 - overall_mean_F0)^2, na.rm = T) / (sum(!is.na(mean_F0)) - 1),
-#         between_MS_F1 = sum((mean_F1 - overall_mean_F1)^2, na.rm = T) / (sum(!is.na(mean_F1)) - 1),
-#         between_MS_F2 = sum((mean_F2 - overall_mean_F2)^2, na.rm = T) / (sum(!is.na(mean_F2)) - 1),
-#         between_MS_F3 = sum((mean_F3 - overall_mean_F3)^2, na.rm = T) / (sum(!is.na(mean_F3)) - 1),
-#         between_MS_Duration = sum((mean_Duration - overall_mean_Duration)^2, na.rm = T) / (sum(!is.na(mean_Duration)) - 1),
-#         between_MS_F1F2 = sum((mean_F1 - overall_mean_F1)^2 + (mean_F2 - overall_mean_F2)^2, na.rm = T) / (sum(!is.na(mean_F1) & !is.na(mean_F2)) - 1),
-#         between_MS_F1F3 = sum((mean_F1 - overall_mean_F1)^2 + (mean_F2 - overall_mean_F2)^2 + (mean_F3 - overall_mean_F3)^2, na.rm = T) / (sum(!is.na(mean_F0) & !is.na(mean_F1) & !is.na(mean_F2) & !is.na(mean_F3)) - 1),
-#         between_MS_F0F3Dur = sum((mean_F1 - overall_mean_F0)^2 + (mean_F1 - overall_mean_F1)^2 + (mean_F2 - overall_mean_F2)^2 + (mean_F3 - overall_mean_F3)^2 + (mean_Duration - overall_mean_Duration)^2, na.rm = T) / (sum(!is.na(mean_F0) & !is.na(mean_F1) & !is.na(mean_F2) & !is.na(mean_F3) & !is.na(mean_Duration)) - 1)),
-#     by = c("Normalization.Type", "crossvalidation_group")) %>%
-#   # Now get the separability index
-#   mutate(
-#     SI_F1F2 = between_MS_F1F2 / within_MS_F1F2,
-#     SI_F1F3 = between_MS_F1F3 / within_MS_F1F3,
-#     SI_F0F3Dur = between_MS_F0F3Dur / within_MS_F0F3Dur) %>%
-#   mutate_if(is.numeric, round, digits = 4)
-# 
-# p.separability.F1F2.long <- d.Swe.separability.F0.F3.dur %>%
-#   ggplot(
-#     aes(x = Normalization.Type,
-#         y = SI_F0F3Dur,
-#         color = Normalization.Type)) +
-#   stat_summary(
-#      fun.data = mean_cl_boot,
-#      geom = "linerange") +
-#   stat_summary(
-#     fun.y = mean,
-#     geom = "label",
-#     aes(label = signif(..y..,2),
-#         x = as.integer(Normalization.Type)),
-#     size = 3, label.size = 0) +
-#   scale_colour_manual(
-#     labels = labels.normalization, 
-#     values = colors.all.procedures) +
-#   scale_y_continuous("Separability index (F-value)") +
-#   theme(
-#     axis.text.x = ggtext::element_markdown(angle = 45, vjust = 1, hjust=1, colour = colors.all.procedures),
-#     axis.title.x = element_blank(),
-#     axis.title.y = element_blank()) +
-#   guides(color = "none")
-
-```
-
-```{r}
-plot_separability <- function(data) {
-  data %>%
-    ggplot(
-    aes(x = Normalization.Type,
-        y = SI,
-        color = Normalization.Type)) +
-  stat_summary(
-     fun.data = mean_cl_boot,
-     geom = "linerange") +
-  stat_summary(
-    fun.y = mean,
-    geom = "label",
-    aes(label = signif(..y..,2),
-        x = as.integer(Normalization.Type)),
-    size = 3, label.size = 0) +
-  scale_colour_manual(
-    labels = labels.normalization, 
-    values = colors.all.procedures) +
-  scale_y_continuous("Separability index (F-value)") +
-  theme(
-    axis.text.x = ggtext::element_markdown(angle = 45, vjust = 1, hjust=1, colour = colors.all.procedures),
-    axis.title.x = element_blank(),
-    axis.title.y = element_blank()) +
-  guides(color = "none")
-}
-
-#DEBUG----- generate SIs for F3 only
-p.separability.F3_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
-  filter(Cues == "F3")) + facet_grid(~ Quantity)
-p.separability.F2_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
-  filter(Cues == "F2")) + facet_grid(~ Quantity)
-p.separability.F1_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
-  filter(Cues == "F1")) + facet_grid(~ Quantity)
-p.separability.F0_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
-  filter(Cues == "F0")) + facet_grid(~ Quantity)
-p.separability.Duration_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
-  filter(Cues == "Duration")) + facet_grid(~ Quantity)
-
 p.separability.F1F2_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
   filter(Cues == "F1F2", Quantity != "all vowels")) + facet_grid(~ Quantity)
 p.separability.F1F3_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
