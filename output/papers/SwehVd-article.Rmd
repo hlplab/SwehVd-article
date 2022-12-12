@@ -325,7 +325,7 @@ legend <-
             legend.box.just = "top"))
 ```
 
-```{r illustrate-normalization, fig.width=base.width*2+.5, fig.height=base.height*2, out.width='60%', fig.align='center', fig.cap="(ref:illustrate-normalization)"}
+```{r illustrate-normalization, fig.width=base.width*2.5+.5, fig.height=base.height*2.5, out.width='60%', fig.align='center', fig.cap="(ref:illustrate-normalization)"}
 cowplot::plot_grid(
   legend,
   cowplot::plot_grid(
@@ -507,7 +507,7 @@ For the vast majority of talkers, *hädd* productions elicited the same vowel as
 
 (ref:hedd) The *hedd* and *hädd* words in the SwehVd vowel data in unnormalized F1-F2 space. Points show recordings of the *hedd* and *hädd* words ([`r linguisticsdown::cond_cmpl("ɛ")`]) by 16 female native talkers in the database, averaged across the five measurement points within each vowel segment. Word labels indicate word means across talkers. Since *hädd* and *hedd* resulted in the same allophone, we exclude *hädd* from this and all other visualizations below. This facilitates comparison of, for example, densities across vowels (see diagonal of Figure \@ref(fig:swe-vowels-all-cues)).
 
-```{r hedd, fig.width=base.width*1.5, fig.height=base.height*1.5, out.width='40%', fig.align='center', fig.cap="(ref:hedd)"}
+```{r hedd, fig.width=base.width*1.5, fig.height=base.height*1.5, out.width='30%', fig.align='center', fig.cap="(ref:hedd)"}
 d.SwehVd %>% 
   filter(Transcribed_vowel == "targeted", Word %in% c("hedd", "hädd")) %>%
   # Get the geometric mean F1-F2 across the five time points
@@ -968,7 +968,7 @@ p.vowels.norm.long <-
         color = "black", fill = "#C9C0BB", box.color = "#C9C0BB",
         halign = 0.5, linetype = 1, r = unit(3, "pt"), 
         #width = unit(1, "npc"),
-        padding = margin(2, 0, 1, 0), margin = margin(3, 3, 3, 3),
+        padding = margin(2, 0, 1, 0), margin = margin(2, 2, 2, 2),
         #margin = margin(0.6, 0.5, 0.5, 0.3),
         # this is new relative to element_textbox():
         # first named set
@@ -993,7 +993,7 @@ p.vowels.norm.long <-
 
 \begin{landscape}
 
-```{r swe-vowels-normalized-long, fig.width=base.width * 3.5, fig.height=base.height * 2.5, fig.align='center', fig.cap="(ref:swe-vowels-normalized-long)"}
+```{r swe-vowels-normalized-long, fig.width=base.width * 4, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:swe-vowels-normalized-long)"}
 p.vowels.norm.long
 ```
 
@@ -1010,17 +1010,22 @@ p.vowels.norm.short <- p.vowels.norm.long %+%
 ```
 
 \begin{landscape}
-```{r swe-vowels-normalized-short, fig.width=base.width * 3.5, fig.height=base.height * 2.5, fig.align='center', fig.cap="(ref:swe-vowels-normalized-short)"}
+```{r swe-vowels-normalized-short, fig.width=base.width * 4, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:swe-vowels-normalized-short)"}
 p.vowels.norm.short
 ```
 
 \end{landscape}
 
 ### The effect of normalization accounts on the variability of Central Swedish vowels {#sec:normVariability}
-In order to make the separability index more transparent, we begin by presenting the separability index for all five cues separately, for the long and short vowels, or all vowels together (Figure \@ref(fig:separability-by-cue)). For F1 (**Panel A**, Figure \@ref(fig:separability-by-cue)), we see a clear difference between centering and not centering accounts, but also that scaling, such as Lobanov, further improves category separability along F1. The difference between accounts emerge differently along F2 (**Panel B**, Figure \@ref(fig:separability-by-cue)), where it appears as if the variability within each group of accounts is larger than between, for instance, scaling and the others. The large difference between centering and non centering accounts for F1, is considerably smaller for F2. It seems as if scaling accounts efficiently increase separability along F1, but less so along F2. Nearey2 is now performing better than Nearey1, and Gerstman still worse than Lobanov. <!-- AP: should the large CIs be commented?--> For category separability along F3 (**Panel C**, Figure \@ref(fig:separability-by-cue)), the results change drastically compared to F1 and F2. This is presumably the first finding that should give pause for thought. There is a large difference between the intrinsic accounts, that perform really well in separating categories along F3, and all other accounts, which is surprising. Previous work [@REFNORM] has pointed out that one of the main downsides of intrinsic approaches, such as Syrdal & Gopal, is that they use a single estimate when normalizing the formants on a vowel by only taking into account other formants on that same segment. This would presumably be particularly difficult for F3, as it is often more difficult to reliably estimate, leading to measurement noise and more room for error, which could get even worse in languages with rhorotized vowels. This might very well be the case here, however, in a language as Swedish where F3 carries important information about vowel quality, these approaches still come out as a very clear net-advantage for F3. To further illustrate this, we plot the F3 densities of each of the categories in the five test folds (Figure \@ref(fig:F3-densities)), in unnormalized Hz, Syrdal & Gopal, and Lobanov. If we look at the five test folds, we see that there is some variability across folds, but we also see that the separation and ordering is the same across folds, and that there is a huge advantage in F3 for the intrinsic accounts. <!--AP: Double-check that it’s doing the same thing as Miller.--> <!-- AP: Does it seem to carry information about lip rounding? Check the vowels.--> For the unnormalized and Lobanov normalized categories, we see that density peaks are separated, but that there is a lot of overlap. Critically, almost all of the category F3 densities have points that are far away from the mean. It is possible that those points might be outliers caused by measurement error, that we did not manage to capture. However, we used the same procedure as for F1 and F2, and the densities do overlap. These large differences between instrinc accounts and the others, will presumably have an effect on when assessing the overall separability under assumption of the relevant cues to vowel identity. Before we assess the joint separability along several of the cues, we come back to Figure \@ref(fig:separability-by-cue) and the separability along F0 (**Panel D**). <!-- AP: develop this part.-->
-Finally, **Panel E**, Figure \@ref(fig:separability-by-cue), indicate separability along Duration. Clearly, all of the C-CuRE accounts group together, given that these are the only accounts that permits other cues than formants. We had the choice to C-CuRE duration for all other accounts as well, but since the other approaches does not account for duration, we believed it to be more informative to show how C-CuRE performs in comparison to other approaches that does not account for duration.
+In order to assess the affects of normalization accounts on category separability, we calculate a separability index under different assumptions about the relevant cues (F1-F2, F1-F3, F0-F3 and vowel duration) and size of the vowel space (the long and short vowels separately, or the entire space). First, we begin by presenting the indices for all five cues separately, to add some transparency to the indices and make some general points (Figure \@ref(fig:separability-by-cue)). 
 
-Figure \@ref(fig:separability-by-cue) clearly indicates that the category separability is affected along the cues in different ways. Some of these results are expected: for instance, it is expected that F0 will not support category separability much, since it is known to differ between talkers, but not between categories. For duration, it is expected that separability will improve for C-CuRE, as all other accounts do not transform the input but rather use the raw data (in ms). Given that categories emerge more clearly in F1-F2 space, it is also expected that separability will be higher in these cues. More surprising, however, is the result for F3, that clearly affects the normalization accounts' performance unexpectedly. These differences between the different cue indices, will of course transfer to when we calculate the separability index under the different assumption about the relevant cues.
+For F1 (**Panel A**, Figure \@ref(fig:separability-by-cue)), we see a clear difference between centering and not centering accounts. We also note that scaling accounts, such as Lobanov, further improves category separability along F1, especially for the long vowels and the entire vowel space. The accounts are positioned differently along F2 though (**Panel B**, Figure \@ref(fig:separability-by-cue)). It appears as if the variability within each group of accounts is larger than between, for instance, scaling and the others. The rather large difference between centering and non centering accounts along F1, is considerably smaller for F2. Even though scaling accounts efficiently increase category separability along F1, they are less efficient along F2. <!-- AP: should the large CIs be commented?--> 
+
+The most drastic change is in category separability along F3 (**Panel C**, Figure \@ref(fig:separability-by-cue)), compared to F1 and F2. There is a large difference between the intrinsic accounts, that perform really well in separating categories along F3, and all other accounts, which is surprising. Previous work [@REFNORM] has pointed out that one of the main downsides of intrinsic approaches, such as @Syrdal1986, is that they are sensitive to measurement error as they use a single estimate for normalization, by only taking other formants on that same segment into account when normalizing formants, instead of the overall formant mean. F3 could presumably be particularly affected, as it is claimed to be more difficult to reliably estimate than other formants, leading to measurement noise and more room for error. This might very well be the cause of these results, however, in a language as Swedish where F3 carries important information about vowel quality, these approaches still come out with a very clear net-advantage for F3. To further illustrate this, we plot the F3 densities of each of the categories in the five test folds (Figure \@ref(fig:F3-densities)), in unnormalized Hz, @Syrdal1986, and @lobanov1971. Figure \@ref(fig:F3-densities) indicates that even though there is some variability, the separation and ordering is the same across folds, and we do see a huge advantage in F3 for the intrinsic account. Comparing to unnormalized Hz and @lobanov1971, @Syrdal1986 seems to be particularly successful with regard to some of the overlapping long high vowels, where F3 is supposedly carrying information about lip rounding to aid in category distinction. @Syrdal1986 separates two clusters among the high vowels, one consisting of the back vowels `r linguisticsdown::cond_cmpl("[oː]")` and `r linguisticsdown::cond_cmpl("[uː]")`, and the other one of the front `r linguisticsdown::cond_cmpl("[eː]")`, `r linguisticsdown::cond_cmpl("[iː]")`, `r linguisticsdown::cond_cmpl("[yː]")` and mid `r linguisticsdown::cond_cmpl("[ʉː]")`. Among these two clusters, @Syrdal1986 seems to be slightly better at separating the peaks of `r linguisticsdown::cond_cmpl("[iː]")` and `r linguisticsdown::cond_cmpl("[yː]")`. For the unnormalized and Lobanov normalized categories, we see that density peaks are separated, but that there is a lot of overlap. Critically, almost all of the category F3 densities have points that are far away from the mean. It is possible that those points might be outliers caused by measurement error, that we did not manage to capture. However, we used the same procedure as for F1 and F2, and the densities do overlap. These large differences between instrinsic accounts and the others, will presumably have an effect on when assessing the overall separability under assumption of the relevant joint cues to vowel identity.
+
+Before assessing the joint separability along multiple cues, we make some final comments on the separability index for F0 and duration (Figure \@ref(fig:separability-by-cue)). For separability along F0 (**Panel D**, Figure \@ref(fig:separability-by-cue)), the accounts pattern similarly to F1. Overall, accounts do not seem to increase category separability along F0 to any substantial degree, which is expected given that F0 is known to differ primarily between talkers, rather than between vowel categories. Finally, **Panel E**, Figure \@ref(fig:separability-by-cue), indicate separability along duration. Clearly, all of the C-CuRE accounts group together, given that these are the only accounts that permit other cues than formants. Figure \@ref(fig:duration-densities) further illustrates the duration densities in unnormalized Hz and C-CuRE (Hz), for each of the five test folds. In comparison to Figure \@ref(fig:F3-densities), Figure \@ref(fig:duration-densities) indicates a more clear separation of densities between categories, especially for the short vowels, even though there is substantial category overlap. We had the choice to normalize duration by C-CuRE for all other accounts as well, but since the other approaches does not normalize other cues than formants, we believed it to be more informative to show how C-CuRE performs in comparison to other approaches that does not account for duration.
+
+Figure \@ref(fig:separability-by-cue) clearly indicates that the category separability is affected along the cues in different ways. Some of these results are expected: for instance, it is expected that F0 will not support category separability much, since it is known to differ between talkers, but not between categories. For duration, it is expected that separability will improve for C-CuRE, as all other accounts do not transform the input but rather use the raw data (in ms). Given that categories emerge more clearly in F1-F2 space, it is also expected that separability will be higher when assessed along these cues. More surprising, however, is the result for F3, that clearly affects the normalization accounts' performance unexpectedly. These differences between the different cue indices, will undoubtly transfer to calculations of the separability index under the different assumptions about the relevant cues.
 
 ```{r}
 cues <- c("F0", "F1", "F2", "F3", "Duration")
@@ -1195,40 +1200,40 @@ p.separability.Duration_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.lo
 
 (ref:separability-by-cue) Separability indices for the Central Swedish long and short vowels separately and together in the unnormalized and normalized test data, for each of the five cues: F1 (**Panel A**), F2 (**Panel B**), F3 (**Panel C**), F0 (**Panel D**) and Duration (**Panel E**). Labels indicate mean separability across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.
 
-```{r separability-by-cue, fig.width= base.width * 3.5, fig.height = base.height * 5, fig.align='center', fig.cap="(ref:separability-by-cue)"}
-cowplot::plot_grid(p.separability.F1_by_quantity + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()), 
+```{r separability-by-cue, fig.width= base.width * 2.5, fig.height = base.height * 6, out.height='100%', fig.align='center', fig.cap="(ref:separability-by-cue)"}
+cowplot::plot_grid(
+  cowplot::plot_grid(p.separability.F1_by_quantity + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()), 
                    p.separability.F2_by_quantity + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()), 
                    p.separability.F3_by_quantity + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()), 
-                   p.separability.F0_by_quantity + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()), 
-                   p.separability.Duration_by_quantity, ncol = 1, align = "hv", axis = "btlr", labels = c("A", "B", "C", "D", "E"), scale = 0.9)
+                   p.separability.F0_by_quantity + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()), ncol = 1, align = "hv", labels = c("A", "B", "C", "D")),
+  p.separability.Duration_by_quantity, nrow = 2, align = "hv", rel_heights = c(4/5, 1.65/5), rel_widths = c(4/5,1/5), labels = c("", "E"))
 ```
 (ref:F3-densities) Category F3 densities for the Central Swedish long (**Panel A**) and short (**Panel B**) vowels in unnormalized Hz and normalized test data (Syrdal & Gopal normalization, and Lobanov normalization). Number in label indicates test-fold (1-5).
 
-```{r F3-densities, fig.width= base.width * 3.5, fig.height = base.height * 3.5, fig.align='center', fig.cap="(ref:F3-densities)"}
-# Plot the F3 densities for each test fold
+```{r F3-densities, fig.width= base.width * 4, fig.height = base.height * 3, fig.align='center', fig.cap="(ref:F3-densities)"}
+# Plot the F3 densities for each test fold , , , "[ɛ]", "[ɛː]", "[æː]", "[æ]", "[øː]", "[ø]", "[œː]", "[œ]", "[ɑː]", "[a]", ""[ɔ]", , "[ʊ]"
 p.F3.test.long <- d.SwehVd.forStudy.long %>% 
   filter(Quantity == "long", fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)", "Lobanov (Hz)")) %>%
   ggplot(
     aes(F3)) +
   geom_density(
     mapping = aes(fill = category, linetype = Quantity), 
-    alpha = .3, position = "identity") +
+    alpha = .5, position = "identity") +
   scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = c("colour", "fill")) +
-  guides(linetype = "none", shape = guide_legend(override.aes = list(alpha = .4))) +
   theme(legend.position = "top") +
-  guides(color = guide_legend(nrow = 1)) + 
+  guides(Quantity = "none", color = guide_legend(nrow = 1)) + 
   facet_wrap(Normalization.Type ~ crossvalidation_group, scales = "free", ncol = 5, labeller = label_wrap_gen(multi_line=FALSE))
 
 p.F3.test.short <- p.F3.test.long %+%
   (d.SwehVd.forStudy.long %>% 
-  filter(Quantity == "short", fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)", "Lobanov (Hz)")))
+  filter(Quantity == "short", category %in% c("[ɪ]", "[ʏ]", "[ɵ]", "[ɔ]", "[ʊ]"), fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)", "Lobanov (Hz)")))
 
 cowplot::plot_grid(p.F3.test.long, p.F3.test.short, labels = c("A", "B"), ncol = 1)
 ```
 
 \begin{landscape}
 
-```{r fig.width= base.width * 4, fig.height = base.height * 2.5, out.width='100%', fig.align='center'}
+```{r fig.width= base.width * 4, fig.height = base.height * 3, out.width='100%', fig.align='center'}
 d.SwehVd.forStudy.long %>% 
   filter(Quantity == "long", fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)", "Lobanov (Hz)")) %>%
   ggplot(
@@ -1236,7 +1241,7 @@ d.SwehVd.forStudy.long %>%
   geom_density(alpha = .5) +
   geomtextpath::geom_textdensity(aes(label = category),
                                  hjust = "ymax",
-                                 vjust = -0.5, text_only = T) +
+                                 vjust = -0.5, text_only = T, straight = T) +
   theme(legend.position = "none") +
   scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = c("colour", "fill")) +
   guides(linetype = "none", color = "none", fill = "none") +
@@ -1246,7 +1251,7 @@ d.SwehVd.forStudy.long %>%
 
 \begin{landscape}
 
-```{r fig.width= base.width * 4, fig.height = base.height * 2.5, out.width='100%', fig.align='center'}
+```{r fig.width= base.width * 4, fig.height = base.height * 3, out.width='100%', fig.align='center'}
 d.SwehVd.forStudy.long %>% 
   filter(Quantity == "long", fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)", "Lobanov (Hz)")) %>%
   ggplot(
@@ -1262,218 +1267,37 @@ d.SwehVd.forStudy.long %>%
 
 \end{landscape}
 
-<!--AP: rewrite and double-check results.-->
-Figure \@ref(fig:separability) shows the separability index for the normalization accounts investigated, under the different assumptions about the relevant cues (Panel A-C) and depending on whether separability was calculated separately for the long and short vowels, or together. The first evaluation, follow most previous research in assessing category separability along F1 and F2 (**Panel A**). We see here that accounts that center against the talker's overall formant mean, such as C-CuRE [@mcmurray-jongman2011] or @nearey1978 (in blue), are among the highest performing normalization accounts, independent of vowel space size. Also, no matter the assumed perceptual scale, centering always improves category separability (compare transformation accounts, in grey, normalized with C-CuRE, in blue). Furthermore, the performance of what has been considered high-performing accounts in previous studies, such as @gerstman1968 and @lobanov1971 (in pink), varies as more cues are considered. Considering F1-F2, the results overall replicate previous findings [e.g., @disner1980; @fabricius2009; @Flynn2011]. 
+\begin{landscape}
 
-For the SI, if you have one token that is far away, based on squares, sum of squares variances, it can disproportionally much affect things.
+(ref:duration-densities) Category duration densities for the Central Swedish long (**Panel A**) and short (**Panel B**) vowels in unnormalized Hz and C-CuRE normalized test data. Number in label indicates test-fold (1-5).
 
-For a language like Swedish, where F3 carry information to vowel identity, intrinsic accounts such as SyrdalGopal and Miller that appear to do very well at separating categories along F3 and successfully distinguish catgories, seem to be particularly helpful, in comparison to other accounts. It seems to help in the dense parts of the space, or to help distinguish the denser parts from the other parts.
-
-When including F3, and further vowel duration, the same accounts perform considerably worse, with a separability index even lower than unnormalized cues. This does not replicate previous findings where F3 has been included [e.g., @adank2004]. However, these studies used a different effect measure. It might be the case that the inclusion of additional cues that display large between-talker variability but rather small between-category variance, such as F0, generates lower separability indices. (3) Some transformations to perceptual scales compare quite well with other accounts across evaluations, e.g. Bark. They do not outperform normalization accounts, but they do rank as good as some accounts, e.g. @miller1989c This replicates previous findings[@REFS]. (4) The separability index varies between long and short vowels for some normalization accounts. In general, category separability is higher for the short vowels across evaluations. Given that the short vowels form a more centralized and dense space, this result might appear puzzling. However, as indicated in Figure \@ref(fig:swe-vowels), the long vowels are more overlapping than the short, especially in F1-F2 space. Overall, the separability indices more or less aligns with the results from the visual inspection of scatter reduction introduced by applying normalization accounts (see Figures \@ref(fig:swe-vowels-normalized-long) and \@ref(fig:swe-vowels-normalized-short)). For instance, short vowels are visually more separated under C-CuRE comparing to the long vowels. (5) As more cues are included, the separability index goes down. The pattern with higher indices for the short vowels persist across evaluations. (6) (5) is also true when including vowel duration as additional cue. (7) Evaluating effects on category separability for all vowels together does not seem to make much difference. <!-- relate back to matrix plot?!-->Comparing to previous work, assessing effect of normalization on category variability using F-statistics (e.g., @labov2010), we note that the same top performing accounts for F1 and F2 are <!-- fill in here-->. However, since vowel duration has not been evaluated as cue...
-<!-- AP: reorganize the results section. Both F0 and F3 are know to vary not as much by category as by talker - REF Kuronen - for F3 across vowels. The high performance of SyrdalGopal and Miller seems to be driven by their ability to increase category separability in F3. Neither of the previous studies that assessed efficacy by reduction in variance, and found Lobanov among the top two, looked at other cues besides F1 and F2: @fabricius2009 and @Flynn2011 assessed by variance reduction, Labov at F-stats. Furthermore, Labov didn't even include Lobanov or any other scaling procedure.-->
-
-<!-- why?--> <!-- the adding of information/a dimension to the separability index for which there is a lot of inter-talker variability but that does not necessarily aid in categorization, might just provide the index with irrelevant information. This parameter adds substantial within-talker variation, which leads to the between-talker variance going up (since F0 adds variability between talkers but not between categories), which in turn pulls down the separability index. Might be more informative to exclude F0? Might be a misleading cue in this sense.-->
-
-<!-- AP: finish with this.-->
-The separability index gives us a single number for the entire vowel system, which is convenient for comparability, but it does not capture everything. The only thing the measure cares about is the within-category over between-category variability. If the within-category variability increases, for instance, because of some points far away from the mean, the measure does not directly capture whether the direction in which these extreme points deviates from the mean is expected to cause problem for perception or not. Since it is about squared errors, points that are far away from the mean will weigh potentially unproportionally heavily. This becomes evident in the density plots, where many of the categories have a peak in one place, but points far away from the mean. Whenever that is the case the separability index will punush for that, but it is not clear that those points will have consequences for perception. Next, we will in a coherent way assess this for perception.
-
-#DEBUG --------------------
-
-```{r}
-# Compare the estimates for the means and the sd across the five folds, check if the five folds in the test data have different sd
-debug.sd.crossval <- d.SwehVd.forStudy.long %>%
-  select(Talker, category, Token, Normalization.Type, crossvalidation_group, formants_mean, formants_sd) %>%
-  mutate(
-    F0_mean = sapply(formants_mean, "[[", 1), 
-    F1_mean = sapply(formants_mean, "[[", 2),
-    F2_mean = sapply(formants_mean, "[[", 3), 
-    F3_mean = sapply(formants_mean, "[[", 4),
-    F0_sd = sapply(formants_sd, "[[", 1), 
-    F1_sd = sapply(formants_sd, "[[", 2),
-    F2_sd = sapply(formants_sd, "[[", 3), 
-    F3_sd = sapply(formants_sd, "[[", 4)) %>%
-  select(-c(formants_mean, formants_sd)) %>%
-  group_by(crossvalidation_group) %>%
-  summarise(across(starts_with("F"), mean))
-
-debug.crossval <- d.SwehVd.forStudy.long %>%
-  select(Talker, category, Token, Normalization.Type, fold_type, crossvalidation_group, formants_mean, formants_sd) %>%
-  mutate(
-    F0_mean = sapply(formants_mean, "[[", 1), 
-    F1_mean = sapply(formants_mean, "[[", 2),
-    F2_mean = sapply(formants_mean, "[[", 3), 
-    F3_mean = sapply(formants_mean, "[[", 4),
-    F0_sd = sapply(formants_sd, "[[", 1), 
-    F1_sd = sapply(formants_sd, "[[", 2),
-    F2_sd = sapply(formants_sd, "[[", 3), 
-    F3_sd = sapply(formants_sd, "[[", 4)) %>%
-  select(-c(formants_mean, formants_sd)) %>%
-  group_by(crossvalidation_group, fold_type) %>%
-  summarise(across(starts_with("F"), mean)) %>%
-  arrange(fold_type, crossvalidation_group)
-```
-
-
-```{r}
-debug.Talker <- d.SwehVd.forStudy.long %>%
-  select(Talker, category, Token, Normalization.Type, fold_type, formants_mean, formants_sd) %>%
-  mutate(
-    F0_mean = sapply(formants_mean, "[[", 1), 
-    F1_mean = sapply(formants_mean, "[[", 2),
-    F2_mean = sapply(formants_mean, "[[", 3), 
-    F3_mean = sapply(formants_mean, "[[", 4),
-    F0_sd = sapply(formants_sd, "[[", 1), 
-    F1_sd = sapply(formants_sd, "[[", 2),
-    F2_sd = sapply(formants_sd, "[[", 3), 
-    F3_sd = sapply(formants_sd, "[[", 4)) %>%
-  select(-c(formants_mean, formants_sd)) %>%
-  group_by(Talker, fold_type) %>%
-  summarise(across(starts_with("F"), mean)) %>%
-  pivot_longer(
-    cols = starts_with("F", ignore.case = FALSE),
-    names_to = c("Formant", "measure"),
-    names_sep = "_",
-    values_to = "Cue.Value") %>%
-  pivot_wider(
-    names_from = "fold_type",
-    values_from = "Cue.Value") %>%
-  mutate(
-    relative_measure = case_when(measure == "sd" ~ test / training,
-                                 measure == "mean" ~ test - training))
-
-debug.Talker.2 <- d.SwehVd.forStudy.long %>%
-  select(Talker, category, Token, Normalization.Type, fold_type, F0, F1, F2, F3) %>%
-  #filter(fold_type == "test") %>%
-  group_by(Talker, Normalization.Type, fold_type) %>%
-  summarise(across(starts_with("F"), .fns = list("mean" = mean, "sd" = sd), na.rm = T)) %>%
-  pivot_longer(
-    cols = starts_with("F", ignore.case = FALSE),
-    names_to = c("Formant", "measure"),
-    names_sep = "_",
-    values_to = "Cue.Value") %>%
-  pivot_wider(
-    names_from = "fold_type",
-    values_from = "Cue.Value") %>%
-  mutate(
-    relative_measure = case_when(measure == "sd" ~ test / training,
-                                 measure == "mean" ~ test - training))
-
-debug.Talker.2 %>%
-  filter(Normalization.Type == "no normalization (Hz)") %>%
-  left_join(d.SwehVd.forStudy.long %>%
-    select(Talker, category, Token, Normalization.Type, formants_mean, formants_sd) %>%
-    mutate(
-      F0_mean_params = sapply(formants_mean, "[[", 1), 
-      F1_mean_params = sapply(formants_mean, "[[", 2),
-      F2_mean_params = sapply(formants_mean, "[[", 3), 
-      F3_mean_params = sapply(formants_mean, "[[", 4),
-      F0_sd_params = sapply(formants_sd, "[[", 1), 
-      F1_sd_params = sapply(formants_sd, "[[", 2),
-      F2_sd_params = sapply(formants_sd, "[[", 3), 
-      F3_sd_params = sapply(formants_sd, "[[", 4)) %>%
-    select(-c(formants_mean, formants_sd)) %>%
-    group_by(Talker) %>%
-    summarise(across(starts_with("F"), mean)) %>%
-    pivot_longer(
-      cols = starts_with("F", ignore.case = FALSE),
-      names_to = c("Formant", "measure"),
-      names_sep = "_",
-      values_to = "Cue.Value"),
-    by = c("Talker", "Formant", "measure")) %>%
-  mutate(
-    relative_measure_by_params = case_when(measure == "sd" ~ test / Cue.Value,
-                                           measure == "mean" ~ test - Cue.Value)) %>%
-  select(-c(test, training, relative_measure, Cue.Value)) %>%
-  pivot_wider(
-    names_from = "measure",
-    values_from = "relative_measure_by_params") %>%
+```{r duration-densities, fig.width= base.width * 4, fig.height = base.height * 3, fig.align='center', fig.cap="(ref:duration-densities)"}
+# Plot the duration densities for each test fold
+p.duration.test.long <- d.SwehVd.forStudy.long %>% 
+  filter(Quantity == "long", fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "C-CuRE (Hz)")) %>%
   ggplot(
-    aes(
-      x = mean,
-      y = sd,
-      color = Talker,
-      shape = Talker)) +
-  geom_point() +
-  scale_shape_manual(values = 0:16) +
-  scale_x_continuous("relative mean (test-training)") +
-  scale_y_continuous("relative sd (test/training)") +
-  facet_grid(~Formant)
+    aes(Duration)) +
+  geom_density(
+    mapping = aes(fill = category, linetype = Quantity), 
+    alpha = .5, position = "identity") +
+  scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = c("colour", "fill")) +
+  theme(legend.position = "top") +
+  guides(Quantity = "none", color = guide_legend(nrow = 1)) + 
+  facet_wrap(Normalization.Type ~ crossvalidation_group, scales = "free", ncol = 5, labeller = label_wrap_gen(multi_line=FALSE))
 
-debug.Talker %>%
-  select(-c(test, training)) %>%
-  pivot_wider(
-    names_from = "measure",
-    values_from = "relative_measure") %>%
-  ggplot(
-    aes(
-      x = mean,
-      y = sd,
-      shape = Talker, color = Talker)) +
-  geom_point() +
-  scale_shape_manual(values = 0:16) +
-  scale_x_continuous("relative mean (test-training)") +
-  scale_y_continuous("relative sd (test/training)") +
-  facet_grid(~Formant)
+p.duration.test.short <- p.duration.test.long %+%
+  (d.SwehVd.forStudy.long %>% 
+  filter(Quantity == "short", fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "C-CuRE (Hz)")))
+
+cowplot::plot_grid(p.duration.test.long, p.duration.test.short, labels = c("A", "B"), ncol = 1)
 ```
+\end{landscape}
 
+Figure \@ref(fig:separability) shows the separability index for the normalization accounts investigated, under the different assumptions about the relevant cues (Panel A-C) and depending on whether separability was calculated separately for the long and short vowels, or together. The first evaluation follows most previous research in assessing category separability along F1 and F2 (**Panel A**). We see that accounts that center against the talker's overall formant mean, such as C-CuRE [@mcmurray-jongman2011] or @nearey1978 (in blue), are among the highest performing normalization accounts, independent of vowel space size. Also, no matter the assumed perceptual scale, centering always improves category separability (compare transformation accounts, in grey, normalized with C-CuRE, in blue). Scaling accounts such as @lobanov1971 (in pink), also perform well at separating categories irrespective of vowel space size. Scale transformations (in grey), and the intrinsic accounts (in yellow), do not improve category separability compared to unnormalized Hz, at least not when assessed on the long vowels or the entire vowel space. These results overall replicate previous findings that have assessed category separability along F1 and F2 [e.g., @disner1980; @fabricius2009; @Flynn2011; @labov2010]. We also note that category separability is higher for the short vowels than the long vowels or the entire space. Given that the short vowels form a more centralized and dense space, this result might appear puzzling. However, as indicated in Figure \@ref(fig:swe-vowels), the long vowels are more overlapping than the short, especially in F1-F2 space. Overall, the separability index more or less aligns with the results from the visual inspection of scatter reduction introduced by normalization accounts (see Figures \@ref(fig:swe-vowels-normalized-long) and \@ref(fig:swe-vowels-normalized-short)). For instance, short vowels are visually more separated under C-CuRE comparing to the long vowels.
 
-```{r}
-#Apply normalization procedures in the old functions
-d.debug.norm %<>%
-  group_by(Talker) %>%
-  mutate(
-    F0_Hz_Lobanov = normLobanov(F0),
-    F1_Hz_Lobanov = normLobanov(F1),
-    F2_Hz_Lobanov = normLobanov(F2),
-    F3_Hz_Lobanov = normLobanov(F3),
-    Duration_Hz_Lobanov = normLobanov(Duration),
-    F0_gm = geometric.mean(F0),
-    F0_log_Miller = log(F0),
-    F1_log_Miller = F1_to_height(F1 = F1, SR = 168 * (F0_gm / 168) ^ (1/3)),
-    F2_log_Miller = F2_to_backness(F1, F2),
-    F3_log_Miller = log(F3 / F2),
-    Duration_log_Miller = log(Duration)) %>%
-  rename(F0_Hz_r = F0, F1_Hz_r = F1, F2_Hz_r = F2, F3_Hz_r = F3, Duration_Hz_r = Duration)
+When including F3, and further F0 and vowel duration (Figure \@ref(fig:separability), **Panel B** and **Panel C**), we see changes in the normalization models' effect on category separability. Overall, the category separability is now lower. The centering accounts overall pattern the same way, scale transformations is now increasing separability relative to unnormalized models. The most drastic change in performance concerns the intrinsic and the scaling accounts, where the intrinsic accounts almost perform as good as when evaluated on F1 and F2, whereas the scaling accounts drop considerably in performance and now perform a lot worse than unnormalized models. This mirrors what was found when assessing the category separability separately for each cue (Figure \@ref(fig:separability-by-cue)). The high performance of Syrdal & Gopal and @miller1989c, and the low performance of @gerstman1968 and @lobanov1971, seems to be driven by their ability to increase category separability in F3. For a language like Swedish, where F3 carry information to vowel identity, intrinsic accounts such as SyrdalGopal and @miller1989c, that appear to do very well at separating categories along F3 and successfully distinguish catgories, seem to be particularly helpful, in comparison to other accounts. 
 
-d.debug.norm %<>%
-  select(-F0_gm) %>%
-  pivot_longer(
-    cols = c(starts_with("Duration"), starts_with("F", ignore.case = FALSE)),
-    names_to = c("Cue", "Normalization.Scale", "Normalization.Type"),
-    names_sep = "_",
-    values_to = "Cue.Value") %>%
-  pivot_wider(
-    names_from = "Cue",
-    values_from = "Cue.Value") %>%
-   relocate(Talker, L1, Age, Normalization.Type, crossvalidation_group, fold_type, fold, category, Quantity, Token) %>%
-  mutate(
-    Normalization.Type = paste(Normalization.Scale, Normalization.Type, sep = "_")) %>%
-  mutate(
-    Normalization.Type = factor(plyr::mapvalues(Normalization.Type, levels.normalization, labels.normalization), levels = labels.normalization, ordered = T)) %>%
-   select(-Normalization.Scale)
-
-# debug <- d.SwehVd.forStudy.long %>% 
-#   filter(Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)", "Lobanov (Hz)"))
-# 
-# debug[rowSums(is.na(debug)) > 0, ]
-# 
-# debug.SI <- d.SwehVd.forStudy.SI %>%
-#    filter(Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)", "Lobanov (Hz)"))
-# 
-# debug.SI %>%
-#   group_by(Normalization.Type, crossvalidation_group) %>%
-#   summarise_at(vars(contains("df")), mean)
-#  
-# debug.SI.withinMS <- d.SwehVd.forStudy.long.within_category_MS %>%
-#    filter(Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)", "Lobanov (Hz)"))
-# 
-# d1 <- debug.SI.withinMS %>%
-#   group_by(Normalization.Type, category) %>%
-#   summarise_at(vars(contains("df")), mean)
-# 
-# debug.SI.withinMS[rowSums(is.na(debug.SI.withinMS)) > 0, ]
-```
-
+The separability index gives us a single number for the entire vowel system, which is convenient for comparability, but it does not capture everything. The only thing the measure cares about is the within-category over between-category variability. In our evaluation, this can become problematic for two reasons. First, in the second and third evaluations, we add dimensions to the separability index that are known to vary not as much by category as by talker (e.g., F0). Thus potentially providing the index with, in this context, irrelevant information, that can skew the index by adding within-category variability while leaving between-category variability (almost) unaffected. <!--REF Kuronen - for F3 across vowels.--> Second, given that the separability index is based on the sum of *squared variances*, just a few tokens located far away from the mean (be it because of measurement error or talker-specific factors) can affect the index disproportionally. This is clearly illustrated in the density plots, where many of the categories have a peak in one place, but a couple of points far away from the mean, resulting in overlapping densities. Whenever that is the case, the separability index will be affected/punish for that, however, it is not clear that those same points will have consequences for perception. That is, the index does not directly capture whether the direction in which these extreme points deviates from the mean, is expected to cause problem for perception or not. Next, we will in a coherent way assess this for perception.
 
 ```{r}
 p.separability.F1F2_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
@@ -1501,7 +1325,9 @@ cowplot::plot_grid(
 ```
 
 # Study II {#sec:studyII}
-In Study I, we evaluated the extent to which normalization removes category overlap due to inter-talker variability, using visual inspection and a separability index. However, as we saw in Section \@ref(sec:normVariability), this measure comes with certain disadvantages. The separability index is summarized down to one number for the entire vowel system. If there is one point that is far away from the mean, be it by an unusual talker, or measurement error, this points will inevitably weigh heavily on the index. In Study II, we will assess the anticipated effects of normalization for vowel perception, using a modelling approach that allows us to look at the entire vowel system in a different way. Using ideal observer models (see Section \@ref(sec:IOs)), we can <!-- AP: develop this part--> . Furthermore, an outlier, that will weigh heavily on a separability index, will for an ideal observer only be one of many points for which you might get a lower categorization accuracy. In Study II, we investigate how normalization accounts are predicted to affect the accuracy with which a vowel would be perceived. We ask whether normalization models differ from unnormalized models in predicting vowel categorization, and if so, which normalization model makes the strongest predictions for perception. Models are assessed under the same assumptions about the relevant cues employed when evaluating the effects on category separability (see Section \@ref(sec:cues)).
+In Study I, we evaluated the extent to which normalization accounts reduce the within-category variability of Stocholm Swedish vowels, using visual inspection and a separability index. As discussed in Section \@ref(sec:normVariability), the separability index summarizes the category variability down to one number for the entire vowel system, but does not necessarily tell us anything about the consequences for perception. The index might not display differences in the *relation* between categories in the space caused by normalization, but merely reflect a change in variance of each category separately. Whether reduced variance for each category separately has an effect on perception is not a given, neither is whether changes in category variability will be the most important source affecting perception overall. A comparison of normalization accounts should thus not only evaluate variability effects at the vowel system level by considering reduction in variability, but also model perceptual effects in terms of perceived vowel quality. In Study II, we will assess the anticipated effects of normalization for vowel perception using models of Bayesian inference, ideal observers (IO) (see Section \@ref(sec:IOs)), to investigate how normalization accounts are predicted to affect the accuracy with which a vowel would be perceived. We ask whether normalization models differ from unnormalized models in predicting vowel intended by the talker, and if so, which normalization model makes the strongest predictions for perception. This modelling approach avoids some of the disadvantages of the separability index. For instance, an outlier, that will weigh disproportionally heavy on a separability index, will for an IO merely be one of many points for which the IO might get a lower categorization accuracy.
+
+In Study II, IO models are assessed under the same assumptions about the relevant cues employed when evaluating the effects on category separability (see Section \@ref(sec:cues)).
 
 ```{r}
 norm_accounts_eval_percep <- tibble(
@@ -1579,11 +1405,7 @@ Study II employs the same speech materials as in Study I.
 ### Ideal Observers to predict the consequences of normalization for perception {#sec:IOs}
 
 <!-- Moved from Introduction since last meeting Oct 27-->
-<!-- TO DO this might all be able to go, but let's go through it during a meeting: Certain measures of changes in variability can be assumed to assess consequences for perception, e.g., distance to nearest neighbour or category separability, given that most theories of speech perception would predict that both reduced distance between neighbouring category means and increased variability leading to category overlap, would result in reduced categorization accuracy (see e.g. REF). However, measures of category separability are not often used in comparisons of normalization accounts, and if they are, they do not always consider the entire vowel system (REF).  If normalization accounts are meant to reflect the actual perceived vowel quality, i.e. how humans perceptually adapt to inter-talker variability, a measure of reduced variability should consider the *system level consequences of normalization* -- that is, how reduced variability affects the entire vowel system of a language. If we use an index of overall variability that does not assess the category separability of the entire vowel system, we might observe a reduction in overall variability after normalization that is caused by all vowels separately shrinking, but that leaves the relative variability of each vowel in comparison to the others in the space unchanged. In other words, the index might not display differences in the *relation* between categories in the space caused by normalization, but merely reflect a change in variance of each category separately. Whether reduced variance for each category separately has an effect on perception is not a given, neither is whether changes in category variability will be the most important source affecting perception overall. As noted in previous research, normalization models that perform well at scatter reduction does not necessarily provide the best fit to human perception (REF). A focus on variability reduction might also disregard other mechanisms supporting speech perception beyond normalization, such as talker-specific learning. A comparison of normalization accounts should thus not only evaluate variability effects at the vowel system level by considering reduction in variability, but also model perceptual effects in terms of perceived vowel quality. 
-
-The purpose of this study is therefore to investigate the robustness of the effect of different normalization accounts on removing inter-talker variability in vowel data, and predict the effects of these accounts on the perception of Swedish vowels. We will assess this based on Swedish vowel production data in two studies.
-
-In Study II, we add to the few existing studies relating the consequences of normalization to perception [see e.g. @barreda2018a; @escudero2007; @nearey1989; @richter2017], but also expand on previous research, by using a computational model that allows us to assess the consequences of normalization for perception while considering the entire vowel system. We use a computational model based on Bayesian inference, ideal observers (IO; REF), to simulate the effects and evaluate the predicted consequences of normalization accounts for speech perception from production data.-->
+<!-- TO DO this might all be able to go, but let's go through it during a meeting: Certain measures of changes in variability can be assumed to assess consequences for perception, e.g., distance to nearest neighbour or category separability, given that most theories of speech perception would predict that both reduced distance between neighbouring category means and increased variability leading to category overlap, would result in reduced categorization accuracy (see e.g. REF). However, measures of category separability are not often used in comparisons of normalization accounts, and if they are, they do not always consider the entire vowel system (REF)..-->
 
 Previous studies have related the consequences of normalization to predicted perception using a variety of different measures. Most previous work have either used more indirect approaches, such as comparing the distance between talker-specific category means for unnormalized and normalized vowel data [e.g., @barreda2018a; @lobanov1971], or more direct approaches essentially aiming at categorizing tokens [e.g., @adank2004; @barreda2018a; @carpenter1993; @escudero2007; @syrda1985]. Different models have been used in these studies, e.g., linear discriminant analysis [e.g., @adank2004; @syrda1985], fuzzy ARTMAP and K-nearest neighbour [e.g., @carpenter1993], or constraint ranking grammars [e.g., @escudero2007]. 
 
@@ -1605,7 +1427,7 @@ The performance of each IO during test is assessed by calculating the IO's predi
 ## Results {#sec:resultsII}
 Figure \@ref(fig:predictions) visualizes the unnormalized and normalized models' predictions for perception of Stockholm Swedish vowels, under different assumptions about the relevant cues. The posterior probability of recognizing a certain vowel as intended by talkers, i.e., the categorization accuracy, is displayed on the y-axis. We begin with the evaluations of models trained on long and short vowels separately, as this is presumably most comparable to previous investigations assessing differences in normalization accounts' predictions for perception [e.g., @adank2004; @barreda2018a; @escudero2007; @syrda1985]. Based on Figure \@ref(fig:predictions), leftmost column, we make the following general observations with regard to the long vowels. 
 (1) All models perform substantially above chance (9.1% in an 11-way forced choice task). (2) Transformations from the acoustic space into perceptual spaces does not seem to improve the models' performance, but (3) normalization can. General statistical operations such as centering (e.g., Nearey, C-CuRE) and/or scaling (e.g., Lobanov) are the best performing models. Notably, general purpose accounts such as C-CuRE, perform as well as other vowel-specific centering accounts. The high performance of these normalization models (as well as the lower performance of scale transformation models) replicates previous findings that compares normalization against simulated responses [e.g., @adank2004; @barreda2018a; @escudero2007; @syrda1985]. (4) As more cues are included in the models (Figure \@ref(fig:predictions), from **Panel A** to **Panel C**, leftmost column), the general pattern persist, and in addition, the accuracy of the models in predicting the intended category increases. Of note is that the relative difference between centering and scaling accounts diminishes, especially when duration is included as cue (**Panel C**, Figure \@ref(fig:predictions)). Given that including more cues presumably makes the models more human-like, humans might potentially do equally well with a simple centering approach as with a simple scaling approach. 
-Even if normalization in general improve categorization accuracy, (5) some normalization accounts do not perform better that perceptual scale models. This is true for the intrinsic normalization accounts [@miller1989c; @Syrdal1986]. Previous work have indicated similar results for Dutch vowels [@adank2004], contrary to some evaluations of English [e.g., @syrda1985]. @adank2004 speculated that the discrepancy in results might be attributed to implementations of the bark-transformation, or to what @syrda1985 describe as language-specificity of the second dimension of @Syrdal1986 normalization. It might thus not generate the same results for different languages. The low performance of @Syrdal1986 and @miller1989c might also be related to the fact that they do not seem to increase category separability much, in comparison to other accounts (see Section \@ref(sec:normVowelSpace)) <!-- AP: this might be changed, if SI changes.-->.
+Even if normalization in general improve categorization accuracy, (5) some normalization accounts do not perform better that perceptual scale models. This is true for the intrinsic normalization accounts [@miller1989c; @Syrdal1986]. Previous work have indicated similar results for Dutch vowels [@adank2004], contrary to some evaluations of English [e.g., @syrda1985]. @adank2004 speculated that the discrepancy in results might be attributed to implementations of the bark-transformation, or to what @syrda1985 describe as language-specificity of the second dimension of @Syrdal1986 normalization. It might thus not generate the same results for different languages. It is striking that the performance of @Syrdal1986 and @miller1989c in increasing category separability (see Section \@ref(sec:normVowelSpace)) does not transfer to their performance in predicting the vowel intended by talker. <!-- AP: I don't really know what to say about this.-->.
 
 Points 1-5 hold for the models trained on the short vowels as well (Figure \@ref(fig:predictions), middle column). (6) The normalization accounts pattern the same, and in comparison to the long vowels, the categorization accuracy of the models predicting the intended category is now well above 75% (chance level being 10% in a 10-way forced-choice task). Here, we evaluate against a 10 category vowel space, thus one category less than in the previous evaluation. This increase in performance cannot, however, be attributed to this difference alone, accuracy increase more than is expected based on having one category less. Given that phonological descriptions of Swedish vowels characterize the short vowels as being more centralized, constituting a smaller space [e.g., @riad2014], also confirmed by visualizations of the SwehVd (see Section \@ref(sec:characterizing-swehvd), this result might initially seem puzzling. However, the short vowels exhibit less category variability and less category overlap, which presumably is driving this difference in performance between models trained on long and short vowels separately.
 
