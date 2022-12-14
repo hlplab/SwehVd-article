@@ -1230,7 +1230,7 @@ d.SwehVd.forStudy.long %>%
   geomtextpath::geom_textdensity(aes(label = category),
                                  size = 3,
                                  hjust = "ymax",
-                                 vjust = -1, text_only = T, straight = T) +
+                                 vjust = -0.5, text_only = T, straight = T) +
   theme(legend.position = "none") +
   scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = c("colour", "fill")) +
   guides(linetype = "none", color = "none", fill = "none") +
