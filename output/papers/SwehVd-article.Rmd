@@ -149,10 +149,10 @@ base.height = 2.5
 
   * Update TO DO regularly
   * FIGs
-    * fix fig sizes
-    * write function for large_plot_theme
+    * fig 9: decrease bottom margins in first 4 plots
+    * adjust fig sizes by chunk arguments in the following plots: 10, 11 (also need smaller scaling), 13, 14.
+    * why isn't the confusion matrices adjusted in supplementary materials?
   * Have all tables be the same size
-  * Adjust font size of plot labels, legends and titles (should be slightly smaller than caption label).
   * REFs
     * add REF on coarticulation with /d/ in coda
   * Apply normalization to the data at all three time points
@@ -356,16 +356,15 @@ Table \@ref(tab:norm-accounts) lists the normalization accounts investigated in 
 
 \hline
 
-& & \cellcolor[HTML]{C9C0BB}{} & \cellcolor[HTML]{C9C0BB}{n/a} & \cellcolor[HTML]{C9C0BB}{Bark} & \cellcolor[HTML]{C9C0BB}{Traunmüller (1990)}         & \cellcolor[HTML]{C9C0BB}{$F_n^{Bark} = \frac{26.81 \times F_n}{1960 + F_n} - 0.53$} \\
+& & \cellcolor[HTML]{C9C0BB}{} & \cellcolor[HTML]{C9C0BB}{n/a} & \cellcolor[HTML]{C9C0BB}{Bark} & \cellcolor[HTML]{C9C0BB}{Traunmüller (1990)} & \cellcolor[HTML]{C9C0BB}{$F_n^{Bark} = \frac{26.81 \times F_n}{1960 + F_n} - 0.53$} \\
 & & \cellcolor[HTML]{C9C0BB}{} & \cellcolor[HTML]{C9C0BB}{---} & \cellcolor[HTML]{C9C0BB}{ERB}  & \cellcolor[HTML]{C9C0BB}{Glasberg \& Moore (1990)} & \cellcolor[HTML]{C9C0BB}{$F_n^{ERB} = 21.4 \times \log_{10}(1 + F_n \times 0.00437)$} \\
-& & \cellcolor[HTML]{C9C0BB}{} & \cellcolor[HTML]{C9C0BB}{---} & \cellcolor[HTML]{C9C0BB}{Mel}  & \cellcolor[HTML]{C9C0BB}{Stevens \& Volkmann (1940)} & \cellcolor[HTML]{C9C0BB}{$F_n^{Mel} = 2595 \times \log_{10}(1 + \frac{F_n}{700})$} \\
-\multirow[c]{-4}{*}{\rotatebox{90}{trans-}} & & \cellcolor[HTML]{C9C0BB}{} & \cellcolor[HTML]{C9C0BB}{---} & \cellcolor[HTML]{C9C0BB}{Semitones conversion} & \cellcolor[HTML]{C9C0BB}{Fant et al. (2002)} & \cellcolor[HTML]{C9C0BB}{$F_n^{ST} = 12 \times \frac{ln(\frac{F_n}{100})}{ln}$} \\
-& \multirow[c]{-6}{*}{\rotatebox{90}{formation}} & \cellcolor[HTML]{C9C0BB}{} & \cellcolor[HTML]{C9C0BB}{} & \cellcolor[HTML]{C9C0BB}{} & \cellcolor[HTML]{C9C0BB}{} & \cellcolor[HTML]{C9C0BB}{} \\
+\multirow[c]{-2}{*}{\rotatebox{90}{trans-}} & & \cellcolor[HTML]{C9C0BB}{} & \cellcolor[HTML]{C9C0BB}{---} & \cellcolor[HTML]{C9C0BB}{Mel}  & \cellcolor[HTML]{C9C0BB}{Stevens \& Volkmann (1940)} & \cellcolor[HTML]{C9C0BB}{$F_n^{Mel} = 2595 \times \log_{10}(1 + \frac{F_n}{700})$} \\
+& \multirow[c]{-4}{*}{\rotatebox{90}{formation}} & \cellcolor[HTML]{C9C0BB}{} & \cellcolor[HTML]{C9C0BB}{---} & \cellcolor[HTML]{C9C0BB}{Semitones conversion} & \cellcolor[HTML]{C9C0BB}{Fant et al. (2002)} & \cellcolor[HTML]{C9C0BB}{$F_n^{ST} = 12 \times \frac{ln(\frac{F_n}{100})}{ln}$} \\
 
 \hline
 
-& & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{Syrdal \& Gopal's Bark-distance model} & \cellcolor[HTML]{E6BE8A}{Bark} & \cellcolor[HTML]{E6BE8A}{Syrdal \& Gopal (1986)} & \cellcolor[HTML]{E6BE8A}{$F1^{SyrdalGopal} = F1^{Bark} - F0^{Bark}$} \\
-& & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{$F2^{SyrdalGopal} = F2^{Bark} - F1^{Bark}$} \\
+& & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{Syrdal \& Gopal's} & \cellcolor[HTML]{E6BE8A}{Bark} & \cellcolor[HTML]{E6BE8A}{Syrdal \& Gopal (1986)} & \cellcolor[HTML]{E6BE8A}{$F1^{SyrdalGopal} = F1^{Bark} - F0^{Bark}$} \\
+& & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{Bark-distance model} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{$F2^{SyrdalGopal} = F2^{Bark} - F1^{Bark}$} \\
 & & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{$F3^{SyrdalGopal} = F3^{Bark} - F2^{Bark}$} \\
 & & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{Miller} & \cellcolor[HTML]{E6BE8A}{log} & \cellcolor[HTML]{E6BE8A}{Miller (1989)} & \cellcolor[HTML]{E6BE8A}{$SR = k (\frac{GM f0}{k})^{1/3}$} \\
 & & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{(formant-ratio)} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{$F1^{Miller} = log(\frac{F1}{SR})$} \\
@@ -382,22 +381,18 @@ Table \@ref(tab:norm-accounts) lists the normalization accounts investigated in 
 
 & & \cellcolor[HTML]{ABCDEF}{} & \cellcolor[HTML]{ABCDEF}{Nearey1} & \cellcolor[HTML]{ABCDEF}{log} & \cellcolor[HTML]{ABCDEF}{Nearey (1978)} & \cellcolor[HTML]{ABCDEF}{$F^{Nearey1}_n = \ln(F_n) - mean(ln(F_n))$} \\
 & & \cellcolor[HTML]{ABCDEF}{} & \cellcolor[HTML]{ABCDEF}{(log-mean)} & \cellcolor[HTML]{ABCDEF}{} & \cellcolor[HTML]{ABCDEF}{} & \cellcolor[HTML]{ABCDEF}{} \\
-& & \cellcolor[HTML]{ABCDEF}{} & \cellcolor[HTML]{ABCDEF}{} & \cellcolor[HTML]{ABCDEF}{} & \cellcolor[HTML]{ABCDEF}{} & \cellcolor[HTML]{ABCDEF}{} \\
 
 & & \cellcolor[HTML]{ABCDEF}{} & \cellcolor[HTML]{ABCDEF}{Nearey2} & \cellcolor[HTML]{ABCDEF}{log} & \cellcolor[HTML]{ABCDEF}{Nearey (1978)} & \cellcolor[HTML]{ABCDEF}{$F^{Nearey2}_n = \ln(F_n) - mean(ln(F))$} \\
 & & \cellcolor[HTML]{ABCDEF}{} & \cellcolor[HTML]{ABCDEF}{(single parameter} & \cellcolor[HTML]{ABCDEF}{} & \cellcolor[HTML]{ABCDEF}{} & \cellcolor[HTML]{ABCDEF}{} \\
-& & \cellcolor[HTML]{ABCDEF}{{\multirow[c]{-11}{*}{\rotatebox{90}{centering}}}} & \cellcolor[HTML]{ABCDEF}{log-mean)} & \cellcolor[HTML]{ABCDEF}{} & \cellcolor[HTML]{ABCDEF}{} & \cellcolor[HTML]{ABCDEF}{} \\ 
+& & \cellcolor[HTML]{ABCDEF}{{\multirow[c]{-10}{*}{\rotatebox{90}{centering}}}} & \cellcolor[HTML]{ABCDEF}{log-mean)} & \cellcolor[HTML]{ABCDEF}{} & \cellcolor[HTML]{ABCDEF}{} & \cellcolor[HTML]{ABCDEF}{} \\ 
 
 \cline{3-6}
 
 & & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{Gerstman} & \cellcolor[HTML]{DDADAF}{Hz} & \cellcolor[HTML]{DDADAF}{Gerstman (1968)} & \cellcolor[HTML]{DDADAF}{$F_n^{Gerstman} = 999 \times \frac{F_n - F_n^{min}}{F_n^{max} - F_n^{min}}$} \\
 & & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{(range normalization)} & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{} \\
-& & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{} \\
 
-& & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{Lobanov} & \cellcolor[HTML]{DDADAF}{Hz} & \cellcolor[HTML]{DDADAF}{Lobanov (1971)} & \cellcolor[HTML]{DDADAF}{$F^{Lobanov}_n = \frac{F_n - mean(F_n)}{sd(F_n)}$} \\
-& & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{(z-score)} & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{} \\
-& & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{} \\
-\multirow[c]{-18}{*}{\rotatebox{90}{extrinsic}} & & \cellcolor[HTML]{DDADAF}{\multirow[c]{-7}{*}{\rotatebox{90}{scaling}}} & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{} \\
+{\multirow[c]{-14}{*}{\rotatebox{90}{extrinsic}}} & & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{Lobanov} & \cellcolor[HTML]{DDADAF}{Hz} & \cellcolor[HTML]{DDADAF}{Lobanov (1971)} & \cellcolor[HTML]{DDADAF}{$F^{Lobanov}_n = \frac{F_n - mean(F_n)}{sd(F_n)}$} \\
+& & \cellcolor[HTML]{DDADAF}{{\multirow[c]{-3}{*}{\rotatebox{90}{scaling}}}} & \cellcolor[HTML]{DDADAF}{(z-score)} & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{} & \cellcolor[HTML]{DDADAF}{} \\
 
 \hline
 \end{tabular}
@@ -640,7 +635,7 @@ d.SwehVd %>%
   theme(legend.position = "top")
 ```
 
-```{r swe-vowels-all-cues, fig.width=base.width*4, fig.height=base.height*4+.5, fig.cap="(ref:swe-vowels-all-cues)"}
+```{r swe-vowels-all-cues, fig.width=base.width*4, fig.height=base.height*4+.5, out.width = '100%', fig.cap="(ref:swe-vowels-all-cues)"}
 p.matrix.cues <- 
   d.SwehVd %>% 
   filter(Transcribed_vowel == "targeted", Word != "hädd") %>%
@@ -666,7 +661,7 @@ p.matrix.cues <-
       colour = category,
       label = category,
       fontface = ifelse(category %in% levels.vowel.IPA.swe.long, 2, 1)),
-    alpha = .4, size = 4, label.size = NA) +
+    alpha = .4, size = 3, label.size = NA) +
   geom_autodensity(
     mapping = aes(fill = category, linetype = Quantity), 
     alpha = .3, position = "identity") +
@@ -686,7 +681,18 @@ p.matrix.cues <-
     alpha = .8, size = 1) +
   scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = c("colour", "fill")) +
   guides(color = "none", fill = "none", shape = guide_legend(override.aes = list(alpha = .4))) +
-  theme(legend.position = "top") +
+  #Overwrite default plot theme with large plot theme
+  theme(axis.text.x = element_text(size=8, vjust=1),
+      axis.text.y = element_text(size=8, hjust=1, vjust=.5),
+      axis.title.x = element_text(size=8 , vjust=0, hjust=0.5, face = "bold"),
+      axis.title.y = element_text(size=8, hjust= 0.5, vjust=0.5, face = "bold"),
+      strip.text = element_text(size=8, color = "white"),
+      strip.background = element_rect(fill = "black", color = "black"),
+      legend.title = element_text(size=8, face = "bold", hjust= 0),
+      legend.text = element_text(size=8),
+      plot.margin = unit(c(0, 0, 0, 0), "cm"),
+      aspect.ratio = 1,
+      legend.position = "top") +
   facet_matrix(
     vars(F0, F1, F2, F3, Duration),
     layer.lower = c(1,2),
@@ -1185,22 +1191,28 @@ plot_separability <- function(data) {
     values = colors.all.procedures) +
   scale_y_continuous("Separability index (F-value)") +
   theme(
-    axis.text.x = ggtext::element_markdown(angle = 45, vjust = 1, hjust=1, colour = colors.all.procedures),
+    axis.text.x = ggtext::element_markdown(angle = 45, vjust = 1, hjust=1, colour = colors.all.procedures, size = 8),
+    axis.text.y = element_text(size=7, hjust=1, vjust=.5),
     axis.title.x = element_blank(),
     axis.title.y = element_blank(),
-    plot.margin = unit(c(0,0,-2,0), "cm")) +
+    strip.text = element_text(size=7, color = "white"),
+    strip.background = element_rect(fill = "black", color = "black"),
+    legend.title = element_text(size=7, face = "bold", hjust= 0),
+    legend.text = element_text(size=7),
+    plot.margin = unit(c(0, 0, 0, 0), "cm"),
+    aspect.ratio = 1) +
   guides(color = "none")
 }
 
 # generate SIs for each cue separately
 p.separability.F3_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
-  filter(Cues == "F3")) + facet_grid(~ factor(Quantity, levels = c("long", "short", "all")))
+  filter(Cues == "F3")) + facet_grid(~ factor(Quantity, levels = c("long", "short", "all"))) + theme(plot.margin = unit(c(0, 0, -1.5, 0), "cm"))
 p.separability.F2_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
-  filter(Cues == "F2")) + facet_grid(~ factor(Quantity, levels = c("long", "short", "all")))
+  filter(Cues == "F2")) + facet_grid(~ factor(Quantity, levels = c("long", "short", "all"))) + theme(plot.margin = unit(c(0, 0, -1.5, 0), "cm"))
 p.separability.F1_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
-  filter(Cues == "F1")) + facet_grid(~ factor(Quantity, levels = c("long", "short", "all")))
+  filter(Cues == "F1")) + facet_grid(~ factor(Quantity, levels = c("long", "short", "all"))) + theme(plot.margin = unit(c(0, 0, -1.5, 0), "cm"))
 p.separability.F0_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
-  filter(Cues == "F0")) + facet_grid(~ factor(Quantity, levels = c("long", "short", "all")))
+  filter(Cues == "F0")) + facet_grid(~ factor(Quantity, levels = c("long", "short", "all"))) + theme(plot.margin = unit(c(0, 0, -1.5, 0), "cm"))
 p.separability.Duration_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.long %>%
   filter(Cues == "Duration")) + facet_grid(~ factor(Quantity, levels = c("long", "short", "all")))
 ```
@@ -1214,16 +1226,23 @@ p.separability.Duration_by_quantity <- plot_separability(d.SwehVd.forStudy.SI.lo
                    p.separability.F3_by_quantity + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()), 
                    p.separability.F0_by_quantity + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()), 
                    p.separability.Duration_by_quantity, ncol = 1, align = "hv", axis = "btlr", labels = c("A", "B", "C", "D", "E"), scale = 0.9)
-#,
-#  p.separability.Duration_by_quantity, nrow = 2, align = "hv", axis = "btlr", rel_heights = c(5/6, 1.5/6), rel_widths = c(5/6,.08), labels = c("", "E"))
 ```
-(ref:F3-densities-long) Category F3 densities for the Central Swedish long vowels in unnormalized Hz and normalized test data (Syrdal & Gopal normalization, and Lobanov normalization). Number in label indicates test-fold (1-5).
+(ref:F3-densities) Category F3 densities for the Central Swedish vowels in unnormalized Hz and normalized test data (Syrdal & Gopal normalization, and Lobanov normalization).
 
-\begin{landscape}
+```{r F3-densities, fig.width= base.width * 3.5, fig.height = base.height * 2.5, out.width='100%', fig.align='center', fig.cap="(ref:F3-densities)"}
+# Generate list of manualy y-scale limits, in order to have category labels fit in at density tops
+scales <- list(
+  # Specify all the scales, one for each facet
+  scale_y_continuous(limits = c(0,.003)),
+  scale_y_continuous(limits = c(0, 1.11)),
+  scale_y_continuous(limits = c(0,1)),
+  scale_y_continuous(limits = c(0,.003)),
+  scale_y_continuous(limits = c(0,1.5)),
+  scale_y_continuous(limits = c(0,.8))
+)
 
-```{r fig.width= base.width * 5, fig.height = base.height * 2.5, out.width='100%', fig.align='center', fig.cap="(ref:F3-densities-long)"}
 d.SwehVd.forStudy.long %>% 
-  filter(Quantity == "long", fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)", "Lobanov (Hz)")) %>%
+  filter(fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)", "Lobanov (Hz)")) %>%
   ggplot(
     aes(F3, fill = factor(category))) +
   geom_density(alpha = .5) +
@@ -1232,43 +1251,21 @@ d.SwehVd.forStudy.long %>%
                                  hjust = "ymax",
                                  vjust = -0.5, text_only = T, straight = T) +
   theme(legend.position = "none") +
+  #scale_y_continuous(limits = c(0, 1.05)) +
   scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = c("colour", "fill")) +
   guides(linetype = "none", color = "none", fill = "none") +
-  facet_wrap(Normalization.Type ~ crossvalidation_group, scales = "free", ncol = 5, labeller = label_wrap_gen(multi_line=FALSE))
+  facet_wrap(Quantity ~ Normalization.Type, scales = "free", nrow = 2, labeller = label_wrap_gen(multi_line=FALSE)) +
+  ggh4x::facetted_pos_scales(y = scales)
 ```
 
-\end{landscape}
-
-(ref:F3-densities-short) Category F3 densities for the Central Swedish short vowels in unnormalized Hz and normalized test data (Syrdal & Gopal normalization, and Lobanov normalization). Number in label indicates test-fold (1-5).
-
-\begin{landscape}
-
-```{r fig.width= base.width * 5, fig.height = base.height * 2.5, out.width='100%', fig.align='center', fig.cap="(ref:F3-densities-short)"}
-d.SwehVd.forStudy.long %>% 
-  filter(Quantity == "short", fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "SyrdalGopal (Bark)", "Lobanov (Hz)")) %>%
-  ggplot(
-    aes(F3, fill = factor(category))) +
-  geom_density(alpha = .5) +
-  geomtextpath::geom_textdensity(aes(label = category),
-                                 size = 3,
-                                 hjust = "ymax",
-                                 vjust = -0.5, text_only = T, straight = T) +
-  theme(legend.position = "none") +
-  scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = c("colour", "fill")) +
-  guides(linetype = "none", color = "none", fill = "none") +
-  facet_wrap(Normalization.Type ~ crossvalidation_group, scales = "free", ncol = 5, labeller = label_wrap_gen(multi_line=FALSE))
-```
-
-\end{landscape}
-
-(ref:duration-densities) Category duration densities for the Central Swedish long (**Panel A**) and short (**Panel B**) vowels in unnormalized Hz and C-CuRE normalized test data. Number in label indicates test-fold (1-5).
+(ref:duration-densities) Category duration densities for the Central Swedish vowels in unnormalized Hz and C-CuRE normalized test data.
 
 \begin{landscape}
 
 ```{r duration-densities, fig.width= base.width * 4, fig.height = base.height * 3, fig.align='center', fig.cap="(ref:duration-densities)"}
 # Plot the duration densities for each test fold
 # p.duration.test.long <- d.SwehVd.forStudy.long %>% 
-#   filter(Quantity == "long", fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "C-CuRE (Hz)")) %>%
+#   filter(fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "C-CuRE (Hz)")) %>%
 #   ggplot(
 #     aes(Duration)) +
 #   geom_density(
@@ -1277,13 +1274,7 @@ d.SwehVd.forStudy.long %>%
 #   scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = c("colour", "fill")) +
 #   theme(legend.position = "top") +
 #   guides(Quantity = "none", color = guide_legend(nrow = 1)) + 
-#   facet_wrap(Normalization.Type ~ crossvalidation_group, scales = "free", ncol = 5, labeller = label_wrap_gen(multi_line=FALSE))
-# 
-# p.duration.test.short <- p.duration.test.long %+%
-#   (d.SwehVd.forStudy.long %>% 
-#   filter(Quantity == "short", fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "C-CuRE (Hz)")))
-# 
-# cowplot::plot_grid(p.duration.test.long, p.duration.test.short, labels = c("A", "B"), ncol = 1)
+#   facet_wrap(Quantity ~ Normalization.Type, scales = "free", ncol = 5, labeller = label_wrap_gen(multi_line=FALSE))
 ```
 \end{landscape}
 
@@ -1618,10 +1609,16 @@ plot_io_results <- function(data) {
       labels = labels.normalization, 
       values = colors.all.procedures) +
     guides(color = "none") +
-    theme(
-      axis.text.x = ggtext::element_markdown(angle = 45, vjust = 1, hjust = 1, colour = colors.all.procedures),
-      axis.title.x = element_blank(),
-      axis.title.y = element_blank())
+    theme(axis.text.x = ggtext::element_markdown(angle = 45, vjust = 1, hjust = 1, colour = colors.all.procedures, size=8),
+        axis.text.y = element_text(size=8, hjust=1, vjust=.5),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        strip.text = element_text(size=8, color = "white"),
+        strip.background = element_rect(fill = "black", color = "black"),
+        legend.title = element_text(size=8, face = "bold", hjust= 0),
+        legend.text = element_text(size=8),
+        plot.margin = unit(c(0, 0, 0, 0), "cm"),
+        aspect.ratio = 1)
 }
 
 p.accuracy.io.overall.F1F2_by_quantity <- plot_io_results(m.io.SwehVd.F1F2_by_quantity) + facet_grid(~ IO.Quantity)
@@ -1689,10 +1686,16 @@ plot_io_results_per_vowel <- function(data) {
       labels = labels.normalization, 
       values = colors.all.procedures) +
     guides(color = "none") +
-    theme(
-      axis.text.x = ggtext::element_markdown(angle = 90, vjust = 1, hjust = 1, colour = colors.all.procedures),
-      axis.title.x = element_blank(),
-      axis.title.y = element_blank())
+    theme(axis.text.x = ggtext::element_markdown(angle = 90, vjust = 1, hjust = 1, colour = colors.all.procedures, size=8),
+        axis.text.y = element_text(size=8, hjust=1, vjust=.5),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        strip.text = element_text(size=8, color = "white"),
+        strip.background = element_rect(fill = "black", color = "black"),
+        legend.title = element_text(size=8, face = "bold", hjust= 0),
+        legend.text = element_text(size=8),
+        plot.margin = unit(c(0, 0, 0, 0), "cm"),
+        aspect.ratio = 1)
 }
 
 p.accuracy.io.F1F2_long <- plot_io_results_per_vowel(
@@ -1760,9 +1763,17 @@ plot_io_confusion <- function(
     scale_y_discrete("IO response vowel", expand = c(0,0)) +
     scale_fill_viridis_b("Posterior probability under ideal observer", limits = c(0,1), breaks = seq(0, 1, .1)) +
     facet_grid(~ IO.Normalization.Type) +
-    theme(
-      axis.title.x = element_blank(),
-      axis.title.y = element_blank())
+    theme(axis.text.x = element_text(size=8, vjust=1),
+          axis.text.y = element_text(size=8, hjust=1, vjust=.5),
+          axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
+          strip.text = element_text(size=8, color = "white"),
+          strip.background = element_rect(fill = "black", color = "black"),
+          legend.title = element_text(size=8, face = "bold", hjust= 0),
+          legend.text = element_text(size=8),
+          plot.margin = unit(c(0, 0, 0, 0), "cm"),
+          aspect.ratio = 1,
+          legend.position = "top")
 }
 
 p.confusion.F1F2.all.worst <- plot_io_confusion(
@@ -2311,12 +2322,12 @@ d.outliers %>%
   scale_x_reverse("F2 (in Hz)", position = "top", breaks = scales::breaks_pretty(6)) +
   scale_y_reverse("F1 (in Hz)", position = "right", breaks = scales::breaks_pretty(6)) +
   guides(color = "none", alpha = "none", shape = guide_legend(nrow = 3)) +
-  theme(axis.text.x = element_text(size=7, vjust=1),
-        axis.text.y = element_text(size=7, hjust=1, vjust=.5),
-        axis.title.x = element_text(size=7, vjust=0, hjust=0.5, face = "bold"),
-        axis.title.y = element_text(size=7, hjust= 0.5, vjust=0.5, face = "bold"),
-        legend.title = element_text(size=7, face = "bold", hjust= 0),
-        legend.text = element_text(size=7)) +
+  theme(axis.text.x = element_text(size=8, vjust=1),
+        axis.text.y = element_text(size=8, hjust=1, vjust=.5),
+        axis.title.x = element_text(size=8, vjust=0, hjust=0.5, face = "bold"),
+        axis.title.y = element_text(size=8, hjust= 0.5, vjust=0.5, face = "bold"),
+        legend.title = element_text(size=8, face = "bold", hjust= 0),
+        legend.text = element_text(size=8)) +
   theme(legend.position="bottom", legend.box="horizontal") +
   facet_wrap(~ factor(Normalization.Type, levels = labels.normalization), scales = "free") + 
   gghighlight::gghighlight(outlier_across == "TRUE", calculate_per_facet = TRUE)
