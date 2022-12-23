@@ -626,9 +626,9 @@ d.SwehVd %>%
   scale_colour_manual(name = "category", values = colors.vowel.swe) +
   scale_x_reverse("F2 (in Hz)", position = "top", breaks = scales::breaks_pretty(6)) +
   scale_y_reverse("F1 (in Hz)", position = "right", breaks = scales::breaks_pretty(6)) +
-  guides(color = "none") +
-  theme(legend.position = "top") + 
-  myGplot.defaults(base_size+2)
+  guides(color = "none") + 
+  myGplot.defaults(base_size+2)  +
+  theme(legend.position = "top")
 ```
 
 ```{r swe-vowels-all-cues, fig.width=base.width*4.5, fig.height=base.height*4.5+.5, out.width = '100%', fig.cap="(ref:swe-vowels-all-cues)"}
@@ -677,14 +677,13 @@ p.matrix.cues <-
     alpha = .8, size = 1) +
   scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = c("colour", "fill")) +
   guides(color = "none", fill = "none", shape = guide_legend(override.aes = list(alpha = .4))) +
-  #Overwrite default plot theme with large plot theme
-  theme(legend.position = "top") +
   facet_matrix(
     vars(F0, F1, F2, F3, Duration),
     layer.lower = c(1,2),
     layer.diag = 3,
     layer.upper = c(4, 5)) +
-  myGplot.defaults(base_size+2)
+  myGplot.defaults(base_size+2) + 
+  theme(legend.position = "top")
 
 p.matrix.cues
 ```
@@ -1579,64 +1578,64 @@ Even though the models pattern more or less the same across vowels, there are so
 
 (ref:predictions-per-vowel) Per-vowel predicted categorization accuracy of the ideal observers trained on F1 and F2. Predictions for the long (Panel A) and short (Panel B) Central Swedish vowels. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
-```{r }
+```{r echo=FALSE}
 # Plot the overall accuracy of the different normalization accounts
-plot_io_results_per_vowel <- function(data) {
-  data %>%
-    # Get the CI over the five folds
-    { if ("IO.Quantity" %in% names(data)) group_by(., IO.Normalization.Type, IO.Quantity, IO.crossvalidation_group, Intended.Vowel, Cue_space) else group_by(., IO.Normalization.Type, IO.crossvalidation_group, Intended.Vowel, Cue_space) } %>%
-    summarise(
-      chance = 1 / n_distinct(Intended.Vowel),
-      ci = list(enframe(Hmisc::smean.cl.boot(Posterior)))) %>%
-    unnest(ci) %>%
-    spread(name, value) %>%
-    { if ("IO.Quantity" %in% names(data)) group_by(., IO.Normalization.Type, IO.Quantity, Intended.Vowel, Cue_space) else  group_by(., IO.Normalization.Type, Intended.Vowel, Cue_space) } %>%
-    summarise(
-      chance = first(chance),
-      mean_CI_lower = mean(Lower),
-      mean_CI_upper = mean(Upper),
-      mean = mean(Mean)) %>%
-    ggplot() +
-    geom_pointrange(
-      aes(x = IO.Normalization.Type,
-          y = mean,
-          ymin = mean_CI_lower,
-          ymax = mean_CI_upper,
-          color = IO.Normalization.Type),
-      position = position_dodge2(width = 0.3),
-      fatten = 2.5) +
-    geom_hline(aes(yintercept = case_when(IO.Quantity == "long" ~ 1/11,
-                                          IO.Quantity == "short" ~ 1/10,
-                                          IO.Quantity == "all" ~ 1/21)), color = "gray", linetype = 2) +
-    scale_y_continuous("Overall accuracy (of predicting *intended* vowel)", limits = c(0,1))+
-    scale_colour_manual(
-      "Normalization \nprocedure of IO",
-      labels = labels.normalization,
-      values = colors.all.procedures) +
-    guides(color = "none") +
-    theme(axis.text.x = ggtext::element_markdown(angle = 45, vjust = 1, hjust = 1, colour = colors.all.procedures),
-        axis.title.x = element_blank())
-}
-
-m.io.SwehVd.for.plotting <- m.io.SwehVd %>%
-  # Rename IO.Normalization.Type for plotting
-  mutate(
-    IO.Normalization.Type =
-      factor(
-        plyr::mapvalues(IO.Normalization.Type, levels.normalization.plots, labels.normalization),
-        levels = labels.normalization)) %>%
-  unnest(posterior_of_intended_vowel)
-
-p.accuracy.io.per.vowel <- plot_io_results_per_vowel(
-  m.io.SwehVd.for.plotting %>%
-    filter(Cue_space == "F1-F2", IO.Quantity %in% c("long", "short"), Intended.Vowel %in% c("[ɵ]", "[a]", "[ɑː]", "[yː]", "[iː]"))) +
-  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
+# plot_io_results_per_vowel <- function(data) {
+#   data %>%
+#     # Get the CI over the five folds
+#     { if ("IO.Quantity" %in% names(data)) group_by(., IO.Normalization.Type, IO.Quantity, IO.crossvalidation_group, Intended.Vowel, Cue_space) else group_by(., IO.Normalization.Type, IO.crossvalidation_group, Intended.Vowel, Cue_space) } %>%
+#     summarise(
+#       chance = 1 / n_distinct(Intended.Vowel),
+#       ci = list(enframe(Hmisc::smean.cl.boot(Posterior)))) %>%
+#     unnest(ci) %>%
+#     spread(name, value) %>%
+#     { if ("IO.Quantity" %in% names(data)) group_by(., IO.Normalization.Type, IO.Quantity, Intended.Vowel, Cue_space) else  group_by(., IO.Normalization.Type, Intended.Vowel, Cue_space) } %>%
+#     summarise(
+#       chance = first(chance),
+#       mean_CI_lower = mean(Lower),
+#       mean_CI_upper = mean(Upper),
+#       mean = mean(Mean)) %>%
+#     ggplot() +
+#     geom_pointrange(
+#       aes(x = IO.Normalization.Type,
+#           y = mean,
+#           ymin = mean_CI_lower,
+#           ymax = mean_CI_upper,
+#           color = IO.Normalization.Type),
+#       position = position_dodge2(width = 0.3),
+#       fatten = 2.5) +
+#     geom_hline(aes(yintercept = case_when(IO.Quantity == "long" ~ 1/11,
+#                                           IO.Quantity == "short" ~ 1/10,
+#                                           IO.Quantity == "all" ~ 1/21)), color = "gray", linetype = 2) +
+#     scale_y_continuous("Overall accuracy (of predicting *intended* vowel)", limits = c(0,1))+
+#     scale_colour_manual(
+#       "Normalization \nprocedure of IO",
+#       labels = labels.normalization,
+#       values = colors.all.procedures) +
+#     guides(color = "none") +
+#     theme(axis.text.x = ggtext::element_markdown(angle = 45, vjust = 1, hjust = 1, colour = colors.all.procedures),
+#         axis.title.x = element_blank())
+# }
+# 
+# m.io.SwehVd.for.plotting <- m.io.SwehVd %>%
+#   # Rename IO.Normalization.Type for plotting
+#   mutate(
+#     IO.Normalization.Type =
+#       factor(
+#         plyr::mapvalues(IO.Normalization.Type, levels.normalization.plots, labels.normalization),
+#         levels = labels.normalization)) %>%
+#   unnest(posterior_of_intended_vowel)
+# 
+# p.accuracy.io.per.vowel <- plot_io_results_per_vowel(
+#   m.io.SwehVd.for.plotting %>%
+#     filter(Cue_space == "F1-F2", IO.Quantity %in% c("long", "short"), Intended.Vowel %in% c("[ɵ]", "[a]", "[ɑː]", "[yː]", "[iː]"))) +
+#   facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
 ```
 
 \begin{landscape}
 
 ```{r predictions-per-vowel, fig.width=base.width * 3.5, fig.height=base.height * 1.5, fig.align='center', fig.cap="(ref:predictions-per-vowel)"}
-p.accuracy.io.per.vowel
+#p.accuracy.io.per.vowel
 ```
 \end{landscape}
 
@@ -1730,27 +1729,27 @@ cowplot::plot_grid(legend.confusion,
 #     miller_IO_Advantage.Probability = Miller - Lobanov,
 #     lobanov_IO_Advantage.Probability = Lobanov - Miller)
 
-p.confusion.F1F2 %+%
-  (m.io.SwehVd.for.plotting %>%
-    filter(Cue_space == "F1-F2", IO.Quantity == "all") %>%
-    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
-    summarise_at(vars(Posterior), mean) %>%
-    pivot_wider(
-      names_from = IO.Normalization.Type,
-      values_from = Posterior) %>%
-    mutate(
-      "Difference Miller-Lobanov" = `Miller (log)` - `Lobanov (Hz)`,
-      "Difference Gerstman-C-CuRE Hz" = `Gerstman (Hz)` - `C-CuRE (Hz)`) %>%
-  #   na.omit() %>%
-    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
-    pivot_longer(
-         cols = starts_with("Diff"),
-         names_to = "Comparison",
-         values_to = "Difference")) +
-    aes(fill = Difference) +
-    scale_fill_gradient2("Difference in\nposterior probability") +
-    facet_wrap(~ Comparison, ncol = 1) +
-  theme(legend.position = "right")
+# p.confusion.F1F2 %+%
+#   (m.io.SwehVd.for.plotting %>%
+#     filter(Cue_space == "F1-F2", IO.Quantity == "all") %>%
+#     group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
+#     summarise_at(vars(Posterior), mean) %>%
+#     pivot_wider(
+#       names_from = IO.Normalization.Type,
+#       values_from = Posterior) %>%
+#     mutate(
+#       "Difference Miller-Lobanov" = `Miller (log)` - `Lobanov (Hz)`,
+#       "Difference Gerstman-C-CuRE Hz" = `Gerstman (Hz)` - `C-CuRE (Hz)`) %>%
+#   #   na.omit() %>%
+#     select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
+#     pivot_longer(
+#          cols = starts_with("Diff"),
+#          names_to = "Comparison",
+#          values_to = "Difference")) +
+#     aes(fill = Difference) +
+#     scale_fill_gradient2("Difference in\nposterior probability") +
+#     facet_wrap(~ Comparison, ncol = 1) +
+#   theme(legend.position = "right")
 ```
 
 
@@ -2068,24 +2067,24 @@ p.matrix.cues %+%
 (ref:predictions-per-vowel-F1F3) Per-vowel predicted categorization accuracy of the ideal observers trained on F1-F3. Predictions for the long (Panel A) and short (Panel B) Central Swedish vowels. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
 ```{r}
-p.accuracy.io.F1F3_long <- plot_io_results_per_vowel(
-  m.io.SwehVd.F1F3_by_quantity %>% filter(IO.Quantity == "long")) +
-  facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.long))
-p.accuracy.io.F1F3_short <- plot_io_results_per_vowel(
-  m.io.SwehVd.F1F3_by_quantity %>% filter(IO.Quantity == "short")) +
-  facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.short))
-p.accuracy.io.all_long <- plot_io_results_per_vowel(
-  m.io.SwehVd.all_by_quantity %>% filter(IO.Quantity == "long")) +
-  facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.long))
-p.accuracy.io.all_short <- plot_io_results_per_vowel(
-  m.io.SwehVd.all_by_quantity %>% filter(IO.Quantity == "short")) +
-  facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.short))
+# p.accuracy.io.F1F3_long <- plot_io_results_per_vowel(
+#   m.io.SwehVd.F1F3_by_quantity %>% filter(IO.Quantity == "long")) +
+#   facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.long))
+# p.accuracy.io.F1F3_short <- plot_io_results_per_vowel(
+#   m.io.SwehVd.F1F3_by_quantity %>% filter(IO.Quantity == "short")) +
+#   facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.short))
+# p.accuracy.io.all_long <- plot_io_results_per_vowel(
+#   m.io.SwehVd.all_by_quantity %>% filter(IO.Quantity == "long")) +
+#   facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.long))
+# p.accuracy.io.all_short <- plot_io_results_per_vowel(
+#   m.io.SwehVd.all_by_quantity %>% filter(IO.Quantity == "short")) +
+#   facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.short))
 ```
 \begin{landscape}
 
 ```{r predictions-per-vowel-F1F3, fig.width=base.width * 5 + 5, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:predictions-per-vowel-F1F3)"}
-cowplot::plot_grid(
-  p.accuracy.io.F1F3_long, p.accuracy.io.F1F3_short, ncol = 2, align = "hv", axis = "btlr", labels = c("A", "B"), nrow = 1)
+# cowplot::plot_grid(
+#   p.accuracy.io.F1F3_long, p.accuracy.io.F1F3_short, ncol = 2, align = "hv", axis = "btlr", labels = c("A", "B"), nrow = 1)
 ```
 \end{landscape}
 
@@ -2094,8 +2093,8 @@ cowplot::plot_grid(
 \begin{landscape}
 
 ```{r predictions-per-vowel-all, fig.width=base.width * 5 + 5, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:predictions-per-vowel-all)"}
-cowplot::plot_grid(
-  p.accuracy.io.all_long, p.accuracy.io.all_short, ncol = 2, align = "hv", axis = "btlr", labels = c("A", "B"), nrow = 1)
+# cowplot::plot_grid(
+#   p.accuracy.io.all_long, p.accuracy.io.all_short, ncol = 2, align = "hv", axis = "btlr", labels = c("A", "B"), nrow = 1)
 ```
 \end{landscape}
 
@@ -2104,12 +2103,12 @@ cowplot::plot_grid(
 \begin{landscape}
 
 ```{r predictions-per-vowel-all-all, fig.width=base.width * 5 + 5, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:predictions-per-vowel-all-all)"}
-p.accuracy.io.F1F3 <- plot_io_results_per_vowel(
-  m.io.SwehVd.F1F3) +
-  facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
-p.accuracy.io.all <- plot_io_results_per_vowel(
-  m.io.SwehVd.all) +
-  facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
+# p.accuracy.io.F1F3 <- plot_io_results_per_vowel(
+#   m.io.SwehVd.F1F3) +
+#   facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
+# p.accuracy.io.all <- plot_io_results_per_vowel(
+#   m.io.SwehVd.all) +
+#   facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
 ```
 
 \end{landscape}
@@ -2126,67 +2125,58 @@ Of note is also that some categories are rarely confused with other categories, 
 
 ```{r }
 # Make confusion matrices of best and worst for all cue evaluations under the assumption of long, short or all vowels
-p.confusion.F1F2.long.worst <- plot_io_confusion(
-    m.io.SwehVd.F1F2_by_quantity %>% filter(IO.Normalization.Type == "Miller_log", IO.Quantity == "long"), cols = levels.vowel.IPA.swe.long) + facet_grid(~ factor(IO.Normalization.Type, labels = "Miller (log)")) + theme(legend.position="none")
-p.confusion.F1F2.long.best <- plot_io_confusion(
-    m.io.SwehVd.F1F2_by_quantity %>% filter(IO.Normalization.Type == "Lobanov_Hz", IO.Quantity == "long"), cols = levels.vowel.IPA.swe.long) + facet_grid(~ factor(IO.Normalization.Type, labels = "Lobanov (Hz)")) + theme(legend.position="none")
-p.confusion.F1F3.long.worst <- plot_io_confusion(
-    m.io.SwehVd.F1F3_by_quantity %>% filter(IO.Normalization.Type == "Miller_log", IO.Quantity == "long"), cols = levels.vowel.IPA.swe.long) + facet_grid(~ factor(IO.Normalization.Type, labels = "Miller (log)")) + theme(legend.position="none")
-p.confusion.F1F3.long.best <- plot_io_confusion(
-    m.io.SwehVd.F1F3_by_quantity %>% filter(IO.Normalization.Type == "Lobanov_Hz", IO.Quantity == "long"), cols = levels.vowel.IPA.swe.long) + facet_grid(~ factor(IO.Normalization.Type, labels = "Lobanov (Hz)")) + theme(legend.position="none")
-p.confusion.all.long.worst <- plot_io_confusion(
-    m.io.SwehVd.all_by_quantity %>% filter(IO.Normalization.Type == "Gerstman_Hz", IO.Quantity == "long"), cols = levels.vowel.IPA.swe.long) + facet_grid(~ factor(IO.Normalization.Type, labels = "Gerstman (Hz)")) + theme(legend.position="none")
-p.confusion.all.long.best <- plot_io_confusion(
-    m.io.SwehVd.all_by_quantity %>% filter(IO.Normalization.Type == "Lobanov_Hz", IO.Quantity == "long"), cols = levels.vowel.IPA.swe.long) + facet_grid(~ factor(IO.Normalization.Type, labels = "Lobanov (Hz)"))
+p.confusion.long.F1F2 <- plot_io_confusion(
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F2", IO.Quantity == "long"),
+                         cols = levels.vowel.IPA.swe.long) +
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
+p.confusion.long.F1F3 <- plot_io_confusion(
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F3", IO.Quantity == "long"),
+                         cols = levels.vowel.IPA.swe.long) +
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
+p.confusion.long.all <- plot_io_confusion(
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Gerstman_Hz", "Lobanov_Hz"), Cue_space == "F0-F3, duration", IO.Quantity == "long"),
+                         cols = levels.vowel.IPA.swe.long) +
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Gerstman (Hz)", "Lobanov (Hz)"))) + theme(legend.position="none")
 
-p.confusion.F1F2.short.worst <- plot_io_confusion(
-    m.io.SwehVd.F1F2_by_quantity %>% filter(IO.Normalization.Type == "Miller_log", IO.Quantity == "short"), cols = levels.vowel.IPA.swe.short) + facet_grid(~ factor(IO.Normalization.Type, labels = "Miller (log)")) + theme(legend.position="none")
-p.confusion.F1F2.short.best <- plot_io_confusion(
-    m.io.SwehVd.F1F2_by_quantity %>% filter(IO.Normalization.Type == "CCuRE_Mel", IO.Quantity == "short"), cols = levels.vowel.IPA.swe.short) + facet_grid(~ factor(IO.Normalization.Type, labels = "C-CuRE (Mel)")) + theme(legend.position="none")
-p.confusion.F1F3.short.worst <- plot_io_confusion(
-    m.io.SwehVd.F1F3_by_quantity %>% filter(IO.Normalization.Type == "Miller_log", IO.Quantity == "short"), cols = levels.vowel.IPA.swe.short) + facet_grid(~ factor(IO.Normalization.Type, labels = "Miller (log)")) + theme(legend.position="none")
-p.confusion.F1F3.short.best <- plot_io_confusion(
-    m.io.SwehVd.F1F3_by_quantity %>% filter(IO.Normalization.Type == "CCuRE_Mel", IO.Quantity == "short"), cols = levels.vowel.IPA.swe.short) + facet_grid(~ factor(IO.Normalization.Type, labels = "C-CuRE (Mel)")) + theme(legend.position="none")
-p.confusion.all.short.worst <- plot_io_confusion(
-    m.io.SwehVd.all_by_quantity %>% filter(IO.Normalization.Type == "Gerstman_Hz", IO.Quantity == "short"), cols = levels.vowel.IPA.swe.short) + facet_grid(~ factor(IO.Normalization.Type, labels = "Gerstman (Hz)")) + theme(legend.position="none")
-p.confusion.all.short.best <- plot_io_confusion(
-    m.io.SwehVd.all_by_quantity %>% filter(IO.Normalization.Type == "Lobanov_Hz", IO.Quantity == "short"), cols = levels.vowel.IPA.swe.short) + facet_grid(~ factor(IO.Normalization.Type, labels = "Lobanov (Hz)"))
+p.confusion.short.F1F2 <- plot_io_confusion(
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "CCuRE_Mel"), Cue_space == "F1-F2", IO.Quantity == "short"),
+                         cols = levels.vowel.IPA.swe.short) +
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Miller (log)", "C-CuRE (Mel)"))) + theme(legend.position="none")
+p.confusion.short.F1F3 <- plot_io_confusion(
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "CCuRE_Mel"), Cue_space == "F1-F3", IO.Quantity == "short"),
+                         cols = levels.vowel.IPA.swe.short) +
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Miller (log)", "C-CuRE (Mel)"))) + theme(legend.position="none")
+p.confusion.short.all <- plot_io_confusion(
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Gerstman_Hz", "Lobanov_Hz"), Cue_space == "F0-F3, duration", IO.Quantity == "short"),
+                         cols = levels.vowel.IPA.swe.short) +
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Gerstman (Hz)", "Lobanov (Hz)"))) + theme(legend.position="none")
 
-p.confusion.F1F3.all.worst <- plot_io_confusion(
-    m.io.SwehVd.F1F3 %>% filter(IO.Normalization.Type == "Miller_log"), cols = levels.vowel.IPA.swe) + facet_grid(~ factor(IO.Normalization.Type, labels = "Miller (log)")) + theme(legend.position="none")
-p.confusion.F1F3.all.best <- plot_io_confusion(
-    m.io.SwehVd.F1F3 %>% filter(IO.Normalization.Type == "Lobanov_Hz"), cols = levels.vowel.IPA.swe) + facet_grid(~ factor(IO.Normalization.Type, labels = "Lobanov (Hz)")) + theme(legend.position="none")
+# p.confusion.all.F1F3 <- plot_io_confusion(
+#     m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F3", IO.Quantity == "all"), cols = levels.vowel.IPA.swe) + facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
+# p.confusion.all.all <- plot_io_confusion(
+#     m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F3", IO.Quantity == "all"), cols = levels.vowel.IPA.swe) + facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
 ```
 
 (ref:confusion-matrix-long) Confusion matrices for the worst (left) and best (right) performing ideal observers in predicting the **long** Swedish vowels, under different assumptions about the relevant cues: F1-F2 (panel A), F1-F3 (panel B), and F0-F3 and vowel duration (panel C). Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel.
 
-```{r confusion-matrix-long, fig.width=base.width*3.5, fig.height=base.height*4, fig.align='center', fig.cap="(ref:confusion-matrix-long)"}
+```{r confusion-matrix-long, fig.width=base.width*3, fig.height=base.height*4, fig.align='center', fig.cap="(ref:confusion-matrix-long)"}
 cowplot::plot_grid(legend.confusion,
-  cowplot::plot_grid(
-    cowplot::plot_grid(p.confusion.F1F2.long.worst, p.confusion.F1F2.long.best),
-    cowplot::plot_grid(p.confusion.F1F3.long.worst, p.confusion.F1F3.long.best),
-    cowplot::plot_grid(p.confusion.all.long.worst, p.confusion.all.long.best + theme(legend.position = "none")), align = "hv", axis = "btlr", labels = c("A", "B", "C"), ncol = 1),
-  nrow = 2, rel_heights = c(.08,1))
+  cowplot::plot_grid(p.confusion.long.F1F2, p.confusion.long.F1F3, p.confusion.long.all + theme(legend.position = "none"), align = "hv", axis = "btlr", labels = c("A", "B", "C"), ncol = 1),
+    nrow = 2, rel_heights = c(.08,1))
 ```
 
 (ref:confusion-matrix-short) Confusion matrices for the worst (left) and best (right) performing ideal observers in predicting the **short** Swedish vowels, under different assumptions about the relevant cues: F1-F2 (panel A), F1-F3 (panel B), and F0-F3 and vowel duration (panel C). Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel.
 
-```{r confusion-matrix-short, fig.width=base.width*3.5, fig.height=base.height*4, fig.align='center', fig.cap="(ref:confusion-matrix-short)"}
+```{r confusion-matrix-short, fig.width=base.width*3, fig.height=base.height*4, fig.align='center', fig.cap="(ref:confusion-matrix-short)"}
 cowplot::plot_grid(legend.confusion,
-  cowplot::plot_grid(
-    cowplot::plot_grid(p.confusion.F1F2.short.worst, p.confusion.F1F2.short.best),
-    cowplot::plot_grid(p.confusion.F1F3.short.worst, p.confusion.F1F3.short.best),
-    cowplot::plot_grid(p.confusion.all.short.worst, p.confusion.all.short.best + theme(legend.position = "none")), align = "hv", axis = "btlr", labels = c("A", "B", "C"), ncol = 1),
-  nrow = 2, rel_heights = c(.08,1))
+  cowplot::plot_grid(p.confusion.short.F1F2, p.confusion.short.F1F3, p.confusion.short.all + theme(legend.position = "none"), align = "hv", axis = "btlr", labels = c("A", "B", "C"), ncol = 1),
+    nrow = 2, rel_heights = c(.08,1))
 ```
 
 (ref:confusion-matrix-allVowels) Confusion matrices for the worst (left) and best (right) performing ideal observers in predicting **all 21** Swedish vowels, under different assumptions about the relevant cues: F1-F2 (panel A), F1-F3 (panel B), and F0-F3 and vowel duration (panel C). Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel.
 
-```{r confusion-matrix-allVowels, fig.width=base.width*3.5, fig.height=base.height*4.5, fig.align='center', fig.cap="(ref:confusion-matrix-allVowels)"}
-cowplot::plot_grid(legend.confusion,
-  cowplot::plot_grid(
-    cowplot::plot_grid(p.confusion.F1F2.all.worst, p.confusion.F1F2.all.best), NULL,
-    cowplot::plot_grid(p.confusion.F1F3.all.worst, p.confusion.F1F3.all.best), NULL,
-    cowplot::plot_grid(p.confusion.all.all.worst, p.confusion.all.all.best + theme(legend.position = "none")), align = "hv", axis = "btlr", labels = c("A", "", "B", "", "C"), ncol = 1, rel_heights = c(1, .05, 1, .05, 1)),
-  nrow = 2, rel_heights = c(.08,1))
+```{r confusion-matrix-allVowels, fig.width=base.width*3, fig.height=base.height*4.5, fig.align='center', fig.cap="(ref:confusion-matrix-allVowels)"}
+# cowplot::plot_grid(legend.confusion,
+#   cowplot::plot_grid(p.confusion.all.F1F2, p.confusion.all.F1F3, p.confusion.all.all + theme(legend.position = "none"), align = "hv", axis = "btlr", labels = c("A", "B", "C"), ncol = 1),
+#     nrow = 2, rel_heights = c(.08,1))
 ```
