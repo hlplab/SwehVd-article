@@ -1575,7 +1575,7 @@ p.accuracy.io.overall
 
 The approach that we have taken here lets us assess vowel-specific effects on the predictions of the IOs. This is however not the main focus of this paper, but might be of interest to other researchers. In SI, we therefore plot both the predicted categorization accuracy per vowel in the different evaluations (see \@ref(sec:accuracy-per-vowel)), as well as confusion matrices of the best and the worst performing IOs (see \@ref(sec:confusion)), to further investigate the beliefs IOs hold about the Swedish vowel space. Here, we briefly mention some of the main general points from these visualizations, beginning with the models' predictions for each vowels separately. For reference, Figure \@ref(fig:predictions-per-vowel) visualizes the predicted categorization accuracy per vowel, by the unnormalized and normalized IO models trained on F1-F2 (plots of models trained on F1-F3, and all five cues are available in (\@ref(sec:accuracy-per-vowel)).
 
-Even though the models pattern more or less the same across vowels, there are some vowels for which models are overall good at predicting the intended category, across cue evaluations and across space sizes, e.g., [`r linguisticsdown::cond_cmpl("ɑː")`], [`r linguisticsdown::cond_cmpl("ɑ")`] and [`r linguisticsdown::cond_cmpl("ɵ")`]. Similarly, there are also some vowels for which model performance is particularly low, e.g., [`r linguisticsdown::cond_cmpl("iː")`] and [`r linguisticsdown::cond_cmpl("yː")`]. Of note is also that one of these vowels, [`r linguisticsdown::cond_cmpl("iː")`], does not seem to benefit from normalization. Which vowels will benefit will naturally vary between languages, reflecting the language-specific properties of the vowel space. For instance, [`r linguisticsdown::cond_cmpl("iː")`] is often described as more easily recognized in previous work on other languages. Its recognition accuracy is often attributed to either its absolute location in the space (peripheral vowel), or to the fact that it does not have close competitors [e.g., @Peterson1952; @Kuhl1991; @Polka2003]. Given the density of the Swedish vowel space along the height dimension, vowels such as [`r linguisticsdown::cond_cmpl("iː")`] have, on the contrary, many close competitors, which might explain the performance of the IOs.
+Even though the models pattern more or less the same across vowels, there are some vowels for which models are overall good at predicting the intended category, across cue evaluations and across space sizes, e.g., [`r linguisticsdown::cond_cmpl("ɑː")`], [`r linguisticsdown::cond_cmpl("ɑ")`] and [`r linguisticsdown::cond_cmpl("ɵ")`]. Similarly, there are also some vowels for which model performance is particularly low, e.g., [`r linguisticsdown::cond_cmpl("iː")`] and [`r linguisticsdown::cond_cmpl("yː")`]. When considering only F1 and F2, [`r linguisticsdown::cond_cmpl("iː")`] does not seem to benefit from normalization, but as more cues are included, differences emerges between accounts. For [`r linguisticsdown::cond_cmpl("yː")`], we see an increase in model performance by adding cues, while this seems to decrease difference between no normalization and normalization models. Which vowels will benefit will naturally vary between languages, reflecting the language-specific properties of the vowel space. For instance, [`r linguisticsdown::cond_cmpl("iː")`] is often described as more easily recognized in previous work on other languages. Its recognition accuracy is often attributed to either its absolute location in the space (peripheral vowel), or to the fact that it does not have close competitors [e.g., @Peterson1952; @Kuhl1991; @Polka2003]. Given the density of the Swedish vowel space along the height dimension, vowels such as [`r linguisticsdown::cond_cmpl("iː")`] have, on the contrary, many close competitors, which might explain the performance of the IOs.
 
 (ref:predictions-per-vowel) Per-vowel predicted categorization accuracy of the ideal observers trained on F1 and F2. Predictions for the long (Panel A) and short (Panel B) Central Swedish vowels. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
@@ -1642,22 +1642,22 @@ p.accuracy.io.per.vowel
 
 ```{r, echo=FALSE}
 # run a model assessing the difference in performance between models as a function of the normalization scheme.
-# data.io <- m.io.SwehVd.F1F2 %>%
+# data.io <- m.io.SwehVd.all %>%
 #   unnest(posterior_of_intended_vowel) %>%
 #   # filter down to posterior of intended vowels
 #   filter(IO.Vowel == Intended.Vowel) %>%
 #   mutate(IO.Normalization.Type = factor(IO.Normalization.Type, levels = levels.normalization.plots, labels = labels.normalization))
+
+#Add treatment coding for IO.Normalization.Type
+#contrasts(data.io$IO.Normalization.Type) = contr.treatment(16)
+# # contrasts(data.io$IO.cue_normalization) = cbind(
+# #   "C-CuRE Hz" = c(0, 1, 0, 0, 0, 0, 0),
+# #   "Lobanov Hz" = c(0, 0, 1, 0, 0, 0, 0),
+# #   "Gerstman Hz" = c(0, 0, 0, 1, 0, 0, 0),
+# #   "Nearey1 log" = c(0, 0, 0, 0, 1, 0, 0),
+# #   "Nearey2 log" = c(0, 0, 0, 0, 0, 1, 0),
+# #   "Miller log" = c(0, 0, 0, 0, 0, 0, 1))
 #
-# #Add treatment coding for IO.Normalization.Type
-# contrasts(data.io$IO.Normalization.Type) = contr.treatment(16)
-# # # contrasts(data.io$IO.cue_normalization) = cbind(
-# # #   "C-CuRE Hz" = c(0, 1, 0, 0, 0, 0, 0),
-# # #   "Lobanov Hz" = c(0, 0, 1, 0, 0, 0, 0),
-# # #   "Gerstman Hz" = c(0, 0, 0, 1, 0, 0, 0),
-# # #   "Nearey1 log" = c(0, 0, 0, 0, 1, 0, 0),
-# # #   "Nearey2 log" = c(0, 0, 0, 0, 0, 1, 0),
-# # #   "Miller log" = c(0, 0, 0, 0, 0, 0, 1))
-# #
 # model <- glm(Posterior ~ IO.Normalization.Type, family=gaussian, data = data.io)
 # summary(model)
 ```
@@ -1732,14 +1732,15 @@ cowplot::plot_grid(legend.confusion,
 
 p.confusion.F1F2 %+%
   (m.io.SwehVd.for.plotting %>%
+    filter(Cue_space == "F1-F2", IO.Quantity == "all") %>%
     group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
     summarise_at(vars(Posterior), mean) %>%
     pivot_wider(
       names_from = IO.Normalization.Type,
       values_from = Posterior) %>%
     mutate(
-      Diff_Miller_Lobanov = `Miller (log)` - `Lobanov (Hz)`,
-      Diff_Gerstman_CCUREHz = `Gerstman (Hz)` - `C-CuRE (Hz)`) %>%
+      "Difference Miller-Lobanov" = `Miller (log)` - `Lobanov (Hz)`,
+      "Difference Gerstman-C-CuRE Hz" = `Gerstman (Hz)` - `C-CuRE (Hz)`) %>%
   #   na.omit() %>%
     select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
     pivot_longer(
@@ -1748,7 +1749,7 @@ p.confusion.F1F2 %+%
          values_to = "Difference")) +
     aes(fill = Difference) +
     scale_fill_gradient2("Difference in\nposterior probability") +
-    facet_wrap(~ Comparison, labeller = label_both, nrow = 1) +
+    facet_wrap(~ Comparison, ncol = 1) +
   theme(legend.position = "right")
 ```
 
