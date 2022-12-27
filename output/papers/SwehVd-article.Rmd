@@ -321,7 +321,7 @@ legend <-
             legend.box.just = "top"))
 ```
 
-```{r illustrate-normalization, fig.width=base.width*2.5, fig.height=base.height*3.5+.5, out.width='70%', fig.align='center', fig.cap="(ref:illustrate-normalization)"}
+```{r illustrate-normalization, fig.width=base.width*2.5, fig.height=base.height*3.5+.5, out.width='80%', fig.align='center', fig.cap="(ref:illustrate-normalization)"}
 cowplot::plot_grid(
   legend,
   cowplot::plot_grid(
@@ -1173,7 +1173,8 @@ plot_separability <- function(data) {
   myGplot.defaults(base_size + 2) +
   theme(
     axis.text.x = ggtext::element_markdown(angle = 45, vjust = 1, hjust=1, colour = colors.all.procedures),
-    axis.title.x = element_blank()) +
+    axis.title.x = element_blank(),
+    aspect.ratio = 3/6) +
   guides(color = "none")
 }
 
@@ -1334,7 +1335,7 @@ In line with influential theories of speech perception [e.g., exemplar theory, @
 
 The category prior, $p(category)$, describes the how much the surrounding context favors each category. For Study 2, we assume uniform category priors. Specifically, for IOs trained and tested on the long and short vowels separately, we model categorization as an 11- and 10-alternatives-forced-choice task, respectively, resulting in $p(category) = .091$ for the former and $p(category) = .1$ for the latter. For IOs trained and tested on the entire vowel space, we model categorization as a 21-alternatives-forced-choice task, resulting in $p(category) = .048$.
 
-The likelihood, $p(cues|category)$, describes the distribution of cues for each category. Here, we follow previous work and assume multivariate Gaussian distributions to describe the cue likelihood [e.g., @kronrod2016; @norris-mcqueen2008; @xie2021cognition].^[Humans have perceptual noise. Presumably, there is now some evidence that including such perceptual noise in models provides a better fit against human behaviour [e.g., @tan2022]. Since we are interested in the relative performance of different normalization accounts, it is not apparent to us how the inclusion of noise could change the relative order of the accounts, hence, we did not include it. Additionally, studies that want to include noise would want to consider the fact that perceptual noise, based on the only paper that has set noise [@feldman], is represented in Mel. It is thus also a question of technical feasibility.]<!--AP: check wording in other papers and add refs.--> In terms of representational complexity, this strikes a compromise between exemplar storage [less representationally parsimonious, @johnson1997; @pierrehumbert2001] and cue integration over multiple separate univariate Gaussians [more parsimonious, @toscano-mcmurray2010].
+The likelihood, $p(cues|category)$, describes the distribution of cues for each category. Here, we follow previous work and assume multivariate Gaussian distributions to describe the cue likelihood [e.g., @kronrod2016; @norris-mcqueen2008; @xie2021cognition].^[Humans have perceptual noise [@REF]. Presumably, there is now some evidence that including such perceptual noise in models provides a better fit against human behaviour [e.g., @tan2022]. Since we are interested in the relative performance of different normalization accounts, it is not apparent to us how the inclusion of noise could change the relative order of the accounts, hence, we did not include it. Additionally, studies that want to include noise would want to consider the fact that perceptual noise is represented in Mel, based on the only paper that has empirically set noise [@feldman]. It is thus also a question of technical feasibility.]<!--AP: check wording in other papers and add refs.--> In terms of representational complexity, this strikes a compromise between exemplar storage [less representationally parsimonious, @johnson1997; @pierrehumbert2001] and cue integration over multiple separate univariate Gaussians [more parsimonious, @toscano-mcmurray2010].
 
 Paralleling Study 1, we trained and tested separate ideal observers for each combination of normalization account, cues, and training-test fold. Specifically, we use the exact same cross-validation folds as in Study 1. Each IO was trained on the training portion of the folded unnormalized and normalized data, and subsequently evaluated on the test fold. This means that the parameters of each normalization account (e.g., the cue means in C-CuRE) were set on the training data, and not changed for the test data. This reflects the realities of speech perception: although this is often ignored in evaluations of normalization accounts [e.g., @mcmurray-jongman2011], listeners do not *a priori* know the cue means, standard deviations, etc. of an unfamiliar talker but rather need to incrementally *infer* those statistical properties from the talker's speech input [for discussion, see @xie2022]. An additional advantage of cross-validation is that it gives us an estimate of the uncertainty in model predictions.
 The performance of each IO during test is assessed by calculating the IO's predicted posterior probability of the *intended* category for each test token. This is identical to assuming Luce's choice rule for categorization [@luce1959], as in most models of speech perception and spoken word recognition.
@@ -1574,81 +1575,79 @@ p.accuracy.io.overall
 
 The approach that we have taken here lets us assess vowel-specific effects on the predictions of the IOs. This is however not the main focus of this paper, but might be of interest to other researchers. In SI, we therefore plot both the predicted categorization accuracy per vowel in the different evaluations (see \@ref(sec:accuracy-per-vowel)), as well as confusion matrices of the best and the worst performing IOs (see \@ref(sec:confusion)), to further investigate the beliefs IOs hold about the Swedish vowel space. Here, we briefly mention some of the main general points from these visualizations, beginning with the models' predictions for each vowels separately. For reference, Figure \@ref(fig:predictions-per-vowel) visualizes the predicted categorization accuracy per vowel, by the unnormalized and normalized IO models trained on F1-F2 (plots of models trained on F1-F3, and all five cues are available in (\@ref(sec:accuracy-per-vowel)).
 
-Even though the models pattern more or less the same across vowels, there are some vowels for which models are overall good at predicting the intended category, across cue evaluations and across space sizes, e.g., [`r linguisticsdown::cond_cmpl("ɑː")`], [`r linguisticsdown::cond_cmpl("ɑ")`] and [`r linguisticsdown::cond_cmpl("ɵ")`]. Similarly, there are also some vowels for which model performance is particularly low, e.g., [`r linguisticsdown::cond_cmpl("iː")`] and [`r linguisticsdown::cond_cmpl("yː")`]. When considering only F1 and F2, [`r linguisticsdown::cond_cmpl("iː")`] does not seem to benefit from normalization, but as more cues are included, differences emerges between accounts. For [`r linguisticsdown::cond_cmpl("yː")`], we see an increase in model performance by adding cues, while this seems to decrease difference between no normalization and normalization models. Which vowels will benefit will naturally vary between languages, reflecting the language-specific properties of the vowel space. For instance, [`r linguisticsdown::cond_cmpl("iː")`] is often described as more easily recognized in previous work on other languages. Its recognition accuracy is often attributed to either its absolute location in the space (peripheral vowel), or to the fact that it does not have close competitors [e.g., @Peterson1952; @Kuhl1991; @Polka2003]. Given the density of the Swedish vowel space along the height dimension, vowels such as [`r linguisticsdown::cond_cmpl("iː")`] have, on the contrary, many close competitors, which might explain the performance of the IOs.
+Even though the models pattern more or less the same across vowels, there are some vowels for which models are overall good at predicting the intended category, across cue evaluations and across space sizes, e.g., [`r linguisticsdown::cond_cmpl("ɑː")`], [`r linguisticsdown::cond_cmpl("ɑ")`] and [`r linguisticsdown::cond_cmpl("ɵ")`]. Similarly, there are also some vowels for which model performance is particularly low, e.g., [`r linguisticsdown::cond_cmpl("iː")`] and [`r linguisticsdown::cond_cmpl("yː")`]. When considering only F1 and F2, the benefit of normalization for [`r linguisticsdown::cond_cmpl("iː")`] is barely visible, but as more cues are included, differences emerges between accounts. For [`r linguisticsdown::cond_cmpl("yː")`], the benefit of adding cues to models is larger than for [`r linguisticsdown::cond_cmpl("iː")`], presumably reflecting the importance of F3. However, as more cues are added, the difference between no normalization and normalization models decreases for [`r linguisticsdown::cond_cmpl("yː")`]. Which vowels will benefit from normalization will naturally vary between languages, reflecting the language-specific properties of the vowel space. For instance, [`r linguisticsdown::cond_cmpl("iː")`] is often described as more easily recognized in previous work on other languages. Its recognition accuracy is often attributed to either its absolute location in the space (peripheral vowel), or to the fact that it does not have close competitors [e.g., @Peterson1952; @Kuhl1991; @Polka2003]. Given the density of the Swedish vowel space along the height dimension, vowels such as [`r linguisticsdown::cond_cmpl("iː")`] have, on the contrary, many close competitors, which might explain the performance of the IOs.
 
-(ref:predictions-per-vowel) Per-vowel predicted categorization accuracy of the ideal observers trained on F1 and F2. Predictions for the long (Panel A) and short (Panel B) Central Swedish vowels. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+(ref:predictions-per-vowel) Per-vowel predicted categorization accuracy of the ideal observers trained on all vowels, across the three cue spaces. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
-```{r echo=FALSE}
-# Plot the overall accuracy of the different normalization accounts
-# plot_io_results_per_vowel <- function(data) {
-#   data %>%
-#     # Get the CI over the five folds
-#     { if ("IO.Quantity" %in% names(data)) group_by(., IO.Normalization.Type, IO.Quantity, IO.crossvalidation_group, Intended.Vowel, Cue_space) else group_by(., IO.Normalization.Type, IO.crossvalidation_group, Intended.Vowel, Cue_space) } %>%
-#     summarise(
-#       chance = 1 / n_distinct(Intended.Vowel),
-#       ci = list(enframe(Hmisc::smean.cl.boot(Posterior)))) %>%
-#     unnest(ci) %>%
-#     spread(name, value) %>%
-#     { if ("IO.Quantity" %in% names(data)) group_by(., IO.Normalization.Type, IO.Quantity, Intended.Vowel, Cue_space) else  group_by(., IO.Normalization.Type, Intended.Vowel, Cue_space) } %>%
-#     summarise(
-#       chance = first(chance),
-#       mean_CI_lower = mean(Lower),
-#       mean_CI_upper = mean(Upper),
-#       mean = mean(Mean)) %>%
-#     ggplot() +
-#     geom_pointrange(
-#       aes(x = IO.Normalization.Type,
-#           y = mean,
-#           ymin = mean_CI_lower,
-#           ymax = mean_CI_upper,
-#           color = IO.Normalization.Type),
-#       position = position_dodge2(width = 0.3),
-#       fatten = 2.5) +
-#     geom_hline(aes(yintercept = case_when(IO.Quantity == "long" ~ 1/11,
-#                                           IO.Quantity == "short" ~ 1/10,
-#                                           IO.Quantity == "all" ~ 1/21)), color = "gray", linetype = 2) +
-#     scale_y_continuous("Overall accuracy (of predicting *intended* vowel)", limits = c(0,1))+
-#     scale_colour_manual(
-#       "Normalization \nprocedure of IO",
-#       labels = labels.normalization,
-#       values = colors.all.procedures) +
-#     guides(color = "none") +
-#     theme(axis.text.x = ggtext::element_markdown(angle = 45, vjust = 1, hjust = 1, colour = colors.all.procedures),
-#         axis.title.x = element_blank())
-# }
-# 
-# m.io.SwehVd.for.plotting <- m.io.SwehVd %>%
-#   # Rename IO.Normalization.Type for plotting
-#   mutate(
-#     IO.Normalization.Type =
-#       factor(
-#         plyr::mapvalues(IO.Normalization.Type, levels.normalization.plots, labels.normalization),
-#         levels = labels.normalization)) %>%
-#   unnest(posterior_of_intended_vowel)
-# 
-# p.accuracy.io.per.vowel <- plot_io_results_per_vowel(
-#   m.io.SwehVd.for.plotting %>%
-#     filter(Cue_space == "F1-F2", IO.Quantity %in% c("long", "short"), Intended.Vowel %in% c("[ɵ]", "[a]", "[ɑː]", "[yː]", "[iː]"))) +
-#   facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
+```{r cache.lazy=FALSE}
+#Plot the overall accuracy of the different normalization accounts
+plot_io_results_per_vowel <- function(data) {
+  data %>%
+  # Rename IO.Normalization.Type for plotting
+  mutate(
+    IO.Normalization.Type =
+      factor(
+        plyr::mapvalues(IO.Normalization.Type, levels.normalization.plots, labels.normalization),
+        levels = labels.normalization)) %>%
+    unnest(posterior_of_intended_vowel) %>%
+    # Get the CI over the five folds
+    { if ("IO.Quantity" %in% names(data)) group_by(., IO.Normalization.Type, IO.Quantity, IO.crossvalidation_group, Intended.Vowel, Cue_space) else group_by(., IO.Normalization.Type, IO.crossvalidation_group, Intended.Vowel, Cue_space) } %>%
+    summarise(
+      chance = 1 / n_distinct(Intended.Vowel),
+      ci = list(enframe(Hmisc::smean.cl.boot(Posterior)))) %>%
+    unnest(ci) %>%
+    spread(name, value) %>%
+    { if ("IO.Quantity" %in% names(data)) group_by(., IO.Normalization.Type, IO.Quantity, Intended.Vowel, Cue_space) else  group_by(., IO.Normalization.Type, Intended.Vowel, Cue_space) } %>%
+    summarise(
+      chance = first(chance),
+      mean_CI_lower = mean(Lower),
+      mean_CI_upper = mean(Upper),
+      mean = mean(Mean)) %>%
+    ggplot() +
+    geom_pointrange(
+      aes(x = IO.Normalization.Type,
+          y = mean,
+          ymin = mean_CI_lower,
+          ymax = mean_CI_upper,
+          color = IO.Normalization.Type),
+      position = position_dodge2(width = 0.3),
+      fatten = 2.5) +
+    geom_hline(aes(yintercept = case_when(IO.Quantity == "long" ~ 1/11,
+                                          IO.Quantity == "short" ~ 1/10,
+                                          IO.Quantity == "all" ~ 1/21)), color = "gray", linetype = 2) +
+    scale_y_continuous("Overall accuracy (of predicting *intended* vowel)", limits = c(0,1))+
+    scale_colour_manual(
+      "Normalization \nprocedure of IO",
+      labels = labels.normalization,
+      values = colors.all.procedures) +
+    guides(color = "none") +
+    theme(axis.text.x = ggtext::element_markdown(angle = 45, vjust = 1, hjust = 1, colour = colors.all.procedures),
+        axis.title.x = element_blank())
+}
+
+p.accuracy.io.per.vowel <- plot_io_results_per_vowel(
+  m.io.SwehVd %>% nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[ɵ]", "[a]", "[ɑː]", "[yː]", "[iː]")) %>%
+    filter(IO.Quantity == "all")) +
+  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
 ```
 
 \begin{landscape}
 
-```{r predictions-per-vowel, fig.width=base.width * 3.5, fig.height=base.height * 1.5, fig.align='center', fig.cap="(ref:predictions-per-vowel)"}
-#p.accuracy.io.per.vowel
+```{r predictions-per-vowel, fig.width=base.width * 4.5, fig.height=base.height * 3.5, fig.align='center', fig.cap="(ref:predictions-per-vowel)"}
+p.accuracy.io.per.vowel
 ```
 \end{landscape}
 
 ```{r, echo=FALSE}
 # run a model assessing the difference in performance between models as a function of the normalization scheme.
-# data.io <- m.io.SwehVd.all %>%
+# data.io <- m.io.SwehVd.F1F2 %>%
 #   unnest(posterior_of_intended_vowel) %>%
 #   # filter down to posterior of intended vowels
 #   filter(IO.Vowel == Intended.Vowel) %>%
 #   mutate(IO.Normalization.Type = factor(IO.Normalization.Type, levels = levels.normalization.plots, labels = labels.normalization))
 
 #Add treatment coding for IO.Normalization.Type
-#contrasts(data.io$IO.Normalization.Type) = contr.treatment(16)
+# contrasts(data.io$IO.Normalization.Type) = contr.treatment(16)
 # # contrasts(data.io$IO.cue_normalization) = cbind(
 # #   "C-CuRE Hz" = c(0, 1, 0, 0, 0, 0, 0),
 # #   "Lobanov Hz" = c(0, 0, 1, 0, 0, 0, 0),
@@ -1661,9 +1660,9 @@ Even though the models pattern more or less the same across vowels, there are so
 # summary(model)
 ```
 
-To further explore effects of neighbouring categories, and which categories are more easily confused by the IOs and with what, Figure \@ref(fig:confusion-matrix) displays the best and worst performing IOs' predictions about the entire Swedish vowel space, under the assumptions of F1F2 (Figure \@ref(fig:confusion-matrix), **Panel A**), and F0-F3 and duration (Figure \@ref(fig:confusion-matrix), **Panel B**), as cues (see \@ref(sec:confusion) for confusion matrices of all evaluations). Three general observations can be made. (1) When there is high competition from many close neighbours, models are more inclined to confuse categories with one of their neighbours. This is especially evident for the overlapping high vowels, but also for the allophones to [`r linguisticsdown::cond_cmpl("ɛ")`] and [`r linguisticsdown::cond_cmpl("ø")`]. (2) Given that the closest neighbour is not necessarily the category's short/long counterpart, it is not primarily the case that quantity distinctions are the cause of models' confusion. (3) As more information is given the models, confusability declines substantially (Figure \@ref(fig:confusion-matrix), Panel B). When F3 and duration are included, confusability among some of the high vowels is reduced, and no long-short quantity confusions remain.
+To further explore effects of neighbouring categories, and which categories are more easily confused by the IOs and with what, Figure \@ref(fig:confusion-matrix) displays the best and worst performing IOs' predictions about the entire Swedish vowel space, under the assumptions of F1F2, and F0-F3 and duration as cues (see \@ref(sec:confusion) for confusion matrices of all evaluations). Three general observations can be made from Figure \@ref(fig:confusion-matrix). When there is high competition from many close neighbours, models are more inclined to confuse categories with one of their neighbours. This is especially evident for the overlapping high vowels, but also for the allophones to [`r linguisticsdown::cond_cmpl("ɛ")`] and [`r linguisticsdown::cond_cmpl("ø")`]. Given that the closest neighbour is not necessarily the category's short/long counterpart, it is not primarily the case that quantity distinctions are the cause of models' confusion. As more information is given the models, confusability declines substantially. When F3 and duration are included, confusability among the high vowels is reduced, and no long-short quantity confusions remain.
 
-In sum, these results suggest that confusability seems to primarily be driven by the number of close, or overlapping, neighbouring categories. As models presumably become more human-like, confusability decreases.
+In sum, these results suggest that confusability seems to primarily be driven by the number of close, or overlapping, neighbouring categories. As models presumably become more human-like, confusability decreases. The vowel-specific effects presented in this sub-section, follow the general pattern found in the overall results.
 
 ```{r}
 plot_io_confusion <- function(
@@ -1691,67 +1690,87 @@ plot_io_confusion <- function(
           axis.title.y = element_blank())
 }
 
-p.confusion.F1F2 <- plot_io_confusion(
-  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F2", IO.Quantity == "all"),
+p.confusion.all.F1F2 <- plot_io_confusion(
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("SyrdalGopal_Bark", "Lobanov_Hz"), Cue_space == "F1-F2", IO.Quantity == "all"),
                          cols = levels.vowel.IPA.swe) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("SyrdalGopal (bark)", "Lobanov (Hz)"))) + theme(legend.position="none")
 
-p.confusion.all <- plot_io_confusion(
+p.confusion.all.all <- plot_io_confusion(
   m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Gerstman_Hz", "CCuRE_Hz"), Cue_space == "F0-F3, duration", IO.Quantity == "all"),
                          cols = levels.vowel.IPA.swe) +
     facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Gerstman (Hz)", "C-CuRE (Hz)")))
 
-legend.confusion <- cowplot::get_legend(p.confusion.all +
+legend.confusion <- cowplot::get_legend(p.confusion.all.all +
   guides(fill = guide_legend(nrow = 1, byrow = TRUE)))
 ```
 (ref:confusion-matrix) Confusion matrices for the worst (**left column**) and best (**right column**) performing ideal observers in predicting all 21 Swedish vowels, under different assumptions about the relevant cues: F1-F2, and F0-F3 and vowel duration. Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel.
 ```{r confusion-matrix, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, out.height='70%', fig.align='center', fig.cap="(ref:confusion-matrix)"}
 cowplot::plot_grid(legend.confusion,
-  cowplot::plot_grid(p.confusion.F1F2, p.confusion.all + theme(legend.position = "none"), align = "hv", axis = "btlr", labels = c("A", "B"), ncol = 1),
+  cowplot::plot_grid(p.confusion.all.F1F2, p.confusion.all.all + theme(legend.position = "none"), align = "hv", axis = "btlr", ncol = 1),
     nrow = 2, rel_heights = c(.08,1))
 ```
 
 ```{r}
-# Generate dataframe with difference in posteriors between talker-independent and talker-specific models
-# m.io.SwehVd.diff <-
-#   m.io.SwehVd.for.plotting %>%
-#     filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F2", IO.Quantity == "all") %>%
-#     pivot_longer(
-#       cols = cols,
-#       values_to = "Posterior",
-#       names_to = "IO.Vowel") %>%
-#     filter(IO.Vowel == Vowel) %>%
-#   select(c(IO.Quantity, Intended.Vowel, IO.Normalization.Type, IO.Vowel, Posterior, F1, F2)) %>%
-#   pivot_wider(
-#     names_from = c(IO.Quantity, IO.Normalization.Type),
-#     values_from = Posterior) %>%
-#   mutate(
-#     miller_IO_Advantage.Probability = Miller - Lobanov,
-#     lobanov_IO_Advantage.Probability = Lobanov - Miller)
+# Plot a difference matrix, of differences in posteriors between worst and best performing models
+p.diff.F1F2 <- p.confusion.all.F1F2 %+%
+  (m.io.SwehVd %>%
+    unnest(posterior_of_all_vowels) %>%
+    pivot_longer(
+    cols = levels.vowel.IPA.swe,
+    values_to = "Posterior",
+    names_to = "IO.Vowel") %>%
+    filter(Cue_space == "F1-F2", IO.Quantity == "all") %>%
+    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
+    summarise_at(vars(Posterior), mean) %>%
+    pivot_wider(
+      names_from = IO.Normalization.Type,
+      values_from = Posterior) %>%
+    mutate(
+      "Difference Lobanov (Hz) - SyrdalGopal (Bark)" = Lobanov_Hz - SyrdalGopal_Bark) %>%
+    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
+    pivot_longer(
+         cols = starts_with("Diff"),
+         names_to = "Comparison",
+         values_to = "Difference")) +
+    aes(fill = Difference) +
+    scale_fill_gradient2("Difference in\nposterior probability", limits = c(-.2,.25), breaks = seq(-.2, .25, .08)) +
+    facet_wrap(~ Comparison, ncol = 1)
 
-# p.confusion.F1F2 %+%
-#   (m.io.SwehVd.for.plotting %>%
-#     filter(Cue_space == "F1-F2", IO.Quantity == "all") %>%
-#     group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
-#     summarise_at(vars(Posterior), mean) %>%
-#     pivot_wider(
-#       names_from = IO.Normalization.Type,
-#       values_from = Posterior) %>%
-#     mutate(
-#       "Difference Miller-Lobanov" = `Miller (log)` - `Lobanov (Hz)`,
-#       "Difference Gerstman-C-CuRE Hz" = `Gerstman (Hz)` - `C-CuRE (Hz)`) %>%
-#   #   na.omit() %>%
-#     select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
-#     pivot_longer(
-#          cols = starts_with("Diff"),
-#          names_to = "Comparison",
-#          values_to = "Difference")) +
-#     aes(fill = Difference) +
-#     scale_fill_gradient2("Difference in\nposterior probability") +
-#     facet_wrap(~ Comparison, ncol = 1) +
-#   theme(legend.position = "right")
+p.diff.all <- p.confusion.all.all %+%
+  (m.io.SwehVd %>%
+    unnest(posterior_of_all_vowels) %>%
+    pivot_longer(
+    cols = levels.vowel.IPA.swe,
+    values_to = "Posterior",
+    names_to = "IO.Vowel") %>%
+    filter(Cue_space == "F0-F3, duration", IO.Quantity == "all") %>%
+    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
+    summarise_at(vars(Posterior), mean) %>%
+    pivot_wider(
+      names_from = IO.Normalization.Type,
+      values_from = Posterior) %>%
+    mutate(
+      "Difference C-CuRE (Hz) - Gerstman (Hz)" = CCuRE_Hz - Gerstman_Hz) %>%
+    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
+    pivot_longer(
+         cols = starts_with("Diff"),
+         names_to = "Comparison",
+         values_to = "Difference")) +
+    aes(fill = Difference) +
+    scale_fill_gradient2("Difference in\nposterior probability", limits = c(-.2,.25), breaks = seq(-.2, .25, .08)) +
+    facet_wrap(~ Comparison, ncol = 1) +
+  theme(legend.position = "top")
+
+legend.diff <- cowplot::get_legend(p.diff.all +
+  guides(fill = guide_legend(nrow = 1, byrow = TRUE)))
 ```
+(ref:diff-matrix) Difference matrices illustrating the differences in predictions between the best and the worst performing ideal observers in predicting all 21 Swedish vowels, under different assumptions about the relevant cues: F1-F2 (**panel A**), and F0-F3 and vowel duration (**panel B**). Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the difference in the posterior probability of the models predicting the intended vowel. More **purple** indicates an increase in posterior probability for the former IO over the latter IO, more **red** indicates an advantage for the latter IO over the former.
 
+```{r diff-matrix, fig.width=base.width*3.5, fig.height=base.height*2, fig.align='center', fig.cap="(ref:diff-matrix)"}
+cowplot::plot_grid(legend.diff,
+  cowplot::plot_grid(p.diff.F1F2, p.diff.all + theme(legend.position = "none"), align = "hv", axis = "btlr", ncol = 2, labels = c("A", "B")),
+    nrow = 2, rel_heights = c(.08,1))
+```
 
 # General discussion {#sec:discussion}
 
@@ -2064,62 +2083,53 @@ p.matrix.cues %+%
 
 ## Per-vowel categorization accuracy of models trained on long and short vowels separately {#sec:accuracy-per-vowel}
 
-(ref:predictions-per-vowel-F1F3) Per-vowel predicted categorization accuracy of the ideal observers trained on F1-F3. Predictions for the long (Panel A) and short (Panel B) Central Swedish vowels. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+(ref:predictions-per-vowel-long) Per-vowel predicted categorization accuracy of the ideal observers trained on the long vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
 ```{r}
-# p.accuracy.io.F1F3_long <- plot_io_results_per_vowel(
-#   m.io.SwehVd.F1F3_by_quantity %>% filter(IO.Quantity == "long")) +
-#   facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.long))
-# p.accuracy.io.F1F3_short <- plot_io_results_per_vowel(
-#   m.io.SwehVd.F1F3_by_quantity %>% filter(IO.Quantity == "short")) +
-#   facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.short))
-# p.accuracy.io.all_long <- plot_io_results_per_vowel(
-#   m.io.SwehVd.all_by_quantity %>% filter(IO.Quantity == "long")) +
-#   facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.long))
-# p.accuracy.io.all_short <- plot_io_results_per_vowel(
-#   m.io.SwehVd.all_by_quantity %>% filter(IO.Quantity == "short")) +
-#   facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe.short))
+p.accuracy.io.per.vowel.long <- plot_io_results_per_vowel(
+  m.io.SwehVd %>%
+    filter(IO.Quantity == "long")) +
+  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
+p.accuracy.io.per.vowel.short <- plot_io_results_per_vowel(
+  m.io.SwehVd %>%
+    filter(IO.Quantity == "short")) +
+  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
+p.accuracy.io.per.vowel.all <- plot_io_results_per_vowel(
+  m.io.SwehVd %>%
+    filter(IO.Quantity == "all")) +
+  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
 ```
 \begin{landscape}
 
-```{r predictions-per-vowel-F1F3, fig.width=base.width * 5 + 5, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:predictions-per-vowel-F1F3)"}
-# cowplot::plot_grid(
-#   p.accuracy.io.F1F3_long, p.accuracy.io.F1F3_short, ncol = 2, align = "hv", axis = "btlr", labels = c("A", "B"), nrow = 1)
-```
-\end{landscape}
-
-(ref:predictions-per-vowel-all) Per-vowel predicted categorization accuracy of the ideal observers trained on all five cues. Predictions for the long (Panel A) and short (Panel B) Central Swedish vowels. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
-
-\begin{landscape}
-
-```{r predictions-per-vowel-all, fig.width=base.width * 5 + 5, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:predictions-per-vowel-all)"}
-# cowplot::plot_grid(
-#   p.accuracy.io.all_long, p.accuracy.io.all_short, ncol = 2, align = "hv", axis = "btlr", labels = c("A", "B"), nrow = 1)
+```{r predictions-per-vowel-long, fig.width=base.width * 6, fig.height=base.height * 2.5, fig.align='center', fig.cap="(ref:predictions-per-vowel-long)"}
+p.accuracy.io.per.vowel.long
 ```
 \end{landscape}
 
-(ref:predictions-per-vowel-all-all) Per-vowel predicted categorization accuracy of the ideal observers trained on all vowels. Predictions for the vowels under the assumption of F1-F3 as cues (Panel A) and under the assumption of all five cues (Panel B). Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+(ref:predictions-per-vowel-short) Per-vowel predicted categorization accuracy of the ideal observers trained on the short vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
 \begin{landscape}
 
-```{r predictions-per-vowel-all-all, fig.width=base.width * 5 + 5, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:predictions-per-vowel-all-all)"}
-# p.accuracy.io.F1F3 <- plot_io_results_per_vowel(
-#   m.io.SwehVd.F1F3) +
-#   facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
-# p.accuracy.io.all <- plot_io_results_per_vowel(
-#   m.io.SwehVd.all) +
-#   facet_wrap(~ factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
+```{r predictions-per-vowel-short, fig.width=base.width * 6, fig.height=base.height * 2.5, fig.align='center', fig.cap="(ref:predictions-per-vowel-short)"}
+p.accuracy.io.per.vowel.short
+```
+\end{landscape}
+
+(ref:predictions-per-vowel-all) Per-vowel predicted categorization accuracy of the ideal observers trained on all vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+
+\begin{landscape}
+
+```{r predictions-per-vowel-all, fig.width=base.width * 7, fig.height=base.height * 2, fig.align='center', fig.cap="(ref:predictions-per-vowel-all)"}
+p.accuracy.io.per.vowel.all
 ```
 
 \end{landscape}
 
 
 ## Confusion matrices of ideal observers {#sec:confusion}
-We plot confusion matrices of the worst and best performing IOs trained on the long, short or all Swedish vowels, under the different assumptions about the relevant cues. Figure \@ref(fig:confusion-matrix-long) displays the worst (left column) and best (right column) performing models' predictions for each of the long vowels, under different assumptions about the relevant cues. Figure \@ref(fig:confusion-matrix-short) displays the worst (left column) and best (right column) performing models' predictions for each of the short vowels, and finally, Figure \@ref(fig:confusion-matrix-allVowels) displays the worst (left column) and best (right column) performing models' predictions for all of the Swedish vowels.
+We plot confusion matrices of the worst and best performing IOs trained on the long, short or all Swedish vowels, under the different assumptions about the relevant cues. As expected, the worse performing models have more competitors for each intended vowel, that is, the models are more confused about the underlying category. Overall, categories are most often confused with their nearest neighbours. This becomes evident in areas with substantial category overlap, such as in the center of the vowel space, and among the high vowels, where, for some of the categories and some of the models, the neighbouring categories are selected as often as the actual intended category (see e.g., model performance for [`r linguisticsdown::cond_cmpl("iː")`] and [`r linguisticsdown::cond_cmpl("yː")`] in Figures \@ref(fig:confusion-matrix-long) and \@ref(fig:confusion-matrix-allVowels). These vowels, however, become less confusable as F3 is included as cue, which might support previous perceptual evidence, suggesting that F3 is needed for distinguishing the Central Swedish high vowels [e.g., @fujimura1967]. Models also seem to be more uncertain about the intended category for the different allophones to [`r linguisticsdown::cond_cmpl("ɛ")`] and [`r linguisticsdown::cond_cmpl("ø")`].
 
-As expected, the worse performing models have more competitors for each intended vowel, that is, the models are more confused about the underlying category. Overall, categories are most often confused with their nearest neighbours. This becomes evident in areas with substantial category overlap, such as among the high vowels, where, for some of the categories and some of the models, the neighbouring categories are selected as often as the actual intended category (see e.g., model performance for [`r linguisticsdown::cond_cmpl("ʉː")`], [`r linguisticsdown::cond_cmpl("iː")`], [`r linguisticsdown::cond_cmpl("oː")`], and [`r linguisticsdown::cond_cmpl("yː")`]. These vowels, however, become less confusable as F3 is included as cue, which might support previous perceptual evidence, suggesting that F3 is needed for distinguishing the Central Swedish high vowels [e.g., @fujimura1967]. Models also seem to be more uncertain about the intended category for the different allophones to [`r linguisticsdown::cond_cmpl("ɛ")`] and [`r linguisticsdown::cond_cmpl("ø")`].
-
-Since models most often confuse a category with one of its nearest neighbours, it is not necessarily the case that a long vowel is confused with its short counterpart, or vice versa (see Figure \@ref(fig:confusion-matrix-allVowels)). In fact, in most cases, models seem to often *not* confuse a long or short vowel with its counterpart. For instance, [`r linguisticsdown::cond_cmpl("ʉː")`], [`r linguisticsdown::cond_cmpl("aː")`], and [`r linguisticsdown::cond_cmpl("yː")`] are never confused with their short versions, not even for the worst performing models. When duration is included as cue (panel C, Figure \@ref(fig:confusion-matrix-allVowels)), only one long-short confusion remains in the worst performing model (between [`r linguisticsdown::cond_cmpl("uː")`] and [`r linguisticsdown::cond_cmpl("ʊ")`]). This might suggest that even if duration is cue to quantity distinctions between long and short vowels in Central Swedish, vowel recognition most likely relies on more cues.
+Since models most often confuse a category with one of its nearest neighbours, it is not necessarily the case that a long vowel is confused with its short counterpart, or vice versa (see Figure \@ref(fig:confusion-matrix-allVowels)). In fact, some vowels are never confused with their long or short counterpart, e.g., [`r linguisticsdown::cond_cmpl("ʉː")`], [`r linguisticsdown::cond_cmpl("aː")`], and [`r linguisticsdown::cond_cmpl("yː")`]. Nevertheless, when duration is included as cue (panel C, Figure \@ref(fig:confusion-matrix-allVowels)), no long-short confusion remains, which points to the importance of duration for quantity distinctions between long and short vowels in Central Swedish.
 
 Of note is also that some categories are rarely confused with other categories, across evaluations. This is the case for [`r linguisticsdown::cond_cmpl("aː")`] and [`r linguisticsdown::cond_cmpl("eː")`]. What might be driving this is not entirely evident. [`r linguisticsdown::cond_cmpl("aː")`] is fairly isolated in the mid-right part of the space(see Figure \@ref(fig:swe-vowels)), and not particularly overlapping other categories. [`r linguisticsdown::cond_cmpl("eː")`], however, is located in the bottom part of the dense high front part of the space, and quite overlapping with other categories. Given the crowdedness of that part, the [`r linguisticsdown::cond_cmpl("eː")`] might be considered relatively isolated in comparison to the other neighbouring, and substantially overlapping, categories. The relatively low confusability of that category might thus be an effect of the density of the space and the number of competing categories affecting each other. <!--AP: is this correct? could probably be worded differently-->
 
@@ -2151,32 +2161,32 @@ p.confusion.short.all <- plot_io_confusion(
                          cols = levels.vowel.IPA.swe.short) +
     facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Gerstman (Hz)", "Lobanov (Hz)"))) + theme(legend.position="none")
 
-# p.confusion.all.F1F3 <- plot_io_confusion(
-#     m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F3", IO.Quantity == "all"), cols = levels.vowel.IPA.swe) + facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
-# p.confusion.all.all <- plot_io_confusion(
-#     m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F3", IO.Quantity == "all"), cols = levels.vowel.IPA.swe) + facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
+p.confusion.all.F1F3 <- plot_io_confusion(
+    m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F3", IO.Quantity == "all"), 
+    cols = levels.vowel.IPA.swe) + 
+  facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
 ```
 
-(ref:confusion-matrix-long) Confusion matrices for the worst (left) and best (right) performing ideal observers in predicting the **long** Swedish vowels, under different assumptions about the relevant cues: F1-F2 (panel A), F1-F3 (panel B), and F0-F3 and vowel duration (panel C). Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel.
+(ref:confusion-matrix-long) Confusion matrices for the worst (**left**) and best (**right**) performing ideal observers in predicting the **long** Swedish vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel.
 
-```{r confusion-matrix-long, fig.width=base.width*3, fig.height=base.height*4, fig.align='center', fig.cap="(ref:confusion-matrix-long)"}
+```{r confusion-matrix-long, fig.width=base.width*3, fig.height=base.height*4.5, fig.align='center', fig.cap="(ref:confusion-matrix-long)"}
 cowplot::plot_grid(legend.confusion,
-  cowplot::plot_grid(p.confusion.long.F1F2, p.confusion.long.F1F3, p.confusion.long.all + theme(legend.position = "none"), align = "hv", axis = "btlr", labels = c("A", "B", "C"), ncol = 1),
+  cowplot::plot_grid(p.confusion.long.F1F2, p.confusion.long.F1F3, p.confusion.long.all + theme(legend.position = "none"), align = "hv", axis = "btlr", ncol = 1),
     nrow = 2, rel_heights = c(.08,1))
 ```
 
-(ref:confusion-matrix-short) Confusion matrices for the worst (left) and best (right) performing ideal observers in predicting the **short** Swedish vowels, under different assumptions about the relevant cues: F1-F2 (panel A), F1-F3 (panel B), and F0-F3 and vowel duration (panel C). Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel.
+(ref:confusion-matrix-short) Confusion matrices for the worst (**left**) and best (**right**) performing ideal observers in predicting the **short** Swedish vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel.
 
-```{r confusion-matrix-short, fig.width=base.width*3, fig.height=base.height*4, fig.align='center', fig.cap="(ref:confusion-matrix-short)"}
+```{r confusion-matrix-short, fig.width=base.width*3, fig.height=base.height*4.5, fig.align='center', fig.cap="(ref:confusion-matrix-short)"}
 cowplot::plot_grid(legend.confusion,
-  cowplot::plot_grid(p.confusion.short.F1F2, p.confusion.short.F1F3, p.confusion.short.all + theme(legend.position = "none"), align = "hv", axis = "btlr", labels = c("A", "B", "C"), ncol = 1),
+  cowplot::plot_grid(p.confusion.short.F1F2, p.confusion.short.F1F3, p.confusion.short.all + theme(legend.position = "none"), align = "hv", axis = "btlr", ncol = 1),
     nrow = 2, rel_heights = c(.08,1))
 ```
 
-(ref:confusion-matrix-allVowels) Confusion matrices for the worst (left) and best (right) performing ideal observers in predicting **all 21** Swedish vowels, under different assumptions about the relevant cues: F1-F2 (panel A), F1-F3 (panel B), and F0-F3 and vowel duration (panel C). Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel.
+(ref:confusion-matrix-allVowels) Confusion matrices for the worst (**left**) and best (**right**) performing ideal observers in predicting **all 21** Swedish vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel.
 
 ```{r confusion-matrix-allVowels, fig.width=base.width*3, fig.height=base.height*4.5, fig.align='center', fig.cap="(ref:confusion-matrix-allVowels)"}
-# cowplot::plot_grid(legend.confusion,
-#   cowplot::plot_grid(p.confusion.all.F1F2, p.confusion.all.F1F3, p.confusion.all.all + theme(legend.position = "none"), align = "hv", axis = "btlr", labels = c("A", "B", "C"), ncol = 1),
-#     nrow = 2, rel_heights = c(.08,1))
+cowplot::plot_grid(legend.confusion,
+  cowplot::plot_grid(p.confusion.all.F1F2, p.confusion.all.F1F3, p.confusion.all.all + theme(legend.position = "none"), align = "hv", axis = "btlr", ncol = 1),
+    nrow = 2, rel_heights = c(.08,1))
 ```
