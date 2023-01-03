@@ -152,10 +152,14 @@ base_size = 10
 
   * Update TO DO regularly
   * Lift out corpus description and adjust paper accordingly.
+  * Work on previous-research-table for Study II.
   * Add REFS 
     * on noise (in footnote)
     * on listener integrating cues beyond F1 and F2
     * that SyrdalGopal is particularly successful in separating vowels that differ in lip rounding
+    * on Bayesian IOs????
+    * on C-CuRE vowels
+    * recognition accuracy improvement when including F3
   * FIGs
     * to work on while in review: fig 10, color labels, or only label a few vowels (or none).
   * Have all tables be the same size
@@ -1024,7 +1028,7 @@ get_SI <-
   rename_with(~ gsub("_within_SS", "", .x)) %>%
   left_join(
     d.SwehVd.forStudy.long %>%
-      # Get overall mean within each normalization approach ----REGARDLESS OF TRAINING OR TEST DATA???????--------------
+      # Get overall mean within each normalization approach
       group_by(Normalization.Type, crossvalidation_group) %>%
       mutate(
         across(
@@ -1314,24 +1318,11 @@ The likelihood, $p(cues|category)$, describes the distribution of cues for each 
 Paralleling Study 1, we trained and tested separate ideal observers for each combination of normalization account, cues, and training-test fold. Specifically, we use the exact same cross-validation folds as in Study 1. Each IO was trained on the training portion of the folded unnormalized and normalized data, and subsequently evaluated on the held-out test fold. This means that the parameters of each normalization account (e.g., the cue means in C-CuRE) and the resulting category parameters (the $\mu_c$s and $\Sigma_c$s for all categories) were set on the training data, and not changed for the test data. This reflects the realities of speech perception: although this is often ignored in evaluations of normalization accounts [e.g., @mcmurray-jongman2011], listeners do not *a priori* know the cue means, cue variance, etc. of an unfamiliar talker. Rather, listeners need to incrementally *infer* those statistical properties from the talker's speech input [for discussion and a model, see @xie2022]. An additional advantage of cross-validation is that it gives us an estimate of the uncertainty about the model predictions. The performance of each IO during test is assessed by calculating the IO's predicted posterior probability of the *intended* category for each test token. This is identical to assuming Luce's choice rule for categorization [@luce1959], as in most models of speech perception and spoken word recognition.
 
 ### Advantages compared to separability index and similar measures of category variability
-By using a categorization model to estimate the consequence of normalization for perception, we avoid the pitfalls of the separability index discussed in Study 1. First, by using the density of an acoustic input under the multivariate distribution of all cues, the ideal observers we employ capture the *joint* effect of all cues. This captures that an input can be an improbable instance of a category based on one of its cue values but a probably instance given the values for the other cues. In particular, since we assume multivariate Gaussian likelihoods, the model can account for category-specific covariances between cues. In the presence of strong correlations between cues, an acoustic input can be an improbable instance of a category based on the marginal distribution of each cue---i.e., if each cue is considered separately---but be a highly probable instance of that category if considered relative to the joint distribution of all cues (and vice versa). <!-- TO DO: it might be good to have a little figure illustrating this? -->
+By using a categorization model to estimate the consequence of normalization for perception, we avoid the pitfalls of the separability index discussed in Study 1. First, by using the density of an acoustic input under the multivariate distribution of all cues, the ideal observers we employ capture the *joint* effect of all cues. This captures that an input can be an improbable instance of a category based on one of its cue values but a probable instance given the values for the other cues. In particular, since we assume multivariate Gaussian likelihoods, the model can account for category-specific covariances between cues. In the presence of strong correlations between cues, an acoustic input can be an improbable instance of a category based on the marginal distribution of each cue---i.e., if each cue is considered separately---but be a highly probable instance of that category if considered relative to the joint distribution of all cues (and vice versa). <!-- TO DO: it might be good to have a little figure illustrating this? -->
 
 Second, by normalizing the support for a category by the support for all other categories (the denominator in Equations \@ref(eq:Bayes-rule) and \@ref(eq:Bayes-rule-normal)), ideal observers consider the perceptual consequences of an acoustic input *relative to all possible categories*. This means that a token that is relatively far away from its category mean does not necessarily result in low recognition accuracy. Rather, low recognition accuracy is only predicted if the relative position of the acoustic input in the acoustic-phonetic space makes it more probably that the input originated from another (unintended) category. This parallels human perception: e.g., while a /d/ with hyper-articulated voice onset timing is atypical, human listeners are as likely or more likely to recognize it as a /d/ (rather than a /t/), compared to a casually articulated /d/, presumably *because the observed phonetics would be even less likely to occur if the talker intended a /t/*. Measures of between- vs. within-category variability like the separability index in Study 1, however, have no means of directly capturing this.
 
 Finally, when an acoustic input is indeed improbable under its intended category relative to other unintended categories, the ideal observer model will correctly predict low recognition accuracy. Unlike the separability index in Study 1, however, the ideal observer will not disproportionally weight this single observation: it will simply be one of many observations---much like human speech perception does not collapse simply because one word (or one vowel) has been misunderstood. As we show next, these differences between the approaches taken in Studies 1 and 2 can, and sometimes do, cause differences in results.
-
-## Results {#sec:resultsII}
-Figure \@ref(fig:predictions) visualizes the unnormalized and normalized models' predictions for perception of Stockholm Swedish vowels, under different assumptions about the relevant cues. The first observation is that---unlike for the separability index in Study 1---the relative performance of the different normalization accounts within each panel is remarkably constant across all panels (compare to Figure \@ref(fig:separability)). Regardless of the combination of cues or the vowel types considered (long, short, both), transformation into a perceptual space does little to improve recognition accuracy, compared to unnormalized cues.  Intrinsic normalization, too, does not improve recognition accuracy. And, unlike in Study 1, this result holds even when F3 is included as a cue. This replicates previous work on Dutch [@adank2004] but conflicts with some evaluations of English [e.g., @syrda1985]. @adank2004 discussed whether the discrepancy in results might be attributed to implementations of the Bark-transformation, or to what @syrda1985 describe as language-specificity of the second dimension of @Syrdal1986 normalization. The present results would seem to confirm this vulnerability of intrinsic normalizations. <!-- TO DO: Starting at @adank2004 discussed, this feels to me more like sth that should go into the discussion. Perhaps we do the same with any replication statements? (but at least these more complicated ones) -->
-Extrinsic normalization, however, tends to substantially improves recognition accuracy (with the exception of Gerstman normalization). Depending on the specific combination of cues and the types of vowels considered, the best-performing normalization model increases recognition accuracy by between XX.X% (from XX.X% for unnormalized cues) to XX.X% (from XX.X%). The benefit of extrinsic normalization models, as well as the lower performance of perceptual transformations, replicates previous findings on other languages [e.g., @adank2004; @barreda2018a; @escudero2007].
-
-We also see that all models---even for unnormalized cues---perform substantially above chance. When long and short vowels are considered separately, the best ideal observers achieve recognition accuracies of XX.X% or long vowels and XX.X% for short vowels. For reference, in a recent perception experiment we conducted on the eight monophthongs of US English, L1-US English listeners achieved XX.X% accuracy in categorizing isolated hVd words [chance = 12.5%, @persson-jaeger2023]. The ideal observers for the Swedish vowel system thus achieve performance that is comparable to that of human listeners, at least when cues are normalized.
-
-Looking across columns of Figure \@ref(fig:predictions), short vowels are always recognized with higher accuracy compared to long vowels. This increase in performance cannot be explained by the small increase in the chance baseline alone (10% for the 10 short vowels, compared to 9.1% for the 11 long vowels). It conceptually replicates a initially surprising result of Study 1: while short vowels are more densely clustered in the center of the vowel space, and thus occupy a smaller perceptual space, they also exhibit less variability. Overall, this makes those vowels *easier* to recognize. 
-
-When long and short vowels are categorized together, performance of the ideal observers is comparatively poor unless vowel duration is included as a cue. This is expected given that vowel duration is the primary cue to vowel quantity. Of interest, however, is that even the inclusion of only F3 (second row) yields a substantial improvement in recognition accuracy, in line with @REF. Remarkably, once vowel duration is included, the best-performing ideal observer achieves 75% recognition accuracy across the 21 long and short vowels (compared to chance = 4.8%).
-
-<!-- TO DO: here and above: is it really 21 or is it 20 given that you excluded on vowel? -->
-Finally, there are also some more subtle differences across the rows and columns of Figure \@ref(fig:predictions). Of theoretical interest is that, Lobanov normalization performs best for all vowel types if only F1 and F2 are considered. However, this advantages decreases when additional cues are considered.^[Indeed, when all five cues are considered for the categorization of all 21 short and long vowels, simple centering appears to perform numerically better than Lobanov normalization. This is an artifact of our decision to only center vowel duration---the primary cue to vowel quantity---for the C-CuRE model (paralleling Study 1). Separate modeling not shown here confirmed that Lobanov normalizaton achieves the same recognition accuracy as the C-CuRE models when duration is centered and combined with Lobanov-normalized formants.<!--TO DO: test and confirm or change?-->] 
 
 ```{r}
 train_io <- function(cues, data, group = NULL, no_noise = T, n.category = length(unique(data$category)), verbose = F) {
@@ -1381,7 +1372,6 @@ train_io <- function(cues, data, group = NULL, no_noise = T, n.category = length
 }
 ```
 
-
 ```{r}
 make_IOs_and_add_test_data <- function(data, cues, separate_by = NULL) {
   separate_by <- c(separate_by, "Normalization.Type", "crossvalidation_group")
@@ -1393,7 +1383,7 @@ make_IOs_and_add_test_data <- function(data, cues, separate_by = NULL) {
     .f = ~ train_io(
       data = .x,
       cues = cues,
-      no_noise = T) %>% # <---- TO DO: Anna, why no noise? Remind me?
+      no_noise = T) %>%
       nest(io = everything()) %>%
       bind_cols(.y)) %>%
     reduce(bind_rows) %>%
@@ -1502,8 +1492,35 @@ m.io.SwehVd <- rbind(
     mutate(Cue_space = "F0-F3, duration")) %>%
   mutate(Cue_space = factor(Cue_space, levels = c("F1-F2", "F1-F3", "F0-F3, duration")))
 ```
+```{r}
+# Accuracies compared to the intended vowel
+d.max.acc.toINTEND <- m.io.SwehVd %>%
+  unnest(posterior_of_intended_vowel) %>%
+  group_by(IO.Normalization.Type, Cue_space, IO.crossvalidation_group, IO.Quantity) %>%
+  summarise(mean.acc = mean(Posterior)) %>%
+  group_by(IO.Normalization.Type, Cue_space, IO.Quantity) %>%
+  summarise(mean = mean(mean.acc))
+
+d.max.acc.toINTEND %>% filter(IO.Quantity == "short") %>% group_by(Cue_space, IO.Normalization.Type) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(max(max)) * 100
+
+```
+## Results {#sec:resultsII}
+Figure \@ref(fig:predictions) visualizes the unnormalized and normalized models' predictions for perception of Stockholm Swedish vowels, under different assumptions about the relevant cues. The first observation is that---unlike for the separability index in Study 1---the relative performance of the different normalization accounts within each panel is remarkably constant across all panels (compare to Figure \@ref(fig:separability)). Regardless of the combination of cues or the vowel types considered (long, short, both), transformation into a perceptual space does little to improve recognition accuracy, compared to unnormalized cues. Intrinsic normalization, too, does not improve recognition accuracy. And, unlike in Study 1, this result holds even when F3 is included as a cue. This replicates previous work on Dutch [@adank2004] but conflicts with some evaluations of English [e.g., @syrda1985]. @adank2004 discussed whether the discrepancy in results might be attributed to implementations of the Bark-transformation, or to what @syrda1985 describe as language-specificity of the second dimension of @Syrdal1986 normalization. The present results would seem to confirm this vulnerability of intrinsic normalizations. <!-- TO DO: Starting at @adank2004 discussed, this feels to me more like sth that should go into the discussion. Perhaps we do the same with any replication statements? (but at least these more complicated ones) -->
+Extrinsic normalization, however, tends to substantially improve recognition accuracy (with the exception of Gerstman normalization). Depending on the specific combination of cues and the types of vowels considered, the best-performing normalization model increases recognition accuracy by between `r (d.max.acc.toINTEND %>% filter(IO.Normalization.Type != "r_Hz") %>% group_by(Cue_space, IO.Quantity) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(min(max)) / d.max.acc.toINTEND %>% filter(IO.Normalization.Type == "r_Hz") %>% group_by(Cue_space, IO.Quantity) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(min(max)) - 1) * 100`% (from `r d.max.acc.toINTEND %>% filter(IO.Normalization.Type == "r_Hz") %>% group_by(Cue_space, IO.Quantity) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(min(max)) * 100 %>% round(digits = 1)`% for unnormalized cues) to `r (d.max.acc.toINTEND %>% filter(IO.Normalization.Type != "r_Hz") %>% group_by(Cue_space, IO.Quantity) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(max(max)) / d.max.acc.toINTEND %>% filter(IO.Normalization.Type == "r_Hz") %>% group_by(Cue_space, IO.Quantity) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(max(max)) - 1) * 100`% (from `r d.max.acc.toINTEND %>% filter(IO.Normalization.Type == "r_Hz") %>% group_by(Cue_space, IO.Quantity) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(max(max)) * 100 %>% round(digits = 1)`%). The benefit of extrinsic normalization models, as well as the lower performance of perceptual transformations, replicates previous findings on other languages [e.g., @adank2004; @barreda2018a; @escudero2007].
+
+We also see that all models---even for unnormalized cues---perform substantially above chance. When long and short vowels are considered separately, the best ideal observers achieve recognition accuracies of `r d.max.acc.toINTEND %>% filter(IO.Quantity == "long") %>% group_by(Cue_space, IO.Normalization.Type) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(max(max)) * 100`% for long vowels and `r d.max.acc.toINTEND %>% filter(IO.Quantity == "short") %>% group_by(Cue_space, IO.Normalization.Type) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(max(max)) * 100`% for short vowels. For reference, in a recent perception experiment we conducted on the eight monophthongs of US English, L1-US English listeners achieved 71.1% accuracy in categorizing isolated hVd words [chance = 12.5%, @persson-jaeger2023]. The ideal observers for the Swedish vowel system thus achieve performance that is comparable to that of human listeners, at least when cues are normalized.
+
+Looking across columns of Figure \@ref(fig:predictions), short vowels are always recognized with higher accuracy compared to long vowels. This increase in performance cannot be explained by the small increase in the chance baseline alone (10% for the 10 short vowels, compared to 9.1% for the 11 long vowels). It conceptually replicates a initially surprising result of Study 1: while short vowels are more densely clustered in the center of the vowel space, and thus occupy a smaller perceptual space, they also exhibit less variability. Overall, this makes those vowels *easier* to recognize. 
+
+When long and short vowels are categorized together, performance of the ideal observers is comparatively poor unless vowel duration is included as a cue. This is expected given that vowel duration is the primary cue to vowel quantity. Of interest, however, is that even the inclusion of only F3 (second row) yields a substantial improvement in recognition accuracy, in line with @REF. Remarkably, once vowel duration is included, the best-performing ideal observer achieves 75% recognition accuracy across the 21 long and short vowels (compared to chance = 4.8%).
+
+<!-- TO DO: here and above: is it really 21 or is it 20 given that you excluded on vowel? -->
+Finally, there are also some more subtle differences across the rows and columns of Figure \@ref(fig:predictions). Of theoretical interest is that, Lobanov normalization performs best for all vowel types if only F1 and F2 are considered. However, this advantages decreases when additional cues are considered.^[Indeed, when all five cues are considered for the categorization of all 21 short and long vowels, simple centering appears to perform numerically better than Lobanov normalization. This is an artifact of our decision to only center vowel duration---the primary cue to vowel quantity---for the C-CuRE model (paralleling Study 1). Separate modeling not shown here confirmed that Lobanov normalizaton achieves the same recognition accuracy as the C-CuRE models when duration is centered and combined with Lobanov-normalized formants.<!--TO DO: test and confirm or change?-->] 
 
 ```{r}
+#Remove temp file
+rm(d.max.acc.toINTEND)
+
 # Plot the overall accuracy of the different normalization accounts
 plot_io_results <- function(data) {
   data %>%
@@ -1562,7 +1579,7 @@ Unsurprisingly, some vowels are recognized with much higher accuracy than others
 
 Also of interest is that not all vowels exhibit the benefit of normalization. It seems to be vowels that are already recognized with relatively high accuracy that particularly benefit from normalization. <!-- TO DO: Anna, does that hold across all plots?---> Finally, while there are minor differences across vowels in the relative goodness of different normalizations, the models that perform overall best also perform best on each vowel. This further demonstrates the plausibility of these normalization accounts for perception. <!-- TO DO: Anna, does this hold across all other plots? if not, let's rephrase -->
 
-(ref:predictions-per-vowel) Predicted recognition accuracy of ideal observer under different normalization accounts for five diferent vowels. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line. <!-- TO DO: anna, shouldn't this line be different for long and short vowels?? -->
+(ref:predictions-per-vowel) Predicted recognition accuracy of ideal observer under different normalization accounts for five different vowels. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line. <!-- TO DO: anna, shouldn't this line be different for long and short vowels?? -->
 
 ```{r cache.lazy=FALSE}
 #Plot the overall accuracy of the different normalization accounts
@@ -1628,12 +1645,10 @@ p.accuracy.io.per.vowel
 # run a model assessing the difference in performance between models as a function of the normalization scheme.
 # data.io <- m.io.SwehVd.F1F2 %>%
 #   unnest(posterior_of_intended_vowel) %>%
-#   # filter down to posterior of intended vowels
-#   filter(IO.Vowel == Intended.Vowel) %>%
 #   mutate(IO.Normalization.Type = factor(IO.Normalization.Type, levels = levels.normalization.plots, labels = labels.normalization))
 
 #Add treatment coding for IO.Normalization.Type
-# contrasts(data.io$IO.Normalization.Type) = contr.treatment(16)
+#contrasts(data.io$IO.Normalization.Type) = contr.treatment(16)
 # # contrasts(data.io$IO.cue_normalization) = cbind(
 # #   "C-CuRE Hz" = c(0, 1, 0, 0, 0, 0, 0),
 # #   "Lobanov Hz" = c(0, 0, 1, 0, 0, 0, 0),
@@ -1641,7 +1656,7 @@ p.accuracy.io.per.vowel
 # #   "Nearey1 log" = c(0, 0, 0, 0, 1, 0, 0),
 # #   "Nearey2 log" = c(0, 0, 0, 0, 0, 1, 0),
 # #   "Miller log" = c(0, 0, 0, 0, 0, 0, 1))
-#
+# 
 # model <- glm(Posterior ~ IO.Normalization.Type, family=gaussian, data = data.io)
 # summary(model)
 ```
@@ -1678,15 +1693,32 @@ plot_io_confusion <- function(
           axis.title.y = element_blank())
 }
 
+m.io.SwehVd %>%filter(IO.Quantity == "all")%>%
+    unnest(posterior_of_all_vowels) %>%
+    pivot_longer(
+    cols = levels.vowel.IPA.swe,
+    values_to = "Posterior",
+    names_to = "IO.Vowel") %>%
+    group_by(IO.Vowel, Intended.Vowel, IO.Normalization.Type, IO.Quantity, Cue_space) %>%
+    summarise(across(.cols = Posterior, mean, na.rm = T)) %>%
+      ggplot(
+      aes(
+        x = factor(Intended.Vowel, levels = levels.vowel.IPA.swe),
+        y = factor(IO.Vowel, levels = levels.vowel.IPA.swe),
+        fill = Posterior)) +
+    geom_raster() +
+    scale_fill_viridis_b("Posterior probability under ideal observer", limits = c(0,1), breaks = seq(0, 1, .1)) +
+    facet_grid(Cue_space ~ IO.Normalization.Type)
+
 p.confusion.all.F1F2 <- plot_io_confusion(
   m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("SyrdalGopal_Bark", "Lobanov_Hz"), Cue_space == "F1-F2", IO.Quantity == "all"),
                          cols = levels.vowel.IPA.swe) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("SyrdalGopal (bark)", "Lobanov (Hz)"))) + theme(legend.position="none")
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("SyrdalGopal_Bark", "Lobanov_Hz"), labels = c("SyrdalGopal (bark)", "Lobanov (Hz)"))) + theme(legend.position="none")
 
 p.confusion.all.all <- plot_io_confusion(
   m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Gerstman_Hz", "CCuRE_Hz"), Cue_space == "F0-F3, duration", IO.Quantity == "all"),
                          cols = levels.vowel.IPA.swe) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Gerstman (Hz)", "C-CuRE (Hz)")))
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Gerstman_Hz", "CCuRE_Hz"), labels = c("Gerstman (Hz)", "C-CuRE (Hz)")))
 
 legend.confusion <- cowplot::get_legend(p.confusion.all.all +
   guides(fill = guide_legend(nrow = 1, byrow = TRUE)))
@@ -2134,33 +2166,33 @@ Of note is also that some categories are rarely confused with other categories, 
 p.confusion.long.F1F2 <- plot_io_confusion(
   m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F2", IO.Quantity == "long"),
                          cols = levels.vowel.IPA.swe.long) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "Lobanov_Hz"), labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
 p.confusion.long.F1F3 <- plot_io_confusion(
   m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F3", IO.Quantity == "long"),
                          cols = levels.vowel.IPA.swe.long) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "Lobanov_Hz"), labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
 p.confusion.long.all <- plot_io_confusion(
   m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Gerstman_Hz", "Lobanov_Hz"), Cue_space == "F0-F3, duration", IO.Quantity == "long"),
                          cols = levels.vowel.IPA.swe.long) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Gerstman (Hz)", "Lobanov (Hz)"))) + theme(legend.position="none")
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Gerstman_Hz", "Lobanov_Hz"), labels = c("Gerstman (Hz)", "Lobanov (Hz)"))) + theme(legend.position="none")
 
 p.confusion.short.F1F2 <- plot_io_confusion(
   m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "CCuRE_Mel"), Cue_space == "F1-F2", IO.Quantity == "short"),
                          cols = levels.vowel.IPA.swe.short) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Miller (log)", "C-CuRE (Mel)"))) + theme(legend.position="none")
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "CCuRE_Mel"), labels = c("Miller (log)", "C-CuRE (Mel)"))) + theme(legend.position="none")
 p.confusion.short.F1F3 <- plot_io_confusion(
   m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "CCuRE_Mel"), Cue_space == "F1-F3", IO.Quantity == "short"),
                          cols = levels.vowel.IPA.swe.short) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Miller (log)", "C-CuRE (Mel)"))) + theme(legend.position="none")
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "CCuRE_Mel"), labels = c("Miller (log)", "C-CuRE (Mel)"))) + theme(legend.position="none")
 p.confusion.short.all <- plot_io_confusion(
   m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Gerstman_Hz", "Lobanov_Hz"), Cue_space == "F0-F3, duration", IO.Quantity == "short"),
                          cols = levels.vowel.IPA.swe.short) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Gerstman (Hz)", "Lobanov (Hz)"))) + theme(legend.position="none")
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type,  levels = c("Gerstman_Hz", "Lobanov_Hz"), labels = c("Gerstman (Hz)", "Lobanov (Hz)"))) + theme(legend.position="none")
 
 p.confusion.all.F1F3 <- plot_io_confusion(
     m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F3", IO.Quantity == "all"), 
     cols = levels.vowel.IPA.swe) + 
-  facet_grid(Cue_space ~ factor(IO.Normalization.Type, labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
+  facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "Lobanov_Hz"), labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
 ```
 
 (ref:confusion-matrix-long) Confusion matrices for the worst (**left**) and best (**right**) performing ideal observers in predicting the **long** Swedish vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel.
