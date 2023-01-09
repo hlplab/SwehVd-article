@@ -72,9 +72,11 @@ fontsize          : 11pt
 output:
   papaja::apa6_pdf:
     latex_engine: xelatex
-    extra_dependencies: "subfig"
     includes:
       in_header: latex-stuff/header.tex
+    keep_tex: yes
+    citation_package: default
+    extra_dependencies: "subfig" 
 always_allow_html: true
 ---
 
