@@ -22,9 +22,8 @@ affiliation:
 
 authornote: |
   We are grateful to ### ommitted for review
-# Maryann Tan. Phoneticians you met with in preparation of project.
-# Tomas Riad for feedback on previous presentations of this materials.
-# Nathan Young for feedback on segmentation procedures, and giving access to and support in managing the SweFA for automatic annotation of Swedish vowels.
+# We thank audiences at the Department of XXX at Stockholm University and the ExLing 2023 conference for feedback on earlier presentations of this work. We are particularly grateful to Santiago Barreda for insightful discussion of issues in the evaluation of normalization accounts, Tomas Riad for discussion of Swedish vowel systems, Maryann Tan for feedback on earlier version of this manuscript and for collaboration in preparation of the SwehVd database, and to Nathan Young for feedback on segmentation procedures, as well as for access to, and support for, the [SweFA software](http://XXX) for the automatic annotation of Swedish vowels. 
+# TO DO: fill in sweFa url.
 
 abstract: |
   Talkers vary in the phonetic realization of their vowels. One influential hypothesis holds that listeners overcome this inter-talker variability through pre-linguistic auditory mechanisms that normalize the acoustic or phonetic cues that form the input to speech recognition. Dozens of competing normalization accounts exist---including both accounts specific to vowel perception and general purpose accounts that can be applied to any type of cue. We add to the cross-linguistic literature on this matter by comparing normalization accounts against a new phonetically annotated vowel database of Central Swedish, a language with a particularly dense vowel inventory of 21 vowels differing in quality and quantity. All data and code for this study are shared via OSF, including the R markdown document that this article is generated from, and an R library that implements the models we present.
