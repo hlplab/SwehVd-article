@@ -152,7 +152,6 @@ base_size = 10
 
   * Update TO DO regularly
   * Check that Lobanov achieves the same accuracy as C-CuRE models when duration is centered and combined w Lobanov formants.
-  * Fix rounding of decimals in accuracy percentage results II.
   * Work on previous-research-table for Study II.
     * add @nearey1989 and @johnson-sjerps2021 to the table
     * refs on C-CuRE vowels
@@ -729,7 +728,7 @@ norm_accounts_eval %>%
     caption = "Previous studies comparing the effectiveness of normalization accounts in reducing within-category cue variability") %>%
   kable_styling(font_size = 7) %>%
   column_spec(1:2, width = "2cm") %>%
-  column_spec(3:4, width = "6cm") %>%
+  column_spec(3:4, width = "5cm") %>%
   column_spec(5:6, width = "2cm") %>%
   landscape() %>%
   collapse_rows()
@@ -1302,8 +1301,8 @@ norm_accounts_eval_percep %>%
   kable(format = "latex", booktabs = TRUE, caption = "Previous studies comparing normalization accounts' predictions for perception") %>%
   kable_styling(font_size = 7) %>%
   column_spec(1:2, width = "2cm") %>%
-  column_spec(3:4, width = "6cm") %>%
-  column_spec(5:6, width = "2cm") %>%
+  column_spec(3:4, width = "5cm") %>%
+  column_spec(5:7, width = "2cm") %>%
   kableExtra::landscape() %>%
   collapse_rows()
 ```
@@ -1324,7 +1323,7 @@ In line with influential theories of speech perception [e.g., exemplar theory, @
 
 The category prior, $p(category)$, describes the how much the surrounding context favors each category. For Study 2, the choice of category prior cannot affect the qualitative results since category priors are independent of the cues and held identical across all normalization accounts.^[Specifically, category priors have a constant additive effect on the posterior log-odds of categories.] We arbitrarily assume uniform category priors. Specifically, for IOs trained and tested on the long and short vowels separately, we model categorization as an 11- and 10-alternatives-forced-choice task, respectively, resulting in $p(category) = .091$ for the former and $p(category) = .1$ for the latter. For IOs trained and tested on the entire vowel space, we model categorization as a 21-alternatives-forced-choice task, resulting in $p(category) = .048$.
 
-The likelihood, $p(cues|category)$, describes the distribution of cues for each category. Here, we follow previous work and assume multivariate Gaussian distributions to describe the cue likelihood [e.g., @clayards2008; @kleinschmidt-jaeger2015; @kronrod2016; @xie2021cognition].<!--AP: check wording in other papers and add refs.--> That is, we use the model in equation \@ref(eq:Bayes-rule-normal), where $\mu$ and $\Sigma$ refer to the category mean and variance-covariance matrix of the category's multivariate normal distribution. In terms of representational complexity, the assumption of multivariate Gaussian categories strikes a compromise between exemplar storage [less representationally parsimonious, @johnson1997; @pierrehumbert2001] and cue integration over multiple separate univariate Gaussians [more parsimonious, @toscano-mcmurray2010].^[Human perception is affected by an additional source of uncertainty beyond category variability: perceptual noise [for review, see @feldman2009]. There is now evidence that including such perceptual noise in models provides a better fit against human behavior [e.g., @kronrod2016; @tan2022]. Since Study 2 assesses in the *relative* recognition accuracy of different normalization accounts, it is not immediately obvious how the inclusion of noise could affect our results. To avoid additional researchers degrees of freedom---such as the decision as to which acoustic or perceptual space (Hz, Mel, Bark, etc.) perceptual noise is additive in---we do not model the perceptual consequences of noise. To the best of our knowledge, no previous comparisons of normalization accounts has considered perceptual noise.]
+The likelihood, $p(cues|category)$, describes the distribution of cues for each category. Here, we follow previous work and assume multivariate Gaussian distributions to describe the cue likelihood [e.g., @clayards2008; @kleinschmidt-jaeger2015; @kronrod2016; @xie2021cognition]. That is, we use the model in equation \@ref(eq:Bayes-rule-normal), where $\mu$ and $\Sigma$ refer to the category mean and variance-covariance matrix of the category's multivariate normal distribution. In terms of representational complexity, the assumption of multivariate Gaussian categories strikes a compromise between exemplar storage [less representationally parsimonious, @johnson1997; @pierrehumbert2001] and cue integration over multiple separate univariate Gaussians [more parsimonious, @toscano-mcmurray2010].^[Human perception is affected by an additional source of uncertainty beyond category variability: perceptual noise [for review, see @feldman2009]. There is now evidence that including such perceptual noise in models provides a better fit against human behavior [e.g., @kronrod2016; @tan2022]. Since Study 2 assesses in the *relative* recognition accuracy of different normalization accounts, it is not immediately obvious how the inclusion of noise could affect our results. To avoid additional researchers degrees of freedom---such as the decision as to which acoustic or perceptual space (Hz, Mel, Bark, etc.) perceptual noise is additive in---we do not model the perceptual consequences of noise. To the best of our knowledge, no previous comparisons of normalization accounts has considered perceptual noise.]
 
 \begin{equation}
  p(category|cues) = \frac{\mathcal{N}(cues| \mu, \Sigma) \times p(category)}{\sum_c \mathcal{N}(cues|\mu_c, \Sigma_c) \times p(category_c)} (\#eq:Bayes-rule-normal)
@@ -1515,12 +1514,14 @@ d.max.acc.toINTEND <- m.io.SwehVd %>%
   summarise(mean.acc = mean(Posterior)) %>%
   group_by(IO.Normalization.Type, Cue_space, IO.Quantity) %>%
   summarise(mean = mean(mean.acc))
+
+d.max.acc.toINTEND %>% filter(IO.Normalization.Type %in% c("CCuRE_Hz", "CCuRE_Mel", "CCuRE_Bark", "CCuRE_ERB", "CCuRE_semitones", "Nearey1_log", "Nearey2_log", "Lobanov_Hz")) %>% group_by(Cue_space, IO.Quantity) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(min(max)) %>% round(digits = 3) * 100
 ```
 ## Results {#sec:resultsII}
 Figure \@ref(fig:predictions) visualizes the unnormalized and normalized models' predictions for perception of Stockholm Swedish vowels, under different assumptions about the relevant cues. The first observation is that---unlike for the separability index in Study 1---the relative performance of the different normalization accounts within each panel is remarkably constant across all panels (compare to Figure \@ref(fig:separability)). Regardless of the combination of cues or the vowel types considered (long, short, both), transformation into a perceptual space does little to improve recognition accuracy, compared to unnormalized cues. Intrinsic normalization, too, does not improve recognition accuracy. And, unlike in Study 1, this result holds even when F3 is included as a cue. This replicates previous work on Dutch [@adank2004] but conflicts with some evaluations of English [e.g., @syrda1985]. @adank2004 discussed whether the discrepancy in results might be attributed to implementations of the Bark-transformation, or to what @syrda1985 describe as language-specificity of the second dimension of @Syrdal1986 normalization. The present results would seem to confirm this vulnerability of intrinsic normalizations. <!-- TO DO: Starting at @adank2004 discussed, this feels to me more like sth that should go into the discussion. Perhaps we do the same with any replication statements? (but at least these more complicated ones) -->
-Extrinsic normalization, however, tends to substantially improve recognition accuracy (with the exception of Gerstman normalization). Depending on the specific combination of cues and the types of vowels considered, the best-performing normalization model increases recognition accuracy by between `r d.max.acc.toINTEND %>% filter(IO.Normalization.Type %in% c("CCuRE_Hz", "CCuRE_Mel", "CCuRE_Bark", "CCuRE_ERB", "CCuRE_semitones", "Nearey1_log", "Nearey2_log", "Lobanov_Hz")) %>% group_by(Cue_space, IO.Quantity) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(min(max)) * 100`% (from `r d.max.acc.toINTEND %>% filter(IO.Normalization.Type == "r_Hz") %>% group_by(Cue_space, IO.Quantity) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(min(max)) * 100 %>% round(digits = 1)`% for unnormalized cues) to `r d.max.acc.toINTEND %>% filter(IO.Normalization.Type %in% c("CCuRE_Hz", "CCuRE_Mel", "CCuRE_Bark", "CCuRE_ERB", "CCuRE_semitones", "Nearey1_log", "Nearey2_log", "Lobanov_Hz")) %>% group_by(Cue_space, IO.Quantity) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(max(max)) * 100`% (from `r d.max.acc.toINTEND %>% filter(IO.Normalization.Type == "r_Hz") %>% group_by(Cue_space, IO.Quantity) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(max(max)) * 100 %>% round(digits = 1)`%). The benefit of extrinsic normalization models, as well as the lower performance of perceptual transformations, replicates previous findings on other languages [e.g., @adank2004; @barreda2018a; @escudero2007].
+Extrinsic normalization, however, tends to substantially improve recognition accuracy (with the exception of Gerstman normalization). Depending on the specific combination of cues and the types of vowels considered, the best-performing normalization model increases recognition accuracy by between `r d.max.acc.toINTEND %>% filter(IO.Normalization.Type %in% c("CCuRE_Hz", "CCuRE_Mel", "CCuRE_Bark", "CCuRE_ERB", "CCuRE_semitones", "Nearey1_log", "Nearey2_log", "Lobanov_Hz")) %>% group_by(Cue_space, IO.Quantity) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(min(max)) %>% round(digits = 3) * 100`% (from `r d.max.acc.toINTEND %>% filter(IO.Normalization.Type == "r_Hz") %>% group_by(Cue_space, IO.Quantity) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(min(max)) %>% round(digits = 3) * 100`% for unnormalized cues) to `r d.max.acc.toINTEND %>% filter(IO.Normalization.Type %in% c("CCuRE_Hz", "CCuRE_Mel", "CCuRE_Bark", "CCuRE_ERB", "CCuRE_semitones", "Nearey1_log", "Nearey2_log", "Lobanov_Hz")) %>% group_by(Cue_space, IO.Quantity) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(max(max)) %>% round(digits = 3) * 100`% (from `r d.max.acc.toINTEND %>% filter(IO.Normalization.Type == "r_Hz") %>% group_by(Cue_space, IO.Quantity) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(max(max)) %>% round(digits = 3) * 100`%). The benefit of extrinsic normalization models, as well as the lower performance of perceptual transformations, replicates previous findings on other languages [e.g., @adank2004; @barreda2018a; @escudero2007].
 
-We also see that all models---even for unnormalized cues---perform substantially above chance. When long and short vowels are considered separately, the best ideal observers achieve recognition accuracies of `r d.max.acc.toINTEND %>% filter(IO.Quantity == "long") %>% group_by(Cue_space, IO.Normalization.Type) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(max(max)) * 100`% for long vowels and `r d.max.acc.toINTEND %>% filter(IO.Quantity == "short") %>% group_by(Cue_space, IO.Normalization.Type) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(max(max)) * 100`% for short vowels. For reference, in a recent perception experiment we conducted on the eight monophthongs of US English, L1-US English listeners achieved 71.1% accuracy in categorizing isolated hVd words [chance = 12.5%, @persson-jaeger2023]. The ideal observers for the Swedish vowel system thus achieve performance that is comparable to that of human listeners, at least when cues are normalized.
+We also see that all models---even for unnormalized cues---perform substantially above chance. When long and short vowels are considered separately, the best ideal observers achieve recognition accuracies of `r d.max.acc.toINTEND %>% filter(IO.Quantity == "long") %>% group_by(Cue_space, IO.Normalization.Type) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(max(max)) %>% round(digits = 3) * 100`% for long vowels and `r d.max.acc.toINTEND %>% filter(IO.Quantity == "short") %>% group_by(Cue_space, IO.Normalization.Type) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(max(max)) %>% round(digits = 3) * 100`% for short vowels. For reference, in a recent perception experiment we conducted on the eight monophthongs of US English, L1-US English listeners achieved 71.1% accuracy in categorizing isolated hVd words [chance = 12.5%, @persson-jaeger2023]. The ideal observers for the Swedish vowel system thus achieve performance that is comparable to that of human listeners, at least when cues are normalized.
 
 Looking across columns of Figure \@ref(fig:predictions), short vowels are always recognized with higher accuracy compared to long vowels. This increase in performance cannot be explained by the small increase in the chance baseline alone (10% for the 10 short vowels, compared to 9.1% for the 11 long vowels). It conceptually replicates a initially surprising result of Study 1: while short vowels are more densely clustered in the center of the vowel space, and thus occupy a smaller perceptual space, they also exhibit less variability. Overall, this makes those vowels *easier* to recognize. 
 
@@ -1588,7 +1589,7 @@ The approach that we have taken here lets us assess vowel-specific effects on th
 
 Unsurprisingly, some vowels are recognized with much higher accuracy than others---at least when uniform category priors are assumed, as we did here. This is a direct consequence of the position of the vowel in the acoustic-phonetic space, relative to neighboring vowels: the more neighboring vowels overlap with each other, the lower the accuracy with which they are recognized. Which vowels will benefit from normalization will thus naturally vary between languages, reflecting the language-specific properties of the vowel space. For instance, [`r linguisticsdown::cond_cmpl("iː")`] is often described as more easily recognized in previous work on other languages. This contrasts with our findings for Central Swedish: here,  [`r linguisticsdown::cond_cmpl("iː")`] is part of the dense clustering of vowels along the height dimension and so has many close competitors. This highlights that recognition accuracy is due to the position of a vowel *relative* to its competitors [e.g., @Peterson1952; @Kuhl1991; @Polka2003], rather than its *absolute location* in the vowel space (e.g., [`r linguisticsdown::cond_cmpl("iː")`] being a peripheral vowel). 
 
-Also of interest is that not all vowels exhibit the benefit of normalization. In general, across evaluations, it seems to be vowels that are already recognized with relatively high accuracy that particularly benefit from normalization. <!-- add here what others have found --> Finally, while there are minor differences across vowels in the relative goodness of different normalizations, the models that perform overall best also perform best on each vowel. This further demonstrates the plausibility of these normalization accounts for perception.
+Also of interest is that not all vowels exhibit the benefit of normalization. In general, across evaluations, it seems to be vowels that are already recognized with relatively high accuracy that particularly benefit from normalization. <!-- AP: add here what others have found --> Finally, while there are minor differences across vowels in the relative goodness of different normalizations, the models that perform overall best also perform best on each vowel. This further demonstrates the plausibility of these normalization accounts for perception.
 
 (ref:predictions-per-vowel) Predicted recognition accuracy of ideal observer under different normalization accounts for five of the 21 vowels. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
@@ -1977,27 +1978,27 @@ p.accuracy.io.per.vowel.all.1 <- plot_io_results_per_vowel(
   m.io.SwehVd %>%
     filter(IO.Quantity == "all") %>%
     nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[iː]", "[ɪ]", "[yː]", "[ʏ]", "[ʉː]", "[ɵ]", "[eː]", "[ɛ]", "[ɛː]", "[æː]"))) +
-  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe)) + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.y = element_blank())
+  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
 p.accuracy.io.per.vowel.all.2 <- plot_io_results_per_vowel(
   m.io.SwehVd %>%
     filter(IO.Quantity == "all") %>%
     nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[æ]", "[øː]", "[ø]", "[œː]", "[œ]", "[ɑː]", "[a]", "[oː]", "[ɔ]", "[uː]", "[ʊ]"))) +
   facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
 ```
-
-```{r predictions-per-vowel-long, fig.width=base.width * 4, fig.height=base.height * 4, fig.align='center', fig.cap="(ref:predictions-per-vowel-long)"}
-#p.accuracy.io.per.vowel.long <- cowplot::plot_grid(
-#   cowplot::plot_grid(p.accuracy.io.per.vowel.long.1, NULL, ncol = 2, rel_widths = c(5/6,1/6)), 
-#   p.accuracy.io.per.vowel.long.2 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l")
-# gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.long, left = axis.title.accuracy))
+\begin{landscape}
+```{r predictions-per-vowel-long, fig.width=base.width * 6, fig.height=base.height * 4, fig.align='center', fig.cap="(ref:predictions-per-vowel-long)"}
+p.accuracy.io.per.vowel.long <- cowplot::plot_grid(
+  cowplot::plot_grid(p.accuracy.io.per.vowel.long.1, NULL, ncol = 2, rel_widths = c(5/6,1/6)),
+  p.accuracy.io.per.vowel.long.2 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l")
+gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.long, left = axis.title.accuracy))
 # 
 # gridExtra::grid.arrange(p.accuracy.io.per.vowel.long.1, p.accuracy.io.per.vowel.long.2+ theme(axis.title.y = element_blank()), left = axis.title.accuracy, nrow =2, heights = 2:3)
 ```
-
+\end{landscape}
 (ref:predictions-per-vowel-short) Per-vowel predicted categorization accuracy of the ideal observers trained on the short vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
-```{r predictions-per-vowel-short, fig.width=base.width * 4, fig.height=base.height * 4, fig.align='center', fig.cap="(ref:predictions-per-vowel-short)"}
-p.accuracy.io.per.vowel.short <- cowplot::plot_grid(p.accuracy.io.per.vowel.short.1, p.accuracy.io.per.vowel.short.2 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l")
+```{r predictions-per-vowel-short, fig.width=base.width * 4, fig.height=base.height * 5, fig.align='center', fig.cap="(ref:predictions-per-vowel-short)"}
+p.accuracy.io.per.vowel.short <- cowplot::plot_grid(p.accuracy.io.per.vowel.short.1, NULL, p.accuracy.io.per.vowel.short.2 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l", rel_heights = c(1,-.15,1))
 gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.short, left = axis.title.accuracy))
 ```
 
@@ -2005,11 +2006,17 @@ gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.short, le
 
 \begin{landscape}
 
-```{r predictions-per-vowel-all, fig.width=base.width * 4, fig.height=base.height * 4, fig.align='center', fig.cap="(ref:predictions-per-vowel-all)"}
-p.accuracy.io.per.vowel.all <- cowplot::plot_grid(
-  cowplot::plot_grid(p.accuracy.io.per.vowel.all.1, NULL, ncol = 2, rel_widths = c(5/6,1/6)), 
-  p.accuracy.io.per.vowel.all.2 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l")
-gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.all, left = axis.title.accuracy))
+```{r predictions-per-vowel-all, fig.width=base.width * 7, fig.height=base.height * 2.5, fig.align='center', fig.cap="(ref:predictions-per-vowel-all)"}
+p.accuracy.io.per.vowel.all.1
+```
+\end{landscape}
+
+(ref:predictions-per-vowel-all-2) (*Continued from last page*)Per-vowel predicted categorization accuracy of the ideal observers trained on all vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+
+\begin{landscape}
+
+```{r predictions-per-vowel-all-2, fig.width=base.width * 7, fig.height=base.height * 2.5, out.width='110%', fig.align='center', fig.cap="(ref:predictions-per-vowel-all-2)"}
+p.accuracy.io.per.vowel.all.2
 ```
 \end{landscape}
 
