@@ -22,8 +22,7 @@ affiliation:
 
 authornote: |
   We are grateful to ### ommitted for review
-# We thank audiences at the Department of XXX at Stockholm University and the ExLing 2023 conference for feedback on earlier presentations of this work. We are particularly grateful to Santiago Barreda for insightful discussion of issues in the evaluation of normalization accounts, Tomas Riad for discussion of Swedish vowel systems, Maryann Tan for feedback on earlier version of this manuscript and for collaboration in preparation of the SwehVd database, and to Nathan Young for feedback on segmentation procedures, as well as for access to, and support for, the [SweFA software](http://XXX) for the automatic annotation of Swedish vowels. 
-# TO DO: fill in sweFa url.
+# We thank audiences at the Department of Swedish language and multilingualism at Stockholm University and the ExLing 2023 conference for feedback on earlier presentations of this work. We are particularly grateful to Santiago Barreda for insightful discussion of issues in the evaluation of normalization accounts, Tomas Riad for discussion of Swedish vowel systems, Maryann Tan for feedback on earlier version of this manuscript and for collaboration in preparation of the SwehVd database, and to Nathan Young for feedback on segmentation procedures, as well as for access to, and support for, the [SweFA software](https://github.com/mcgarrah/LG-FAVE) for the automatic annotation of Swedish vowels.
 
 abstract: |
   Talkers vary in the phonetic realization of their vowels. One influential hypothesis holds that listeners overcome this inter-talker variability through pre-linguistic auditory mechanisms that normalize the acoustic or phonetic cues that form the input to speech recognition. Dozens of competing normalization accounts exist---including both accounts specific to vowel perception and general purpose accounts that can be applied to any type of cue. We add to the cross-linguistic literature on this matter by comparing normalization accounts against a new phonetically annotated vowel database of Central Swedish, a language with a particularly dense vowel inventory of 21 vowels differing in quality and quantity. All data and code for this study are shared via OSF, including the R markdown document that this article is generated from, and an R library that implements the models we present.
@@ -152,7 +151,6 @@ base_size = 10
 # To Do
 
   * Update TO DO regularly
-  * Check that Lobanov achieves the same accuracy as C-CuRE models when duration is centered and combined w Lobanov formants.
   * Add REFS 
     * barreda2020
     * add @nearey1989 to the table
@@ -827,8 +825,6 @@ Notably, even for the best performing accounts, there is still considerable cate
 #Remove temp file
 rm(d.SwehVd.exclusions)
 
-#DEBUG----------------------------------------------
-d.debug.norm <- d.SwehVd.forStudy
 # Normalize all data based on the respective training of each cross-validation group
 d.SwehVd.forStudy %<>%
   group_by(crossvalidation_group) %>%
@@ -1014,13 +1010,15 @@ d.SwehVd.forStudy.long.within_category_MS <-
     # Now get all the measures *across* cues
     within_df_F1F2 = pmin(within_df_F1, within_df_F2),
     within_df_F1F3 = pmin(within_df_F1, within_df_F2, within_df_F3),
+    within_df_F0F3 = pmin(within_df_F0, within_df_F1, within_df_F2, within_df_F3),
     within_df_all = pmin(within_df_F0, within_df_F1, within_df_F2, within_df_F3, within_df_Duration),
     within_SS_F1F2 = within_SS_F1 + within_SS_F2,
     within_SS_F1F3 = within_SS_F1 + within_SS_F2 + within_SS_F3,
+    within_SS_F0F3 = within_SS_F0 + within_SS_F1 + within_SS_F2 + within_SS_F3,
     within_SS_all = within_SS_F0 + within_SS_F1 + within_SS_F2 + within_SS_F3 + within_SS_Duration,
     # Get within-category MS
     across(
-      .cols = paste0("within_SS_", c(cues, "F1F2", "F1F3", "all")),
+      .cols = paste0("within_SS_", c(cues, "F1F2", "F1F3", "F0F3", "all")),
       .fns = list("pseudo_within_MS" = ~ .x / get(glue(gsub("within_SS_", "within_df_", cur_column())))),
       .names = "{.fn}_{.col}")) %>%
   rename_with(~ gsub("_within_SS", "", .x))
@@ -1032,7 +1030,7 @@ get_SI <-
   group_by(Normalization.Type, crossvalidation_group) %>%
   summarise(
     across(
-      .cols = paste0("within_SS_", c(cues, "F1F2", "F1F3", "all")),
+      .cols = paste0("within_SS_", c(cues, "F1F2", "F1F3", "F0F3", "all")),
       .fns = list("within_MS" = ~ sum(.x, na.rm = T) / sum(get(glue(gsub("within_SS_", "within_df_", cur_column()))), na.rm = T)),
       .names = "{.fn}_{.col}")) %>%
   rename_with(~ gsub("_within_SS", "", .x)) %>%
@@ -1068,13 +1066,15 @@ get_SI <-
         # Now get all the measures *across* cues
         between_df_category_mean_F1F2 = pmin(between_df_category_mean_F1, between_df_category_mean_F2),
         between_df_category_mean_F1F3 = pmin(between_df_category_mean_F1, between_df_category_mean_F2, between_df_category_mean_F3),
+        between_df_category_mean_F0F3 = pmin(between_df_category_mean_F0, between_df_category_mean_F1, between_df_category_mean_F2, between_df_category_mean_F3),
         between_df_category_mean_all = pmin(between_df_category_mean_F0, between_df_category_mean_F1, between_df_category_mean_F2, between_df_category_mean_F3, between_df_category_mean_Duration),
         between_SS_category_mean_F1F2 = between_SS_category_mean_F1 + between_SS_category_mean_F2,
         between_SS_category_mean_F1F3 = between_SS_category_mean_F1 + between_SS_category_mean_F2 + between_SS_category_mean_F3,
+        between_SS_category_mean_F0F3 = between_SS_category_mean_F0 + between_SS_category_mean_F1 + between_SS_category_mean_F2 + between_SS_category_mean_F3,
         between_SS_category_mean_all = between_SS_category_mean_F0 + between_SS_category_mean_F1 + between_SS_category_mean_F2 + between_SS_category_mean_F3 + between_SS_category_mean_Duration,
         # Get between-category MS
         across(
-          .cols = paste0("between_SS_category_mean_", c(cues, "F1F2", "F1F3", "all")),
+          .cols = paste0("between_SS_category_mean_", c(cues, "F1F2", "F1F3", "F0F3", "all")),
           .fns = list("between_MS" = ~ sum(.x / get(glue(gsub("between_SS", "between_df", cur_column()))))),
           .names = "{.fn}_{.col}")) %>%
       rename_with(~ gsub("(_between_SS)?_category_mean", "", .x)),
@@ -1083,7 +1083,7 @@ get_SI <-
   group_by(Normalization.Type, crossvalidation_group) %>%
   mutate(
     across(
-      .cols = paste0("between_MS_", c(cues, "F1F2", "F1F3", "all")),
+      .cols = paste0("between_MS_", c(cues, "F1F2", "F1F3", "F0F3", "all")),
       .fns = list("SI" = ~ sum(.x / get(glue(gsub("between_", "within_", cur_column()))))),
       .names = "{.fn}_{.col}")) %>%
   rename_with(~ gsub("_between_MS", "", .x)) %>%
@@ -1108,7 +1108,7 @@ d.SwehVd.forStudy.SI <- rbind(
 d.SwehVd.forStudy.SI.long <-
   d.SwehVd.forStudy.SI %>%
   # include all separate SIs
-  select(c(Normalization.Type, crossvalidation_group, Quantity, SI_F1F2, SI_F1F3, SI_Duration, SI_F0, SI_F1, SI_F2, SI_F3, SI_all)) %>%
+  select(c(Normalization.Type, crossvalidation_group, Quantity, SI_F1F2, SI_F1F3, SI_F0F3, SI_Duration, SI_F0, SI_F1, SI_F2, SI_F3, SI_all)) %>%
   pivot_longer(
     cols = starts_with("SI_", ignore.case = FALSE),
     names_to = c("SI", "Cues"),
@@ -1212,7 +1212,7 @@ p.separability <- plot_separability(d.SwehVd.forStudy.SI.long %>%
 
 (ref:separability) Separability indices by normalization accounts for long vowels, short vowels, and both long and short vowels together (columns) shown for three different combinations of cues (rows). Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.
 
-```{r separability, fig.width= base.width * 4, fig.height = base.height * 5.5, fig.align='center', fig.cap="(ref:separability)"}
+```{r separability, fig.width= base.width * 4, fig.height = base.height * 3, fig.align='center', fig.cap="(ref:separability)"}
 cowplot::plot_grid(NULL, p.separability, rel_widths = c(.01, 1))
 ```
 
@@ -1298,13 +1298,110 @@ The likelihood, $p(cues|category)$, describes the distribution of cues for each 
 Paralleling Study 1, we trained and tested separate ideal observers for each combination of normalization account, cues, and training-test fold. Specifically, we use the exact same cross-validation folds as in Study 1. Each IO was trained on the training portion of the folded unnormalized and normalized data, and subsequently evaluated on the held-out test fold. This means that the parameters of each normalization account (e.g., the cue means in C-CuRE) and the resulting category parameters (the $\mu_c$s and $\Sigma_c$s for all categories) were set on the training data, and not changed for the test data. This reflects the realities of speech perception: although this is often ignored in evaluations of normalization accounts [e.g., @mcmurray-jongman2011], listeners do not *a priori* know the cue means, cue variance, etc. of an unfamiliar talker. Rather, listeners need to incrementally *infer* those statistical properties from the talker's speech input [for discussion and a model, see @xie2022]. An additional advantage of cross-validation is that it gives us an estimate of the uncertainty about the model predictions. The performance of each IO during test is assessed by calculating the IO's predicted posterior probability of the *intended* category for each test token. This is identical to assuming Luce's choice rule for categorization [@luce1959], as in most models of speech perception and spoken word recognition.
 
 ### Advantages compared to separability index and similar measures of category variability
-By using a categorization model to estimate the consequence of normalization for perception, we avoid the pitfalls of the separability index discussed in Study 1. First, by using the density of an acoustic input under the multivariate distribution of all cues, the ideal observers we employ capture the *joint* effect of all cues. This captures that an input can be an improbable instance of a category based on one of its cue values but a probable instance given the values for the other cues. In particular, since we assume multivariate Gaussian likelihoods, the model can account for category-specific covariances between cues. In the presence of strong correlations between cues, an acoustic input can be an improbable instance of a category based on the marginal distribution of each cue---i.e., if each cue is considered separately---but be a highly probable instance of that category if considered relative to the joint distribution of all cues (and vice versa). <!-- TO DO: it might be good to have a little figure illustrating this? -->
+By using a categorization model to estimate the consequence of normalization for perception, we avoid the pitfalls of the separability index discussed in Study 1. First, by using the density of an acoustic input under the multivariate distribution of all cues, the ideal observers we employ capture the *joint* effect of all cues. This captures that an input can be an improbable instance of a category based on one of its cue values but a probable instance given the values for the other cues. In particular, since we assume multivariate Gaussian likelihoods, the model can account for category-specific covariances between cues. In the presence of strong correlations between cues, an acoustic input can be an improbable instance of a category based on the marginal distribution of each cue---i.e., if each cue is considered separately---but be a highly probable instance of that category if considered relative to the joint distribution of all cues (and vice versa). This is illustrated by Figure \@ref(fig:gaussians).<!-- TO DO: it might be good to have a little figure illustrating this? -->
 
+```{r}
+d.univariate <- d.SwehVd %>%
+  select(F1, F2, F3, Talker, Token, category) %>%
+  # Get the geometric mean across the three time points for the five cues
+  group_by(Talker, category, Token) %>%
+  summarise(across(c(F1, F2, F3), ~ geometric.mean(.x)))
+
+d.univariate.points <- d.univariate %>%
+  group_by(category) %>% 
+  summarise(
+  across(starts_with("F"),
+           .fns = list("mean" = mean, "sd" = sd))) %>%
+  mutate(point_left_F1 = F1_mean - 3 * F1_sd,
+         point_left_F2 = F2_mean - 3 * F2_sd,
+         point_left_F3 = F3_mean - 3 * F3_sd,
+         point_right_F1 = F1_mean + 3 * F1_sd,
+         point_right_F2 = F2_mean + 3 * F2_sd,
+         point_right_F3 = F3_mean + 3 * F3_sd, 
+         dens_F1 = 0.010,
+         dens_F2 = 0.003)
+
+p.univariate.F1 <- d.univariate %>%
+  filter(category %in% c("[ʉː]", "[ɵ]")) %>%
+  ggplot(
+    aes(x=F1,
+    fill = factor(category))) +
+  geom_density(alpha = .5) +
+  geomtextpath::geom_textdensity(aes(label = category),
+                                 size = 3,
+                                 hjust = "ymax",
+                                 vjust = -0.5, text_only = T, straight = T) +
+  theme(legend.position = "none") +
+  scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = c("colour", "fill")) +
+  guides(linetype = "none", color = "none", fill = "none") +
+  geom_point(
+    data = d.univariate.points %>% filter(category == "[ɵ]"),
+    aes(x=point_left_F1,
+        y=dens_F1)) +
+  scale_y_continuous(limits = c(0, 0.015)) +
+  theme(axis.title.y = element_blank())
+
+p.univariate.F2 <- d.univariate %>%
+  filter(category %in% c("[ʉː]", "[ɵ]")) %>%
+  ggplot(
+    aes(x=F2,
+    fill = factor(category))) +
+  geom_density(alpha = .5) +
+  geomtextpath::geom_textdensity(aes(label = category),
+                                 size = 3,
+                                 hjust = "ymax",
+                                 vjust = -0.5, text_only = T, straight = T) +
+  theme(legend.position = "none") +
+  scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = c("colour", "fill")) +
+  guides(linetype = "none", color = "none", fill = "none") +
+  geom_point(
+    data = d.univariate.points %>% filter(category == "[ɵ]"),
+    aes(x=point_left_F2,
+        y=dens_F2)) +
+  scale_y_continuous(limits = c(0, 0.005)) +
+  theme(axis.title.y = element_blank())
+
+p.bivariate <- 
+  d.univariate %>%
+  filter(category %in% c("[ʉː]", "[ɵ]")) %>%
+  ggplot(
+    aes(x=F2,
+        y=F1,
+        color = category)) +
+  stat_ellipse() +
+  geom_label(
+    data =
+      ~ .x %>%
+      group_by(category) %>%
+      summarise(across(c(F1, F2), ~ mean(.x))),
+    mapping = aes(
+      colour = category,
+      label = category,
+      fontface = ifelse(category %in% levels.vowel.IPA.swe.long, 2, 1)),
+    alpha = .4, size = 3, label.size = NA) +
+    scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour") +
+  geom_point(
+    data = d.univariate.points %>% filter(category == "[ɵ]"),
+    aes(x=point_left_F2,
+        y=point_left_F1),
+    color = "black") +
+  guides(color = "none")
+
+```
+(ref:gaussians) Visualising how an acoustic input can be an improbable instance of a category if each cue is considered separately (**Panels A and B**), but highly probable if considered relative to the joint distribution of cues (**Panel C**). The black dot represents a point 3 SD away from the `r linguisticsdown::cond_cmpl("[ɵ]")` category mean.
+
+```{r gaussians, fig.width= base.width * 4, fig.height = base.height * 1.5, out.height='80%', fig.align='center', fig.cap="(ref:gaussians)"}
+cowplot::plot_grid(p.univariate.F1, p.univariate.F2, p.bivariate, nrow = 1, labels = c("A", "B", "C"))
+```
 Second, by normalizing the support for a category by the support for all other categories (the denominator in Equations \@ref(eq:Bayes-rule) and \@ref(eq:Bayes-rule-normal)), ideal observers consider the perceptual consequences of an acoustic input *relative to all possible categories*. This means that a token that is relatively far away from its category mean does not necessarily result in low recognition accuracy. Rather, low recognition accuracy is only predicted if the relative position of the acoustic input in the acoustic-phonetic space makes it more probably that the input originated from another (unintended) category. This parallels human perception: e.g., while a /d/ with hyper-articulated voice onset timing is atypical, human listeners are as likely or more likely to recognize it as a /d/ (rather than a /t/), compared to a casually articulated /d/, presumably *because the observed phonetics would be even less likely to occur if the talker intended a /t/*. Measures of between- vs. within-category variability like the separability index in Study 1, however, have no means of directly capturing this.
 
 Finally, when an acoustic input is indeed improbable under its intended category relative to other unintended categories, the ideal observer model will correctly predict low recognition accuracy. Unlike the separability index in Study 1, however, the ideal observer will not disproportionally weight this single observation: it will simply be one of many observations---much like human speech perception does not collapse simply because one word (or one vowel) has been misunderstood. As we show next, these differences between the approaches taken in Studies 1 and 2 can, and sometimes do, cause differences in results.
 
 ```{r}
+#Remove temp files
+rm(d.univariate, d.univariate.points)
+
+#Function for training IOs
 train_io <- function(cues, data, group = NULL, no_noise = T, n.category = length(unique(data$category)), verbose = F) {
   cue_transformation = unique(gsub("^_([A-Za-z]+)_.*$" , "\\1", cues))
   cue_normalization = unique(gsub("^.*_([a-z])$" , "\\1", cues))
@@ -1480,8 +1577,6 @@ d.max.acc.toINTEND <- m.io.SwehVd %>%
   summarise(mean.acc = mean(Posterior)) %>%
   group_by(IO.Normalization.Type, Cue_space, IO.Quantity) %>%
   summarise(mean = mean(mean.acc))
-
-d.max.acc.toINTEND %>% filter(IO.Normalization.Type %in% c("CCuRE_Hz", "CCuRE_Mel", "CCuRE_Bark", "CCuRE_ERB", "CCuRE_semitones", "Nearey1_log", "Nearey2_log", "Lobanov_Hz")) %>% group_by(Cue_space, IO.Quantity) %>% summarise(max = max(mean)) %>% ungroup() %>% summarise(min(max)) %>% round(digits = 3) * 100
 ```
 ## Results {#sec:resultsII}
 Figure \@ref(fig:predictions) visualizes the unnormalized and normalized models' predictions for perception of Stockholm Swedish vowels, under different assumptions about the relevant cues. The first observation is that---unlike for the separability index in Study 1---the relative performance of the different normalization accounts within each panel is remarkably constant across all panels (compare to Figure \@ref(fig:separability)). Regardless of the combination of cues or the vowel types considered (long, short, both), transformation into a perceptual space does little to improve recognition accuracy, compared to unnormalized cues. Intrinsic normalization, too, does not improve recognition accuracy. And, unlike in Study 1, this result holds even when F3 is included as a cue. This replicates previous work on Dutch [@adank2004] but conflicts with some evaluations of English [e.g., @syrda1985]. @adank2004 discussed whether the discrepancy in results might be attributed to implementations of the Bark-transformation, or to what @syrda1985 describe as language-specificity of the second dimension of @Syrdal1986 normalization. The present results would seem to confirm this vulnerability of intrinsic normalizations. <!-- TO DO: Starting at @adank2004 discussed, this feels to me more like sth that should go into the discussion. Perhaps we do the same with any replication statements? (but at least these more complicated ones) -->
@@ -1493,7 +1588,7 @@ Looking across columns of Figure \@ref(fig:predictions), short vowels are always
 
 When long and short vowels are categorized together, performance of the ideal observers is comparatively poor unless vowel duration is included as a cue. This is expected given that vowel duration is the primary cue to vowel quantity. Of interest, however, is that even the inclusion of only F3 (second row) yields a substantial improvement in recognition accuracy, in line with @carpenter1993 [see also @hillenbrand1995 and @johnson-sjerps2021 for recognition accuracy of unnormalized F1-F2 vs. unnormalized F0-F3]. Remarkably, once vowel duration is included, the best-performing ideal observer achieves 75% recognition accuracy across the 21 long and short vowels (compared to chance = 4.8%).
 
-Finally, there are also some more subtle differences across the rows and columns of Figure \@ref(fig:predictions). Of theoretical interest is that, Lobanov normalization performs best for all vowel types if only F1 and F2 are considered. However, this advantages decreases when additional cues are considered.^[Indeed, when all five cues are considered for the categorization of all 21 short and long vowels, simple centering appears to perform numerically better than Lobanov normalization. This is an artifact of our decision to only center vowel duration---the primary cue to vowel quantity---for the C-CuRE model (paralleling Study 1). Separate modeling not shown here confirmed that Lobanov normalizaton achieves the same recognition accuracy as the C-CuRE models when duration is centered and combined with Lobanov-normalized formants.<!--TO DO: test and confirm or change?-->] 
+Finally, there are also some more subtle differences across the rows and columns of Figure \@ref(fig:predictions). Of theoretical interest is that, Lobanov normalization performs best when the first three formants are considered. However, this advantage decreases when additional cues are considered.^[Indeed, when all five cues are considered for the categorization of all 21 short and long vowels, simple centering perform numerically better than Lobanov normalization. This is an artifact of our decision to only center vowel duration---the primary cue to vowel quantity---for the C-CuRE model (paralleling Study 1). Separate modeling not shown here confirmed that Lobanov normalizaton achieves the same recognition accuracy as the C-CuRE models when duration is centered and combined with Lobanov-normalized formants.] 
 
 ```{r}
 #Remove temp file
