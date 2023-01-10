@@ -153,18 +153,15 @@ base_size = 10
 
   * Update TO DO regularly
   * Check that Lobanov achieves the same accuracy as C-CuRE models when duration is centered and combined w Lobanov formants.
-  * Work on previous-research-table for Study II.
-    * add @nearey1989 and @johnson-sjerps2021 to the table
-    * refs on C-CuRE vowels
   * Add REFS 
+    * barreda2020
+    * add @nearey1989 to the table
     * that SyrdalGopal is particularly successful in separating vowels that differ in lip rounding
     * per-vowel accuracies and benefits of normalization
   * FIGs
-    * per-vowel accuracy figs in SI
     * add fig illustrating joint and marginal cue distributions.
     * to work on while in review: fig 10, color labels, or only label a few vowels (or none).
   * Have all tables be the same size
-  * Apply normalization to the data at all three time points
 
 ```{r}
 
@@ -1231,82 +1228,50 @@ In sum, indices of variability and category separability like that in Equation \
 # Study 2: Comparing the expected effects of normalization on perception {#sec:studyII}
 Study 2 takes a more direct approach to evaluating the expected effects of normalization for the perception of vowels. Specifically, we use a general model of speech perception, Bayesian ideal observers [e.g., @clayards2008; @nearey198X; @norris-mcqueen2008], to predict the vowel identities in the SwehVd database under different normalization account. We then compare normalization accounts based on the recognition accuracy that they achieve when the (un)normalized cues are fed into the otherwise identical categorization model. We evaluate the same normalization accounts as those investigated in Study 1. And, as in Study 1, we repeat this comparisons for different combinations of cues, and while categorizing just long vowels, just short vowels, or both long and short vowels together. 
 
-<!-- TO DO: this table needs work: On the other hand, I think there's work within c-cure on vowels?  and I do think it would be ok to mention works here that actually assessed perception. --> [@mcmurray-jongman2016]
+\begin{landscape}\begin{table}
 
-```{r}
-norm_accounts_eval_percep <- tibble(
-      "Language(s) investigated" = c(
-                              "US English",
-                              "US English",
-                              "US English",
-                              "US English",
-                              "Brazilian Portuguese & US English",
-                              "Dutch"),
-      "Article" = c(
-               "Barreda & Nearey, 2018",
-               "Carpenter & Govindarajan, 1993",
-               "Richter, Feldman, Salgado & Jansen, 2017",
-               "Syrdal, 1985",
-               "Escudero & Hoffman Bion, 2007",
-               "Adank, Smits & van Hout, 2004"),
-
-  "Speech materials" = c(
-                         "120,000 simulated languages (of 5 or 9 vowels) modeled on Hillenbrand et al.'s (1995) data (138 female/male child/adult talkers * 12 vowels)",
-                         "Peterson & Barney's (1952) database, 75 female/male child/adult talkers (2 tokens * 10 vowels)",
-                         "Clopper & Pisoni's (2006) NSP vowel corpus, 60 female/male talkers, 6 varieties (5 tokens * 10 vowels)",
-                         "Peterson & Barney's (1952) database, 75 female/male child/adult talkers (2 tokens * 10 vowels); Texas Instruments database, 154 female/male child/adult talkers (1 token * 10 vowels)",
-                         "models trained on 400,000 F1-F2 combinations generated on recordings of 8 female/male talkers (20 tokens * 7 vowels and 15 tokens * 11 vowels)",
-                         "160 female/male talkers, 8 varieties (2 tokens * 9 vowels)"),
-
-  "Normalization accounts" = c(
-    "Nearey2, Lobanov, log-mean in linear regression framework",
-    "Bark, Mel, ERB, 2 log-transformations, Syrdal & Gopal, Miller, Nearey1, Nearey2, Gerstman, linear transformation (Watrous, 1993)",
-    "Vocal Tract Length Normalization, Lobanov",
-    "log-transformation, Bark, Syrdal's bark-difference model, Miller (2 accounts), Nearey1, Nearey2, Gerstman",
-    "Nearey1, Lobanov, Gerstman",
-    "log-transformation, Bark, Mel, ERB, Syrdal & Gopal, Lobanov, Nearey1, Nearey2, Gerstman, Nordström, Miller"),
-
-  "Approach" = c(
-                        "regression, F statistics",
-                        "fuzzy ARTMAP, K-nearest neighbour",
-                        "discrimination model likelihoods",
-                        "linear discriminant analysis",
-                        "constraint rankings",
-                        "linear discriminant analysis"),
-  
-  "Accuracy assessed" = c(
-    "against intended category",
-    "against intended category",
-    "against perceived category (Feldman et al., 2009)",
-    "against intended category",
-    "against intended category",
-    "against intended category"),
-
-  "Best two performing" = c(
-                                     "log-mean in linear regression framework (1), Nearey2 (2)",
-                                     "linear transformation (1), Nearey1 (2)",
-                                     "Vocal Tract Length Normalization (1), Lobanov (2)",
-                                     "Syrdal & Gopal (1), Nearey1/Nearey2 (2)",
-                                     "Lobanov (1), Nearey1 (2)",
-                                     "Lobanov (1), Nearey1 (2)"))
-```
+\caption{\label{tab:norm-evaluation-percep}Previous studies comparing normalization accounts' predictions for perception}
+\centering
+\fontsize{7}{9}\selectfont
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{2cm}>{\raggedright\arraybackslash}p{2cm}>{\raggedright\arraybackslash}p{5cm}>{\raggedright\arraybackslash}p{5cm}>{\raggedright\arraybackslash}p{2cm}>{\raggedright\arraybackslash}p{2cm}>{\raggedright\arraybackslash}p{2cm}}
+\toprule
+Language(s) investigated & Article & Speech materials & Normalization accounts & Approach & Accuracy assessed & Best two performing\\
+\midrule
+ & Barreda \& Nearey, 2018 & 120,000 simulated languages (of 5 or 9 vowels) modeled on Hillenbrand et al.'s (1995) data (138 female/male child/adult talkers * 12 vowels) & Nearey2, Lobanov, log-mean in linear regression framework & regression, F statistics &  & log-mean in linear regression framework (1), Nearey2 (2)\\
+\cmidrule{2-5}
+\cmidrule{7-7}
+ & Carpenter \& Govindarajan, 1993 & Peterson \& Barney's (1952) database, 75 female/male child/adult talkers (2 tokens * 10 vowels) & Bark, Mel, ERB, 2 log-transformations, Syrdal \& Gopal, Miller, Nearey1, Nearey2, Gerstman, linear transformation (Watrous, 1993) & fuzzy ARTMAP, K-nearest neighbour &  & linear transformation (1), Nearey1 (2)\\
+\cmidrule{2-5}
+\cmidrule{7-7}
+ & Cole, Linebaugh, Munson \& McMurray, 2010 & 10 female/male talkers (3 tokens * 2 target vowels * 4 context vowels * 6 consonants) & C-CuRE & regression &  & C-CuRE (1)\\
+\cmidrule{2-5}
+\cmidrule{7-7}
+ & Johnson \& Sjerps, 2021 & Peterson \& Barney's (1952) database, 75 female/male child/adult talkers (2 tokens * 10 vowels); Hillenbrand et al.'s (1995) database, 138 female/male child/adult talkers (1-3 tokens * 12 vowels) & Mean $\lambda$, F3 anchor, F1 anchor, Mean F* anchor (Sussman, 1986), Nordström, VTLN (Lammert \& Narayanan, 2015), Nearey2, Gerstman, VTLN ($\Delta$F), Nearey1, Watt \& Fabricius, Lobanov, Miller, Syrdal \& Gopal & support vector machine classification models &  & Lobanov (1), Watt \& Fabricius (2)\\
+\cmidrule{2-5}
+\cmidrule{7-7}
+ & McMurray, Cole \& Munson, 2011 & Cole et al. (2010) database, 10 female/male talkers (1 token * 2 target vowels * 4 context vowels * 6 consonants) &  &  & \multirow{-5}{2cm}{\raggedright\arraybackslash against intended category} & \\
+\cmidrule{2-3}
+\cmidrule{6-6}
+ & McMurray \& Jongman, 2016 & Jongman et al. (2000) database, 10 female/male talkers (1 token * 4 vowels * 8 fricatives) & \multirow{-2}{5cm}{\raggedright\arraybackslash C-CuRE} & \multirow{-2}{2cm}{\raggedright\arraybackslash regression} & against perceived category & \multirow{-2}{2cm}{\raggedright\arraybackslash C-CuRE (1)}\\
+\cmidrule{2-7}
+ & Richter, Feldman, Salgado \& Jansen, 2017 & Clopper \& Pisoni's (2006) NSP vowel corpus, 60 female/male talkers, 6 varieties (5 tokens * 10 vowels) & Vocal Tract Length Normalization, Lobanov & discrimination model likelihoods & against perceived category (Feldman et al., 2009) & Vocal Tract Length Normalization (1), Lobanov (2)\\
+\cmidrule{2-7}
+\multirow{-8}{2cm}{\raggedright\arraybackslash US English} & Syrdal, 1985 & Peterson \& Barney's (1952) database, 75 female/male child/adult talkers (2 tokens * 10 vowels); Texas Instruments database, 154 female/male child/adult talkers (1 token * 10 vowels) & log-transformation, Bark, Syrdal's bark-difference model, Miller (2 accounts), Nearey1, Nearey2, Gerstman & linear discriminant analysis &  & Syrdal \& Gopal (1), Nearey1/Nearey2 (2)\\
+\cmidrule{1-5}
+\cmidrule{7-7}
+Brazilian Portuguese \& US English & Escudero \& Hoffman Bion, 2007 & models trained on 400,000 F1-F2 combinations generated on recordings of 8 female/male talkers (20 tokens * 7 vowels and 15 tokens * 11 vowels) & Nearey1, Lobanov, Gerstman & constraint rankings &  & \\
+\cmidrule{1-5}
+Dutch & Adank, Smits \& van Hout, 2004 & 160 female/male talkers, 8 varieties (2 tokens * 9 vowels) & log-transformation, Bark, Mel, ERB, Syrdal \& Gopal, Lobanov, Nearey1, Nearey2, Gerstman, Nordström, Miller & linear discriminant analysis & \multirow{-3}{2cm}{\raggedright\arraybackslash against intended category} & \multirow{-2}{2cm}{\raggedright\arraybackslash Lobanov (1), Nearey1 (2)}\\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
 
 Table \@ref(tab:norm-evaluation-percep) lists previous studies that have compared normalization accounts in terms of their expected consequences for perception. While some previous studies have evaluated normalization accounts against listeners' responses in perception experiments [@richter2017], the majority of previous work has evaluated accounts against the category intended by the talker---i.e., against production data. Here, we follow this majority (though we plan to conduct perception studies on Swedish in the future).
 
-Across languages and approaches, the studies in Table \@ref(tab:norm-evaluation-percep) yield similar results as those summarized in Table \@ref(tab:norm-evaluation-variability) for category separability. Normalization improves recognition accuracy compared to unnormalized cues. Perceptual transformations perform worse than intrinsic or extrinsic normalization at predicting perception from production data. Furthermore, the same normalization accounts that have been found to be most successful at reducing inter-talker variability [e.g., @lobanov1971; @nearey1978] are also often found to achieve higher recognition accuracy [e.g., @adank2004; @barreda2018a; @escudero2007; @syrda1985]. Despite these overall similarities in results, it is important to keep in mind that the two approaches---category separability and models of perception---do not *have* to yield the same results. In the present study, we go beyond previous work by modeling perception of both vowel quality and vowel quantity over a particularly dense vowel space, and by considering additional cues. We expect, in particular, that the approach in Study 2 will remove the deficiency of the separability index related to F3 observed in Study 1.
+Across languages and approaches, the studies in Table \@ref(tab:norm-evaluation-percep) yield similar results as those summarized in Table \@ref(tab:norm-evaluation-variability) for category separability. Normalization improves recognition accuracy compared to unnormalized cues. Perceptual transformations perform worse than intrinsic or extrinsic normalization at predicting perception from production data. Furthermore, the same normalization accounts that have been found to be most successful at reducing inter-talker variability [e.g., @lobanov1971; @nearey1978] are also often found to achieve higher recognition accuracy [e.g., @adank2004; @barreda2018a; @escudero2007; @johnson-sjerps2021; @syrda1985]. Despite these overall similarities in results, it is important to keep in mind that the two approaches---category separability and models of perception---do not *have* to yield the same results. In the present study, we go beyond previous work by modeling perception of both vowel quality and vowel quantity over a particularly dense vowel space, and by considering additional cues. We expect, in particular, that the approach in Study 2 will remove the deficiency of the separability index related to F3 observed in Study 1.
 
-As also shown in Table \@ref(tab:norm-evaluation-percep), previous work has employed a number of model types to compare the expected effects of normalization on perception, ranging from models based on phonological theory [e.g., optimality theory, @escudero2007], to more general models of categorization [e.g., linear discriminant analysis, @adank2004; @syrda1985; k-nearest neighbors as in exemplar theory or ARTMAP, @carpenter1993; Bayesian inference, @Kleinschmidt2018; @richter2017], to general frameworks for data analysis [e.g., regression, @REF-CuRE-vowel]. We use ideal observers, rather than other approaches, because they remove *all* degrees of freedom from the modeling. For example, k-nearest neighbor categorization requires the choice of a similarity metric, which can introduce one or more degrees of freedom into the modeling, and requires a choice for $k$. Linear discriminant analysis or regression introduce at least one degree of freedom for each cue considered. Bayesian ideal observers encode the assumption that listeners use and integrate cues *optimally*. As a consequence, the predicted posterior probabilities of all categories for a given acoustic input are perfectly determined by the combination of (1) the category-specific distribution of cues in the previous input and (2) the cue values of the input. Next, we describe ideal observers in more detail. After introducing ideal observers, we detail how this approach avoids the pitfalls of the separability index employed in Study 1.
-
-```{r norm-evaluation-percep, results='asis'}
-norm_accounts_eval_percep %>%
-  kable(format = "latex", booktabs = TRUE, caption = "Previous studies comparing normalization accounts' predictions for perception") %>%
-  kable_styling(font_size = 7) %>%
-  column_spec(1:2, width = "2cm") %>%
-  column_spec(3:4, width = "5cm") %>%
-  column_spec(5:7, width = "2cm") %>%
-  kableExtra::landscape() %>%
-  collapse_rows()
-```
+As also shown in Table \@ref(tab:norm-evaluation-percep), previous work has employed a number of model types to compare the expected effects of normalization on perception, ranging from models based on phonological theory [e.g., optimality theory, @escudero2007], to more general models of categorization [e.g., linear discriminant analysis, @adank2004; @syrda1985; k-nearest neighbors as in exemplar theory or ARTMAP, @carpenter1993; Bayesian inference, @Kleinschmidt2018; @richter2017; support vector machine classification models, @johnson-sjerps2021], to general frameworks for data analysis [e.g., regression, @cole2010a; @mcmurray-jongman2016]. We use ideal observers, rather than other approaches, because they remove *all* degrees of freedom from the modeling. For example, k-nearest neighbor categorization requires the choice of a similarity metric, which can introduce one or more degrees of freedom into the modeling, and requires a choice for $k$. Linear discriminant analysis or regression introduce at least one degree of freedom for each cue considered. Bayesian ideal observers encode the assumption that listeners use and integrate cues *optimally*. As a consequence, the predicted posterior probabilities of all categories for a given acoustic input are perfectly determined by the combination of (1) the category-specific distribution of cues in the previous input and (2) the cue values of the input. Next, we describe ideal observers in more detail. After introducing ideal observers, we detail how this approach avoids the pitfalls of the separability index employed in Study 1.
 
 ## Methods {#sec:methodsII}
 
@@ -1526,7 +1491,7 @@ We also see that all models---even for unnormalized cues---perform substantially
 
 Looking across columns of Figure \@ref(fig:predictions), short vowels are always recognized with higher accuracy compared to long vowels. This increase in performance cannot be explained by the small increase in the chance baseline alone (10% for the 10 short vowels, compared to 9.1% for the 11 long vowels). It conceptually replicates a initially surprising result of Study 1: while short vowels are more densely clustered in the center of the vowel space, and thus occupy a smaller perceptual space, they also exhibit less variability. Overall, this makes those vowels *easier* to recognize. 
 
-When long and short vowels are categorized together, performance of the ideal observers is comparatively poor unless vowel duration is included as a cue. This is expected given that vowel duration is the primary cue to vowel quantity. Of interest, however, is that even the inclusion of only F3 (second row) yields a substantial improvement in recognition accuracy, in line with @carpenter1993 and @johnson-sjerps2021. Remarkably, once vowel duration is included, the best-performing ideal observer achieves 75% recognition accuracy across the 21 long and short vowels (compared to chance = 4.8%).
+When long and short vowels are categorized together, performance of the ideal observers is comparatively poor unless vowel duration is included as a cue. This is expected given that vowel duration is the primary cue to vowel quantity. Of interest, however, is that even the inclusion of only F3 (second row) yields a substantial improvement in recognition accuracy, in line with @carpenter1993 [see also @hillenbrand1995 and @johnson-sjerps2021 for recognition accuracy of unnormalized F1-F2 vs. unnormalized F0-F3]. Remarkably, once vowel duration is included, the best-performing ideal observer achieves 75% recognition accuracy across the 21 long and short vowels (compared to chance = 4.8%).
 
 Finally, there are also some more subtle differences across the rows and columns of Figure \@ref(fig:predictions). Of theoretical interest is that, Lobanov normalization performs best for all vowel types if only F1 and F2 are considered. However, this advantages decreases when additional cues are considered.^[Indeed, when all five cues are considered for the categorization of all 21 short and long vowels, simple centering appears to perform numerically better than Lobanov normalization. This is an artifact of our decision to only center vowel duration---the primary cue to vowel quantity---for the C-CuRE model (paralleling Study 1). Separate modeling not shown here confirmed that Lobanov normalizaton achieves the same recognition accuracy as the C-CuRE models when duration is centered and combined with Lobanov-normalized formants.<!--TO DO: test and confirm or change?-->] 
 
@@ -1669,15 +1634,15 @@ In this paper, two methods of evaluations were used. In Study 1, we compared the
 As a final note on methodology, we find the 5-fold cross-validation approach used for normalization of the acoustic data adopted here, advantageous for several reasons, the two most important being that: (1) it allows us to avoid over-fitting to the sample, while also (2) providing a more realistic reflection of how parameters used for normalization are incrementally inferred from the talker's speech input. Even though many of the commonly adopted normalization accounts involve parameters that are set based on the data, previous studies have rarely, if ever, considered how these parameters might be affected by the specific dataset used for normalization.
 
 ## Limitations and future directions
-Four limitations of the present study, three of which are shared with most previous work, deserve discussion. First, the present study compared normalization accounts against speech from only female talkers of one regional variety of Swedish (Stockholm Swedish). In contrast, many previous studies included data from talkers of different genders [e.g., @clopper2009], and sometimes from talkers of different ages [e.g., @barreda2018a; @carpenter1993; @Flynn2011; @hindle1978; @kohn2012a; @syrda1985] and/or language backgrounds [e.g., @adank2004; @disner1980; @escudero2007; @fabricius2009; @labov2010; @richter2017]. Given that age, gender, etc. tends to affect formants (and other cues) beyond talker-variability, it is likely that the inclusion of more diverse talkers would increase the lack of invariance problem. For example, we would expect the ideal observers over unnormalized cues (Study 2) to achieve lower recognition performance if vowel productions from male talkers would be included in the data. In short, the models in Study 2 likely over-estimates the recognition accuracy that can be achieved for unnormalized cues if a more diverse range of talkers is considered.
+Four limitations of the present study, three of which are shared with most previous work, deserve discussion. First, the present study compared normalization accounts against speech from only female talkers of one regional variety of Swedish (Stockholm Swedish). In contrast, many previous studies included data from talkers of different genders [e.g., @clopper2009; @cole2010a; @mcmurray2011; @mcmurray-jongman2016], and sometimes from talkers of different ages [e.g., @barreda2018a; @carpenter1993; @Flynn2011; @hindle1978; @johnson-sjerps2021; @kohn2012a; @syrda1985] and/or language backgrounds [e.g., @adank2004; @disner1980; @escudero2007; @fabricius2009; @labov2010; @richter2017]. Given that age, gender, etc. tends to affect formants (and other cues) beyond talker-variability, it is likely that the inclusion of more diverse talkers would increase the lack of invariance problem. For example, we would expect the ideal observers over unnormalized cues (Study 2) to achieve lower recognition performance if vowel productions from male talkers would be included in the data. In short, the models in Study 2 likely over-estimates the recognition accuracy that can be achieved for unnormalized cues if a more diverse range of talkers is considered.
 
-What does that mean for the relative effect of normalization? To the extent that normalization successfully overcomes inter-talker variability that is caused by gender, age, and other social or physiological factors, we expect that the benefit of normalization accounts should show more clearly, relative to unnormalized cues. In this sense, the present study might *under*-estimate the relative benefits of normalization. Whether the *relative* performance of normalization accounts---i.e., the finding of primary interest to us---would differ if a more diverse range of talkers was considered is unclear. To the extent that vowel-specific accounts were originally developed specifically to eliminate physiological differences that are correlated with gender [e.g., @johnson-sjerps2021],<!-- TO DO: this is an odd reference for sth that reads "originally developed". if you are citing it as a review, say "as reviewed in ..."--> it is theoretically possible that the high performance of general normalization accounts [e.g., C-CuRE, @mcmurray-jongman2011] might not replicate when talkers of different genders are included. <!-- TO DO: I wonder what the ADank study says about this? did they compare how well accounts performed in removing non-gender talker variabiltiy vs. gender variability or did they only compare gender vs. dialect? --> Future releases of the SwehVd database will contain data from male talkers, which will allow us or other researchers to revisit these questions.
+What does that mean for the relative effect of normalization? To the extent that normalization successfully overcomes inter-talker variability that is caused by gender, age, and other social or physiological factors, we expect that the benefit of normalization accounts should show more clearly, relative to unnormalized cues. In this sense, the present study might *under*-estimate the relative benefits of normalization. Whether the *relative* performance of normalization accounts---i.e., the finding of primary interest to us---would differ if a more diverse range of talkers was considered is unclear. To the extent that vowel-specific accounts were originally developed specifically to eliminate physiological differences that are correlated with gender [as reviewed in, e.g., @johnson-sjerps2021], it is theoretically possible that the high performance of general normalization accounts [e.g., C-CuRE, @mcmurray-jongman2011] might not replicate when talkers of different genders are included. <!-- TO DO: I wonder what the ADank study says about this? did they compare how well accounts performed in removing non-gender talker variabiltiy vs. gender variability or did they only compare gender vs. dialect? --> Future releases of the SwehVd database will contain data from male talkers, which will allow us or other researchers to revisit these questions.
 
 Second, the present study aggregated acoustic-phonetic measurements taken at different points of the vowel (at 35%, 50%, and 65% into the vowel) into a single formant measurement. This follows previous comparisons of normalization accounts but is a simplifying assumption that should be revisited in future work. Formant dynamics carry important for category distinctions [e.g., @Assmann2005; @hillenbrand1999; @nearey1986], and are hypothesized to be of particular importance for some vowel distinctions in other varieties of Central Swedish [e.g., @kuronen2000]. This means that Study 2 likely under-estimates the recognition accuracy that could be achieved even from unnormalized cues alone. It is an open question whether the findings of primary interest---the relative performance of different normalization accounts---would be affected if formant dynamics were considered. Some normalization accounts, for example, consider normalization of such formant dynamics to take place *after* basic formant normalization [but before the mapping of cues to category representations, Santiago Barreda, p.c., 01/06/2023]. <!-- TO DO: or perhaps this is even in one of the papers? --> Future work could employ SwehVd to compare ideal observers or other classification models while taking into consideration formant measurements throughout the vowel.
 
 Third, we note that the present study only considered competing normalization accounts. This, too, follows previous research on normalization but is potentially problematic. As mentioned in the introduction, it is now believed that at least three different mechanisms contribute to adaptive speech perception, including not only normalization but also changes in category representations and decision-making [for review, see @xie2022].This has consequences for research on normalization. For example, @xie2021cognition compared normalization accounts against the production of prosodic phrasing in L1-US English, while also considering alternative hypotheses about listeners' ability to adapt category representations. Xie and colleagues found that the effectiveness of cue normalization is substantially reduced if listeners can learn and maintain talker- or group-specific category representations [as assumed in some influential theories of speech perception, exemplar models, e.g., @johnson1997; @pierrehumbert2001; Bayesian ideal adaptors, @kleinschmidt-jaeger2015]. Xie and colleagues only considered two general types of normalization, and their focus was on the interpretation of prosodic signals. But their results call for caution in interpreting studies like the present that do not consider the possibility of talker-specific representations---an assumption shared with basically all previous work on vowel normalization.
 
-Fourth and finally, we followed the majority of previous work and evaluated normalization accounts against *production* data [for exceptions, see @barreda2020; @REF; @xie2021cognition]. This is problematic, especially when measures like category separability or reduced cross-talker variability in category means are used to evaluated normalization accounts (as in our Study 1 and many previous studies). These evaluations essentially assume that the goal of speech perception is to make the perceptual realizations of the same category by different talkers as similar as possible in the normalized space [for an in-depth critique, see @barreda20XX]. However, the goal of speech perception is presumably to reliably infer the category intended by the talker,^[Or somewhat more precisely, cooperative listeners aim to understand the meaning intended by the talker, and this inference is generally believed to benefit from the correct recognition of phonological categories, such as phonemes, syllables, or word forms. For discussion, see also @hall2016.] and this aim does not necessarily entail perfect removal of cross-talker variability (as evidenced, for example, by the different findings of Studies 1 and 2). To some extent, Study 2 addresses this potential issue by evaluating normalization accounts in terms of how well they predict the vowel category intended by the talker. However, if the goal is to compare how well normalization accounts explain human perception, more informative comparison will require comparison against listeners' categorization responses (which we are planning to conduct next).
+Fourth and finally, we followed the majority of previous work and evaluated normalization accounts against *production* data [for exceptions, see e.g., @barreda2020; @mcmurray-jongman2016; @richter2017; @xie2021cognition]. This is problematic, especially when measures like category separability or reduced cross-talker variability in category means are used to evaluated normalization accounts (as in our Study 1 and many previous studies). These evaluations essentially assume that the goal of speech perception is to make the perceptual realizations of the same category by different talkers as similar as possible in the normalized space [for an in-depth critique, see @barreda20XX]. However, the goal of speech perception is presumably to reliably infer the category intended by the talker,^[Or somewhat more precisely, cooperative listeners aim to understand the meaning intended by the talker, and this inference is generally believed to benefit from the correct recognition of phonological categories, such as phonemes, syllables, or word forms. For discussion, see also @hall2016.] and this aim does not necessarily entail perfect removal of cross-talker variability (as evidenced, for example, by the different findings of Studies 1 and 2). To some extent, Study 2 addresses this potential issue by evaluating normalization accounts in terms of how well they predict the vowel category intended by the talker. However, if the goal is to compare how well normalization accounts explain human perception, more informative comparison will require comparison against listeners' categorization responses (which we are planning to conduct next).
 
 
 # References{#sec:references}
@@ -1947,15 +1912,13 @@ p.matrix.cues %+%
 
 ## Per-vowel categorization accuracy of models trained on long and short vowels separately {#sec:accuracy-per-vowel}
 
-(ref:predictions-per-vowel-long) Per-vowel predicted categorization accuracy of the ideal observers trained on the long vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
-
 ```{r}
 #Do multiple plots because of plot size
 p.accuracy.io.per.vowel.long.1 <- plot_io_results_per_vowel(
   m.io.SwehVd %>%
     filter(IO.Quantity == "long") %>%
     nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[iː]", "[yː]", "[ʉː]", "[eː]", "[ɛː]"))) +
-  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe)) + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.y = element_blank())
+  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
 p.accuracy.io.per.vowel.long.2 <- plot_io_results_per_vowel(
   m.io.SwehVd %>%
     filter(IO.Quantity == "long") %>%
@@ -1978,24 +1941,32 @@ p.accuracy.io.per.vowel.short.2 <- plot_io_results_per_vowel(
 p.accuracy.io.per.vowel.all.1 <- plot_io_results_per_vowel(
   m.io.SwehVd %>%
     filter(IO.Quantity == "all") %>%
-    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[iː]", "[ɪ]", "[yː]", "[ʏ]", "[ʉː]", "[ɵ]", "[eː]", "[ɛ]", "[ɛː]", "[æː]"))) +
+    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[iː]", "[ɪ]", "[yː]", "[ʏ]", "[ʉː]", "[ɵ]", "[eː]", "[ɛ]", "[ɛː]"))) +
   facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
 p.accuracy.io.per.vowel.all.2 <- plot_io_results_per_vowel(
   m.io.SwehVd %>%
     filter(IO.Quantity == "all") %>%
-    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[æ]", "[øː]", "[ø]", "[œː]", "[œ]", "[ɑː]", "[a]", "[oː]", "[ɔ]", "[uː]", "[ʊ]"))) +
+    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[æː]", "[æ]", "[øː]", "[ø]", "[œː]", "[œ]", "[ɑː]", "[a]", "[oː]", "[ɔ]", "[uː]", "[ʊ]"))) +
   facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
 ```
+(ref:predictions-per-vowel-long) Per-vowel predicted categorization accuracy of the ideal observers trained on the long vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+
 \begin{landscape}
-```{r predictions-per-vowel-long, fig.width=base.width * 6, fig.height=base.height * 4, fig.align='center', fig.cap="(ref:predictions-per-vowel-long)"}
-p.accuracy.io.per.vowel.long <- cowplot::plot_grid(
-  cowplot::plot_grid(p.accuracy.io.per.vowel.long.1, NULL, ncol = 2, rel_widths = c(5/6,1/6)),
-  p.accuracy.io.per.vowel.long.2 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l")
-gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.long, left = axis.title.accuracy))
-# 
-# gridExtra::grid.arrange(p.accuracy.io.per.vowel.long.1, p.accuracy.io.per.vowel.long.2+ theme(axis.title.y = element_blank()), left = axis.title.accuracy, nrow =2, heights = 2:3)
+
+```{r predictions-per-vowel-long, fig.width=base.width * 5, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:predictions-per-vowel-long)"}
+p.accuracy.io.per.vowel.long.1
 ```
 \end{landscape}
+
+(ref:predictions-per-vowel-long-2) (*Continued from last page*)Per-vowel predicted categorization accuracy of the ideal observers trained on the long vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+
+\begin{landscape}
+
+```{r predictions-per-vowel-long-2, fig.width=base.width * 5, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:predictions-per-vowel-long-2)"}
+p.accuracy.io.per.vowel.long.2
+```
+\end{landscape}
+
 (ref:predictions-per-vowel-short) Per-vowel predicted categorization accuracy of the ideal observers trained on the short vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
 ```{r predictions-per-vowel-short, fig.width=base.width * 4, fig.height=base.height * 5, fig.align='center', fig.cap="(ref:predictions-per-vowel-short)"}
