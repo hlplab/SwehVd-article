@@ -1,0 +1,56 @@
+\usepackage{fontspec}
+
+%% Pandoc can only set 10, 11, 12 pt
+%% uncomment below to set fontsize
+%\usepackage[fontsize=13pt]{scrextend}
+
+%\setmainfont{Calibri} % Set main font for latin characters
+
+\setlength{\parskip}{0.15cm} % Set space between paragraphs
+%\linespread{1.2}\selectfont % Set line height
+%\usepackage[doublespacing]{setspace} % Use double space without changing footnotes line height
+
+%% Special font for IPA
+%% Make sure "Doulos SIL" is installed on your computer
+%% For other typefaces supporting IPA symbols, see
+%% https://en.wikipedia.org/wiki/International_Phonetic_Alphabet#Typefaces
+\newfontfamily\ipa{Doulos SIL} % Font for IPA symbols
+\DeclareTextFontCommand{\ipatext}{\ipa}
+
+
+
+%%%         Section for CJK Characters                   %%%
+%%%   You may want to uncomment the code below if        %%%
+%%%   you're writing this document with CJK characters   %%%
+
+%\usepackage{xeCJK}  % Uncomment for using CJK characters
+%% Set main font for CJK characters
+%% Make sure your system has the font set
+%\setCJKmainfont[
+%	BoldFont={HanWangHeiHeavy}  % Set font for CJK boldface
+%    ]{標楷體}    % Set font for normal CJK
+%% Some Traditional Chinese fonts: AR PL KaitiM Big5, PingFang TC, Noto Sans CJK TC
+%\XeTeXlinebreaklocale "zh"
+%\XeTeXlinebreakskip = 0pt plus 1pt
+
+%% Added by Florian to make biblatex and its \refsection work since pandoc does not parse 
+%% content within latex environments. \refsection in turn is required to allow authors
+%% to have multiple separate bibliographies (here: one for main text and one for SI).
+%%
+%% For some reasons it does seem to be necessary to reload the bibpackage here since
+%% ---at least for my system---adding the following to the YAML header instead does
+%% not seem to work:
+%%
+%%    biblio-style: apa
+%%    biblatexoptions: [backend=biber,maxbibnames=999,style=apa]
+%% 
+%% curiously removing the following from the YAML header:
+%%
+%%     citation_package: biblatex
+%%
+%% makes knitr (or pandoc?) revert back to the default bibtex treatment, which does 
+%% not allow multiple bibliographies.
+\usepackage[backend=biber,maxbibnames=999,style=apa]{biblatex}
+\addbibresource{latex-stuff/library.bib}
+\newcommand{\brefsection}{\begin{refsection}}
+\newcommand{\erefsection}{\end{refsection}}
