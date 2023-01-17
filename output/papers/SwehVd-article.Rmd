@@ -151,10 +151,9 @@ base_size = 10
   * Double-check implementation of Syrdal & Gopal.
   * Add text on difference matrix in SI.
   * Add REFS
-    * check author names in bib-file
-    * add @nearey1989 to the table
-    * that SyrdalGopal is particularly successful in separating vowels that differ in lip rounding
-    * per-vowel accuracies and benefits of normalization
+    * double-check author names in bib-file
+    * add @nearey1989 to the table?
+    * missing refs
   * FIGs
     * to work on while in review: fig 10, color labels, or only label a few vowels (or none).
 
@@ -1267,7 +1266,7 @@ Language(s) investigated & Article & Speech materials & Normalization accounts &
 \cmidrule{2-7}
  & Richter, Feldman, Salgado \& Jansen, 2017 & Clopper \& Pisoni's (2006) NSP vowel corpus, 60 female/male talkers, 6 varieties (5 tokens * 10 vowels) & Vocal Tract Length Normalization (VTLN), Lobanov & discrimination model likelihoods & against perceived category (Feldman et al., 2009) & VTLN (1), Lobanov (2)\\
 \cmidrule{2-7}
-\multirow{-26}{2cm}{\raggedright\arraybackslash US English} & Syrdal, 1985 & Peterson \& Barney's (1952) database, 75 female/male child/adult talkers (2 tokens * 10 vowels); Texas Instruments database, 154 female/male child/adult talkers (1 token * 10 vowels) & log-transformation, Bark, Syrdal's bark-difference model, Miller (2 accounts), Nearey1, Nearey2, Gerstman & linear discriminant analysis &  & Syrdal \& Gopal (1), Nearey1/Nearey2 (2)\\
+\multirow{-26}{2cm}{\raggedright\arraybackslash US English} & Syrdal, 1985 & Peterson \& Barney's (1952) database, 75 female/male child/adult talkers (2 tokens * 10 vowels) & log-transformation, Bark, Syrdal's bark-difference model, Miller (2 accounts), Nearey1, Nearey2, Gerstman & linear discriminant analysis &  & Nearey1 (1), Nearey2 (2)\\
 \cmidrule{1-5}
 \cmidrule{7-7}
 Brazilian Portuguese \& US English & Escudero \& Hoffman Bion, 2007 & models trained on 400,000 F1-F2 combinations generated on recordings of 8 female/male talkers (20 tokens * 7 vowels and 15 tokens * 11 vowels) & Nearey1, Lobanov, Gerstman & constraint rankings &  & \\
@@ -1656,7 +1655,7 @@ Finally, the use of a perceptual model lets us assess vowel-specific effects on 
 
 Unsurprisingly, some vowels are recognized with much higher accuracy than others---at least when uniform category priors are assumed, as we did here. This is a direct consequence of the position of the vowel in the acoustic-phonetic space, relative to neighboring vowels: the more neighboring vowels overlap with each other, the lower the accuracy with which they are recognized. Which vowels will benefit from normalization will thus naturally vary between languages, reflecting the language-specific properties of the vowel space. For instance, [`r linguisticsdown::cond_cmpl("iː")`] is often described as more easily recognized in previous work on other languages. This contrasts with our findings for Central Swedish: here,  [`r linguisticsdown::cond_cmpl("iː")`] is part of the dense clustering of vowels along the height dimension and so has many close competitors. This highlights that recognition accuracy is due to the position of a vowel *relative* to its competitors [e.g., @Peterson1952; @Kuhl1991; @Polka2003], rather than its *absolute location* in the vowel space (e.g., [`r linguisticsdown::cond_cmpl("iː")`] being a peripheral vowel). 
 
-Also of interest is that not all vowels exhibit the benefit of normalization. In general, across evaluations, it seems to be vowels that are already recognized with relatively high accuracy that particularly benefit from normalization. <!-- AP: add here what others have found --> Finally, while there are minor differences across vowels in the relative goodness of different normalizations, the models that perform overall best also perform best on each vowel. This further demonstrates the plausibility of these normalization accounts for perception.
+Also of interest is that not all vowels exhibit the benefit of normalization. In general, across evaluations, it seems to be vowels that are already recognized with relatively high accuracy that particularly benefit from normalization, which does not replicate previous studies that have included per-vowel accuracies [e.g., @adank2003; @Syrdal1986]. In fact, @adank2003 reports larger improvements in error rates after normalization for vowels with higher error rates prior to normalization. Finally, while there are minor differences across vowels in the relative goodness of different normalizations, the models that perform overall best also perform best on each vowel [in line with @adank2003]. This further demonstrates the plausibility of these normalization accounts for perception.
 
 (ref:predictions-per-vowel) Predicted recognition accuracy of ideal observer under different normalization accounts for five of the 21 vowels. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Labels indicate mean across the five test folds. Chance level is indicated by grey line.
 
@@ -1748,7 +1747,7 @@ Four limitations of the present study, three of which are shared with most previ
 
 What does that mean for the relative effect of normalization? To the extent that normalization successfully overcomes inter-talker variability that is caused by gender, age, and other social or physiological factors, we expect that the benefit of normalization accounts should show more clearly, relative to unnormalized cues. In this sense, the present study might *under*-estimate the relative benefits of normalization. Whether the *relative* performance of normalization accounts---i.e., the finding of primary interest to us---would differ if a more diverse range of talkers was considered is unclear. To the extent that vowel-specific accounts were originally developed specifically to eliminate physiological differences that are correlated with gender [as reviewed in, e.g., @johnson-sjerps2021], it is theoretically possible that the high performance of general normalization accounts [e.g., C-CuRE, @mcmurray-jongman2011] might not replicate when talkers of different genders are included. Future releases of the SwehVd database will contain data from male talkers, which will allow us or other researchers to revisit these questions.
 
-Second, the present study aggregated acoustic-phonetic measurements taken at different points of the vowel (at 35%, 50%, and 65% into the vowel) into a single formant measurement. This follows previous comparisons of normalization accounts but is a simplifying assumption that should be revisited in future work. Formant dynamics carry important for category distinctions [e.g., @Assmann2005; @hillenbrand1999; @nearey1986], and are hypothesized to be of particular importance for some vowel distinctions in other varieties of Central Swedish [e.g., @kuronen2000]. Prior to other consideration, this means that Study 2 likely under-estimates the recognition accuracy that could be achieved even from unnormalized cues alone. It is an open question whether the findings of primary interest---the relative performance of different normalization accounts---would be affected if formant dynamics were considered. Some normalization accounts, for example, consider normalization of such formant dynamics to take place *after* basic formant normalization [but before the mapping of cues to category representations, Santiago Barreda, p.c., 01/06/2023]. <!-- TO DO: or perhaps this is even in one of the papers? --> Future work could employ SwehVd to compare ideal observers or other classification models while taking into consideration formant measurements throughout the vowel.
+Second, the present study aggregated acoustic-phonetic measurements taken at different points of the vowel (at 35%, 50%, and 65% into the vowel) into a single formant measurement. This follows previous comparisons of normalization accounts but is a simplifying assumption that should be revisited in future work. Formant dynamics carry important for category distinctions [e.g., @Assmann2005; @hillenbrand1999; @nearey1986], and are hypothesized to be of particular importance for some vowel distinctions in other varieties of Central Swedish [e.g., @kuronen2000]. Prior to other consideration, this means that Study 2 likely under-estimates the recognition accuracy that could be achieved even from unnormalized cues alone. It is an open question whether the findings of primary interest---the relative performance of different normalization accounts---would be affected if formant dynamics were considered. Some normalization accounts, for example, consider normalization of such formant dynamics to take place *after* basic formant normalization (but before the mapping of cues to category representations, S. Barreda, personal communication, 01/06/2023). <!-- TO DO: or perhaps this is even in one of the papers? --> Future work could employ SwehVd to compare ideal observers or other classification models while taking into consideration formant measurements throughout the vowel.
 
 Third, we only considered competing *normalization* accounts. This, too, follows previous research on normalization but is potentially problematic.
 As mentioned in the introduction, it is now believed that at least three different mechanisms contribute to adaptive speech perception, including not only normalization but also changes in category representations and decision-making [for review, see @xie2022]. This has consequences for research on normalization. For example, @xie2021cognition compared normalization accounts against the production of prosodic phrasing in L1-US English, while also considering alternative hypotheses about listeners' ability to adapt category representations. Xie and colleagues found that the effectiveness of cue normalization is substantially reduced if listeners can learn and maintain talker- or group-specific category representations [as assumed in some influential theories of speech perception, exemplar models, e.g., @johnson1997; @pierrehumbert2001; Bayesian ideal adaptors, @kleinschmidt-jaeger2015]. Xie and colleagues only considered two general types of normalization, and their focus was on the interpretation of prosodic signals. But their results call for caution in interpreting studies like the present that do not consider the possibility of talker-specific representations---an assumption shared with basically all previous work on vowel normalization.
@@ -2054,12 +2053,22 @@ p.accuracy.io.per.vowel.short.2 <- plot_io_results_per_vowel(
 p.accuracy.io.per.vowel.all.1 <- plot_io_results_per_vowel(
   m.io.SwehVd %>%
     filter(IO.Quantity == "all") %>%
-    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[iː]", "[ɪ]", "[yː]", "[ʏ]", "[ʉː]", "[ɵ]", "[eː]", "[ɛ]", "[ɛː]"))) +
-  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
+    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[iː]", "[ɪ]", "[yː]", "[ʏ]", "[ʉː]"))) +
+  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe)) + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.y = element_blank())
 p.accuracy.io.per.vowel.all.2 <- plot_io_results_per_vowel(
   m.io.SwehVd %>%
     filter(IO.Quantity == "all") %>%
-    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[æː]", "[æ]", "[øː]", "[ø]", "[œː]", "[œ]", "[ɑː]", "[a]", "[oː]", "[ɔ]", "[uː]", "[ʊ]"))) +
+    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[ɵ]", "[eː]", "[ɛ]", "[ɛː]", "[æː]"))) +
+  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
+p.accuracy.io.per.vowel.all.3 <- plot_io_results_per_vowel(
+  m.io.SwehVd %>%
+    filter(IO.Quantity == "all") %>%
+    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[æ]", "[øː]", "[ø]", "[œː]", "[œ]"))) +
+  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe)) + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.y = element_blank())
+p.accuracy.io.per.vowel.all.4 <- plot_io_results_per_vowel(
+  m.io.SwehVd %>%
+    filter(IO.Quantity == "all") %>%
+    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[ɑː]", "[a]", "[oː]", "[ɔ]", "[uː]", "[ʊ]"))) +
   facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
 ```
 (ref:predictions-per-vowel-long) Per-vowel predicted categorization accuracy of the ideal observers trained on the long vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
@@ -2087,23 +2096,21 @@ p.accuracy.io.per.vowel.short <- cowplot::plot_grid(p.accuracy.io.per.vowel.shor
 gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.short, left = axis.title.accuracy))
 ```
 
-(ref:predictions-per-vowel-all) Per-vowel predicted categorization accuracy of the ideal observers trained on all vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+(ref:predictions-per-vowel-all-1) Per-vowel predicted categorization accuracy of the ideal observers trained on all vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
-\begin{landscape}
-
-```{r predictions-per-vowel-all, fig.width=base.width * 7, fig.height=base.height * 2.5, fig.align='center', fig.cap="(ref:predictions-per-vowel-all)"}
-p.accuracy.io.per.vowel.all.1
+```{r predictions-per-vowel-all-1, fig.width=base.width * 4, fig.height=base.height * 5, fig.align='center', fig.cap="(ref:predictions-per-vowel-all-1)"}
+p.accuracy.io.per.vowel.all.first <- cowplot::plot_grid(p.accuracy.io.per.vowel.all.1, NULL, p.accuracy.io.per.vowel.all.2 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l", rel_heights = c(1,-.15,1))
+gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.all.first, left = axis.title.accuracy))
 ```
-\end{landscape}
 
 (ref:predictions-per-vowel-all-2) (*Continued from last page*)Per-vowel predicted categorization accuracy of the ideal observers trained on all vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
-\begin{landscape}
-
-```{r predictions-per-vowel-all-2, fig.width=base.width * 7, fig.height=base.height * 2.5, out.width='110%', fig.align='center', fig.cap="(ref:predictions-per-vowel-all-2)"}
-p.accuracy.io.per.vowel.all.2
+```{r predictions-per-vowel-all-2, fig.width=base.width * 4.5, fig.height=base.height * 5, fig.align='center', fig.cap="(ref:predictions-per-vowel-all-2)"}
+p.accuracy.io.per.vowel.all.second <- cowplot::plot_grid(
+  cowplot::plot_grid(p.accuracy.io.per.vowel.all.3, NULL, rel_widths = c(5/6, 1/6), align = "hv", axis = "l"),
+                     p.accuracy.io.per.vowel.all.4 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l", rel_heights = c(3/7, 3.5/7))
+gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.all.second, left = axis.title.accuracy))
 ```
-\end{landscape}
 
 ## Confusion matrices of ideal observers {#sec:confusion}
 To further explore effects of neighbouring categories, and which categories are more easily confused by the IOs and with what, we plot confusion matrices of the worst and best performing IOs trained on the long, short or all Swedish vowels, under the different assumptions about the relevant cues. As expected, the worse performing models have more competitors for each intended vowel, that is, the models are more confused about the underlying category. When there is high competition from many close neighbours, as in areas with substantial category overlap, models are more inclined to confuse categories with one of their neighbours. This is especially evident for the high vowels, but also for the allophones to [`r linguisticsdown::cond_cmpl("ɛ")`] and [`r linguisticsdown::cond_cmpl("ø")`]. Some of the worst performing models select a neighbouring category as often as the actual intended category (see e.g., model performance for [`r linguisticsdown::cond_cmpl("iː")`] and [`r linguisticsdown::cond_cmpl("yː")`] in Figures \@ref(fig:confusion-matrix-long) and \@ref(fig:confusion-matrix-allVowels). These vowels, however, become less confusable as F3 is included as cue, which might support previous perceptual evidence, suggesting the importance of F3 for distinguishing the Central Swedish high vowels [e.g., @fujimura1967].
