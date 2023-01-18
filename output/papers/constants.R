@@ -32,10 +32,12 @@ levels.cue.names = c("Item.Cue_Hz_F1", "Item.Cue_Hz_F2", "Item.Cue_Hz_F3", "Item
 levels.formants = c("F0", "F1", "F2", "F3")
 
 levels.cue.names.transform = c("F1_Hz", "F2_Hz", "F3_Hz", "F1_Mel", "F2_Mel", "F3_Mel", "F1_Bark", "F2_Bark", "F3_Bark", "F1_ERB", "F2_ERB", "F3_ERB", "F1_semitones", "F2_semitones", "F3_semitones")
-levels.normalization = c("Hz_r", "Mel_r", "Bark_r", "ERB_r", "semitones_r", "Bark_SyrdalGopal", "log_Miller", "Hz_CCuRE", "Mel_CCuRE", "Bark_CCuRE", "ERB_CCuRE", "semitones_CCuRE", "log_Nearey1", "log_Nearey2", "Hz_Gerstman", "Hz_Lobanov")
-levels.normalization.plots = c("r_Hz", "r_Mel", "r_Bark", "r_ERB", "r_semitones", "SyrdalGopal_Bark", "Miller_log", "CCuRE_Hz", "CCuRE_Mel", "CCuRE_Bark", "CCuRE_ERB", "CCuRE_semitones", "Nearey1_log", "Nearey2_log", "Gerstman_Hz", "Lobanov_Hz")
-labels.normalization = c("no normalization (Hz)", "transformed (Mel)", "transformed (Bark)", "transformed (ERB)","transformed (semitones)", "SyrdalGopal (Bark)", "Miller (log)", "C-CuRE (Hz)", "C-CuRE (Mel)", "C-CuRE (Bark)", "C-CuRE (ERB)", "C-CuRE (semitones)", "Nearey1 (log)", "Nearey2 (log)", "Gerstman (Hz)", "Lobanov (Hz)")
-levels.norm = c("r", "SyrdalGopal", "Miller", "CCuRE", "Nearey1", "Nearey2", "Gerstman", "Lobanov")
+levels.normalization = c("Hz_r", "Mel_r", "Bark_r", "ERB_r", "semitones_r", "Bark_SyrdalGopal", "Bark_SyrdalGopal2", "log_Miller", "Hz_CCuRE", "Mel_CCuRE", "Bark_CCuRE", "ERB_CCuRE", "semitones_CCuRE", "log_Nearey1", "log_Nearey2", "Hz_Gerstman", "Hz_Lobanov")
+levels.normalization.plots = c("r_Hz", "r_Mel", "r_Bark", "r_ERB", "r_semitones", "SyrdalGopal_Bark", "SyrdalGopal2_Bark", "Miller_log", "CCuRE_Hz", "CCuRE_Mel", "CCuRE_Bark", "CCuRE_ERB", "CCuRE_semitones", "Nearey1_log", "Nearey2_log", "Gerstman_Hz", "Lobanov_Hz")
+levels.normalization.1SG = c("r_Hz", "r_Mel", "r_Bark", "r_ERB", "r_semitones", "SyrdalGopal_Bark", "Miller_log", "CCuRE_Hz", "CCuRE_Mel", "CCuRE_Bark", "CCuRE_ERB", "CCuRE_semitones", "Nearey1_log", "Nearey2_log", "Gerstman_Hz", "Lobanov_Hz")
+labels.normalization = c("no normalization (Hz)", "transformed (Mel)", "transformed (Bark)", "transformed (ERB)","transformed (semitones)", "SyrdalGopal (Bark)", "SyrdalGopal2 (Bark)", "Miller (log)", "C-CuRE (Hz)", "C-CuRE (Mel)", "C-CuRE (Bark)", "C-CuRE (ERB)", "C-CuRE (semitones)", "Nearey1 (log)", "Nearey2 (log)", "Gerstman (Hz)", "Lobanov (Hz)")
+labels.normalization.1SG = c("no normalization (Hz)", "transformed (Mel)", "transformed (Bark)", "transformed (ERB)","transformed (semitones)", "SyrdalGopal (Bark)", "Miller (log)", "C-CuRE (Hz)", "C-CuRE (Mel)", "C-CuRE (Bark)", "C-CuRE (ERB)", "C-CuRE (semitones)", "Nearey1 (log)", "Nearey2 (log)", "Gerstman (Hz)", "Lobanov (Hz)")
+levels.norm = c("r", "SyrdalGopal", "SyrdalGopal2", "Miller", "CCuRE", "Nearey1", "Nearey2", "Gerstman", "Lobanov")
 
 # Color codes for plotting
 colors.vowel <- c("#1B9E77", "#D95F02", "#7570B3", "#E7298A", "#66A61E", "#E6AB02", "#A6761D", "#666666")
@@ -46,7 +48,9 @@ names(colors.vowel.word) <- levels.response.natural
 colors.vowel.IO <- c("#1B9E77", "#D95F02", "#7570B3", "#E7298A", "#66A61E", "#E6AB02", "#A6761D", "#666666")
 names(colors.vowel.IO) <- levels.response
 # Colors for plotting IOs categorization accuracy
-colors.all.procedures <- c("#C9C0BB", "#C9C0BB", "#C9C0BB", "#C9C0BB", "#C9C0BB", "#E6BE8A", "#E6BE8A", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#DDADAF", "#DDADAF")
+colors.all.procedures.1SG <- c("#C9C0BB", "#C9C0BB", "#C9C0BB", "#C9C0BB", "#C9C0BB", "#E6BE8A", "#E6BE8A", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#DDADAF", "#DDADAF")
+names(colors.all.procedures.1SG) <- labels.normalization.1SG
+colors.all.procedures <- c("#C9C0BB", "#C9C0BB", "#C9C0BB", "#C9C0BB", "#C9C0BB", "#E6BE8A", "#E6BE8A","#E6BE8A", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#DDADAF", "#DDADAF")
 names(colors.all.procedures) <- labels.normalization
 colors.normalization <- c("unnormalized" = "royalblue1", "centered" = "orangered1", "scaled" = "palegreen3")
 colors.transform <- c("Hz" = "royalblue1", "Mel" = "orangered1", "Bark" = "palegreen3", "log" = "lightblue1", "semitones" = "orange1", "ERB" = "green1")
@@ -296,9 +300,11 @@ get_normalization_functions <- function(
         F3_log_Miller = log(.data$F3 / .data$F2),
         # Add Syrdal-Gopal's Bark-distance model (since this is intrinsic, normalizing params are taken from newdata rather than training_talker_statistics)
         F0_Bark_SyrdalGopal = F0_Bark,
-        F1_Bark_SyrdalGopal = .data$F1_Bark - .data$F0_Bark, 
+        F0_Bark_SyrdalGopal2 = F0_Bark,
+        F1_Bark_SyrdalGopal = .data$F1_Bark - .data$F0_Bark,
+        F1_Bark_SyrdalGopal2 = .data$F1_Bark - .data$F0_Bark, 
         F2_Bark_SyrdalGopal = .data$F2_Bark - .data$F1_Bark,
-        F3_Bark_SyrdalGopal = .data$F3_Bark - .data$F2_Bark) %>%
+        F2_Bark_SyrdalGopal2 = .data$F3_Bark - .data$F2_Bark) %>%
       mutate(
         across(
           c("log_Nearey1", "log_Nearey2", "Hz_Gerstman", "Hz_Lobanov"),
