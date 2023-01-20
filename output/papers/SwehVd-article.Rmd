@@ -156,9 +156,7 @@ base_size = 10
     * to work on while in review: fig 10, color labels, or only label a few vowels (or none).
 
 ```{r}
-
 ```
-
 \newpage
 \setcounter{page}{1}
 
@@ -1269,7 +1267,7 @@ Language(s) investigated & Article & Speech materials & Normalization accounts &
  & McMurray \& Jongman, 2016 & Jongman et al. (2000) database, 10 female/male talkers (1 token * 4 vowels * 8 fricatives) & \multirow{-2}{5cm}{\raggedright\arraybackslash C-CuRE} & \multirow{-2}{2cm}{\raggedright\arraybackslash regression} & & \multirow{-2}{2cm}{\raggedright\arraybackslash C-CuRE (1)}\\
 \cmidrule{2-5}
 \cmidrule{7-7}
- & Nearey, 1989 & synthesized stimuli of male child/adult talker (based on male talker data from Fant, 1973, and Peterson \& Barney, 1952) & intrinsic (effects of F0, higher formants), extrinsic (effects of F1-F2 ensemble) & response patterns (F-ratio) & \multirow{-4}{2cm}{\raggedright\arraybackslash against perceived category} & effects of extrinsic ensemble (1), effects of F0 (2)\\
+ & Nearey, 1989 & synthesized stimuli of male child/adult talker (based on male talker data from Fant, 1973, and Peterson \& Barney, 1952) & intrinsic normalization, extrinsic normalization & response patterns (F-ratio) & \multirow{-4}{2cm}{\raggedright\arraybackslash against perceived category} & extrinsic effects (1), intrinsic effects (2)\\
 \cmidrule{2-7}
  & Richter, Feldman, Salgado \& Jansen, 2017 & Clopper \& Pisoni's (2006) NSP vowel corpus, 60 female/male talkers, 6 varieties (5 tokens * 10 vowels) & Vocal Tract Length Normalization (VTLN), Lobanov & discrimination model likelihoods & against perceived category (Feldman et al., 2009) & VTLN (1), Lobanov (2)\\
 \cmidrule{2-7}
@@ -1939,7 +1937,7 @@ p.separability.by_cue.SG <- plot_separability(d.SwehVd.forStudy.SI.long %>%
   facet_grid(factor(Cues, levels = c("F1", "F2", "F0", "Duration", "F1F2"), labels = c("F1", "F2", "F0", "duration", "F1F2")) ~ factor(Quantity, levels = c("long vowels", "short vowels", "all vowels")), scales = "free_y")
 ```
 
-(ref:separability-by-cue-SG) Separability indices of the two versions of the Syrdal & Gopal (1986) account for long vowels, short vowels, and long and short vowels together (columns), shown for four of the five cues considered in this study (rows), and the combined F1-F2. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.
+(ref:separability-by-cue-SG) Separability indices of the two versions of the Syrdal & Gopal (1986) account for long vowels, short vowels, and long and short vowels together, shown for four of the five cues considered in this study and the combined F1-F2. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.
 
 Figure \@ref(fig:separability-by-cue-SG) displays the separability index for the two implementations. The first version uses the F2-F1 bark-difference metric for the second dimension, whereas the second version (labelled *SyrdalGopal2 (Bark)*) implements the second dimension as suggested by @Syrdal1986, F3-F2. As evident from Figure \@ref(fig:separability-by-cue-SG), the first implementation performs better at separating categories in the SwehVd data, which replicates @fant1983.
 
