@@ -149,14 +149,11 @@ base_size = 10
 # To Do
 
   * Update TO DO regularly
-  * Remove debugging code on SI when done + adapt discussion study I
   * Fill in XX.X% in general discussion.
   * Add REFS
-    * double-check author names in bib-file
     * missing refs
   * FIGs
     * to work on while in review: fig 10, color labels, or only label a few vowels (or none).
-    * Add text on difference matrix in SI + change plot to include diff side by side to corr matrix.
 
 ```{r}
 
@@ -1025,21 +1022,13 @@ d.SwehVd.forStudy.long.within_category_MS <-
     within_df_F1F3 = pmin(within_df_F1, within_df_F2, within_df_F3),
     within_df_F0F3 = pmin(within_df_F0, within_df_F1, within_df_F2, within_df_F3),
     within_df_all = pmin(within_df_F0, within_df_F1, within_df_F2, within_df_F3, within_df_Duration),
-    #FOR DEBUGGING - AGAIN-------------------------------------------------------------------------------------------------------
-    within_df_F0F2 = pmin(within_df_F0, within_df_F1, within_df_F2),
-    within_df_allNOF0 = pmin(within_df_F1, within_df_F2, within_df_F3, within_df_Duration),
-    within_df_allNOF3 = pmin(within_df_F0, within_df_F1, within_df_F2, within_df_Duration),
     within_SS_F1F2 = within_SS_F1 + within_SS_F2,
     within_SS_F1F3 = within_SS_F1 + within_SS_F2 + within_SS_F3,
     within_SS_F0F3 = within_SS_F0 + within_SS_F1 + within_SS_F2 + within_SS_F3,
     within_SS_all = within_SS_F0 + within_SS_F1 + within_SS_F2 + within_SS_F3 + within_SS_Duration,
-    #FOR DEBUGGING - AGAIN-------------------------------------------------------------------------------------------------------
-    within_SS_F0F2 = within_SS_F0 + within_SS_F1 + within_SS_F2,
-    within_SS_allNOF0 = within_SS_F1 + within_SS_F2 + within_SS_F3 + within_SS_Duration,
-    within_SS_allNOF3 = within_SS_F0 + within_SS_F1 + within_SS_F2 + within_SS_Duration,
     # Get within-category MS
     across(
-      .cols = paste0("within_SS_", c(cues, "F1F2", "F1F3", "F0F3", "F0F2", "all", "allNOF0", "allNOF3")),
+      .cols = paste0("within_SS_", c(cues, "F1F2", "F1F3", "all")),
       .fns = list("pseudo_within_MS" = ~ .x / get(glue(gsub("within_SS_", "within_df_", cur_column())))),
       .names = "{.fn}_{.col}")) %>%
   rename_with(~ gsub("_within_SS", "", .x))
@@ -1051,7 +1040,7 @@ get_SI <-
   group_by(Normalization.Type, crossvalidation_group) %>%
   summarise(
     across(
-      .cols = paste0("within_SS_", c(cues, "F1F2", "F1F3", "F0F3", "F0F2", "all", "allNOF0", "allNOF3")),
+      .cols = paste0("within_SS_", c(cues, "F1F2", "F1F3", "all")),
       .fns = list("within_MS" = ~ sum(.x, na.rm = T) / sum(get(glue(gsub("within_SS_", "within_df_", cur_column()))), na.rm = T)),
       .names = "{.fn}_{.col}")) %>%
   rename_with(~ gsub("_within_SS", "", .x)) %>%
@@ -1089,21 +1078,13 @@ get_SI <-
         between_df_category_mean_F1F3 = pmin(between_df_category_mean_F1, between_df_category_mean_F2, between_df_category_mean_F3),
         between_df_category_mean_F0F3 = pmin(between_df_category_mean_F0, between_df_category_mean_F1, between_df_category_mean_F2, between_df_category_mean_F3),
         between_df_category_mean_all = pmin(between_df_category_mean_F0, between_df_category_mean_F1, between_df_category_mean_F2, between_df_category_mean_F3, between_df_category_mean_Duration),
-        #DEBUGGING AGAIN----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        between_df_category_mean_F0F2 = pmin(between_df_category_mean_F0, between_df_category_mean_F1, between_df_category_mean_F2),
-        between_df_category_mean_allNOF0 = pmin(between_df_category_mean_F1, between_df_category_mean_F2, between_df_category_mean_F3, between_df_category_mean_Duration),
-        between_df_category_mean_allNOF3 = pmin(between_df_category_mean_F0, between_df_category_mean_F1, between_df_category_mean_F2, between_df_category_mean_Duration),
         between_SS_category_mean_F1F2 = between_SS_category_mean_F1 + between_SS_category_mean_F2,
         between_SS_category_mean_F1F3 = between_SS_category_mean_F1 + between_SS_category_mean_F2 + between_SS_category_mean_F3,
         between_SS_category_mean_F0F3 = between_SS_category_mean_F0 + between_SS_category_mean_F1 + between_SS_category_mean_F2 + between_SS_category_mean_F3,
         between_SS_category_mean_all = between_SS_category_mean_F0 + between_SS_category_mean_F1 + between_SS_category_mean_F2 + between_SS_category_mean_F3 + between_SS_category_mean_Duration,
-        #DEBUGGING AGAIN----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        between_SS_category_mean_F0F2 = between_SS_category_mean_F0 + between_SS_category_mean_F1 + between_SS_category_mean_F2,
-        between_SS_category_mean_allNOF0 = between_SS_category_mean_F1 + between_SS_category_mean_F2 + between_SS_category_mean_F3 + between_SS_category_mean_Duration,
-        between_SS_category_mean_allNOF3 = between_SS_category_mean_F0 + between_SS_category_mean_F1 + between_SS_category_mean_F2 + between_SS_category_mean_Duration,
         # Get between-category MS
         across(
-          .cols = paste0("between_SS_category_mean_", c(cues, "F1F2", "F1F3", "F0F3", "F0F2", "all", "allNOF0", "allNOF3")),
+          .cols = paste0("between_SS_category_mean_", c(cues, "F1F2", "F1F3", "all")),
           .fns = list("between_MS" = ~ sum(.x / get(glue(gsub("between_SS", "between_df", cur_column()))))),
           .names = "{.fn}_{.col}")) %>%
       rename_with(~ gsub("(_between_SS)?_category_mean", "", .x)),
@@ -1112,7 +1093,7 @@ get_SI <-
   group_by(Normalization.Type, crossvalidation_group) %>%
   mutate(
     across(
-      .cols = paste0("between_MS_", c(cues, "F1F2", "F1F3", "F0F3", "F0F2", "all", "allNOF0", "allNOF3")),
+      .cols = paste0("between_MS_", c(cues, "F1F2", "F1F3", "all")),
       .fns = list("SI" = ~ sum(.x / get(glue(gsub("between_", "within_", cur_column()))))),
       .names = "{.fn}_{.col}")) %>%
   rename_with(~ gsub("_between_MS", "", .x)) %>%
@@ -1137,7 +1118,7 @@ d.SwehVd.forStudy.SI <- rbind(
 d.SwehVd.forStudy.SI.long <-
   d.SwehVd.forStudy.SI %>%
   # include all separate SIs
-  select(c(Normalization.Type, crossvalidation_group, Quantity, SI_F1F2, SI_F1F3, SI_F0F2, SI_F0F3, SI_Duration, SI_F0, SI_F1, SI_F2, SI_F3, SI_all, SI_allNOF0, SI_allNOF3)) %>%
+  select(c(Normalization.Type, crossvalidation_group, Quantity, SI_F1F2, SI_F1F3, SI_Duration, SI_F0, SI_F1, SI_F2, SI_F3, SI_all)) %>%
   pivot_longer(
     cols = starts_with("SI_", ignore.case = FALSE),
     names_to = c("SI", "Cues"),
@@ -1193,7 +1174,7 @@ For F1 (first row of Figure \@ref(fig:separability-by-cue)), we see a clear adva
 
 An altogether different picture is observed for F3. Compared to F1 and F2, the intrinsic account (Miller) performs substantially better in separating categories along F3, while all other accounts perform poorly. This result is surprising: one of the downsides of intrinsic approaches that has been noted in previous work is their sensitivity to measurement error [@thomas2007]. This sensitivity is caused by the fact that intrinsic accounts use a single measurement for normalization, rather than the less noisy estimates resulting from aggregating across segments that are used in extrinsic accounts. Since the third formant is often described as more difficult to reliably estimate than other formants (leading to more measurement error), F3 would be expected to be particularly affected by this weakness of intrinsic accounts.
 
-Yet, further visualization in Figure \@ref(fig:F3-densities) confirms that F3 indeed separates categories particularly well when intrinsic normalization is applied. Compared to other accounts, @miller1989c seems to be particularly successful in separating vowels that differ in lip rounding [in line with @REF]. For example, @miller1989c separates two clusters among the high and mid-high vowels, one consisting of the back vowels `r linguisticsdown::cond_cmpl("[oː]")` and `r linguisticsdown::cond_cmpl("[uː]")`, and the other one of the front `r linguisticsdown::cond_cmpl("[eː]")` and `r linguisticsdown::cond_cmpl("[iː]")`, and rounded `r linguisticsdown::cond_cmpl("[yː]")` and `r linguisticsdown::cond_cmpl("[ʉː]")`. One possible explanation for this result is that intrinsic normalization is indeed particularly effective for F3, and that our correction of measurement errors---equally applied to all formants---effectively reduced the issue with F3 measurement errors (presumably the human brain, too, can do better than an uncorrected Praat algorithm without error correction). As we show below, this result for F3 carries over to any combination of cues that includes F3. It is, however, an artifact of using category separability to assess the effectiveness of normalization, as we show in Study 2. We elaborate on this issue in the discussion of Study 1.
+Yet, further visualization in Figure \@ref(fig:F3-densities) confirms that F3 indeed separates categories particularly well when intrinsic normalization is applied. Compared to other accounts, @miller1989c seems to be particularly successful in separating vowels that differ in lip rounding [in line with @REF]. For example, @miller1989c separates two clusters among the high and mid-high vowels, one consisting of the back vowels `r linguisticsdown::cond_cmpl("[oː]")` and `r linguisticsdown::cond_cmpl("[uː]")`, and the other one of the front `r linguisticsdown::cond_cmpl("[iː]")`, and rounded `r linguisticsdown::cond_cmpl("[yː]")` and `r linguisticsdown::cond_cmpl("[ʉː]")`. One possible explanation for this result is that intrinsic normalization is indeed particularly effective for F3, and that our correction of measurement errors---equally applied to all formants---effectively reduced the issue with F3 measurement errors (presumably the human brain, too, can do better than an uncorrected Praat algorithm without error correction). As we show below, this result for F3 carries over to any combination of cues that includes F3. It is, however, an artifact of using category separability to assess the effectiveness of normalization, as we show in Study 2. We elaborate on this issue in the discussion of Study 1.
 
 Returning to Figure \@ref(fig:separability-by-cue), normalization does not increase category separability for F0. This is expected given that F0 is known not to separate vowel categories. Finally, for duration all of the C-CuRE accounts group together against the remaining accounts. This, too, is expected since all other accounts are formant-specific and thus do not normalize duration. In summary, the five cues contribute to category separability in different ways, and this is reflected in varying effectiveness of different normalization accounts. We also note that the best performing normalization account for any combination of cues and vowel qualities is typically never significantly better than the next best performing model (the 95% confidence intervals of the best model overlap with the mean of the next best model). In fact, for many combinations of cues and vowel qualities, many of the models perform similarly.
 
@@ -1231,7 +1212,7 @@ d.SwehVd.forStudy.long %>%
 
 Next, we summarize how normalization affects category separability when combinations of the fives cues are considered. Figure \@ref(fig:separability) shows the separability index for the different normalization accounts for three different combinations of cues. For the first row of Figure \@ref(fig:separability), we followed most previous research in assessing category separability for the combination of F1 and F2 [e.g., @disner1980; @fabricius2009; @Flynn2011; @hindle1978; @labov2010]. Accounts that center against the talker's overall formant mean (in blue) are among the best performing normalization accounts. No matter the assumed perceptual scale, centering always improves category separability. Standardizing accounts (in purple), primarily @lobanov1971, also perform well at separating categories, more so for the long vowels. However, scale transformations (in grey), and intrinsic accounts (in yellow), do not improve category separability compared to unnormalized Hz, at least not when assessed on the long vowels or the entire vowel space. 
 
-The remaining rows of Figure \@ref(fig:separability) compare normalization accounts when F3 (second row) or F0, F3, and duration are included (third row). Overall, the category separability is now lower, a result of how the accounts affect category separability along the cues added (see Figure \@ref(fig:separability-by-cue)). The most drastic change in performance concerns the intrinsic @miller1989c and the standardizing accounts. When including F3, @miller1989c almost perform as well, in absolute numbers, as when evaluated on the combination of F1 and F2, thereby increasing their performance relative to other accounts. The standardizing accounts, however, drop substantially in performance and now perform worse even than unnormalized cues as soon as any cue besides F1 and F2 is included. As surprising as this might appear, it mirrors what was found when assessing the category separability separately for each cue (Figure \@ref(fig:separability-by-cue)). The high performance of @miller1989c seems to be driven by its ability to increase category separability along F3, whereas the low performance of @gerstman1968 and @lobanov1971 appears to be a result of their inability to increase separability along any cue besides F1 and F2. For a language like Swedish, where F3 carry information to vowel identity, intrinsic accounts such as @miller1989c, that appear to do very well at successfully distinguish categories along F3, seem to be particularly helpful in increasing category separability.
+The remaining rows of Figure \@ref(fig:separability) compare normalization accounts when F3 (second row) or F0, F3, and duration are included (third row). Overall, the category separability is now lower, a result of how the accounts affect category separability along the cues added (see Figure \@ref(fig:separability-by-cue)). The most drastic change in performance concerns the intrinsic @miller1989c and the standardizing accounts. When including F3, @miller1989c performs as well or better, in absolute numbers, as when evaluated on the combination of F1 and F2, thereby increasing its performance relative to other accounts. The standardizing accounts, however, drop substantially in performance and perform worse even than unnormalized cues as soon as any cue besides F1 and F2 is included. As surprising as this might appear, it mirrors what was found when assessing the category separability separately for each cue (Figure \@ref(fig:separability-by-cue)). The high performance of @miller1989c seems to be driven by its ability to increase category separability along F3, whereas the low performance of @gerstman1968 and @lobanov1971 appears to be a result of their inability to increase separability along F3 and duration. For a language like Swedish, where F3 carry information to vowel identity, intrinsic accounts such as @miller1989c, that appear to do very well at successfully distinguish categories along F3, seem to be particularly helpful in increasing category separability.
 
 Finally, looking across all three rows, category separability is consistently higher for short than long vowels. The same pattern is evident for each cue separately in Figure \@ref(fig:separability-by-cue). This result might initially be puzzling, given that previous descriptions of Swedish vowel inventories characterize the inventory of short vowels as being more centralized and more densely clustered [e.g., @kuronen2000; @riad2014]. Indeed, this claim seems to hold for SwehVd---compare Figures \@ref(fig:swe-vowels-normalized-long) and \@ref(fig:swe-vowels-normalized-short). However, the short vowels exhibit less category variability and less category overlap, making them overall more separable. 
 
@@ -1253,7 +1234,7 @@ cowplot::plot_grid(NULL, p.separability, rel_widths = c(.01, 1))
 ## Discussion
 When only F1 and F2 are considered, as in most previous work on vowel normalization, we find that extrinsic centering and standardizing accounts achieve the best category separability. Within these two types of accounts, there is considerable variability. For example, among the intrinsic accounts, Miller performs worse than Syrdal & Gopal, among the extrinsic accounts, versions of C-CuRE seem to consistently perform best. It is also worth noting, however, that there is never a single account that performs significantly better than all other normalizations. This points to the inherent similarities across normalization accounts, and perhaps limitations of the approach taken here (and in previous work). We return to this point in the general discussion. Regardless of these caveats, the findings for F1 and F2 of Study I, revise the results of @disner1980 for Central Swedish, and instead replicates previous findings for the other Germanic languages in Disner's sample as well as the majority of previous studies on other languages [e.g., @fabricius2009; @Flynn2011; @labov2010]. 
 
-However, when F3 is considered along with the other cues, this result does no longer hold. This was confirmed by additional analyses not shown here that combined all cues except for F3.<!-- AP: this is not correct!!--> In those analyses, centering and standardizing accounts again yield the largest category separability. Key to understanding this result and what it says about the suitability of category separability as a measure of normalization accounts is Figure \@ref(fig:separability-by-cue): while extrinsic normalization performs better than other approaches for F1, F2, and F0, the absolute differences in performance are small compared to the advantage of intrinsic accounts observed for F3. Combined with a seemingly innocuous aspect of the separability index in Equation \@ref(eq:separability-index), this allows separability along F3 to dominate separability along all other cue dimensions. Our separability index takes the *sum* of (squared) distances along each cue dimension, essentially assuming that the effect of all cues is simply a sum of each cue's effect considered separately. This means that the separability index cannot capture the *joint* effect of cues---whether, for example, one cue effectively separates one set of categories and another cue separates another set of categories, rather than both cues separating the same categories. The separability index thus cannot recognize, for example, that F1 and F2 capture largely complementary aspects of the vowel inventory (as evident in, for example, Figures \@ref(fig:swe-vowels-normalized-long) and \@ref(fig:swe-vowels-normalized-short)).
+However, when F3 is considered along with F1 and F2, this result does no longer hold. Key to understanding this result and what it says about the suitability of category separability as a measure of normalization accounts is Figure \@ref(fig:separability-by-cue): while extrinsic normalization performs better than other approaches for F1 and F2, the absolute differences in performance are small compared to the advantage of the intrinsic account observed for F3. Combined with a seemingly innocuous aspect of the separability index in Equation \@ref(eq:separability-index), this allows separability along F3 to dominate separability along the other cue dimensions. Our separability index takes the *sum* of (squared) distances along each cue dimension, essentially assuming that the effect of all cues is simply a sum of each cue's effect considered separately. This means that the separability index cannot capture the *joint* effect of cues---whether, for example, one cue effectively separates one set of categories and another cue separates another set of categories, rather than both cues separating the same categories. The separability index thus cannot recognize, for example, that F1 and F2 capture largely complementary aspects of the vowel inventory (as evident in, for example, Figures \@ref(fig:swe-vowels-normalized-long) and \@ref(fig:swe-vowels-normalized-short)).
 
 This is not the only deficiency of the separability index or similar measures of category variability. The use of *squared* distances means that even a small number of observations located far away from the category mean can disproportionally affect the index. Consider, for example, the F3 densities in Figure \@ref(fig:F3-densities). For non-intrinsic normalizations, some categories have low but non-zero densities far away from the mode. Because of the use of squared distances, this results in low category separability for these normalization accounts despite the fact that observations with such cue values are rare and thus not expected to have a large effect on the *average* perceptual separability of vowels. For the same reason (the use of squared distances), category separability can be high even if a cue separates only a small subset of categories (as is the case for F3), compared to another cue that more gradiently separates *all* categories (as is the case for F1 and F2; see Figure \@ref(fig:swe-vowels-all-cues)).
 
@@ -1614,7 +1595,7 @@ d.max.acc.toINTEND.diff <- d.max.acc.toINTEND %>%
 Figure \@ref(fig:predictions) visualizes the unnormalized and normalized models' predictions for perception of Stockholm Swedish vowels, under different assumptions about the relevant cues. As in Study 1, this figure aggregates results across vowels of a given type (long, short, both). We first discuss these results, and then briefly summarize how different vowels are affected by normalization.
 
 The first observation is that---unlike for the separability index in Study 1---the relative performance of the different normalization accounts within each panel is remarkably constant across all panels (compare to Figure \@ref(fig:separability)). Regardless of the combination of cues or the vowel types considered (long, short, both), transformation into a perceptual space does little to improve recognition accuracy, compared to unnormalized cues. Intrinsic normalization, too, does not improve recognition accuracy. And, unlike in Study 1, this result holds even when F3 is included as a cue. This replicates previous work on Dutch [@adank2004] but conflicts with some evaluations of English [e.g., @syrda1985]. @adank2004 discussed whether the discrepancy in results might be attributed to implementations of the Bark-transformation, or to what @syrda1985 describe as language-specificity of the second dimension of @Syrdal1986 normalization. The present results would seem to confirm this vulnerability of intrinsic normalizations. <!-- TO DO: Starting at @adank2004 discussed, this feels to me more like sth that should go into the discussion. Perhaps we do the same with any replication statements? (but at least these more complicated ones) -->
-Extrinsic normalization, however, tends to substantially improve recognition accuracy (with the exception of Gerstman normalization). Depending on the specific combination of cues and the vowel qualities considered, the best-performing normalization model increases recognition accuracy by at least `r d.max.acc.toINTEND.diff %>% filter(mean.x == min(mean.x)) %>% pull(mean.x) %>% round(digits = 3) * 100`% (from `r d.max.acc.toINTEND.diff %>% filter(mean.x == min(mean.x)) %>% pull(mean.y) %>% round(digits = 3) * 100`% for unnormalized cues for all vowels when only F1-F2 are considered) to `r d.max.acc.toINTEND.diff %>% filter(mean.x == max(mean.x)) %>% pull(mean.x) %>% round(digits = 3) * 100`% (from `r d.max.acc.toINTEND.diff %>% filter(mean.x == max(mean.x)) %>% pull(mean.y) %>% round(digits = 3) * 100`% for short vowels when all cues are considered). The benefit of extrinsic normalization models, as well as the lower performance of perceptual transformations, replicates previous findings on other languages [e.g., @adank2004; @escudero2007].
+Extrinsic normalization, however, tends to substantially improve recognition accuracy (with the exception of Gerstman normalization). Depending on the specific combination of cues and the vowel qualities considered, the best-performing normalization model increases recognition accuracy by at least `r d.max.acc.toINTEND.diff %>% filter(mean.x == min(mean.x)) %>% pull(mean.x) %>% round(digits = 3) * 100`% (from `r d.max.acc.toINTEND.diff %>% filter(mean.x == min(mean.x)) %>% pull(mean.y) %>% round(digits = 3) * 100`% for unnormalized cues for all vowels when only F1-F2 are considered) to `r d.max.acc.toINTEND.diff %>% filter(mean.x == max(mean.x)) %>% pull(mean.x) %>% round(digits = 3) * 100`% (from `r d.max.acc.toINTEND.diff %>% filter(mean.x == max(mean.x)) %>% pull(mean.y) %>% round(digits = 3) * 100`% for short vowels when all cues are considered). The benefit of extrinsic normalization models, as well as the lower performance of perceptual transformations, replicates previous findings on other languages [e.g., @adank2004; @escudero2007; @nearey1989 found effects of both intrinsic and extrinsic accounts, but larger effects for extrinsic].
 
 We also see that all models---even for unnormalized cues---perform substantially above chance. When long and short vowels are considered separately, the best ideal observers achieve recognition accuracies of `r d.max.acc.toINTEND.diff %>% filter(IO.Quantity == "long") %>% summarise(max = max(mean.x)) %>% round(digits = 3) * 100`% for long vowels and `r d.max.acc.toINTEND.diff %>% filter(IO.Quantity == "short") %>% summarise(max = max(mean.x)) %>% round(digits = 3) * 100`% for short vowels. For reference, in a recent perception experiment we conducted on the eight monophthongs of US English, L1-US English listeners achieved 71.1% accuracy in categorizing isolated hVd words [chance = 12.5%, @persson-jaeger2023]. The ideal observers for the Swedish vowel system thus achieve performance that is comparable to that of human listeners, at least when cues are normalized.
 
@@ -1733,11 +1714,11 @@ plot_io_results_per_vowel <- function(data) {
       fatten = 2.5) +
     geom_text(mapping = 
                  aes(x = IO.Normalization.Type,
-                     y = mean_CI_upper + .04,
+                     y = mean_CI_upper + .01,
                      colour = IO.Normalization.Type,
                      label = sprintf("%0.1f", mean)),
                alpha = .85,
-               size = 3,
+               size = 2.5,
                angle = 90,
                hjust = 0) +
     geom_hline(aes(yintercept = case_when(IO.Quantity == "long" ~ 1/11,
@@ -1784,7 +1765,7 @@ rm(d.max.acc.toINTEND.diff)
 ## Methodological considerations
 We considered two methods of evaluations. In Study 1, we compared the reduction of within-category variability relative to between-category variability by calculating a separability index (i.e., an F-statistics). This methodology facilitated comparison to previous studies, that has most often assessed the efficacy of normalization accounts by means of increase in between-talker category overlap or category separability, or decrease in category variability [@disner1980; @fabricius2009; @Flynn2011; @hindle1978; @labov2010]. However, given the limitations inherent in this index, in the second study, we used Bayesian ideal observers to investigate how normalization accounts differ in predictions for perception. Previous studies have employed linear discriminant analysis [e.g., @adank2004; @syrda1985], fuzzy ARTMAP or K-nearest neighbour classification [e.g., @carpenter1993], or constraint ranking grammars [e.g., @escudero2007]. While these different approaches will generally return similar results, we see two advantages with ideal observers. First, ideal observers as used here have 0 degrees of freedom in the link from production to perception, thus removing researchers' degrees of freedom in the evaluation of normalization accounts [see @tan2021]. Second, representing the cue likelihood for each category as multivariate Gaussian distributions [e.g., @kronrod2016; @norris-mcqueen2008; @xie2021cognition], strikes a middle ground between less parsimonious models such as exemplar models [e.g., @johnson1997; @pierrehumbert2001], and more parsimonious models, such as models of cue integration over multiple separate univariate Gaussians [e.g., @toscano-mcmurray2010].^[Parsimony here refers both to the number of degrees of freedom these models afford to the researcher *and* to the amount of information that listeners are assumed to store [for discussion, see @xie2022].] However, like any other model of speech perception, the approach adopted here comes with a set of simplifying assumptions. All of the assumptions in the model, e.g., uniform priors, models of linguistic representations, the normalization accounts selected, can, however, be revisited and altered by the reader, as this paper is written in R markdown and all data and code is provided on OSF.
 
-As a final note on methodology, we find the 5-fold cross-validation approach used for normalization of the acoustic data adopted here, advantageous for several reasons, the two most important being that: (1) it allows us to avoid over-fitting to the sample, while also (2) providing a more realistic reflection of how parameters used for normalization are incrementally inferred from the talker's speech input. Even though many of the commonly adopted normalization accounts involve parameters that are set based on the data, previous studies have rarely, considered how these parameters might be affected by the specific dataset used for normalization [for exceptions, see e.g., @barreda2021]. In the present study, we have seen that accounting for researchers' uncertainty about the effects of normalization, highlights that many of the normalization accounts exhibit statistically indistinguishable performance---at least under the approach taken here and in the majority of previous work. This means that future studies should aim to increase statistical power, in order to determine the normalization mechanism that best describes human behaviour. This will require even larger datasets, and/or by targeted sampling of vowel tokens for which predictions of different normalization accounts are maximally contrasted [see e.g., @barreda2021; and see @xie2022 for more general discussion of how to increase the statistical power to determine what mechanism underlie adaptive speech perception]. Next, we close by discussing additional limitations of the present work and future directions.
+As a final note on methodology, we find the 5-fold cross-validation approach used for normalization of the acoustic data adopted here, advantageous for several reasons, the two most important being that: (1) it allows us to avoid over-fitting to the sample, while also (2) providing a more realistic reflection of how parameters used for normalization are incrementally inferred from the talker's speech input. Even though many of the commonly adopted normalization accounts involve parameters that are set based on the data, previous studies have rarely considered how these parameters might be affected by the specific dataset used for normalization [for exceptions, see e.g., @barreda2021]. In the present study, we have seen that accounting for researchers' uncertainty about the effects of normalization, highlights that many of the normalization accounts exhibit statistically indistinguishable performance---at least under the approach taken here and in the majority of previous work. This means that future studies should aim to increase statistical power, in order to determine the normalization mechanism that best describes human behaviour. This will require even larger datasets, and/or by targeted sampling of vowel tokens for which predictions of different normalization accounts are maximally contrasted [see e.g., @barreda2021; and see @xie2022 for more general discussion of how to increase the statistical power to determine what mechanism underlie adaptive speech perception]. Next, we close by discussing additional limitations of the present work and future directions.
 
 ## Limitations and future directions
 Four limitations of the present study, three of which are shared with most previous work, deserve discussion. First, the present study compared normalization accounts against speech from only female talkers of one regional variety of Swedish (Stockholm Swedish). In contrast, many previous studies included data from talkers of different genders [e.g., @barreda2021; @clopper2009; @cole2010; @mcmurray2011; @mcmurray-jongman2016], and sometimes from talkers of different ages [e.g., @barreda2018a; @carpenter1993; @Flynn2011; @hindle1978; @johnson-sjerps2021; @kohn2012a; @syrda1985] and/or language backgrounds [e.g., @adank2004; @disner1980; @escudero2007; @fabricius2009; @labov2010; @richter2017]. Given that age, gender, etc. tends to affect formants (and other cues) beyond talker-variability, it is likely that the inclusion of more diverse talkers would increase the lack of invariance problem. For example, we would expect the ideal observers over unnormalized cues (Study 2) to achieve lower recognition performance if vowel productions from male talkers would be included in the data. In short, the models in Study 2 likely over-estimates the recognition accuracy that can be achieved for unnormalized cues if a more diverse range of talkers is considered.
@@ -1796,9 +1777,9 @@ Second, the present study aggregated acoustic-phonetic measurements taken at dif
 Third, we only considered competing *normalization* accounts. This, too, follows previous research on normalization but is potentially problematic.
 As mentioned in the introduction, it is now believed that at least three different mechanisms contribute to adaptive speech perception, including not only normalization but also changes in category representations and decision-making [for review, see @xie2022]. This has consequences for research on normalization. For example, @xie2021cognition compared normalization accounts against the production of prosodic phrasing in L1-US English, while also considering alternative hypotheses about listeners' ability to adapt category representations. Xie and colleagues found that the effectiveness of cue normalization is substantially reduced if listeners can learn and maintain talker- or group-specific category representations [as assumed in some influential theories of speech perception, exemplar models, e.g., @johnson1997; @pierrehumbert2001; Bayesian ideal adaptors, @kleinschmidt-jaeger2015]. Xie and colleagues only considered two general types of normalization, and their focus was on the interpretation of prosodic signals. But their results call for caution in interpreting studies like the present that do not consider the possibility of talker-specific representations---an assumption shared with basically all previous work on vowel normalization.
 
-Similary, we largely limited the comparison of normalization accounts to a single level of normalization, or combinations of perceptual transformations and a single type of normalization. Some proposals, however, can be understood as allowing multiple levels of normalization prior to the mapping from (normalized) cues to linguistic categories. For example, one proposal that dates back to at least Nearey [-@neareyXXX] and has recently been worked out and tested in more detail [@barreda2020a; @barreda2021; @nearey2018] holds that one of the earliest normalization is essentially specialized on separating vocal tract size from the signal that is used for vowel categorization. These accounts allow for the possibility that subsequent mechanisms involve more complex normalizations---a possibility not considered here.  
+Similary, we largely limited the comparison of normalization accounts to a single level of normalization, or combinations of perceptual transformations and a single type of normalization. Previous findings however suggest that both intrinsic and extrinsic normalization seems to play a role [@nearey1989]. Evaluating one type of account at a time fails to address the call made by Nearey in 1989: "We clearly need models that are sensitive to both intrinsic and extrinsic effects of speaker variation.". Some proposals, however, can be understood as allowing multiple levels of normalization prior to the mapping from (normalized) cues to linguistic categories. For example, one proposal that dates back to at least Nearey [-@neareyXXX] and has recently been worked out and tested in more detail [@barreda2020a; @barreda2021; @nearey2018] holds that one of the earliest normalization is essentially specialized on separating vocal tract size from the signal that is used for vowel categorization. These accounts allow for the possibility that subsequent mechanisms involve more complex normalizations---a possibility not considered here.  
 
-Fourth and finally, we followed the majority of previous work and evaluated normalization accounts against *production* data [for exceptions, see e.g., @barreda2020a; @barreda2021; @mcmurray-jongman2016; @richter2017; @xie2021cognition]. This is potentially problematic, especially when measures like category separability or reduced cross-talker variability in category means are used to evaluated normalization accounts (as in our Study 1 and many previous studies). These evaluations essentially assume that the goal of speech perception is to make the perceptual realizations of the same category by different talkers as similar as possible in the normalized space [for an in-depth critique, see @barreda2021]. However, the goal of speech perception is presumably to reliably infer the category intended by the talker,^[Or somewhat more precisely, cooperative listeners aim to understand the meaning intended by the talker, and this inference is generally believed to benefit from the correct recognition of phonological categories, such as phonemes, syllables, or word forms. For discussion, see also @hume2016.] and this aim does not necessarily entail perfect removal of cross-talker variability (as evidenced, for example, by the different findings of Studies 1 and 2). To some extent, Study 2 addresses this potential issue by evaluating normalization accounts in terms of how well they predict the vowel category intended by the talker. However, if the goal is to compare how well normalization accounts explain human perception, more informative comparison will require comparison against listeners' categorization responses (which we plan to conduct in the near future).
+Fourth and finally, we followed the majority of previous work and evaluated normalization accounts against *production* data [for exceptions, see e.g., @barreda2020a; @barreda2021; @mcmurray-jongman2016; @nearey1989; @richter2017; @xie2021cognition]. This is potentially problematic, especially when measures like category separability or reduced cross-talker variability in category means are used to evaluated normalization accounts (as in our Study 1 and many previous studies). These evaluations essentially assume that the goal of speech perception is to make the perceptual realizations of the same category by different talkers as similar as possible in the normalized space [for an in-depth critique, see @barreda2021]. However, the goal of speech perception is presumably to reliably infer the category intended by the talker,^[Or somewhat more precisely, cooperative listeners aim to understand the meaning intended by the talker, and this inference is generally believed to benefit from the correct recognition of phonological categories, such as phonemes, syllables, or word forms. For discussion, see also @hume2016.] and this aim does not necessarily entail perfect removal of cross-talker variability (as evidenced, for example, by the different findings of Studies 1 and 2). To some extent, Study 2 addresses this potential issue by evaluating normalization accounts in terms of how well they predict the vowel category intended by the talker. However, if the goal is to compare how well normalization accounts explain human perception, more informative comparison will require comparison against listeners' categorization responses (which we plan to conduct in the near future).
 
 
 # References{#sec:references}
@@ -1962,7 +1943,7 @@ p.separability.by_cue.SG <- plot_separability(d.SwehVd.forStudy.SI.long %>%
 
 Figure \@ref(fig:separability-by-cue-SG) displays the separability index for the two implementations. The first version uses the F2-F1 bark-difference metric for the second dimension, whereas the second version (labelled *SyrdalGopal2 (Bark)*) implements the second dimension as suggested by @Syrdal1986, F3-F2. As evident from Figure \@ref(fig:separability-by-cue-SG), the first implementation performs better at separating categories in the SwehVd data, which replicates @fant1983.
 
-```{r separability-by-cue-SG, fig.width=base.width * 4, fig.height=base.height * 5.5, fig.align='center', fig.cap="(ref:separability-by-cue-SG)"}
+```{r separability-by-cue-SG, fig.width=base.width * 4, fig.height=base.height * 5.5, fig.align='center', out.height='90%', fig.cap="(ref:separability-by-cue-SG)"}
 p.separability.by_cue.SG
 ```
 
@@ -2000,13 +1981,15 @@ p.accuracy.io.overall.SG <- plot_io_results(m.io.SwehVd.SG) + facet_grid(Cue_spa
   theme(
     axis.text.x = ggtext::element_markdown(angle = 60, vjust = 1, hjust=1, colour = "#E6BE8A"))
 ```
-(ref:accuracy-SG) Predicted recognition accuracy of ideal observer under two versions of the Syrdal & Gopal (1986) account for long vowels, short vowels, and long and short vowels together (columns), shown for the F1-F2 cue combination. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. The dashed horizontal line indicates chance (different across columns because of the different number of long and short vowels).
+(ref:accuracy-SG) Predicted recognition accuracy of ideal observer under two versions of the Syrdal & Gopal (1986) account for long vowels, short vowels, and long and short vowels together, shown for the F1-F2 cue combination. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. The dashed horizontal line indicates chance (different across columns because of the different number of long and short vowels).
 
-```{r accuracy-SG, fig.width=base.width * 3, fig.height=base.height * 1.5, fig.align='center', fig.cap="(ref:accuracy-SG)"}
+```{r accuracy-SG, fig.width=base.width * 5, fig.height=base.height * 2, fig.align='center', fig.cap="(ref:accuracy-SG)"}
 p.accuracy.io.overall.SG
 ```
 
-We also evaluated the two Syrdal & Gopal implementations in terms of model predictions for perception. Figure \@ref(fig:accuracy-SG) displays the categorization accuracy for models trained on normalized data under the two implementations of the Syrdal & Gopal account. Replicating the results from the separability index, the first implementation using F2-F1 for the second dimension, outperforms the implementation using F3-F2 bark-difference measure. These results taken together indicate that the F2-F1 implementation is more suitable for the materials used here, we therefore decided to use the first implementation throughout this paper.
+We also evaluated the two Syrdal & Gopal implementations in terms of model predictions for perception. Figure \@ref(fig:accuracy-SG) displays the categorization accuracy for models trained on normalized data under the two implementations of the Syrdal & Gopal account. Mirroring the results from the separability index, the first implementation using F2-F1 for the second dimension, outperforms the implementation using F3-F2 bark-difference measure. These results taken together indicate that the F2-F1 implementation is more suitable for the materials used here, we therefore decided to use the first implementation throughout this paper.
+
+\newpage
 
 ## Correlation matrices for all normalization accounts {#sec:correlation-matrices}
 Here we include correlation matrices for the SwehVd vowel data, transformed into the 15 different normalization spaces.
@@ -2181,7 +2164,7 @@ p.accuracy.io.per.vowel.all.4 <- plot_io_results_per_vowel(
     nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[ɑː]", "[a]", "[oː]", "[ɔ]", "[uː]", "[ʊ]"))) +
   facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
 ```
-(ref:predictions-per-vowel-long) Per-vowel predicted categorization accuracy of the ideal observers trained on the long vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+(ref:predictions-per-vowel-long) Per-vowel predicted categorization accuracy of the ideal observers trained on the **long** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
 \begin{landscape}
 
@@ -2190,7 +2173,7 @@ p.accuracy.io.per.vowel.long.1
 ```
 \end{landscape}
 
-(ref:predictions-per-vowel-long-2) (*Continued from last page*)Per-vowel predicted categorization accuracy of the ideal observers trained on the long vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+(ref:predictions-per-vowel-long-2) (*Continued from last page*)Per-vowel predicted categorization accuracy of the ideal observers trained on the **long** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
 \begin{landscape}
 
@@ -2199,21 +2182,21 @@ p.accuracy.io.per.vowel.long.2
 ```
 \end{landscape}
 
-(ref:predictions-per-vowel-short) Per-vowel predicted categorization accuracy of the ideal observers trained on the short vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+(ref:predictions-per-vowel-short) Per-vowel predicted categorization accuracy of the ideal observers trained on the **short** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
 ```{r predictions-per-vowel-short, fig.width=base.width * 4, fig.height=base.height * 5, fig.align='center', fig.cap="(ref:predictions-per-vowel-short)"}
 p.accuracy.io.per.vowel.short <- cowplot::plot_grid(p.accuracy.io.per.vowel.short.1, NULL, p.accuracy.io.per.vowel.short.2 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l", rel_heights = c(1,-.15,1))
 gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.short, left = axis.title.accuracy))
 ```
 
-(ref:predictions-per-vowel-all-1) Per-vowel predicted categorization accuracy of the ideal observers trained on all vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+(ref:predictions-per-vowel-all-1) Per-vowel predicted categorization accuracy of the ideal observers trained on **all** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
 ```{r predictions-per-vowel-all-1, fig.width=base.width * 4, fig.height=base.height * 5, fig.align='center', fig.cap="(ref:predictions-per-vowel-all-1)"}
 p.accuracy.io.per.vowel.all.first <- cowplot::plot_grid(p.accuracy.io.per.vowel.all.1, NULL, p.accuracy.io.per.vowel.all.2 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l", rel_heights = c(1,-.15,1))
 gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.all.first, left = axis.title.accuracy))
 ```
 
-(ref:predictions-per-vowel-all-2) (*Continued from last page*)Per-vowel predicted categorization accuracy of the ideal observers trained on all vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+(ref:predictions-per-vowel-all-2) (*Continued from last page*)Per-vowel predicted categorization accuracy of the ideal observers trained on **all** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
 ```{r predictions-per-vowel-all-2, fig.width=base.width * 4.5, fig.height=base.height * 5, fig.align='center', fig.cap="(ref:predictions-per-vowel-all-2)"}
 p.accuracy.io.per.vowel.all.second <- cowplot::plot_grid(
@@ -2222,12 +2205,8 @@ p.accuracy.io.per.vowel.all.second <- cowplot::plot_grid(
 gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.all.second, left = axis.title.accuracy))
 ```
 
-## Confusion matrices of ideal observers {#sec:confusion}
-To further explore effects of neighbouring categories, and which categories are more easily confused by the IOs and with what, we plot confusion matrices of the worst and best performing IOs trained on the long, short or all Swedish vowels, under the different assumptions about the relevant cues. As expected, the worse performing models have more competitors for each intended vowel, that is, the models are more confused about the underlying category. When there is high competition from many close neighbours, as in areas with substantial category overlap, models are more inclined to confuse categories with one of their neighbours. This is especially evident for the high vowels, but also for the allophones to [`r linguisticsdown::cond_cmpl("ɛ")`] and [`r linguisticsdown::cond_cmpl("ø")`]. Some of the worst performing models select a neighbouring category as often as the actual intended category (see e.g., model performance for [`r linguisticsdown::cond_cmpl("iː")`] and [`r linguisticsdown::cond_cmpl("yː")`] in Figures \@ref(fig:confusion-matrix-long) and \@ref(fig:confusion-matrix-allVowels). These vowels, however, become less confusable as F3 is included as cue, which might support previous perceptual evidence, suggesting the importance of F3 for distinguishing the Central Swedish high vowels [e.g., @fujimura1967].
-
-Given that the closest neighbour is not necessarily the category's short/long counterpart, it is not primarily the case that quantity distinctions are the cause of models' confusion (Figure \@ref(fig:confusion-matrix-allVowels)). In fact, some vowels are never confused with their long or short counterpart, e.g., [`r linguisticsdown::cond_cmpl("ʉː")`], [`r linguisticsdown::cond_cmpl("aː")`], and [`r linguisticsdown::cond_cmpl("yː")`]. As more information is given the models, confusability declines substantially. When F3 and duration are included, confusability among the high vowels is reduced, and no long-short quantity confusions remain (Figure \@ref(fig:confusion-matrix-allVowels), right panel, final row).
-
-Of note is also that some categories are rarely confused with other categories, across evaluations. This is the case for [`r linguisticsdown::cond_cmpl("aː")`] and [`r linguisticsdown::cond_cmpl("eː")`]. What might be driving this is not entirely evident. [`r linguisticsdown::cond_cmpl("aː")`] is fairly isolated in the mid-right part of the space(see Figure \@ref(fig:swe-vowels)), and not particularly overlapping other categories. [`r linguisticsdown::cond_cmpl("eː")`], however, is located in the bottom part of the dense high front part of the space, and quite overlapping with other categories. Given the crowdedness of this location, the [`r linguisticsdown::cond_cmpl("eː")`] might be considered relatively isolated in comparison to the other neighbouring, and substantially overlapping, categories. The relatively low confusability of that category might thus be an effect of the density of the space and the number of competing categories affecting each other. In sum, these results suggest that confusability seems to primarily be driven by the number of close, or overlapping, neighbouring categories. As models presumably become more human-like, confusability decreases. The vowel-specific effects presented here, follow the general pattern found in the overall results.
+## Confusion and difference matrices of ideal observers {#sec:confusion}
+To further explore effects of neighbouring categories, and which categories are more easily confused by the models and with what, we plot confusion matrices of the worst and best performing models trained on the long, short or all Swedish vowels, under the different assumptions about the relevant cues. Next to the confusion matrices, we plot difference matrices to facilitate comparison.
 
 ```{r, echo=FALSE}
 # Keep code for reproducibility
@@ -2269,7 +2248,7 @@ plot_io_confusion <- function(
     geom_raster() +
     scale_x_discrete("Intended vowel", expand = c(0,0)) +
     scale_y_discrete("IO response vowel", expand = c(0,0)) +
-    scale_fill_viridis_b("Posterior probability under ideal observer", limits = c(0,1), breaks = seq(0, 1, .1)) +
+    scale_fill_viridis_b("Posterior \nprobability \nunder \nideal observer", limits = c(0,1), breaks = seq(0, 1, .1)) +
     facet_grid(Cue_space ~ IO.Normalization.Type) +
     theme(axis.title.x = element_blank(), 
           axis.title.y = element_blank())
@@ -2318,35 +2297,8 @@ p.confusion.all.all <- plot_io_confusion(
     facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Gerstman_Hz", "CCuRE_Hz"), labels = c("Gerstman (Hz)", "C-CuRE (Hz)")))
 
 legend.confusion <- cowplot::get_legend(p.confusion.all.all +
-  guides(fill = guide_legend(nrow = 1, byrow = TRUE)))
-```
+  guides(fill = guide_legend(ncol = 1)))
 
-(ref:confusion-matrix-long) Confusion matrices for the worst (**left**) and best (**right**) performing ideal observers in predicting the **long** Swedish vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel.
-
-```{r confusion-matrix-long, fig.width=base.width*3, fig.height=base.height*4.5, fig.align='center', fig.cap="(ref:confusion-matrix-long)"}
-cowplot::plot_grid(legend.confusion,
-  cowplot::plot_grid(p.confusion.long.F1F2, p.confusion.long.F1F3, p.confusion.long.all + theme(legend.position = "none"), align = "hv", axis = "btlr", ncol = 1),
-    nrow = 2, rel_heights = c(.08,1))
-```
-
-(ref:confusion-matrix-short) Confusion matrices for the worst (**left**) and best (**right**) performing ideal observers in predicting the **short** Swedish vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel.
-
-```{r confusion-matrix-short, fig.width=base.width*3, fig.height=base.height*4.5, fig.align='center', fig.cap="(ref:confusion-matrix-short)"}
-cowplot::plot_grid(legend.confusion,
-  cowplot::plot_grid(p.confusion.short.F1F2, p.confusion.short.F1F3, p.confusion.short.all + theme(legend.position = "none"), align = "hv", axis = "btlr", ncol = 1),
-    nrow = 2, rel_heights = c(.08,1))
-```
-
-(ref:confusion-matrix-allVowels) Confusion matrices for the worst (**left**) and best (**right**) performing ideal observers in predicting **all 21** Swedish vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel.
-
-```{r confusion-matrix-allVowels, fig.width=base.width*3.75, fig.height=base.height*5.5, out.width='80%', fig.align='center', fig.cap="(ref:confusion-matrix-allVowels)"}
-cowplot::plot_grid(legend.confusion,
-  cowplot::plot_grid(p.confusion.all.F1F2, p.confusion.all.F1F3, p.confusion.all.all + theme(legend.position = "none"), align = "hv", axis = "btlr", ncol = 1),
-    nrow = 2, rel_heights = c(.08,1)) 
-```
-To shed further light on vowel-specific differences in model predictions, we plot difference matrices. Figure \@ref(fig:diff-matrix) visualizes the differences in predictions between the worst and best performing models under the different assumptions about the relevant cues and vowel spaces. <!-- AP: add text here-->
-
-```{r}
 # Plot a difference matrix, of differences in posteriors between worst and best performing models
 # Diff matrices of the long vowels
 p.diff.long.F1F2 <- p.confusion.long.F1F2 %+%
@@ -2370,7 +2322,7 @@ p.diff.long.F1F2 <- p.confusion.long.F1F2 %+%
          names_to = "Comparison",
          values_to = "Difference")) +
     aes(fill = Difference) +
-    scale_fill_gradient2("Difference in\nposterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
     facet_wrap(~ Comparison, ncol = 1) + 
   theme(legend.position = "none")
 p.diff.long.F1F3 <- p.confusion.long.F1F3 %+%
@@ -2394,7 +2346,7 @@ p.diff.long.F1F3 <- p.confusion.long.F1F3 %+%
          names_to = "Comparison",
          values_to = "Difference")) +
     aes(fill = Difference) +
-    scale_fill_gradient2("Difference in\nposterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
     facet_wrap(~ Comparison, ncol = 1) + 
   theme(legend.position = "none")
 p.diff.long.all <- p.confusion.long.all %+%
@@ -2418,7 +2370,7 @@ p.diff.long.all <- p.confusion.long.all %+%
          names_to = "Comparison",
          values_to = "Difference")) +
     aes(fill = Difference) +
-    scale_fill_gradient2("Difference in\nposterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
     facet_wrap(~ Comparison, ncol = 1) + 
   theme(legend.position = "none")
 # Diff matrices of the short vowels
@@ -2443,7 +2395,7 @@ p.diff.short.F1F2 <- p.confusion.short.F1F2 %+%
          names_to = "Comparison",
          values_to = "Difference")) +
     aes(fill = Difference) +
-    scale_fill_gradient2("Difference in\nposterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
     facet_wrap(~ Comparison, ncol = 1) + 
   theme(legend.position = "none")
 p.diff.short.F1F3 <- p.confusion.short.F1F3 %+%
@@ -2467,7 +2419,7 @@ p.diff.short.F1F3 <- p.confusion.short.F1F3 %+%
          names_to = "Comparison",
          values_to = "Difference")) +
     aes(fill = Difference) +
-    scale_fill_gradient2("Difference in\nposterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
     facet_wrap(~ Comparison, ncol = 1) + 
   theme(legend.position = "none")
 p.diff.short.all <- p.confusion.short.all %+%
@@ -2491,7 +2443,7 @@ p.diff.short.all <- p.confusion.short.all %+%
          names_to = "Comparison",
          values_to = "Difference")) +
     aes(fill = Difference) +
-    scale_fill_gradient2("Difference in\nposterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
     facet_wrap(~ Comparison, ncol = 1) + 
   theme(legend.position = "none")
 # Diff matrices of all vowels
@@ -2516,7 +2468,7 @@ p.diff.all.F1F2 <- p.confusion.all.F1F2 %+%
          names_to = "Comparison",
          values_to = "Difference")) +
     aes(fill = Difference) +
-    scale_fill_gradient2("Difference in\nposterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
     facet_wrap(~ Comparison, ncol = 1) + 
   theme(legend.position = "none")
 p.diff.all.F1F3 <- p.confusion.all.F1F3 %+%
@@ -2540,7 +2492,7 @@ p.diff.all.F1F3 <- p.confusion.all.F1F3 %+%
          names_to = "Comparison",
          values_to = "Difference")) +
     aes(fill = Difference) +
-    scale_fill_gradient2("Difference in\nposterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
     facet_wrap(~ Comparison, ncol = 1) + 
   theme(legend.position = "none")
 p.diff.all.all <- p.confusion.all.all %+%
@@ -2564,24 +2516,56 @@ p.diff.all.all <- p.confusion.all.all %+%
          names_to = "Comparison",
          values_to = "Difference")) +
     aes(fill = Difference) +
-    scale_fill_gradient2("Difference in\nposterior\nprobability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    scale_fill_gradient2("Difference \nin posterior \nprobability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
     facet_wrap(~ Comparison, ncol = 1) +
   theme(legend.position = "right")
+
 legend.diff <- cowplot::get_legend(p.diff.all.all +
   guides(fill = guide_legend(ncol = 1)))
 ```
 
-(ref:diff-matrix) Difference matrices illustrating the differences in predictions between the best and the worst performing models, under different assumptions about the relevant cues (F1-F2 **top**, F1-F3 **middle**, and F0-F3, and duration **bottom**) and vowel space sizes (long vowels **column A**, short vowels **column B**, all vowels **column C**). Vowel intended by talker (x-axis) is plotted against vowel selected by IO model (y-axis). Color fill indicates the difference in the posterior probability of the models predicting the intended vowel. More **purple** indicates an increase in posterior probability for the former over the latter model, more **red** indicates an advantage for the latter over the former.
+(ref:confusion-matrix-long) Illustration of the category-specific differences in predictions of the worst and best performing normalization models for each combination of cues (**rows**). The confusion matrices (**Panel A**) plot the predictions for the worst (**left**) and best (**right**) performing models in predicting the **long** vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by ideal observer model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel. The difference matrices (**Panel B**) illustrates the differences in predictions between the best and the worst performing models. Color fill indicates the difference in the posterior probability of the models predicting the intended vowel. More **purple** indicates an increase in posterior probability for the former over the latter model, more **red** indicates an advantage for the latter over the former.
 
 \begin{landscape}
 
-```{r diff-matrix, fig.width=base.width * 3.8, fig.height=base.height * 3.25, fig.align='center', fig.cap="(ref:diff-matrix)"}
-cowplot::plot_grid(legend.diff,
-  cowplot::plot_grid(
-    cowplot::plot_grid(p.diff.long.F1F2, p.diff.long.F1F3, p.diff.long.all, align = "hv", axis = "btlr", ncol = 1),
-    cowplot::plot_grid(p.diff.short.F1F2, p.diff.short.F1F3, p.diff.short.all, align = "hv", axis = "btlr", ncol = 1),
-    cowplot::plot_grid(p.diff.all.F1F2, p.diff.all.F1F3, p.diff.all.all + theme(legend.position = "none"), align = "hv", axis = "btlr", ncol = 1),
-    ncol = 3, labels = c("A", "B", "C")),
-    ncol = 2, rel_widths = c(.08,1))
+```{r confusion-matrix-long, fig.width=base.width*5, fig.height=base.height*4.5, fig.align='center', out.height='90%', fig.cap="(ref:confusion-matrix-long)"}
+cowplot::plot_grid(
+  cowplot::plot_grid(legend.confusion,
+                     cowplot::plot_grid(p.confusion.long.F1F2, p.confusion.long.F1F3, p.confusion.long.all, align = "hv", axis = "btlr", ncol = 1),
+                     ncol = 2, rel_widths = c(1/8,7/8)),
+  cowplot::plot_grid(cowplot::plot_grid(p.diff.long.F1F2, p.diff.long.F1F3, p.diff.long.all, align = "hv", axis = "btlr", ncol = 1), legend.diff,
+                     ncol = 2, rel_widths = c(4/5,1/5)),
+  ncol = 2, rel_widths = c(.65,.35))
 ```
+\end{landscape}
+(ref:confusion-matrix-short) Illustration of the category-specific differences in predictions of the worst and best performing normalization models for each combination of cues (**rows**). The confusion matrices (**Panel A**) plot the predictions for the worst (**left**) and best (**right**) performing models in predicting the **short** vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by ideal observer model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel. The difference matrices (**Panel B**) illustrates the differences in predictions between the best and the worst performing models. Color fill indicates the difference in the posterior probability of the models predicting the intended vowel. More **purple** indicates an increase in posterior probability for the former over the latter model, more **red** indicates an advantage for the latter over the former.
+
+\begin{landscape}
+
+```{r confusion-matrix-short, fig.width=base.width*5, fig.height=base.height*4.5, fig.align='center', out.height='90%', fig.cap="(ref:confusion-matrix-short)"}
+cowplot::plot_grid(
+  cowplot::plot_grid(legend.confusion,
+                     cowplot::plot_grid(p.confusion.short.F1F2, p.confusion.short.F1F3, p.confusion.short.all, align = "hv", axis = "btlr", ncol = 1),
+                     ncol = 2, rel_widths = c(1/8,7/8)),
+  cowplot::plot_grid(cowplot::plot_grid(p.diff.short.F1F2, p.diff.short.F1F3, p.diff.short.all, align = "hv", axis = "btlr", ncol = 1), legend.diff,
+                     ncol = 2, rel_widths = c(4/5,1/5)),
+  ncol = 2, rel_widths = c(.65,.35))
+```
+
+\end{landscape}
+
+(ref:confusion-matrix-allVowels) Illustration of the category-specific differences in predictions of the worst and best performing normalization models for each combination of cues (**rows**). The confusion matrices (**Panel A**) plot the predictions for the worst (**left**) and best (**right**) performing models in predicting the **all** vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by ideal observer model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel. The difference matrices (**Panel B**) illustrates the differences in predictions between the best and the worst performing models. Color fill indicates the difference in the posterior probability of the models predicting the intended vowel. More **purple** indicates an increase in posterior probability for the former over the latter model, more **red** indicates an advantage for the latter over the former.
+
+\begin{landscape}
+
+```{r confusion-matrix-allVowels, fig.width=base.width*5, fig.height=base.height*4.5, fig.align='center', out.height='90%', fig.cap="(ref:confusion-matrix-allVowels)"}
+cowplot::plot_grid(
+  cowplot::plot_grid(legend.confusion,
+                     cowplot::plot_grid(p.confusion.all.F1F2, p.confusion.all.F1F3, p.confusion.all.all + theme(legend.position = "none"), align = "hv", axis = "btlr", ncol = 1),
+                     ncol = 2, rel_widths = c(1/8,7/8)),
+  cowplot::plot_grid(cowplot::plot_grid(p.diff.all.F1F2, p.diff.all.F1F3, p.diff.all.all + theme(legend.position = "none"), align = "hv", axis = "btlr", ncol = 1), legend.diff,
+                     ncol = 2, rel_widths = c(4/5,1/5)),
+  ncol = 2, rel_widths = c(.65,.35))
+```
+
 \end{landscape}
