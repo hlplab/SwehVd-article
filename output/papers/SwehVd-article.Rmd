@@ -150,10 +150,14 @@ base_size = 10
 
   * Update TO DO regularly
   * Fill in XX.X% in general discussion.
+  * Adjust the F-ratio formula
+  * Fix the OFS
   * Add REFS
     * missing refs
   * FIGs
     * to work on while in review: fig 10, color labels, or only label a few vowels (or none).
+  * Should we add F4?
+  * Should we include trajectory?
 
 ```{r}
 ```
