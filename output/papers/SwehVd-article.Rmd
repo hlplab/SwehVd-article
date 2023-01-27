@@ -158,6 +158,8 @@ base_size = 10
   * Fix the OFS
   * Add REFS
     * missing REF to Miller being successful in separating vowels that differ in lip rounding.
+    * which REF is nearey2018?
+    * REF to the Nearey accounts being considered covert standardization accounts?
 
   * To work on while in review:
     * Formant transitions - how much information is there in there and does it change the ranking of normalization accounts if those are considered? Check this by including F1-F4 values at the start and end points in the trajectory in the IOs. Potentially include F4 as well, as Barreda said it contained important information.
