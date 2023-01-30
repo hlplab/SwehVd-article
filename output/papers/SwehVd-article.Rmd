@@ -1259,7 +1259,7 @@ Study 2 takes a more direct approach to evaluating the expected effects of norma
 
 \begin{landscape}\begin{table}
 
-\caption{\label{tab:norm-evaluation-percep}Previous studies comparing normalization accounts' predictions for perception}
+\caption{\label{tab:norm-evaluation-percep}Previous studies comparing normalization accounts in terms of their predicted consequences for perception}
 \centering
 \fontsize{7}{9}\selectfont
 \begin{tabular}[t]{>{\raggedright\arraybackslash}p{2cm}>{\raggedright\arraybackslash}p{2cm}>{\raggedright\arraybackslash}p{5.5cm}>{\raggedright\arraybackslash}p{5.5cm}>{\raggedright\arraybackslash}p{2cm}>{\raggedright\arraybackslash}p{2cm}>{\raggedright\arraybackslash}p{1.5cm}}
