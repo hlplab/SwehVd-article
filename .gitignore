@@ -3,9 +3,9 @@
 *.rds
 *.log
 *.gz
-*.Rproj
 *.tex
 *.jpeg
+*.png
 .Rproj.user
 .Rhistory
 .RData
