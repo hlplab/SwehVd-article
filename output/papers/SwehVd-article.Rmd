@@ -604,7 +604,7 @@ d.SwehVd %>%
   theme(legend.position = "top")
 ```
 
-```{r swe-vowels-all-cues, fig.width=base.width*4.5, fig.height=base.height*4.5+.5, out.width = '100%', fig.cap="(ref:swe-vowels-all-cues)"}
+```{r swe-vowels-all-cues, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, out.width = '100%', fig.cap="(ref:swe-vowels-all-cues)"}
 p.matrix.cues <-
   d.SwehVd %>%
   filter(Transcribed_vowel == "targeted", Word != "hädd") %>%
