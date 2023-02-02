@@ -4,7 +4,7 @@ shorttitle        : "Evaluating normalization accounts"
 date              : "`r format(Sys.time(), '%B %d, %Y')`"
 
 author:
-  - name: Anna Persson
+  - name: Anna S. Persson
     affiliation: '1'
     corresponding: yes
     address: 'Department of Swedish Language and Multilingualism, Stockholm University, SE-106 91 Stockholm, Sweden'
