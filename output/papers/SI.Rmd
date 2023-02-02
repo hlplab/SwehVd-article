@@ -1,0 +1,781 @@
+\newpage
+\setcounter{page}{1}
+\renewcommand{\thesection}{\S \arabic{section}}
+\renewcommand{\theHsection}{sisection. \arabic{section}}
+
+# Supplementary information {-}
+
+\setcounter{section}{0}
+
+# Additional information about the SwehVd databasee
+
+## Participant recruitment {#sec:recruitment}
+Participants were recruited through word-of-mouth, flyers at Stockholm University Campus, and online channels (accindi.se). Figure \@ref(fig:flyer) is an example of flyers distributed at Stockholm University Campus. The flyer gives information on criteria for participation, recording procedure, reimbursement and contact information to experimenter (first author).
+
+(ref:flyer) Example flyer for recruiting Stockholm Swedish talkers for recording of the SwehVd database.
+
+```{r flyer, fig.cap="(ref:flyer)"}
+include_graphics("ad_recruitment.png")
+```
+
+## Word list
+Word list with all target and filler words, recorded by all talkers in the SwehVd database.
+
+\begin{table}
+\caption{\label{tab:word-list}Words recorded by the female talkers of Stockholm Swedish for the SwehVd database}
+\centering
+\begin{tabular}[t]{c|c}
+\hline
+Target words&Vowel IPA\\
+\hline
+hid&`r linguisticsdown::cond_cmpl("[iː]")`\\
+\hline
+hidd&`r linguisticsdown::cond_cmpl("[ɪ]")`\\
+\hline
+hyd&`r linguisticsdown::cond_cmpl("[yː]")`\\
+\hline
+hydd&`r linguisticsdown::cond_cmpl("[ʏ]")`\\
+\hline
+hed&`r linguisticsdown::cond_cmpl("[eː]")`\\
+\hline
+hedd&`r linguisticsdown::cond_cmpl("[ɛ]")`\\
+\hline
+häd&`r linguisticsdown::cond_cmpl("[ɛː]")`\\
+\hline
+hädd&`r linguisticsdown::cond_cmpl("[ɛ]")`\\
+\hline
+härd&`r linguisticsdown::cond_cmpl("[æː]")`\\
+\hline
+härr&`r linguisticsdown::cond_cmpl("[æ]")`\\
+\hline
+höd&`r linguisticsdown::cond_cmpl("[øː]")`\\
+\hline
+hödd&`r linguisticsdown::cond_cmpl("[ø]")`\\
+\hline
+hörd&`r linguisticsdown::cond_cmpl("[œː]")`\\
+\hline
+hörr&`r linguisticsdown::cond_cmpl("[œ]")`\\
+\hline
+hud&`r linguisticsdown::cond_cmpl("[ʉː]")`\\
+\hline
+hudd&`r linguisticsdown::cond_cmpl("[ɵ]")`\\
+\hline
+hod&`r linguisticsdown::cond_cmpl("[uː]")`\\
+\hline
+hodd&`r linguisticsdown::cond_cmpl("[ʊ]")`\\
+\hline
+håd&`r linguisticsdown::cond_cmpl("[oː]")`\\
+\hline
+hådd&`r linguisticsdown::cond_cmpl("[ɔ]")`\\
+\hline
+had&`r linguisticsdown::cond_cmpl("[ɑː]")`\\
+\hline
+hadd&`r linguisticsdown::cond_cmpl("[a]")`\\
+\hline
+\end{tabular}
+\hspace{2em}
+\begin{tabular}[t]{c|c}
+\hline
+\multicolumn{2}{c}{Filler words}\\
+\hline
+titt&tand\\
+\hline
+damm&dipp\\
+\hline
+tå&buss\\
+\hline
+bål&ding\\
+\hline
+dill&porr\\
+\hline
+tugga&mitt\\
+\hline
+mat&dopp\\
+\hline
+norr&tal\\
+\hline
+must&namn\\
+\hline
+pil&pall\\
+\hline
+dina&bar\\
+\hline
+biff&till\\
+\hline
+Tina&mål\\
+\hline
+borr&Nina\\
+\hline
+dal&då\\
+\hline
+Pål&nick\\
+\hline
+nunna&ditt\\
+\hline
+mil&dugga\\
+\hline
+ting&mall\\
+\hline
+ball&bil\\
+\hline
+piff&par\\
+\hline
+tipp&morr\\
+\hline
+puss&nav\\
+\hline
+topp&nå\\
+\end{tabular}
+\end{table}
+
+# Additional information for Study 1
+
+## Evaluation of implementations of Syrdal & Gopal's (1986) second dimension {#sec:SG-eval}
+For the second dimension, distinguishing between front and back vowels, @Syrdal1986 evaluates two different bark-difference measures: F2-F1 and F3-F2. Previous studies had concluded that F2-F1 distinguishes between all Swedish vowels [@fant1983], however, in @Syrdal1986's evaluation of American English, the F3-F2 dimension provided a better fit. Given that there seems to be language specific effects concerning @Syrdal1986's second dimension [e.g., @adank2003], here we compare the two difference measures for the vowels in the SwehVd database.
+
+```{r}
+levels.norm.SG <- c("Bark_SyrdalGopal", "Bark_SyrdalGopal2")
+labels.norm.SG <-  c("SyrdalGopal (Bark)", "SyrdalGopal2 (Bark)")
+levels.norm.plots.SG <- c("SyrdalGopal_Bark", "SyrdalGopal2_Bark")
+p.separability.by_cue.SG <- plot_separability(d.SwehVd.forStudy.SI.long %>%
+                                             filter(Cues %in% c("F0", "F1", "F2", "Duration", "F1F2"), Normalization.Type %in% c("SyrdalGopal (Bark)", "SyrdalGopal2 (Bark)")) %>%
+                                             mutate(Normalization.Type = factor(plyr::mapvalues(Normalization.Type, levels.norm.SG, labels.norm.SG), levels = labels.norm.SG, ordered = T))) +
+  scale_colour_manual(values =  c("#E6BE8A", "#E6BE8A")) +
+  theme(
+    axis.text.x = ggtext::element_markdown(angle = 60, vjust = 1, hjust=1, colour = "#E6BE8A")) +
+  facet_grid(factor(Cues, levels = c("F1", "F2", "F0", "Duration", "F1F2"), labels = c("F1", "F2", "F0", "duration", "F1F2")) ~ factor(Quantity, levels = c("long vowels", "short vowels", "all vowels")), scales = "free_y")
+```
+
+(ref:separability-by-cue-SG) Separability indices of the two versions of the Syrdal & Gopal (1986) account for long vowels, short vowels, and long and short vowels together, shown for four of the five cues considered in this study and the combined F1-F2. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.
+
+Figure \@ref(fig:separability-by-cue-SG) displays the separability index for the two implementations. The first version uses the F2-F1 bark-difference metric for the second dimension, whereas the second version (labelled *SyrdalGopal2 (Bark)*) implements the second dimension as suggested by @Syrdal1986, F3-F2. As evident from Figure \@ref(fig:separability-by-cue-SG), the first implementation performs better at separating categories in the SwehVd data, which replicates @fant1983.
+
+```{r separability-by-cue-SG, fig.width=base.width * 4, fig.height=base.height * 5.5, fig.align='center', out.height='90%', fig.cap="(ref:separability-by-cue-SG)"}
+p.separability.by_cue.SG
+```
+
+```{r}
+# Make talker-independent IOs on long and short vowels *separately*, for different cue combinations
+m.io.SwehVd.F1F2_by_quantity.SG <-
+  make_IOs_and_add_test_data(
+    data = d.SwehVd.forStudy.long %>%
+      filter(Normalization.Type %in% c("SyrdalGopal (Bark)", "SyrdalGopal2 (Bark)")),
+    cues = c("F1", "F2"),
+    separate_by = c("Quantity")) %>%
+  mutate(IO.cue_normalization = ifelse(is.na(IO.cue_normalization), "SyrdalGopal2", "SyrdalGopal"))
+
+# Make talker-independent IOs on long and short vowels *combined*, for different cue combinations
+m.io.SwehVd.F1F2.SG <-
+  make_IOs_and_add_test_data(
+    data = d.SwehVd.forStudy.long %>%
+      filter(Normalization.Type %in% c("SyrdalGopal (Bark)", "SyrdalGopal2 (Bark)")),
+    cues = c("F1", "F2")) %>%
+  # Add column for plotting
+  mutate(
+    IO.Quantity = "all",
+    IO.cue_normalization = ifelse(is.na(IO.cue_normalization), "SyrdalGopal2", "SyrdalGopal"))
+
+#Make combined dataframe for plotting
+m.io.SwehVd.SG <- rbind(
+  m.io.SwehVd.F1F2_by_quantity.SG %>%
+    mutate(Cue_space = "F1-F2"),
+  m.io.SwehVd.F1F2.SG %>%
+    mutate(Cue_space = "F1-F2")) %>%
+  mutate(Cue_space = factor(Cue_space, levels = c("F1-F2", "F1-F3", "F0-F3, duration")))
+
+p.accuracy.io.overall.SG <- plot_io_results(m.io.SwehVd.SG) + facet_grid(Cue_space ~ factor(IO.Quantity, levels = c("long", "short", "all"), labels = c("long vowels", "short vowels", "all vowels"))) +
+  scale_colour_manual(values =  c("#E6BE8A", "#E6BE8A")) +
+  theme(
+    axis.text.x = ggtext::element_markdown(angle = 60, vjust = 1, hjust=1, colour = "#E6BE8A"))
+```
+(ref:accuracy-SG) Predicted recognition accuracy of ideal observer under two versions of the Syrdal & Gopal (1986) account for long vowels, short vowels, and long and short vowels together, shown for the F1-F2 cue combination. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. The dashed horizontal line indicates chance (different across columns because of the different number of long and short vowels).
+
+```{r accuracy-SG, fig.width=base.width * 5, fig.height=base.height * 2, fig.align='center', fig.cap="(ref:accuracy-SG)"}
+p.accuracy.io.overall.SG
+```
+
+We also evaluated the two Syrdal & Gopal implementations in terms of model predictions for perception. Figure \@ref(fig:accuracy-SG) displays the categorization accuracy for models trained on normalized data under the two implementations of the Syrdal & Gopal account. Mirroring the results from the separability index, the first implementation using F2-F1 for the second dimension, outperforms the implementation using F3-F2 bark-difference measure. These results taken together indicate that the F2-F1 implementation is more suitable for the materials used here, we therefore decided to use the first implementation throughout this paper.
+
+\newpage
+
+## Correlation matrices for all normalization accounts {#sec:correlation-matrices}
+Here we include correlation matrices for the SwehVd vowel data, transformed into the 15 different normalization spaces.
+
+(ref:correlation-matrix-Mel) The SwehVd vowel data in Mel space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
+
+```{r correlation-matrix-Mel, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-Mel)"}
+p.matrix.cues %+%
+  (d.SwehVd.forStudy.long %>%
+  filter(fold_type == "test" & Normalization.Type == "transformed (Mel)"))
+```
+
+(ref:correlation-matrix-Bark) The SwehVd vowel data in Bark space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
+
+```{r correlation-matrix-Bark, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-Bark)"}
+p.matrix.cues %+%
+  (d.SwehVd.forStudy.long %>%
+  filter(fold_type == "test" & Normalization.Type == "transformed (Bark)"))
+```
+
+(ref:correlation-matrix-ERB) The SwehVd vowel data in ERB space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
+
+```{r correlation-matrix-ERB, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-ERB)"}
+p.matrix.cues %+%
+  (d.SwehVd.forStudy.long %>%
+  filter(fold_type == "test" & Normalization.Type == "transformed (ERB)"))
+```
+
+(ref:correlation-matrix-semitones) The SwehVd vowel data in semitones space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
+
+```{r correlation-matrix-semitones, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-semitones)"}
+p.matrix.cues %+%
+  (d.SwehVd.forStudy.long %>%
+  filter(fold_type == "test" & Normalization.Type == "transformed (semitones)"))
+```
+
+(ref:correlation-matrix-syrdalgopal) The SwehVd vowel data in SyrdalGopal (Bark) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
+
+```{r correlation-matrix-syrdalgopal, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-syrdalgopal)"}
+p.matrix.cues %+%
+  (d.SwehVd.forStudy.long %>%
+  filter(fold_type == "test" & Normalization.Type == "SyrdalGopal (Bark)"))
+```
+
+(ref:correlation-matrix-miller) The SwehVd vowel data in Miller (log) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
+
+```{r correlation-matrix-miller, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-miller)"}
+p.matrix.cues %+%
+  (d.SwehVd.forStudy.long %>%
+  filter(fold_type == "test" & Normalization.Type == "Miller (log)"))
+```
+(ref:correlation-matrix-ccure-hz) The SwehVd vowel data in C-CuRE Hz space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
+
+```{r correlation-matrix-ccure-hz, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-ccure-hz)"}
+p.matrix.cues %+%
+  (d.SwehVd.forStudy.long %>%
+  filter(fold_type == "test" & Normalization.Type == "C-CuRE (Hz)"))
+```
+
+(ref:correlation-matrix-ccure-mel) The SwehVd vowel data in C-CuRE Mel space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
+
+```{r correlation-matrix-ccure-mel, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-ccure-mel)"}
+p.matrix.cues %+%
+  (d.SwehVd.forStudy.long %>%
+  filter(fold_type == "test" & Normalization.Type == "C-CuRE (Mel)"))
+```
+
+(ref:correlation-matrix-ccure-bark) The SwehVd vowel data in C-CuRE Bark space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
+
+```{r correlation-matrix-ccure-bark, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-ccure-bark)"}
+p.matrix.cues %+%
+  (d.SwehVd.forStudy.long %>%
+  filter(fold_type == "test" & Normalization.Type == "C-CuRE (Bark)"))
+```
+
+(ref:correlation-matrix-ccure-erb) The SwehVd vowel data in C-CuRE ERB space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
+
+```{r correlation-matrix-ccure-erb, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-ccure-erb)"}
+p.matrix.cues %+%
+  (d.SwehVd.forStudy.long %>%
+  filter(fold_type == "test" & Normalization.Type == "C-CuRE (ERB)"))
+```
+
+(ref:correlation-matrix-ccure-semitones) The SwehVd vowel data in C-CuRE semitones space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
+
+```{r correlation-matrix-ccure-semitones, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-ccure-semitones)"}
+p.matrix.cues %+%
+  (d.SwehVd.forStudy.long %>%
+  filter(fold_type == "test" & Normalization.Type == "C-CuRE (semitones)"))
+```
+
+(ref:correlation-matrix-nearey1) The SwehVd vowel data in Nearey1 (log) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
+
+```{r correlation-matrix-nearey1, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-nearey1)"}
+p.matrix.cues %+%
+  (d.SwehVd.forStudy.long %>%
+  filter(fold_type == "test" & Normalization.Type == "Nearey1 (log)"))
+```
+
+(ref:correlation-matrix-nearey2) The SwehVd vowel data in Nearey2 (log) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
+
+```{r correlation-matrix-nearey2, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-nearey2)"}
+p.matrix.cues %+%
+  (d.SwehVd.forStudy.long %>%
+  filter(fold_type == "test" & Normalization.Type == "Nearey2 (log)"))
+```
+
+(ref:correlation-matrix-gerstman) The SwehVd vowel data in Gerstman (Hz) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
+
+```{r correlation-matrix-gerstman, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-gerstman)"}
+p.matrix.cues %+%
+  (d.SwehVd.forStudy.long %>%
+  filter(fold_type == "test" & Normalization.Type == "Gerstman (Hz)"))
+```
+
+(ref:correlation-matrix-lobanov) The SwehVd vowel data in Lobanov (Hz) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
+
+```{r correlation-matrix-lobanov,fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-lobanov)"}
+p.matrix.cues %+%
+  (d.SwehVd.forStudy.long %>%
+  filter(fold_type == "test" & Normalization.Type == "Lobanov (Hz)"))
+```
+\newpage
+
+# Additional information for Study 2
+
+## Per-vowel categorization accuracy of models trained on long and short vowels separately {#sec:accuracy-per-vowel}
+
+```{r}
+#Do multiple plots because of plot size
+p.accuracy.io.per.vowel.long.1 <- plot_io_results_per_vowel(
+  m.io.SwehVd %>%
+    filter(IO.Quantity == "long") %>%
+    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[iː]", "[yː]", "[ʉː]", "[eː]", "[ɛː]"))) +
+  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
+p.accuracy.io.per.vowel.long.2 <- plot_io_results_per_vowel(
+  m.io.SwehVd %>%
+    filter(IO.Quantity == "long") %>%
+    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[æː]", "[øː]", "[œː]", "[ɑː]", "[oː]", "[uː]"))) +
+  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
+
+axis.title.accuracy <- grid::textGrob("Accuracy (of predicting *intended* vowel)", gp=grid::gpar(fontface="bold", fontsize=8), rot=90)
+
+p.accuracy.io.per.vowel.short.1 <- plot_io_results_per_vowel(
+  m.io.SwehVd %>%
+    filter(IO.Quantity == "short") %>%
+    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[ɪ]", "[ʏ]", "[ɵ]", "[ɛ]", "[æ]"))) +
+  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe)) + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.y = element_blank())
+p.accuracy.io.per.vowel.short.2 <- plot_io_results_per_vowel(
+  m.io.SwehVd %>%
+    filter(IO.Quantity == "short") %>%
+    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[ø]", "[œ]", "[a]", "[ɔ]", "[ʊ]"))) +
+  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
+
+p.accuracy.io.per.vowel.all.1 <- plot_io_results_per_vowel(
+  m.io.SwehVd %>%
+    filter(IO.Quantity == "all") %>%
+    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[iː]", "[ɪ]", "[yː]", "[ʏ]", "[ʉː]"))) +
+  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe)) + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.y = element_blank())
+p.accuracy.io.per.vowel.all.2 <- plot_io_results_per_vowel(
+  m.io.SwehVd %>%
+    filter(IO.Quantity == "all") %>%
+    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[ɵ]", "[eː]", "[ɛ]", "[ɛː]", "[æː]"))) +
+  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
+p.accuracy.io.per.vowel.all.3 <- plot_io_results_per_vowel(
+  m.io.SwehVd %>%
+    filter(IO.Quantity == "all") %>%
+    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[æ]", "[øː]", "[ø]", "[œː]", "[œ]"))) +
+  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe)) + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.y = element_blank())
+p.accuracy.io.per.vowel.all.4 <- plot_io_results_per_vowel(
+  m.io.SwehVd %>%
+    filter(IO.Quantity == "all") %>%
+    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[ɑː]", "[a]", "[oː]", "[ɔ]", "[uː]", "[ʊ]"))) +
+  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
+```
+(ref:predictions-per-vowel-long) Per-vowel predicted categorization accuracy of the ideal observers trained on the **long** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+
+\begin{landscape}
+
+```{r predictions-per-vowel-long, fig.width=base.width * 5, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:predictions-per-vowel-long)"}
+p.accuracy.io.per.vowel.long.1
+```
+\end{landscape}
+
+(ref:predictions-per-vowel-long-2) (*Continued from last page*)Per-vowel predicted categorization accuracy of the ideal observers trained on the **long** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+
+\begin{landscape}
+
+```{r predictions-per-vowel-long-2, fig.width=base.width * 5, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:predictions-per-vowel-long-2)"}
+p.accuracy.io.per.vowel.long.2
+```
+\end{landscape}
+
+(ref:predictions-per-vowel-short) Per-vowel predicted categorization accuracy of the ideal observers trained on the **short** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+
+```{r predictions-per-vowel-short, fig.width=base.width * 4, fig.height=base.height * 5, fig.align='center', fig.cap="(ref:predictions-per-vowel-short)"}
+p.accuracy.io.per.vowel.short <- cowplot::plot_grid(p.accuracy.io.per.vowel.short.1, NULL, p.accuracy.io.per.vowel.short.2 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l", rel_heights = c(1,-.15,1))
+gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.short, left = axis.title.accuracy))
+```
+
+(ref:predictions-per-vowel-all-1) Per-vowel predicted categorization accuracy of the ideal observers trained on **all** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+
+```{r predictions-per-vowel-all-1, fig.width=base.width * 4, fig.height=base.height * 5, fig.align='center', fig.cap="(ref:predictions-per-vowel-all-1)"}
+p.accuracy.io.per.vowel.all.first <- cowplot::plot_grid(p.accuracy.io.per.vowel.all.1, NULL, p.accuracy.io.per.vowel.all.2 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l", rel_heights = c(1,-.15,1))
+gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.all.first, left = axis.title.accuracy))
+```
+
+(ref:predictions-per-vowel-all-2) (*Continued from last page*)Per-vowel predicted categorization accuracy of the ideal observers trained on **all** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+
+```{r predictions-per-vowel-all-2, fig.width=base.width * 4.5, fig.height=base.height * 5, fig.align='center', fig.cap="(ref:predictions-per-vowel-all-2)"}
+p.accuracy.io.per.vowel.all.second <- cowplot::plot_grid(
+  cowplot::plot_grid(p.accuracy.io.per.vowel.all.3, NULL, rel_widths = c(5/6, 1/6), align = "hv", axis = "l"),
+                     p.accuracy.io.per.vowel.all.4 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l", rel_heights = c(3/7, 3.5/7))
+gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.all.second, left = axis.title.accuracy))
+```
+
+\newpage
+
+## Confusion and difference matrices of ideal observers {#sec:confusion}
+To further explore effects of neighbouring categories, and which categories are more easily confused by the models and with what, we plot confusion matrices of the worst and best performing models trained on the long, short or all Central Swedish vowels, under the different assumptions about the relevant cues. Next to the confusion matrices, we plot difference matrices to facilitate comparison.
+
+```{r, echo=FALSE}
+# Keep code for reproducibility
+# run a model assessing the difference in performance between models as a function of the normalization scheme.
+# data.io <- m.io.SwehVd.F1F2 %>%
+#   unnest(posterior_of_intended_vowel) %>%
+#   mutate(IO.Normalization.Type = factor(IO.Normalization.Type, levels = levels.normalization.plots, labels = labels.normalization))
+
+#Add treatment coding for IO.Normalization.Type
+#contrasts(data.io$IO.Normalization.Type) = contr.treatment(16)
+# # contrasts(data.io$IO.cue_normalization) = cbind(
+# #   "C-CuRE Hz" = c(0, 1, 0, 0, 0, 0, 0),
+# #   "Lobanov Hz" = c(0, 0, 1, 0, 0, 0, 0),
+# #   "Gerstman Hz" = c(0, 0, 0, 1, 0, 0, 0),
+# #   "Nearey1 log" = c(0, 0, 0, 0, 1, 0, 0),
+# #   "Nearey2 log" = c(0, 0, 0, 0, 0, 1, 0),
+# #   "Miller log" = c(0, 0, 0, 0, 0, 0, 1))
+# 
+# model <- glm(Posterior ~ IO.Normalization.Type, family=gaussian, data = data.io)
+# summary(model)
+```
+```{r}
+plot_io_confusion <- function(
+  data,
+  cols = cols) {
+  data %>%
+    unnest(posterior_of_all_vowels) %>%
+    pivot_longer(
+    cols = cols,
+    values_to = "Posterior",
+    names_to = "IO.Vowel") %>%
+    { if ("IO.Quantity" %in% names(data)) group_by(., IO.Vowel, Intended.Vowel, IO.Normalization.Type, IO.Quantity, Cue_space) else group_by(., IO.Vowel, Intended.Vowel, IO.Normalization.Type, Cue_space) } %>%
+    summarise(across(.cols = Posterior, mean, na.rm = T)) %>%
+    ggplot(
+      aes(
+        x = factor(Intended.Vowel, levels = levels.vowel.IPA.swe),
+        y = factor(IO.Vowel, levels = levels.vowel.IPA.swe),
+        fill = Posterior)) +
+    geom_raster() +
+    scale_x_discrete("Intended vowel", expand = c(0,0)) +
+    scale_y_discrete("IO response vowel", expand = c(0,0)) +
+    scale_fill_viridis_b("Posterior \nprobability \nunder \nideal observer", limits = c(0,1), breaks = seq(0, 1, .1)) +
+    facet_grid(Cue_space ~ IO.Normalization.Type) +
+    theme(axis.title.x = element_blank(), 
+          axis.title.y = element_blank())
+}
+```
+
+```{r }
+# Make confusion matrices of best and worst for all cue evaluations under the assumption of long, short or all vowels
+p.confusion.long.F1F2 <- plot_io_confusion(
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F2", IO.Quantity == "long"),
+                         cols = levels.vowel.IPA.swe.long) +
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "Lobanov_Hz"), labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
+p.confusion.long.F1F3 <- plot_io_confusion(
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F3", IO.Quantity == "long"),
+                         cols = levels.vowel.IPA.swe.long) +
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "Lobanov_Hz"), labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
+p.confusion.long.all <- plot_io_confusion(
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Gerstman_Hz", "Lobanov_Hz"), Cue_space == "F0-F3, duration", IO.Quantity == "long"),
+                         cols = levels.vowel.IPA.swe.long) +
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Gerstman_Hz", "Lobanov_Hz"), labels = c("Gerstman (Hz)", "Lobanov (Hz)"))) + theme(legend.position="none")
+
+p.confusion.short.F1F2 <- plot_io_confusion(
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "CCuRE_Mel"), Cue_space == "F1-F2", IO.Quantity == "short"),
+                         cols = levels.vowel.IPA.swe.short) +
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "CCuRE_Mel"), labels = c("Miller (log)", "C-CuRE (Mel)"))) + theme(legend.position="none")
+p.confusion.short.F1F3 <- plot_io_confusion(
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "CCuRE_Mel"), Cue_space == "F1-F3", IO.Quantity == "short"),
+                         cols = levels.vowel.IPA.swe.short) +
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "CCuRE_Mel"), labels = c("Miller (log)", "C-CuRE (Mel)"))) + theme(legend.position="none")
+p.confusion.short.all <- plot_io_confusion(
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Gerstman_Hz", "Lobanov_Hz"), Cue_space == "F0-F3, duration", IO.Quantity == "short"),
+                         cols = levels.vowel.IPA.swe.short) +
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type,  levels = c("Gerstman_Hz", "Lobanov_Hz"), labels = c("Gerstman (Hz)", "Lobanov (Hz)"))) + theme(legend.position="none")
+
+p.confusion.all.F1F2 <- plot_io_confusion(
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("SyrdalGopal_Bark", "Lobanov_Hz"), Cue_space == "F1-F2", IO.Quantity == "all"),
+                         cols = levels.vowel.IPA.swe) +
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("SyrdalGopal_Bark", "Lobanov_Hz"), labels = c("SyrdalGopal (bark)", "Lobanov (Hz)"))) + theme(legend.position="none")
+p.confusion.all.F1F3 <- plot_io_confusion(
+    m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F3", IO.Quantity == "all"), 
+    cols = levels.vowel.IPA.swe) + 
+  facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "Lobanov_Hz"), labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
+p.confusion.all.all <- plot_io_confusion(
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Gerstman_Hz", "CCuRE_Hz"), Cue_space == "F0-F3, duration", IO.Quantity == "all"),
+                         cols = levels.vowel.IPA.swe) +
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Gerstman_Hz", "CCuRE_Hz"), labels = c("Gerstman (Hz)", "C-CuRE (Hz)")))
+
+legend.confusion <- cowplot::get_legend(p.confusion.all.all +
+  guides(fill = guide_legend(ncol = 1)))
+
+# Plot a difference matrix, of differences in posteriors between worst and best performing models
+# Diff matrices of the long vowels
+p.diff.long.F1F2 <- p.confusion.long.F1F2 %+%
+  (m.io.SwehVd %>%
+    unnest(posterior_of_all_vowels) %>%
+    pivot_longer(
+    cols = levels.vowel.IPA.swe.long,
+    values_to = "Posterior",
+    names_to = "IO.Vowel") %>%
+    filter(Cue_space == "F1-F2", IO.Quantity == "long") %>%
+    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
+    summarise_at(vars(Posterior), mean) %>%
+    pivot_wider(
+      names_from = IO.Normalization.Type,
+      values_from = Posterior) %>%
+    mutate(
+      "Difference Lobanov (Hz) - Miller (log)" = Lobanov_Hz - Miller_log) %>%
+    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
+    pivot_longer(
+         cols = starts_with("Diff"),
+         names_to = "Comparison",
+         values_to = "Difference")) +
+    aes(fill = Difference) +
+    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    facet_wrap(~ Comparison, ncol = 1) + 
+  theme(legend.position = "none")
+p.diff.long.F1F3 <- p.confusion.long.F1F3 %+%
+  (m.io.SwehVd %>%
+    unnest(posterior_of_all_vowels) %>%
+    pivot_longer(
+    cols = levels.vowel.IPA.swe.long,
+    values_to = "Posterior",
+    names_to = "IO.Vowel") %>%
+    filter(Cue_space == "F1-F3", IO.Quantity == "long") %>%
+    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
+    summarise_at(vars(Posterior), mean) %>%
+    pivot_wider(
+      names_from = IO.Normalization.Type,
+      values_from = Posterior) %>%
+    mutate(
+      "Difference Lobanov (Hz) - Miller (log)" = Lobanov_Hz - Miller_log) %>%
+    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
+    pivot_longer(
+         cols = starts_with("Diff"),
+         names_to = "Comparison",
+         values_to = "Difference")) +
+    aes(fill = Difference) +
+    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    facet_wrap(~ Comparison, ncol = 1) + 
+  theme(legend.position = "none")
+p.diff.long.all <- p.confusion.long.all %+%
+  (m.io.SwehVd %>%
+    unnest(posterior_of_all_vowels) %>%
+    pivot_longer(
+    cols = levels.vowel.IPA.swe.long,
+    values_to = "Posterior",
+    names_to = "IO.Vowel") %>%
+    filter(Cue_space == "F0-F3, duration", IO.Quantity == "long") %>%
+    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
+    summarise_at(vars(Posterior), mean) %>%
+    pivot_wider(
+      names_from = IO.Normalization.Type,
+      values_from = Posterior) %>%
+    mutate(
+      "Difference Lobanov (Hz) - Gerstman (Hz)" = Lobanov_Hz - Gerstman_Hz) %>%
+    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
+    pivot_longer(
+         cols = starts_with("Diff"),
+         names_to = "Comparison",
+         values_to = "Difference")) +
+    aes(fill = Difference) +
+    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    facet_wrap(~ Comparison, ncol = 1) + 
+  theme(legend.position = "none")
+# Diff matrices of the short vowels
+p.diff.short.F1F2 <- p.confusion.short.F1F2 %+%
+  (m.io.SwehVd %>%
+    unnest(posterior_of_all_vowels) %>%
+    pivot_longer(
+    cols = levels.vowel.IPA.swe.short,
+    values_to = "Posterior",
+    names_to = "IO.Vowel") %>%
+    filter(Cue_space == "F1-F2", IO.Quantity == "short") %>%
+    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
+    summarise_at(vars(Posterior), mean) %>%
+    pivot_wider(
+      names_from = IO.Normalization.Type,
+      values_from = Posterior) %>%
+    mutate(
+      "Difference C-CuRE (Mel) - Miller (log)" = CCuRE_Mel - Miller_log) %>%
+    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
+    pivot_longer(
+         cols = starts_with("Diff"),
+         names_to = "Comparison",
+         values_to = "Difference")) +
+    aes(fill = Difference) +
+    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    facet_wrap(~ Comparison, ncol = 1) + 
+  theme(legend.position = "none")
+p.diff.short.F1F3 <- p.confusion.short.F1F3 %+%
+  (m.io.SwehVd %>%
+    unnest(posterior_of_all_vowels) %>%
+    pivot_longer(
+    cols = levels.vowel.IPA.swe.short,
+    values_to = "Posterior",
+    names_to = "IO.Vowel") %>%
+    filter(Cue_space == "F1-F3", IO.Quantity == "short") %>%
+    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
+    summarise_at(vars(Posterior), mean) %>%
+    pivot_wider(
+      names_from = IO.Normalization.Type,
+      values_from = Posterior) %>%
+    mutate(
+      "Difference C-CuRE (Mel) - Miller (log)" = CCuRE_Mel - Miller_log) %>%
+    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
+    pivot_longer(
+         cols = starts_with("Diff"),
+         names_to = "Comparison",
+         values_to = "Difference")) +
+    aes(fill = Difference) +
+    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    facet_wrap(~ Comparison, ncol = 1) + 
+  theme(legend.position = "none")
+p.diff.short.all <- p.confusion.short.all %+%
+  (m.io.SwehVd %>%
+    unnest(posterior_of_all_vowels) %>%
+    pivot_longer(
+    cols = levels.vowel.IPA.swe.short,
+    values_to = "Posterior",
+    names_to = "IO.Vowel") %>%
+    filter(Cue_space == "F0-F3, duration", IO.Quantity == "short") %>%
+    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
+    summarise_at(vars(Posterior), mean) %>%
+    pivot_wider(
+      names_from = IO.Normalization.Type,
+      values_from = Posterior) %>%
+    mutate(
+      "Difference Lobanov (Hz) - Gerstman (Hz)" = Lobanov_Hz - Gerstman_Hz) %>%
+    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
+    pivot_longer(
+         cols = starts_with("Diff"),
+         names_to = "Comparison",
+         values_to = "Difference")) +
+    aes(fill = Difference) +
+    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    facet_wrap(~ Comparison, ncol = 1) + 
+  theme(legend.position = "none")
+# Diff matrices of all vowels
+p.diff.all.F1F2 <- p.confusion.all.F1F2 %+%
+  (m.io.SwehVd %>%
+    unnest(posterior_of_all_vowels) %>%
+    pivot_longer(
+    cols = levels.vowel.IPA.swe,
+    values_to = "Posterior",
+    names_to = "IO.Vowel") %>%
+    filter(Cue_space == "F1-F2", IO.Quantity == "all") %>%
+    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
+    summarise_at(vars(Posterior), mean) %>%
+    pivot_wider(
+      names_from = IO.Normalization.Type,
+      values_from = Posterior) %>%
+    mutate(
+      "Difference Lobanov (Hz) - SyrdalGopal (Bark)" = Lobanov_Hz - SyrdalGopal_Bark) %>%
+    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
+    pivot_longer(
+         cols = starts_with("Diff"),
+         names_to = "Comparison",
+         values_to = "Difference")) +
+    aes(fill = Difference) +
+    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    facet_wrap(~ Comparison, ncol = 1) + 
+  theme(legend.position = "none")
+p.diff.all.F1F3 <- p.confusion.all.F1F3 %+%
+  (m.io.SwehVd %>%
+    unnest(posterior_of_all_vowels) %>%
+    pivot_longer(
+    cols = levels.vowel.IPA.swe,
+    values_to = "Posterior",
+    names_to = "IO.Vowel") %>%
+    filter(Cue_space == "F1-F3", IO.Quantity == "all") %>%
+    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
+    summarise_at(vars(Posterior), mean) %>%
+    pivot_wider(
+      names_from = IO.Normalization.Type,
+      values_from = Posterior) %>%
+    mutate(
+      "Difference Lobanov (Hz) - Miller (log)" = Lobanov_Hz - Miller_log) %>%
+    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
+    pivot_longer(
+         cols = starts_with("Diff"),
+         names_to = "Comparison",
+         values_to = "Difference")) +
+    aes(fill = Difference) +
+    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    facet_wrap(~ Comparison, ncol = 1) + 
+  theme(legend.position = "none")
+p.diff.all.all <- p.confusion.all.all %+%
+  (m.io.SwehVd %>%
+    unnest(posterior_of_all_vowels) %>%
+    pivot_longer(
+    cols = levels.vowel.IPA.swe,
+    values_to = "Posterior",
+    names_to = "IO.Vowel") %>%
+    filter(Cue_space == "F0-F3, duration", IO.Quantity == "all") %>%
+    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
+    summarise_at(vars(Posterior), mean) %>%
+    pivot_wider(
+      names_from = IO.Normalization.Type,
+      values_from = Posterior) %>%
+    mutate(
+      "Difference C-CuRE (Hz) - Gerstman (Hz)" = CCuRE_Hz - Gerstman_Hz) %>%
+    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
+    pivot_longer(
+         cols = starts_with("Diff"),
+         names_to = "Comparison",
+         values_to = "Difference")) +
+    aes(fill = Difference) +
+    scale_fill_gradient2("Difference \nin posterior \nprobability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    facet_wrap(~ Comparison, ncol = 1) +
+  theme(legend.position = "right")
+
+legend.diff <- cowplot::get_legend(p.diff.all.all +
+  guides(fill = guide_legend(ncol = 1)))
+```
+
+(ref:confusion-matrix-long) Illustration of the category-specific differences in predictions of the worst and best performing normalization models for each combination of cues (**rows**). The confusion matrices (**Panel A**) plot the predictions for the worst (**left**) and best (**right**) performing models in predicting the **long** vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by ideal observer model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel. The difference matrices (**Panel B**) illustrates the differences in predictions between the best and the worst performing models. Color fill indicates the difference in the posterior probability of the models predicting the intended vowel. More **purple** indicates an increase in posterior probability for the former over the latter model, more **red** indicates an advantage for the latter over the former.
+
+\begin{landscape}
+
+```{r confusion-matrix-long, fig.width=base.width*5, fig.height=base.height*4.5, fig.align='center', out.height='90%', fig.cap="(ref:confusion-matrix-long)"}
+cowplot::plot_grid(
+  cowplot::plot_grid(legend.confusion,
+                     cowplot::plot_grid(p.confusion.long.F1F2, p.confusion.long.F1F3, p.confusion.long.all, align = "hv", axis = "btlr", ncol = 1),
+                     ncol = 2, rel_widths = c(1/8,7/8)),
+  cowplot::plot_grid(cowplot::plot_grid(p.diff.long.F1F2, p.diff.long.F1F3, p.diff.long.all, align = "hv", axis = "btlr", ncol = 1), legend.diff,
+                     ncol = 2, rel_widths = c(4/5,1/5)),
+  ncol = 2, rel_widths = c(.65,.35), labels = c("A", "B"))
+```
+\end{landscape}
+(ref:confusion-matrix-short) Illustration of the category-specific differences in predictions of the worst and best performing normalization models for each combination of cues (**rows**). The confusion matrices (**Panel A**) plot the predictions for the worst (**left**) and best (**right**) performing models in predicting the **short** vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by ideal observer model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel. The difference matrices (**Panel B**) illustrates the differences in predictions between the best and the worst performing models. Color fill indicates the difference in the posterior probability of the models predicting the intended vowel. More **purple** indicates an increase in posterior probability for the former over the latter model, more **red** indicates an advantage for the latter over the former.
+
+\begin{landscape}
+
+```{r confusion-matrix-short, fig.width=base.width*5, fig.height=base.height*4.5, fig.align='center', out.height='90%', fig.cap="(ref:confusion-matrix-short)"}
+cowplot::plot_grid(
+  cowplot::plot_grid(legend.confusion,
+                     cowplot::plot_grid(p.confusion.short.F1F2, p.confusion.short.F1F3, p.confusion.short.all, align = "hv", axis = "btlr", ncol = 1),
+                     ncol = 2, rel_widths = c(1/8,7/8)),
+  cowplot::plot_grid(cowplot::plot_grid(p.diff.short.F1F2, p.diff.short.F1F3, p.diff.short.all, align = "hv", axis = "btlr", ncol = 1), legend.diff,
+                     ncol = 2, rel_widths = c(4/5,1/5)),
+  ncol = 2, rel_widths = c(.65,.35), labels = c("A", "B"))
+```
+
+\end{landscape}
+
+(ref:confusion-matrix-allVowels) Illustration of the category-specific differences in predictions of the worst and best performing normalization models for each combination of cues (**rows**). The confusion matrices (**Panel A**) plot the predictions for the worst (**left**) and best (**right**) performing models in predicting the **all** vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by ideal observer model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel. The difference matrices (**Panel B**) illustrates the differences in predictions between the best and the worst performing models. Color fill indicates the difference in the posterior probability of the models predicting the intended vowel. More **purple** indicates an increase in posterior probability for the former over the latter model, more **red** indicates an advantage for the latter over the former.
+
+\begin{landscape}
+
+```{r confusion-matrix-allVowels, fig.width=base.width*5, fig.height=base.height*4.5, fig.align='center', out.height='90%', fig.cap="(ref:confusion-matrix-allVowels)"}
+cowplot::plot_grid(
+  cowplot::plot_grid(legend.confusion,
+                     cowplot::plot_grid(p.confusion.all.F1F2, p.confusion.all.F1F3, p.confusion.all.all + theme(legend.position = "none"), align = "hv", axis = "btlr", ncol = 1),
+                     ncol = 2, rel_widths = c(1/8,7/8)),
+  cowplot::plot_grid(cowplot::plot_grid(p.diff.all.F1F2, p.diff.all.F1F3, p.diff.all.all + theme(legend.position = "none"), align = "hv", axis = "btlr", ncol = 1), legend.diff,
+                     ncol = 2, rel_widths = c(4/5,1/5)),
+  ncol = 2, rel_widths = c(.65,.35), labels = c("A", "B"))
+```
+
+\end{landscape}

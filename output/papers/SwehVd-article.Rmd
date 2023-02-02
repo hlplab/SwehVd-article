@@ -28,7 +28,7 @@ abstract: |
   Talkers vary in the phonetic realization of their vowels. One influential hypothesis holds that listeners overcome this inter-talker variability through pre-linguistic auditory mechanisms that normalize the acoustic or phonetic cues that form the input to speech recognition. Dozens of competing normalization accounts exist---including both accounts specific to vowel perception and general purpose accounts that can be applied to any type of cue. We add to the cross-linguistic literature on this matter by comparing normalization accounts against a new phonetically annotated vowel database of Swedish, a language with a particularly dense vowel inventory of 21 vowels differing in quality and quantity. All data and code for this study are shared via OSF, including the R markdown document that this article is generated from, and an R library that implements the models we present.
 
 keywords          : "vowel normalization; speech perception; computational model"
-wordcount         : "X"
+#wordcount         : "X"
 
 bibliography      : ["latex-stuff/library.bib", "latex-stuff/r-references.bib"]
 link-citations    : yes
@@ -138,6 +138,9 @@ knitr::knit_hooks$set(warning = color_block('orange'))
 ```{r functions-and-pipes, include=FALSE}
 source("constants.R")
 
+INCLUDE_TODO = T     # switch on/off to get to do list.
+INCLUDE_SI = T     # switch on/off to include SI.
+
 myGplot.defaults("paper")
 
 options(knitr.table.format = "latex")
@@ -147,24 +150,9 @@ base.height = 2.5
 base_size = 10
 ```
 
-# To Do
-
-  * Update TO DO regularly
-  * Edits to text
-    * anticipate main points in both introduction and discussion - inherent in many of the suggested accounts, a bunch of assumptions that follow much of the literature but may affect the results.
-  * Make OFS public
-  * Reduce fig sizes
-  
-  * Points for when reviews are back
-    * The neural correlates of intrinsic and extrinsic accounts, and their relative effectiveness (e.g., johnson-sjerps2021)
-
-  * To work on while in review:
-    * Formant transitions - how much information is there in there and does it change the ranking of normalization accounts if those are considered? Check this by including F1-F4 values at the start and end points in the trajectory in the IOs. Potentially include F4 as well, as Barreda said it contained important information.
-    * Can we address the concern that the fact that we only have female talkers might underestimate the performance of some, in particular uniform scaling, accounts. One idea would be to generate fake male talkers by multiplying formants by .8 (15-20% height diff), and lowering f0 by one octave, and then conduct same analyses over combined data of real female and fake male talkers. In interpreting any differences in results this might cause, keep in mind that this approach generates the fake male talkers under the assumption of uniform scaling (still, it's going to be informative how much the performance of the unnormalized decreases).
-    * fig 10: color labels, or only label a few vowels (or none).
-
-```{r}
+```{r, child="TO-DO.Rmd", eval= if (INCLUDE_TODO) TRUE else FALSE}
 ```
+
 \newpage
 \setcounter{page}{1}
 
@@ -406,7 +394,7 @@ Our selection of accounts to consider in the present study is primarily based on
 
 Previous comparisons of normalization accounts have primarily focused on English [e.g., @adank2004; @barreda2018a; @carpenter1993; @clopper2009; @disner1980; @escudero2007; @fabricius2009; @Flynn2011; @hindle1978; @kohn2012a; @labov2010; @richter2017; @syrda1985]. Additional studies have investigated, for example, Dutch [@adank2004; @disner1980], Russian [@lobanov1971], and Brazilian Portuguese [@escudero2007]. The complexity of the vowel inventories (7-11 monophthongs) and the number of these vowels included in the comparison (2-11) varied across these studies. We add to this literature by comparing normalization accounts against a new phonetically annotated database of Central Swedish (SwehVd, introduced below). With a total of 21 monophthong allophones that vary in quantity (long vs. short vowels) and quality, the vowel inventory of Swedish is crowded compared to most languages previously studied in the normalization literature. This allows us to test whether the same normalization accounts that work well for simpler vowel inventories generalize well to more crowded vowel spaces. Additionally, the presence of quantity contrasts between long and short allophones means that Swedish provides a suitable case study to bridge the literature between vowel-specific normalization accounts (which focus on formants, and thus only quality contrasts) and general normalization accounts that can be applied to any type of cue (and thus also vowel duration, which is expected to be the primary cue to vowel quantity). Relatedly, previous studies have found both F3 and vowel duration to be important cues to vowel categorization in Swedish [e.g., @behne1997; @fujimura1967; @haddingkoch1964]. These two cues have never (duration) or rarely [F3, but see e.g. @adank2004; @barreda2018a; @carpenter1993; @nearey1989; @syrda1985] been included in comparisons of normalization accounts.
 
-We compare the normalization accounts in Table \@ref(tab:norm-accounts) both in terms of their effectiveness in reducing within-category variability relative to between-category variability (Study 1) and in terms of the predicted consequences for recognition accuracy (Study 2). We originally only conducted Study 2, as it more adequately addresses our goal of assessing the predicted consequences of normalization for perception. However, we later added Study 1 because---despite serious shortcomings---measures of between- vs. within-category separability/variability continue to be commonly used in research on normalization. The primary purpose of including Study 1 is to illustrate some of these shortcomings, highlighting the benefits of using models of speech perception when evaluating the normalization accounts [as we do in Study 2, for related discussion, see @barreda2021].
+We compare the normalization accounts in Table \@ref(tab:norm-accounts) both in terms of their effectiveness in reducing within-category variability relative to between-category variability (Study 1) and in terms of the predicted consequences for recognition accuracy (Study 2). We originally only conducted Study 2, as it more adequately addresses our goal of assessing the predicted consequences of normalization for perception. However, we later added Study 1 because---despite serious shortcomings---measures of between- vs. within-category separability/variability continue to be commonly used in research on normalization. The primary purpose of including Study 1 is to illustrate some of these shortcomings, highlighting the benefits of using models of speech perception when evaluating normalization accounts [as we do in Study 2, for related discussion, see @barreda2021].
 
 Following the bulk of previous work [but see e.g., @barreda2021; @mcmurray-jongman2016; @nearey1989; @richter2017], the present studies do not compare the predicted consequences of normalization against categorization responses from human listeners, though we plan to do so in future work. We discuss this and other limitations---most shared with previous work---after presenting our studies. As part of that discussion, we also raise conceptual considerations about the *a priori* plausibility of different normalization accounts. 
 
@@ -1224,7 +1212,7 @@ d.SwehVd.forStudy.long %>%
 
 Next, we summarize how normalization affects category separability when combinations of the fives cues are considered. Figure \@ref(fig:separability) shows the separability index for the different normalization accounts for three different combinations of cues. For the first row of Figure \@ref(fig:separability), we followed most previous research in assessing category separability for the combination of F1 and F2 [e.g., @disner1980; @fabricius2009; @Flynn2011; @hindle1978; @labov2010]. Accounts that center against the talker's overall formant mean (in blue) are among the best performing normalization accounts. No matter the assumed perceptual scale, centering always improves category separability. Standardizing accounts (in purple), primarily @lobanov1971, also perform well at separating categories, more so for the long vowels. However, scale transformations (in grey), and intrinsic accounts (in yellow), do not improve category separability compared to unnormalized Hz, at least not when assessed on the long vowels or the entire vowel space. 
 
-The remaining rows of Figure \@ref(fig:separability) compare normalization accounts when F3 (second row) or F0, F3, and duration are included (third row). Overall, the category separability is now lower, a result of how the accounts affect category separability along the cues added (see Figure \@ref(fig:separability-by-cue)). The most drastic change in performance concerns the intrinsic @miller1989c and the standardizing accounts. When including F3, @miller1989c performs as well or better, in absolute numbers, as when evaluated on the combination of F1 and F2, thereby increasing its performance relative to other accounts. The standardizing accounts, however, drop substantially in performance and perform worse even than unnormalized cues as soon as any cue besides F1 and F2 is included. As surprising as this might appear, it mirrors what was found when assessing the category separability separately for each cue (Figure \@ref(fig:separability-by-cue)). The high performance of @miller1989c seems to be driven by its ability to increase category separability along F3, whereas the low performance of @gerstman1968 and @lobanov1971 appears to be a result of their inability to increase separability along F3 and duration. For a language like Swedish, where F3 carry information to vowel identity, intrinsic accounts such as @miller1989c, that appear to do very well at successfully distinguish categories along F3, seem to be particularly helpful in increasing category separability.
+The remaining rows of Figure \@ref(fig:separability) compare normalization accounts when F3 (second row) or F0, F3, and duration are included (third row). Overall, the category separability is now lower, a result of how the accounts affect category separability along the cues added (see Figure \@ref(fig:separability-by-cue)). The most drastic change in performance concerns the intrinsic @miller1989c and the standardizing accounts. When including F3, @miller1989c performs as well or better, in absolute numbers, as when evaluated on only the combination of F1 and F2, thereby increasing its performance relative to other accounts. This increase in performance might be particularly pronounced for languages like Swedish, where F3 carries important information about lip rounding and thus vowel identity. In contrast, performance of standardizing accounts drops substantially if F3 or any other cue besides F1 and F2 is included.^[We confirmed this by conducting additional comparisons using only F1, F2 and F0, or only F1, F2 and duration. For both of these comparisons too, we found that standardizing accounts perform poorly.] This mirrors what was found when assessing category separability separately for each cue (Figure \@ref(fig:separability-by-cue)).
 
 Finally, looking across all three rows, category separability is consistently higher for short than long vowels. The same pattern is evident for each cue separately in Figure \@ref(fig:separability-by-cue). This result might initially be puzzling, given that previous descriptions of Central Swedish vowel inventories characterize the inventory of short vowels as being more centralized and more densely clustered [e.g., @kuronen2000; @riad2014]. Indeed, this claim seems to hold for SwehVd---compare Figures \@ref(fig:swe-vowels-normalized-long) and \@ref(fig:swe-vowels-normalized-short). However, the short vowels exhibit less category variability and less category overlap, making them overall more separable. 
 
@@ -1291,7 +1279,7 @@ Language(s) investigated & Article & Speech materials & Normalization accounts &
 \cmidrule{7-7}
 Brazilian Portuguese \& US English & Escudero \& Hoffman Bion, 2007 & models trained on 400,000 F1-F2 combinations generated on recordings of 8 female/male talkers (20 tokens * 7 vowels and 15 tokens * 11 vowels) & Nearey1, Lobanov, Gerstman & constraint rankings &  & \\
 \cmidrule{1-5}
-Dutch & Adank, Smits \& van Hout, 2004 & 160 female/male talkers, 8 varieties (2 tokens * 9 vowels) & log-transformation, Bark, Mel, ERB, Syrdal \& Gopal, Lobanov, Nearey1, Nearey2\tablefootnote{Note that there was a mistake in the implementation of the Nearey2 account in Adank et al. (2004), so that the relative performance of Nearey2 is difficult to evaluate.}, Gerstman, Nordström, Miller & linear discriminant analysis & \multirow{-8}{2cm}{\raggedright\arraybackslash against intended category} & \multirow{-2}{2cm}{\raggedright\arraybackslash Lobanov (1), Nearey1 (2)}\\
+Dutch & Adank, Smits \& van Hout, 2004 & 160 female/male talkers, 8 varieties (2 tokens * 9 vowels) & log-transformation, Bark, Mel, ERB, Syrdal \& Gopal, Lobanov, Nearey1, Nearey2\tablefootnote{Barreda \& Nearey (2018) identify a mistake in the implementation of the Nearey2 account in Adank et al. (2004), so that the relative performance of Nearey2 reported by Adank and colleagues should be interpreted with caution.}, Gerstman, Nordström, Miller & linear discriminant analysis & \multirow{-8}{2cm}{\raggedright\arraybackslash against intended category} & \multirow{-2}{2cm}{\raggedright\arraybackslash Lobanov (1), Nearey1 (2)}\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1299,9 +1287,9 @@ Dutch & Adank, Smits \& van Hout, 2004 & 160 female/male talkers, 8 varieties (2
 
 Table \@ref(tab:norm-evaluation-percep) lists previous studies that have compared normalization accounts in terms of their expected consequences for perception. While some previous studies have evaluated normalization accounts against listeners' responses in perception experiments [@barreda2021; @mcmurray-jongman2016; @nearey1989; @richter2017], the majority of previous work has evaluated accounts against the category intended by the talker---i.e., against production data. Here, we follow this majority (though we plan to conduct perception studies on Central Swedish in the future).
 
-Across languages and approaches, the studies in Table \@ref(tab:norm-evaluation-percep) yield similar results as those summarized in Table \@ref(tab:norm-evaluation-variability) for category separability. Normalization improves recognition accuracy compared to unnormalized cues. Perceptual transformations perform worse than intrinsic or extrinsic normalization at predicting perception from production data. Furthermore, the same normalization accounts that have been found to be most successful at reducing inter-talker variability [e.g., @lobanov1971; @nearey1978] are also often found to achieve higher recognition accuracy [e.g., @adank2004; @escudero2007; @johnson-sjerps2021; @syrda1985]. Despite these overall similarities in results, it is important to keep in mind that the two approaches---category separability and models of perception---do not *have* to yield the same results. In the present study, we go beyond previous work by modeling perception of both vowel quality and vowel quantity over a particularly dense vowel space, and by considering additional cues. We expect, in particular, that the approach in Study 2 will remove the deficiency of the separability index related to F3 observed in Study 1.
+Across languages and approaches, the studies in Table \@ref(tab:norm-evaluation-percep) yield similar results as those summarized in Table \@ref(tab:norm-evaluation-variability) for category separability. Normalization improves recognition accuracy compared to unnormalized cues. Perceptual transformations perform worse than intrinsic or extrinsic normalization at predicting perception from production data. Furthermore, the same normalization accounts that have been found to be most successful at reducing inter-talker variability [e.g., @lobanov1971; @nearey1978] are also often found to achieve higher recognition accuracy [e.g., @adank2004; @escudero2007; @johnson-sjerps2021; @syrda1985]. Despite these overall similarities in results, it is important to keep in mind that the two approaches---category separability and models of perception---do not *have* to yield the same results. In the present study, we go beyond previous work by modeling perception of both vowel quality and vowel quantity over a particularly dense vowel space, and by considering additional cues.
 
-As also shown in Table \@ref(tab:norm-evaluation-percep), previous work has employed a number of model types to compare the expected effects of normalization on perception, ranging from models based on phonological theory [e.g., optimality theory, @escudero2007], to more general models of categorization [e.g., linear discriminant analysis, @adank2004; @syrda1985; k-nearest neighbors as in exemplar theory or ARTMAP, @carpenter1993; Bayesian inference, @Kleinschmidt2018; @richter2017; support vector machine classification models, @johnson-sjerps2021], to general frameworks for data analysis [e.g., regression, @cole2010; @mcmurray-jongman2016]. We use ideal observers, rather than other approaches, because *all* of their degrees of freedom can be estimated from SwehVd. In contrast, k-nearest neighbor categorization requires the choice of a similarity metric, which can introduce one or more degrees of freedom into the modeling, and requires a choice for $k$. Similarly, linear discriminant analysis or regression introduce at least one degree of freedom for each cue considered. Bayesian ideal observers encode the assumption that listeners use and integrate cues *optimally*. As a consequence, the predicted posterior probabilities of all categories for a given acoustic input are determined by the combination of (1) the category-specific distribution of cues in the previous input and (2) the cue values of the input. Next, we describe ideal observers in more detail. After introducing ideal observers, we detail how this approach avoids the pitfalls of the separability index employed in Study 1.
+As also shown in Table \@ref(tab:norm-evaluation-percep), previous work has employed a number of model types to compare the expected effects of normalization on perception, ranging from models based on phonological theory [e.g., optimality theory, @escudero2007], to more general models of categorization [e.g., linear discriminant analysis, @adank2004; @syrda1985; k-nearest neighbors as in exemplar theory or ARTMAP, @carpenter1993; Bayesian inference, @Kleinschmidt2018; @richter2017; support vector machine classification models, @johnson-sjerps2021], to general frameworks for data analysis [e.g., regression, @cole2010; @mcmurray-jongman2016]. We use ideal observers, rather than other approaches, because *all* of their degrees of freedom can be estimated from SwehVd. In contrast, k-nearest neighbor categorization requires the choice of a similarity metric, which can introduce one or more degrees of freedom into the modeling, and requires a choice for $k$. Similarly, linear discriminant analysis or regression introduce at least one degree of freedom for each cue considered. This means that any comparison of normalization accounts needs to be conducted over the entire range of possible values for these degrees of freedom, making comparisons computationally more demanding and interpretation of the results more difficult.^[The consequences of additional degrees of freedom that we describe here hold for comparisons of normalization accounts against *production* data (as done here and in the majority of research on normalization).] Bayesian ideal observers avoid this issue because of their assumption that listeners use and integrate cues *optimally*. As a consequence, the predicted posterior probabilities of all categories for a given acoustic input are determined by the combination of (1) the category-specific distribution of cues in the previous input and (2) the cue values of the input. Next, we describe ideal observers in more detail. After introducing ideal observers, we detail how this approach avoids the pitfalls of the separability index employed in Study 1.
 
 ## Methods {#sec:methodsII}
 
@@ -1325,7 +1313,7 @@ The likelihood, $p(cues|category)$, describes the distribution of cues for each 
  p(category|cues) = \frac{\mathcal{N}(cues| \mu, \Sigma) \times p(category)}{\sum_c \mathcal{N}(cues|\mu_c, \Sigma_c) \times p(category_c)} (\#eq:Bayes-rule-normal)
 \end{equation}
 
-Paralleling Study 1, we trained and tested separate ideal observers for each combination of normalization account, cues, and training-test fold. Specifically, we use the exact same cross-validation folds as in Study 1. Each ideal observer was trained on the training portion of the folded unnormalized and normalized data, and subsequently evaluated on the held-out test fold. This means that the parameters of each normalization account (e.g., the cue means in C-CuRE) and the resulting category parameters (the $\mu_c$s and $\Sigma_c$s for all categories) were set on the training data, and not changed for the test data. This reflects the realities of speech perception: although this is often ignored in evaluations of normalization accounts [e.g., @barreda2021; @mcmurray-jongman2011], listeners do not *a priori* know the cue means, cue variance, etc. of an unfamiliar talker. Rather, listeners need to incrementally *infer* those statistical properties from the talker's speech input [for discussion and a model, see @xie2022]. An additional advantage of cross-validation is that it gives us an estimate of the uncertainty about the model predictions. The performance of each ideal observer during test is assessed by calculating the ideal observer's predicted posterior probability of the *intended* category for each test token. This is identical to assuming Luce's choice rule for categorization [@luce1959], as in most models of speech perception and spoken word recognition.
+Paralleling Study 1, we trained and tested separate ideal observers for each combination of normalization account, cues, and training-test fold. Specifically, we use the exact same cross-validation folds as in Study 1. Each ideal observer was trained on the training portion of the folded unnormalized and normalized data, and subsequently evaluated on the held-out test fold. This means that the parameters of each normalization account (e.g., the cue means in C-CuRE) and the resulting category parameters (the $\mu_c$s and $\Sigma_c$s for all categories) were set on the training data, and not changed for the test data. This reflects the realities of speech perception: although this is often ignored in evaluations of normalization accounts [e.g., @barreda2021; @mcmurray-jongman2011], listeners do not *a priori* know the cue means, cue variance, etc. of an unfamiliar talker. Rather, listeners need to incrementally *infer* those statistical properties from the talker's speech input [for discussion and a model, see @xie2022]. An additional advantage of cross-validation is that it gives us an estimate of the uncertainty about the model predictions. The performance of each ideal observer during test is assessed by calculating the ideal observer's predicted posterior probability of the *intended* category for each test token. This is identical to assuming Luce's choice rule for categorization [@luce1959book], as in most models of speech perception and spoken word recognition.
 
 ### Advantages compared to separability index and similar measures of category variability
 By using a categorization model to estimate the consequence of normalization for perception, we avoid the pitfalls of the separability index discussed in Study 1. First, by using the density of an acoustic input under the multivariate distribution of all cues, the ideal observers we employ capture the *joint* effect of all cues. This captures that an input can be an improbable instance of a category based on one of its cue values but a probable instance given the values for the other cues. In particular, since we assume multivariate likelihoods, the model can account for category-specific covariances between cues. In the presence of strong correlations between cues, an acoustic input can be an improbable instance of a category based on the marginal distribution of each cue---i.e., if each cue is considered separately---but be a highly probable instance of that category if considered relative to the joint distribution of all cues (and vice versa). This is illustrated by Figure \@ref(fig:gaussians)A.<!-- TO DO: consider giving cumulative probability for both marginals and for joint.-->
@@ -1846,7 +1834,7 @@ rm(d.max.acc.toINTEND.diff)
 ```
 
 ## Methodological considerations
-We considered two methods of evaluations. In Study 1, we compared the reduction of within-category variability relative to between-category variability by calculating a separability index (i.e., an F-statistics). This methodology facilitated comparison to previous studies, that has most often assessed the efficacy of normalization accounts by means of increase in between-talker category overlap or category separability, or decrease in category variability [@disner1980; @fabricius2009; @Flynn2011; @hindle1978; @labov2010]. However, given the limitations inherent in this index, in the second study, we used Bayesian ideal observers to investigate how normalization accounts differ in predictions for perception. Previous studies have employed linear discriminant analysis [e.g., @adank2004; @syrda1985], fuzzy ARTMAP or K-nearest neighbour classification [e.g., @carpenter1993], or constraint ranking grammars [e.g., @escudero2007]. While these different approaches will generally return similar results, we see two advantages with ideal observers. First, ideal observers as used here have 0 degrees of freedom in the link from production to perception, thus removing researchers' degrees of freedom in the evaluation of normalization accounts [see @tan2021]. Second, representing the cue likelihood for each category as multivariate Gaussian distributions [e.g., @kronrod2016; @norris-mcqueen2008; @xie2021cognition], strikes a middle ground between less parsimonious models such as exemplar models [e.g., @johnson1997; @pierrehumbert2001], and more parsimonious models, such as models of cue integration over multiple separate univariate Gaussians [e.g., @toscano-mcmurray2010].^[Parsimony here refers both to the number of degrees of freedom these models afford to the researcher *and* to the amount of information that listeners are assumed to store [for discussion, see @xie2022].] However, like any other model of speech perception, the approach adopted here comes with a set of simplifying assumptions. All of the assumptions in the model, e.g., uniform priors, models of linguistic representations, the normalization accounts selected, can, however, be revisited and altered by the reader, as this paper is written in R markdown and all data and code is provided on OSF.
+We considered two methods of evaluations. In Study 1, we compared the reduction of within-category variability relative to between-category variability by calculating a separability index (i.e., an F-statistics). This methodology facilitated comparison to previous studies, that has most often assessed the efficacy of normalization accounts by means of increase in between-talker category overlap or category separability, or decrease in category variability [@disner1980; @fabricius2009; @Flynn2011; @hindle1978; @labov2010]. However, given the limitations inherent in this index, in the second study, we used Bayesian ideal observers to investigate how normalization accounts differ in predictions for perception. Previous studies have employed linear discriminant analysis [e.g., @adank2004; @syrda1985], fuzzy ARTMAP or K-nearest neighbour classification [e.g., @carpenter1993], or constraint ranking grammars [e.g., @escudero2007]. While these different approaches will generally return similar results, we see two advantages with ideal observers. First, ideal observers remove researchers' degrees of freedom in the evaluation of normalization accounts [see @tan2021]: the statistics of the cue distributions in the training data fully determine the ideal observers' predictions. Second, representing the cue likelihood for each category as multivariate Gaussian distributions [e.g., @kronrod2016; @norris-mcqueen2008; @xie2021cognition], strikes a middle ground between less parsimonious models such as exemplar models [e.g., @johnson1997; @pierrehumbert2001], and more parsimonious models, such as models of cue integration over multiple separate univariate Gaussians [e.g., @toscano-mcmurray2010].^[Parsimony here refers both to the number of degrees of freedom these models afford to the researcher *and* to the amount of information that listeners are assumed to store [for discussion, see @xie2022].] However, like any other model of speech perception, the approach adopted here comes with a set of simplifying assumptions. All of the assumptions in the model, e.g., uniform priors, models of linguistic representations, the normalization accounts selected, can, however, be revisited and altered by the reader, as this paper is written in R markdown and all data and code is provided on OSF.
 
 As a final note on methodology, we find the 5-fold cross-validation approach used for normalization of the acoustic data adopted here, advantageous for several reasons, the two most important being that: (1) it allows us to avoid over-fitting to the sample, while also (2) providing a more realistic reflection of how parameters used for normalization are incrementally inferred from the talker's speech input. Even though many of the commonly adopted normalization accounts involve parameters that are set based on the data, previous studies have rarely considered how these parameters might be affected by the specific dataset used for normalization [for exceptions, see e.g., @barreda2018a]. In the present study, we have seen that accounting for researchers' uncertainty about the effects of normalization, highlights that many of the normalization accounts exhibit statistically indistinguishable performance---at least under the approach taken here and in the majority of previous work. This means that future studies should aim to increase statistical power, in order to determine the normalization mechanism that best describes human behaviour. This will require even larger datasets, and/or by targeted sampling of vowel tokens for which predictions of different normalization accounts are maximally contrasted [see e.g., @barreda2021; and see @xie2022 for more general discussion of how to increase the statistical power to determine what mechanism underlie adaptive speech perception]. Next, we close by discussing additional limitations of the present work and future directions.
 
@@ -1859,7 +1847,7 @@ Second, the present study aggregated acoustic-phonetic measurements taken at dif
 
 Third, we only considered competing *normalization* accounts. This, too, follows previous research on normalization but is potentially problematic. As mentioned in the introduction, it is now believed that at least three different mechanisms contribute to adaptive speech perception, including not only normalization but also changes in category representations and decision-making [for review, see @xie2022]. This has consequences for research on normalization. For example, @xie2021cognition compared normalization accounts against the production of prosodic phrasing in L1-US English, while also considering alternative hypotheses about listeners' ability to adapt category representations. Xie and colleagues found that the effectiveness of cue normalization is substantially reduced if listeners can learn and maintain talker- or group-specific category representations [as assumed in some influential theories of speech perception, exemplar models, e.g., @johnson1997; @pierrehumbert2001; Bayesian ideal adaptors, @kleinschmidt-jaeger2015]. Xie and colleagues only considered two general types of normalization, and their focus was on the interpretation of prosodic signals. But their results call for caution in interpreting studies like the present that do not consider the possibility of talker-specific representations---an assumption shared with basically all previous work on vowel normalization.
 
-Similarly, as mentioned in the introduction, we limited our evaluation to a single level of normalization (and combinations of perceptual transformations and a single level of normalization). Some proposals, however, assume multiple separate normalization steps. For example, some accounts hold that evolutionarily early mechanisms first transform spectral percepts into a phonetic space [e.g., uniform scaling accounts, @barreda2020a; @nearey1983], on which additional subsequent normalization might operate. There is also evidence that speech perception combines aspects of intrinsic and extrinsic normalization [@nearey1989]. The present study---like most existing evaluations---did not consider these possibilities [for exceptions, see e.g., @barreda2021; @nearey2007]. 
+Similarly, as mentioned in the introduction, we limited our evaluation to a single level of normalization (and combinations of perceptual transformations and a single level of normalization). Some proposals, however, assume multiple separate normalization steps. For example, some accounts hold that evolutionarily early mechanisms first transform spectral percepts into a phonetic space [e.g., uniform scaling accounts, @barreda2020a; @nearey1983], on which additional subsequent normalization might operate. There is also evidence that speech perception combines aspects of intrinsic and extrinsic normalization [@johnson-sjerps2021 review relevant evidence from brain imaging; early behavioural evidence is found in @nearey1989]. The present study---like most existing evaluations---did not consider these possibilities [for exceptions, see e.g., @barreda2021; @nearey2007]. 
 
 Fourth and finally, we followed the majority of previous work and evaluated normalization accounts against *production* data. This is potentially problematic, especially when measures like category separability or reduced cross-talker variability in category means are used to evaluated normalization accounts (as in our Study 1 and many previous studies). These evaluations essentially assume that the goal of speech perception is to make the perceptual realizations of the same category by different talkers as similar as possible in the normalized space [for an in-depth critique, see @barreda2021]. However, the goal of speech perception is presumably to reliably infer the category intended by the talker,^[Or somewhat more precisely, cooperative listeners aim to understand the meaning intended by the talker, and this inference is generally believed to benefit from the correct recognition of phonological categories, such as phonemes, syllables, or word forms. For discussion, see also @hume2016.] and this aim does not necessarily entail perfect removal of cross-talker variability (as evidenced, for example, by the different findings of Studies 1 and 2). 
 
@@ -1874,784 +1862,5 @@ To some extent, Study 2 addresses this potential issue by evaluating normalizati
 <div id="refs" custom-style="Bibliography"></div>
 \endgroup
 
-\newpage
-\setcounter{page}{1}
-\renewcommand{\thesection}{\S \arabic{section}}
-\renewcommand{\theHsection}{sisection. \arabic{section}}
-
-# Supplementary information {-}
-
-\setcounter{section}{0}
-
-# Additional information about the SwehVd databasee
-
-## Participant recruitment {#sec:recruitment}
-Participants were recruited through word-of-mouth, flyers at Stockholm University Campus, and online channels (accindi.se). Figure \@ref(fig:flyer) is an example of flyers distributed at Stockholm University Campus. The flyer gives information on criteria for participation, recording procedure, reimbursement and contact information to experimenter (first author).
-
-(ref:flyer) Example flyer for recruiting Stockholm Swedish talkers for recording of the SwehVd database.
-
-```{r flyer, fig.cap="(ref:flyer)"}
-include_graphics("ad_recruitment.png")
+```{r, child="SI.Rmd", eval= if (INCLUDE_SI) TRUE else FALSE}
 ```
-
-## Word list
-Word list with all target and filler words, recorded by all talkers in the SwehVd database.
-
-\begin{table}
-\caption{\label{tab:word-list}Words recorded by the female talkers of Stockholm Swedish for the SwehVd database}
-\centering
-\begin{tabular}[t]{c|c}
-\hline
-Target words&Vowel IPA\\
-\hline
-hid&`r linguisticsdown::cond_cmpl("[iː]")`\\
-\hline
-hidd&`r linguisticsdown::cond_cmpl("[ɪ]")`\\
-\hline
-hyd&`r linguisticsdown::cond_cmpl("[yː]")`\\
-\hline
-hydd&`r linguisticsdown::cond_cmpl("[ʏ]")`\\
-\hline
-hed&`r linguisticsdown::cond_cmpl("[eː]")`\\
-\hline
-hedd&`r linguisticsdown::cond_cmpl("[ɛ]")`\\
-\hline
-häd&`r linguisticsdown::cond_cmpl("[ɛː]")`\\
-\hline
-hädd&`r linguisticsdown::cond_cmpl("[ɛ]")`\\
-\hline
-härd&`r linguisticsdown::cond_cmpl("[æː]")`\\
-\hline
-härr&`r linguisticsdown::cond_cmpl("[æ]")`\\
-\hline
-höd&`r linguisticsdown::cond_cmpl("[øː]")`\\
-\hline
-hödd&`r linguisticsdown::cond_cmpl("[ø]")`\\
-\hline
-hörd&`r linguisticsdown::cond_cmpl("[œː]")`\\
-\hline
-hörr&`r linguisticsdown::cond_cmpl("[œ]")`\\
-\hline
-hud&`r linguisticsdown::cond_cmpl("[ʉː]")`\\
-\hline
-hudd&`r linguisticsdown::cond_cmpl("[ɵ]")`\\
-\hline
-hod&`r linguisticsdown::cond_cmpl("[uː]")`\\
-\hline
-hodd&`r linguisticsdown::cond_cmpl("[ʊ]")`\\
-\hline
-håd&`r linguisticsdown::cond_cmpl("[oː]")`\\
-\hline
-hådd&`r linguisticsdown::cond_cmpl("[ɔ]")`\\
-\hline
-had&`r linguisticsdown::cond_cmpl("[ɑː]")`\\
-\hline
-hadd&`r linguisticsdown::cond_cmpl("[a]")`\\
-\hline
-\end{tabular}
-\hspace{2em}
-\begin{tabular}[t]{c|c}
-\hline
-\multicolumn{2}{c}{Filler words}\\
-\hline
-titt&tand\\
-\hline
-damm&dipp\\
-\hline
-tå&buss\\
-\hline
-bål&ding\\
-\hline
-dill&porr\\
-\hline
-tugga&mitt\\
-\hline
-mat&dopp\\
-\hline
-norr&tal\\
-\hline
-must&namn\\
-\hline
-pil&pall\\
-\hline
-dina&bar\\
-\hline
-biff&till\\
-\hline
-Tina&mål\\
-\hline
-borr&Nina\\
-\hline
-dal&då\\
-\hline
-Pål&nick\\
-\hline
-nunna&ditt\\
-\hline
-mil&dugga\\
-\hline
-ting&mall\\
-\hline
-ball&bil\\
-\hline
-piff&par\\
-\hline
-tipp&morr\\
-\hline
-puss&nav\\
-\hline
-topp&nå\\
-\end{tabular}
-\end{table}
-
-# Additional information for Study 1
-
-## Evaluation of implementations of Syrdal & Gopal's (1986) second dimension {#sec:SG-eval}
-For the second dimension, distinguishing between front and back vowels, @Syrdal1986 evaluates two different bark-difference measures: F2-F1 and F3-F2. Previous studies had concluded that F2-F1 distinguishes between all Swedish vowels [@fant1983], however, in @Syrdal1986's evaluation of American English, the F3-F2 dimension provided a better fit. Given that there seems to be language specific effects concerning @Syrdal1986's second dimension [e.g., @adank2003], here we compare the two difference measures for the vowels in the SwehVd database.
-
-```{r}
-levels.norm.SG <- c("Bark_SyrdalGopal", "Bark_SyrdalGopal2")
-labels.norm.SG <-  c("SyrdalGopal (Bark)", "SyrdalGopal2 (Bark)")
-levels.norm.plots.SG <- c("SyrdalGopal_Bark", "SyrdalGopal2_Bark")
-p.separability.by_cue.SG <- plot_separability(d.SwehVd.forStudy.SI.long %>%
-                                             filter(Cues %in% c("F0", "F1", "F2", "Duration", "F1F2"), Normalization.Type %in% c("SyrdalGopal (Bark)", "SyrdalGopal2 (Bark)")) %>%
-                                             mutate(Normalization.Type = factor(plyr::mapvalues(Normalization.Type, levels.norm.SG, labels.norm.SG), levels = labels.norm.SG, ordered = T))) +
-  scale_colour_manual(values =  c("#E6BE8A", "#E6BE8A")) +
-  theme(
-    axis.text.x = ggtext::element_markdown(angle = 60, vjust = 1, hjust=1, colour = "#E6BE8A")) +
-  facet_grid(factor(Cues, levels = c("F1", "F2", "F0", "Duration", "F1F2"), labels = c("F1", "F2", "F0", "duration", "F1F2")) ~ factor(Quantity, levels = c("long vowels", "short vowels", "all vowels")), scales = "free_y")
-```
-
-(ref:separability-by-cue-SG) Separability indices of the two versions of the Syrdal & Gopal (1986) account for long vowels, short vowels, and long and short vowels together, shown for four of the five cues considered in this study and the combined F1-F2. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.
-
-Figure \@ref(fig:separability-by-cue-SG) displays the separability index for the two implementations. The first version uses the F2-F1 bark-difference metric for the second dimension, whereas the second version (labelled *SyrdalGopal2 (Bark)*) implements the second dimension as suggested by @Syrdal1986, F3-F2. As evident from Figure \@ref(fig:separability-by-cue-SG), the first implementation performs better at separating categories in the SwehVd data, which replicates @fant1983.
-
-```{r separability-by-cue-SG, fig.width=base.width * 4, fig.height=base.height * 5.5, fig.align='center', out.height='90%', fig.cap="(ref:separability-by-cue-SG)"}
-p.separability.by_cue.SG
-```
-
-```{r}
-# Make talker-independent IOs on long and short vowels *separately*, for different cue combinations
-m.io.SwehVd.F1F2_by_quantity.SG <-
-  make_IOs_and_add_test_data(
-    data = d.SwehVd.forStudy.long %>%
-      filter(Normalization.Type %in% c("SyrdalGopal (Bark)", "SyrdalGopal2 (Bark)")),
-    cues = c("F1", "F2"),
-    separate_by = c("Quantity")) %>%
-  mutate(IO.cue_normalization = ifelse(is.na(IO.cue_normalization), "SyrdalGopal2", "SyrdalGopal"))
-
-# Make talker-independent IOs on long and short vowels *combined*, for different cue combinations
-m.io.SwehVd.F1F2.SG <-
-  make_IOs_and_add_test_data(
-    data = d.SwehVd.forStudy.long %>%
-      filter(Normalization.Type %in% c("SyrdalGopal (Bark)", "SyrdalGopal2 (Bark)")),
-    cues = c("F1", "F2")) %>%
-  # Add column for plotting
-  mutate(
-    IO.Quantity = "all",
-    IO.cue_normalization = ifelse(is.na(IO.cue_normalization), "SyrdalGopal2", "SyrdalGopal"))
-
-#Make combined dataframe for plotting
-m.io.SwehVd.SG <- rbind(
-  m.io.SwehVd.F1F2_by_quantity.SG %>%
-    mutate(Cue_space = "F1-F2"),
-  m.io.SwehVd.F1F2.SG %>%
-    mutate(Cue_space = "F1-F2")) %>%
-  mutate(Cue_space = factor(Cue_space, levels = c("F1-F2", "F1-F3", "F0-F3, duration")))
-
-p.accuracy.io.overall.SG <- plot_io_results(m.io.SwehVd.SG) + facet_grid(Cue_space ~ factor(IO.Quantity, levels = c("long", "short", "all"), labels = c("long vowels", "short vowels", "all vowels"))) +
-  scale_colour_manual(values =  c("#E6BE8A", "#E6BE8A")) +
-  theme(
-    axis.text.x = ggtext::element_markdown(angle = 60, vjust = 1, hjust=1, colour = "#E6BE8A"))
-```
-(ref:accuracy-SG) Predicted recognition accuracy of ideal observer under two versions of the Syrdal & Gopal (1986) account for long vowels, short vowels, and long and short vowels together, shown for the F1-F2 cue combination. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. The dashed horizontal line indicates chance (different across columns because of the different number of long and short vowels).
-
-```{r accuracy-SG, fig.width=base.width * 5, fig.height=base.height * 2, fig.align='center', fig.cap="(ref:accuracy-SG)"}
-p.accuracy.io.overall.SG
-```
-
-We also evaluated the two Syrdal & Gopal implementations in terms of model predictions for perception. Figure \@ref(fig:accuracy-SG) displays the categorization accuracy for models trained on normalized data under the two implementations of the Syrdal & Gopal account. Mirroring the results from the separability index, the first implementation using F2-F1 for the second dimension, outperforms the implementation using F3-F2 bark-difference measure. These results taken together indicate that the F2-F1 implementation is more suitable for the materials used here, we therefore decided to use the first implementation throughout this paper.
-
-\newpage
-
-## Correlation matrices for all normalization accounts {#sec:correlation-matrices}
-Here we include correlation matrices for the SwehVd vowel data, transformed into the 15 different normalization spaces.
-
-(ref:correlation-matrix-Mel) The SwehVd vowel data in Mel space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
-
-```{r correlation-matrix-Mel, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-Mel)"}
-p.matrix.cues %+%
-  (d.SwehVd.forStudy.long %>%
-  filter(fold_type == "test" & Normalization.Type == "transformed (Mel)"))
-```
-
-(ref:correlation-matrix-Bark) The SwehVd vowel data in Bark space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
-
-```{r correlation-matrix-Bark, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-Bark)"}
-p.matrix.cues %+%
-  (d.SwehVd.forStudy.long %>%
-  filter(fold_type == "test" & Normalization.Type == "transformed (Bark)"))
-```
-
-(ref:correlation-matrix-ERB) The SwehVd vowel data in ERB space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
-
-```{r correlation-matrix-ERB, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-ERB)"}
-p.matrix.cues %+%
-  (d.SwehVd.forStudy.long %>%
-  filter(fold_type == "test" & Normalization.Type == "transformed (ERB)"))
-```
-
-(ref:correlation-matrix-semitones) The SwehVd vowel data in semitones space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
-
-```{r correlation-matrix-semitones, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-semitones)"}
-p.matrix.cues %+%
-  (d.SwehVd.forStudy.long %>%
-  filter(fold_type == "test" & Normalization.Type == "transformed (semitones)"))
-```
-
-(ref:correlation-matrix-syrdalgopal) The SwehVd vowel data in SyrdalGopal (Bark) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
-
-```{r correlation-matrix-syrdalgopal, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-syrdalgopal)"}
-p.matrix.cues %+%
-  (d.SwehVd.forStudy.long %>%
-  filter(fold_type == "test" & Normalization.Type == "SyrdalGopal (Bark)"))
-```
-
-(ref:correlation-matrix-miller) The SwehVd vowel data in Miller (log) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
-
-```{r correlation-matrix-miller, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-miller)"}
-p.matrix.cues %+%
-  (d.SwehVd.forStudy.long %>%
-  filter(fold_type == "test" & Normalization.Type == "Miller (log)"))
-```
-(ref:correlation-matrix-ccure-hz) The SwehVd vowel data in C-CuRE Hz space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
-
-```{r correlation-matrix-ccure-hz, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-ccure-hz)"}
-p.matrix.cues %+%
-  (d.SwehVd.forStudy.long %>%
-  filter(fold_type == "test" & Normalization.Type == "C-CuRE (Hz)"))
-```
-
-(ref:correlation-matrix-ccure-mel) The SwehVd vowel data in C-CuRE Mel space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
-
-```{r correlation-matrix-ccure-mel, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-ccure-mel)"}
-p.matrix.cues %+%
-  (d.SwehVd.forStudy.long %>%
-  filter(fold_type == "test" & Normalization.Type == "C-CuRE (Mel)"))
-```
-
-(ref:correlation-matrix-ccure-bark) The SwehVd vowel data in C-CuRE Bark space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
-
-```{r correlation-matrix-ccure-bark, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-ccure-bark)"}
-p.matrix.cues %+%
-  (d.SwehVd.forStudy.long %>%
-  filter(fold_type == "test" & Normalization.Type == "C-CuRE (Bark)"))
-```
-
-(ref:correlation-matrix-ccure-erb) The SwehVd vowel data in C-CuRE ERB space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
-
-```{r correlation-matrix-ccure-erb, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-ccure-erb)"}
-p.matrix.cues %+%
-  (d.SwehVd.forStudy.long %>%
-  filter(fold_type == "test" & Normalization.Type == "C-CuRE (ERB)"))
-```
-
-(ref:correlation-matrix-ccure-semitones) The SwehVd vowel data in C-CuRE semitones space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
-
-```{r correlation-matrix-ccure-semitones, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-ccure-semitones)"}
-p.matrix.cues %+%
-  (d.SwehVd.forStudy.long %>%
-  filter(fold_type == "test" & Normalization.Type == "C-CuRE (semitones)"))
-```
-
-(ref:correlation-matrix-nearey1) The SwehVd vowel data in Nearey1 (log) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
-
-```{r correlation-matrix-nearey1, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-nearey1)"}
-p.matrix.cues %+%
-  (d.SwehVd.forStudy.long %>%
-  filter(fold_type == "test" & Normalization.Type == "Nearey1 (log)"))
-```
-
-(ref:correlation-matrix-nearey2) The SwehVd vowel data in Nearey2 (log) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
-
-```{r correlation-matrix-nearey2, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-nearey2)"}
-p.matrix.cues %+%
-  (d.SwehVd.forStudy.long %>%
-  filter(fold_type == "test" & Normalization.Type == "Nearey2 (log)"))
-```
-
-(ref:correlation-matrix-gerstman) The SwehVd vowel data in Gerstman (Hz) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
-
-```{r correlation-matrix-gerstman, fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-gerstman)"}
-p.matrix.cues %+%
-  (d.SwehVd.forStudy.long %>%
-  filter(fold_type == "test" & Normalization.Type == "Gerstman (Hz)"))
-```
-
-(ref:correlation-matrix-lobanov) The SwehVd vowel data in Lobanov (Hz) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
-
-```{r correlation-matrix-lobanov,fig.width=base.width*3.5, fig.height=base.height*3.5+.5, fig.cap="(ref:correlation-matrix-lobanov)"}
-p.matrix.cues %+%
-  (d.SwehVd.forStudy.long %>%
-  filter(fold_type == "test" & Normalization.Type == "Lobanov (Hz)"))
-```
-\newpage
-
-# Additional information for Study 2
-
-## Per-vowel categorization accuracy of models trained on long and short vowels separately {#sec:accuracy-per-vowel}
-
-```{r}
-#Do multiple plots because of plot size
-p.accuracy.io.per.vowel.long.1 <- plot_io_results_per_vowel(
-  m.io.SwehVd %>%
-    filter(IO.Quantity == "long") %>%
-    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[iː]", "[yː]", "[ʉː]", "[eː]", "[ɛː]"))) +
-  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
-p.accuracy.io.per.vowel.long.2 <- plot_io_results_per_vowel(
-  m.io.SwehVd %>%
-    filter(IO.Quantity == "long") %>%
-    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[æː]", "[øː]", "[œː]", "[ɑː]", "[oː]", "[uː]"))) +
-  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
-
-axis.title.accuracy <- grid::textGrob("Accuracy (of predicting *intended* vowel)", gp=grid::gpar(fontface="bold", fontsize=8), rot=90)
-
-p.accuracy.io.per.vowel.short.1 <- plot_io_results_per_vowel(
-  m.io.SwehVd %>%
-    filter(IO.Quantity == "short") %>%
-    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[ɪ]", "[ʏ]", "[ɵ]", "[ɛ]", "[æ]"))) +
-  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe)) + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.y = element_blank())
-p.accuracy.io.per.vowel.short.2 <- plot_io_results_per_vowel(
-  m.io.SwehVd %>%
-    filter(IO.Quantity == "short") %>%
-    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[ø]", "[œ]", "[a]", "[ɔ]", "[ʊ]"))) +
-  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
-
-p.accuracy.io.per.vowel.all.1 <- plot_io_results_per_vowel(
-  m.io.SwehVd %>%
-    filter(IO.Quantity == "all") %>%
-    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[iː]", "[ɪ]", "[yː]", "[ʏ]", "[ʉː]"))) +
-  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe)) + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.y = element_blank())
-p.accuracy.io.per.vowel.all.2 <- plot_io_results_per_vowel(
-  m.io.SwehVd %>%
-    filter(IO.Quantity == "all") %>%
-    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[ɵ]", "[eː]", "[ɛ]", "[ɛː]", "[æː]"))) +
-  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
-p.accuracy.io.per.vowel.all.3 <- plot_io_results_per_vowel(
-  m.io.SwehVd %>%
-    filter(IO.Quantity == "all") %>%
-    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[æ]", "[øː]", "[ø]", "[œː]", "[œ]"))) +
-  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe)) + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.y = element_blank())
-p.accuracy.io.per.vowel.all.4 <- plot_io_results_per_vowel(
-  m.io.SwehVd %>%
-    filter(IO.Quantity == "all") %>%
-    nplyr::nest_filter(posterior_of_intended_vowel, Intended.Vowel %in% c("[ɑː]", "[a]", "[oː]", "[ɔ]", "[uː]", "[ʊ]"))) +
-  facet_grid(Cue_space ~  factor(Intended.Vowel, levels = levels.vowel.IPA.swe))
-```
-(ref:predictions-per-vowel-long) Per-vowel predicted categorization accuracy of the ideal observers trained on the **long** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
-
-\begin{landscape}
-
-```{r predictions-per-vowel-long, fig.width=base.width * 5, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:predictions-per-vowel-long)"}
-p.accuracy.io.per.vowel.long.1
-```
-\end{landscape}
-
-(ref:predictions-per-vowel-long-2) (*Continued from last page*)Per-vowel predicted categorization accuracy of the ideal observers trained on the **long** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
-
-\begin{landscape}
-
-```{r predictions-per-vowel-long-2, fig.width=base.width * 5, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:predictions-per-vowel-long-2)"}
-p.accuracy.io.per.vowel.long.2
-```
-\end{landscape}
-
-(ref:predictions-per-vowel-short) Per-vowel predicted categorization accuracy of the ideal observers trained on the **short** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
-
-```{r predictions-per-vowel-short, fig.width=base.width * 4, fig.height=base.height * 5, fig.align='center', fig.cap="(ref:predictions-per-vowel-short)"}
-p.accuracy.io.per.vowel.short <- cowplot::plot_grid(p.accuracy.io.per.vowel.short.1, NULL, p.accuracy.io.per.vowel.short.2 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l", rel_heights = c(1,-.15,1))
-gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.short, left = axis.title.accuracy))
-```
-
-(ref:predictions-per-vowel-all-1) Per-vowel predicted categorization accuracy of the ideal observers trained on **all** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
-
-```{r predictions-per-vowel-all-1, fig.width=base.width * 4, fig.height=base.height * 5, fig.align='center', fig.cap="(ref:predictions-per-vowel-all-1)"}
-p.accuracy.io.per.vowel.all.first <- cowplot::plot_grid(p.accuracy.io.per.vowel.all.1, NULL, p.accuracy.io.per.vowel.all.2 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l", rel_heights = c(1,-.15,1))
-gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.all.first, left = axis.title.accuracy))
-```
-
-(ref:predictions-per-vowel-all-2) (*Continued from last page*)Per-vowel predicted categorization accuracy of the ideal observers trained on **all** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
-
-```{r predictions-per-vowel-all-2, fig.width=base.width * 4.5, fig.height=base.height * 5, fig.align='center', fig.cap="(ref:predictions-per-vowel-all-2)"}
-p.accuracy.io.per.vowel.all.second <- cowplot::plot_grid(
-  cowplot::plot_grid(p.accuracy.io.per.vowel.all.3, NULL, rel_widths = c(5/6, 1/6), align = "hv", axis = "l"),
-                     p.accuracy.io.per.vowel.all.4 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l", rel_heights = c(3/7, 3.5/7))
-gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.all.second, left = axis.title.accuracy))
-```
-
-\newpage
-
-## Confusion and difference matrices of ideal observers {#sec:confusion}
-To further explore effects of neighbouring categories, and which categories are more easily confused by the models and with what, we plot confusion matrices of the worst and best performing models trained on the long, short or all Central Swedish vowels, under the different assumptions about the relevant cues. Next to the confusion matrices, we plot difference matrices to facilitate comparison.
-
-```{r, echo=FALSE}
-# Keep code for reproducibility
-# run a model assessing the difference in performance between models as a function of the normalization scheme.
-# data.io <- m.io.SwehVd.F1F2 %>%
-#   unnest(posterior_of_intended_vowel) %>%
-#   mutate(IO.Normalization.Type = factor(IO.Normalization.Type, levels = levels.normalization.plots, labels = labels.normalization))
-
-#Add treatment coding for IO.Normalization.Type
-#contrasts(data.io$IO.Normalization.Type) = contr.treatment(16)
-# # contrasts(data.io$IO.cue_normalization) = cbind(
-# #   "C-CuRE Hz" = c(0, 1, 0, 0, 0, 0, 0),
-# #   "Lobanov Hz" = c(0, 0, 1, 0, 0, 0, 0),
-# #   "Gerstman Hz" = c(0, 0, 0, 1, 0, 0, 0),
-# #   "Nearey1 log" = c(0, 0, 0, 0, 1, 0, 0),
-# #   "Nearey2 log" = c(0, 0, 0, 0, 0, 1, 0),
-# #   "Miller log" = c(0, 0, 0, 0, 0, 0, 1))
-# 
-# model <- glm(Posterior ~ IO.Normalization.Type, family=gaussian, data = data.io)
-# summary(model)
-```
-```{r}
-plot_io_confusion <- function(
-  data,
-  cols = cols) {
-  data %>%
-    unnest(posterior_of_all_vowels) %>%
-    pivot_longer(
-    cols = cols,
-    values_to = "Posterior",
-    names_to = "IO.Vowel") %>%
-    { if ("IO.Quantity" %in% names(data)) group_by(., IO.Vowel, Intended.Vowel, IO.Normalization.Type, IO.Quantity, Cue_space) else group_by(., IO.Vowel, Intended.Vowel, IO.Normalization.Type, Cue_space) } %>%
-    summarise(across(.cols = Posterior, mean, na.rm = T)) %>%
-    ggplot(
-      aes(
-        x = factor(Intended.Vowel, levels = levels.vowel.IPA.swe),
-        y = factor(IO.Vowel, levels = levels.vowel.IPA.swe),
-        fill = Posterior)) +
-    geom_raster() +
-    scale_x_discrete("Intended vowel", expand = c(0,0)) +
-    scale_y_discrete("IO response vowel", expand = c(0,0)) +
-    scale_fill_viridis_b("Posterior \nprobability \nunder \nideal observer", limits = c(0,1), breaks = seq(0, 1, .1)) +
-    facet_grid(Cue_space ~ IO.Normalization.Type) +
-    theme(axis.title.x = element_blank(), 
-          axis.title.y = element_blank())
-}
-```
-
-```{r }
-# Make confusion matrices of best and worst for all cue evaluations under the assumption of long, short or all vowels
-p.confusion.long.F1F2 <- plot_io_confusion(
-  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F2", IO.Quantity == "long"),
-                         cols = levels.vowel.IPA.swe.long) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "Lobanov_Hz"), labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
-p.confusion.long.F1F3 <- plot_io_confusion(
-  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F3", IO.Quantity == "long"),
-                         cols = levels.vowel.IPA.swe.long) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "Lobanov_Hz"), labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
-p.confusion.long.all <- plot_io_confusion(
-  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Gerstman_Hz", "Lobanov_Hz"), Cue_space == "F0-F3, duration", IO.Quantity == "long"),
-                         cols = levels.vowel.IPA.swe.long) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Gerstman_Hz", "Lobanov_Hz"), labels = c("Gerstman (Hz)", "Lobanov (Hz)"))) + theme(legend.position="none")
-
-p.confusion.short.F1F2 <- plot_io_confusion(
-  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "CCuRE_Mel"), Cue_space == "F1-F2", IO.Quantity == "short"),
-                         cols = levels.vowel.IPA.swe.short) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "CCuRE_Mel"), labels = c("Miller (log)", "C-CuRE (Mel)"))) + theme(legend.position="none")
-p.confusion.short.F1F3 <- plot_io_confusion(
-  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "CCuRE_Mel"), Cue_space == "F1-F3", IO.Quantity == "short"),
-                         cols = levels.vowel.IPA.swe.short) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "CCuRE_Mel"), labels = c("Miller (log)", "C-CuRE (Mel)"))) + theme(legend.position="none")
-p.confusion.short.all <- plot_io_confusion(
-  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Gerstman_Hz", "Lobanov_Hz"), Cue_space == "F0-F3, duration", IO.Quantity == "short"),
-                         cols = levels.vowel.IPA.swe.short) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type,  levels = c("Gerstman_Hz", "Lobanov_Hz"), labels = c("Gerstman (Hz)", "Lobanov (Hz)"))) + theme(legend.position="none")
-
-p.confusion.all.F1F2 <- plot_io_confusion(
-  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("SyrdalGopal_Bark", "Lobanov_Hz"), Cue_space == "F1-F2", IO.Quantity == "all"),
-                         cols = levels.vowel.IPA.swe) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("SyrdalGopal_Bark", "Lobanov_Hz"), labels = c("SyrdalGopal (bark)", "Lobanov (Hz)"))) + theme(legend.position="none")
-p.confusion.all.F1F3 <- plot_io_confusion(
-    m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F3", IO.Quantity == "all"), 
-    cols = levels.vowel.IPA.swe) + 
-  facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "Lobanov_Hz"), labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
-p.confusion.all.all <- plot_io_confusion(
-  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Gerstman_Hz", "CCuRE_Hz"), Cue_space == "F0-F3, duration", IO.Quantity == "all"),
-                         cols = levels.vowel.IPA.swe) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Gerstman_Hz", "CCuRE_Hz"), labels = c("Gerstman (Hz)", "C-CuRE (Hz)")))
-
-legend.confusion <- cowplot::get_legend(p.confusion.all.all +
-  guides(fill = guide_legend(ncol = 1)))
-
-# Plot a difference matrix, of differences in posteriors between worst and best performing models
-# Diff matrices of the long vowels
-p.diff.long.F1F2 <- p.confusion.long.F1F2 %+%
-  (m.io.SwehVd %>%
-    unnest(posterior_of_all_vowels) %>%
-    pivot_longer(
-    cols = levels.vowel.IPA.swe.long,
-    values_to = "Posterior",
-    names_to = "IO.Vowel") %>%
-    filter(Cue_space == "F1-F2", IO.Quantity == "long") %>%
-    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
-    summarise_at(vars(Posterior), mean) %>%
-    pivot_wider(
-      names_from = IO.Normalization.Type,
-      values_from = Posterior) %>%
-    mutate(
-      "Difference Lobanov (Hz) - Miller (log)" = Lobanov_Hz - Miller_log) %>%
-    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
-    pivot_longer(
-         cols = starts_with("Diff"),
-         names_to = "Comparison",
-         values_to = "Difference")) +
-    aes(fill = Difference) +
-    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
-    facet_wrap(~ Comparison, ncol = 1) + 
-  theme(legend.position = "none")
-p.diff.long.F1F3 <- p.confusion.long.F1F3 %+%
-  (m.io.SwehVd %>%
-    unnest(posterior_of_all_vowels) %>%
-    pivot_longer(
-    cols = levels.vowel.IPA.swe.long,
-    values_to = "Posterior",
-    names_to = "IO.Vowel") %>%
-    filter(Cue_space == "F1-F3", IO.Quantity == "long") %>%
-    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
-    summarise_at(vars(Posterior), mean) %>%
-    pivot_wider(
-      names_from = IO.Normalization.Type,
-      values_from = Posterior) %>%
-    mutate(
-      "Difference Lobanov (Hz) - Miller (log)" = Lobanov_Hz - Miller_log) %>%
-    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
-    pivot_longer(
-         cols = starts_with("Diff"),
-         names_to = "Comparison",
-         values_to = "Difference")) +
-    aes(fill = Difference) +
-    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
-    facet_wrap(~ Comparison, ncol = 1) + 
-  theme(legend.position = "none")
-p.diff.long.all <- p.confusion.long.all %+%
-  (m.io.SwehVd %>%
-    unnest(posterior_of_all_vowels) %>%
-    pivot_longer(
-    cols = levels.vowel.IPA.swe.long,
-    values_to = "Posterior",
-    names_to = "IO.Vowel") %>%
-    filter(Cue_space == "F0-F3, duration", IO.Quantity == "long") %>%
-    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
-    summarise_at(vars(Posterior), mean) %>%
-    pivot_wider(
-      names_from = IO.Normalization.Type,
-      values_from = Posterior) %>%
-    mutate(
-      "Difference Lobanov (Hz) - Gerstman (Hz)" = Lobanov_Hz - Gerstman_Hz) %>%
-    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
-    pivot_longer(
-         cols = starts_with("Diff"),
-         names_to = "Comparison",
-         values_to = "Difference")) +
-    aes(fill = Difference) +
-    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
-    facet_wrap(~ Comparison, ncol = 1) + 
-  theme(legend.position = "none")
-# Diff matrices of the short vowels
-p.diff.short.F1F2 <- p.confusion.short.F1F2 %+%
-  (m.io.SwehVd %>%
-    unnest(posterior_of_all_vowels) %>%
-    pivot_longer(
-    cols = levels.vowel.IPA.swe.short,
-    values_to = "Posterior",
-    names_to = "IO.Vowel") %>%
-    filter(Cue_space == "F1-F2", IO.Quantity == "short") %>%
-    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
-    summarise_at(vars(Posterior), mean) %>%
-    pivot_wider(
-      names_from = IO.Normalization.Type,
-      values_from = Posterior) %>%
-    mutate(
-      "Difference C-CuRE (Mel) - Miller (log)" = CCuRE_Mel - Miller_log) %>%
-    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
-    pivot_longer(
-         cols = starts_with("Diff"),
-         names_to = "Comparison",
-         values_to = "Difference")) +
-    aes(fill = Difference) +
-    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
-    facet_wrap(~ Comparison, ncol = 1) + 
-  theme(legend.position = "none")
-p.diff.short.F1F3 <- p.confusion.short.F1F3 %+%
-  (m.io.SwehVd %>%
-    unnest(posterior_of_all_vowels) %>%
-    pivot_longer(
-    cols = levels.vowel.IPA.swe.short,
-    values_to = "Posterior",
-    names_to = "IO.Vowel") %>%
-    filter(Cue_space == "F1-F3", IO.Quantity == "short") %>%
-    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
-    summarise_at(vars(Posterior), mean) %>%
-    pivot_wider(
-      names_from = IO.Normalization.Type,
-      values_from = Posterior) %>%
-    mutate(
-      "Difference C-CuRE (Mel) - Miller (log)" = CCuRE_Mel - Miller_log) %>%
-    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
-    pivot_longer(
-         cols = starts_with("Diff"),
-         names_to = "Comparison",
-         values_to = "Difference")) +
-    aes(fill = Difference) +
-    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
-    facet_wrap(~ Comparison, ncol = 1) + 
-  theme(legend.position = "none")
-p.diff.short.all <- p.confusion.short.all %+%
-  (m.io.SwehVd %>%
-    unnest(posterior_of_all_vowels) %>%
-    pivot_longer(
-    cols = levels.vowel.IPA.swe.short,
-    values_to = "Posterior",
-    names_to = "IO.Vowel") %>%
-    filter(Cue_space == "F0-F3, duration", IO.Quantity == "short") %>%
-    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
-    summarise_at(vars(Posterior), mean) %>%
-    pivot_wider(
-      names_from = IO.Normalization.Type,
-      values_from = Posterior) %>%
-    mutate(
-      "Difference Lobanov (Hz) - Gerstman (Hz)" = Lobanov_Hz - Gerstman_Hz) %>%
-    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
-    pivot_longer(
-         cols = starts_with("Diff"),
-         names_to = "Comparison",
-         values_to = "Difference")) +
-    aes(fill = Difference) +
-    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
-    facet_wrap(~ Comparison, ncol = 1) + 
-  theme(legend.position = "none")
-# Diff matrices of all vowels
-p.diff.all.F1F2 <- p.confusion.all.F1F2 %+%
-  (m.io.SwehVd %>%
-    unnest(posterior_of_all_vowels) %>%
-    pivot_longer(
-    cols = levels.vowel.IPA.swe,
-    values_to = "Posterior",
-    names_to = "IO.Vowel") %>%
-    filter(Cue_space == "F1-F2", IO.Quantity == "all") %>%
-    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
-    summarise_at(vars(Posterior), mean) %>%
-    pivot_wider(
-      names_from = IO.Normalization.Type,
-      values_from = Posterior) %>%
-    mutate(
-      "Difference Lobanov (Hz) - SyrdalGopal (Bark)" = Lobanov_Hz - SyrdalGopal_Bark) %>%
-    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
-    pivot_longer(
-         cols = starts_with("Diff"),
-         names_to = "Comparison",
-         values_to = "Difference")) +
-    aes(fill = Difference) +
-    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
-    facet_wrap(~ Comparison, ncol = 1) + 
-  theme(legend.position = "none")
-p.diff.all.F1F3 <- p.confusion.all.F1F3 %+%
-  (m.io.SwehVd %>%
-    unnest(posterior_of_all_vowels) %>%
-    pivot_longer(
-    cols = levels.vowel.IPA.swe,
-    values_to = "Posterior",
-    names_to = "IO.Vowel") %>%
-    filter(Cue_space == "F1-F3", IO.Quantity == "all") %>%
-    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
-    summarise_at(vars(Posterior), mean) %>%
-    pivot_wider(
-      names_from = IO.Normalization.Type,
-      values_from = Posterior) %>%
-    mutate(
-      "Difference Lobanov (Hz) - Miller (log)" = Lobanov_Hz - Miller_log) %>%
-    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
-    pivot_longer(
-         cols = starts_with("Diff"),
-         names_to = "Comparison",
-         values_to = "Difference")) +
-    aes(fill = Difference) +
-    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
-    facet_wrap(~ Comparison, ncol = 1) + 
-  theme(legend.position = "none")
-p.diff.all.all <- p.confusion.all.all %+%
-  (m.io.SwehVd %>%
-    unnest(posterior_of_all_vowels) %>%
-    pivot_longer(
-    cols = levels.vowel.IPA.swe,
-    values_to = "Posterior",
-    names_to = "IO.Vowel") %>%
-    filter(Cue_space == "F0-F3, duration", IO.Quantity == "all") %>%
-    group_by(IO.Normalization.Type, IO.Vowel, Intended.Vowel) %>%
-    summarise_at(vars(Posterior), mean) %>%
-    pivot_wider(
-      names_from = IO.Normalization.Type,
-      values_from = Posterior) %>%
-    mutate(
-      "Difference C-CuRE (Hz) - Gerstman (Hz)" = CCuRE_Hz - Gerstman_Hz) %>%
-    select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
-    pivot_longer(
-         cols = starts_with("Diff"),
-         names_to = "Comparison",
-         values_to = "Difference")) +
-    aes(fill = Difference) +
-    scale_fill_gradient2("Difference \nin posterior \nprobability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
-    facet_wrap(~ Comparison, ncol = 1) +
-  theme(legend.position = "right")
-
-legend.diff <- cowplot::get_legend(p.diff.all.all +
-  guides(fill = guide_legend(ncol = 1)))
-```
-
-(ref:confusion-matrix-long) Illustration of the category-specific differences in predictions of the worst and best performing normalization models for each combination of cues (**rows**). The confusion matrices (**Panel A**) plot the predictions for the worst (**left**) and best (**right**) performing models in predicting the **long** vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by ideal observer model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel. The difference matrices (**Panel B**) illustrates the differences in predictions between the best and the worst performing models. Color fill indicates the difference in the posterior probability of the models predicting the intended vowel. More **purple** indicates an increase in posterior probability for the former over the latter model, more **red** indicates an advantage for the latter over the former.
-
-\begin{landscape}
-
-```{r confusion-matrix-long, fig.width=base.width*5, fig.height=base.height*4.5, fig.align='center', out.height='90%', fig.cap="(ref:confusion-matrix-long)"}
-cowplot::plot_grid(
-  cowplot::plot_grid(legend.confusion,
-                     cowplot::plot_grid(p.confusion.long.F1F2, p.confusion.long.F1F3, p.confusion.long.all, align = "hv", axis = "btlr", ncol = 1),
-                     ncol = 2, rel_widths = c(1/8,7/8)),
-  cowplot::plot_grid(cowplot::plot_grid(p.diff.long.F1F2, p.diff.long.F1F3, p.diff.long.all, align = "hv", axis = "btlr", ncol = 1), legend.diff,
-                     ncol = 2, rel_widths = c(4/5,1/5)),
-  ncol = 2, rel_widths = c(.65,.35), labels = c("A", "B"))
-```
-\end{landscape}
-(ref:confusion-matrix-short) Illustration of the category-specific differences in predictions of the worst and best performing normalization models for each combination of cues (**rows**). The confusion matrices (**Panel A**) plot the predictions for the worst (**left**) and best (**right**) performing models in predicting the **short** vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by ideal observer model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel. The difference matrices (**Panel B**) illustrates the differences in predictions between the best and the worst performing models. Color fill indicates the difference in the posterior probability of the models predicting the intended vowel. More **purple** indicates an increase in posterior probability for the former over the latter model, more **red** indicates an advantage for the latter over the former.
-
-\begin{landscape}
-
-```{r confusion-matrix-short, fig.width=base.width*5, fig.height=base.height*4.5, fig.align='center', out.height='90%', fig.cap="(ref:confusion-matrix-short)"}
-cowplot::plot_grid(
-  cowplot::plot_grid(legend.confusion,
-                     cowplot::plot_grid(p.confusion.short.F1F2, p.confusion.short.F1F3, p.confusion.short.all, align = "hv", axis = "btlr", ncol = 1),
-                     ncol = 2, rel_widths = c(1/8,7/8)),
-  cowplot::plot_grid(cowplot::plot_grid(p.diff.short.F1F2, p.diff.short.F1F3, p.diff.short.all, align = "hv", axis = "btlr", ncol = 1), legend.diff,
-                     ncol = 2, rel_widths = c(4/5,1/5)),
-  ncol = 2, rel_widths = c(.65,.35), labels = c("A", "B"))
-```
-
-\end{landscape}
-
-(ref:confusion-matrix-allVowels) Illustration of the category-specific differences in predictions of the worst and best performing normalization models for each combination of cues (**rows**). The confusion matrices (**Panel A**) plot the predictions for the worst (**left**) and best (**right**) performing models in predicting the **all** vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by ideal observer model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel. The difference matrices (**Panel B**) illustrates the differences in predictions between the best and the worst performing models. Color fill indicates the difference in the posterior probability of the models predicting the intended vowel. More **purple** indicates an increase in posterior probability for the former over the latter model, more **red** indicates an advantage for the latter over the former.
-
-\begin{landscape}
-
-```{r confusion-matrix-allVowels, fig.width=base.width*5, fig.height=base.height*4.5, fig.align='center', out.height='90%', fig.cap="(ref:confusion-matrix-allVowels)"}
-cowplot::plot_grid(
-  cowplot::plot_grid(legend.confusion,
-                     cowplot::plot_grid(p.confusion.all.F1F2, p.confusion.all.F1F3, p.confusion.all.all + theme(legend.position = "none"), align = "hv", axis = "btlr", ncol = 1),
-                     ncol = 2, rel_widths = c(1/8,7/8)),
-  cowplot::plot_grid(cowplot::plot_grid(p.diff.all.F1F2, p.diff.all.F1F3, p.diff.all.all + theme(legend.position = "none"), align = "hv", axis = "btlr", ncol = 1), legend.diff,
-                     ncol = 2, rel_widths = c(4/5,1/5)),
-  ncol = 2, rel_widths = c(.65,.35), labels = c("A", "B"))
-```
-
-\end{landscape}
