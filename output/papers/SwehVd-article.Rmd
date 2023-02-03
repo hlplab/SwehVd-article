@@ -1624,14 +1624,14 @@ p.marginal.joint.2cat <- d.data.A %>%
     aes(x=950,
         y=m[[1]]+m[[2]]*950),
     color = "black",
-    label = dmvnorm(x = x, mean = d.data.A$mu[[1]], sigma = d.data.A$Sigma[[1]]) * 100,
+    label = dmvnorm(x = c(950,m[[1]]+m[[2]]*950), mean = d.data.A$mu[[1]], sigma = d.data.A$Sigma[[1]]) * 100,
     size = 3,
     nudge_y = 10) +
   geom_text(
     aes(x=1200,
         y=m[[1]]+m[[2]]*1200),
     color = "black",
-    label = dmvnorm(x = x, mean = d.data.A$mu[[1]], sigma = d.data.A$Sigma[[1]]) * 100,
+    label = dmvnorm(x = c(1200,m[[1]]+m[[2]]*1200), mean = d.data.A$mu[[1]], sigma = d.data.A$Sigma[[1]]) * 100,
     size = 3,
     nudge_y = 10)
 
