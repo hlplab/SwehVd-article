@@ -71,7 +71,7 @@ classoption       : "man"
 fontsize          : 11pt
 output:
   papaja::apa6_pdf:
-    dev: png
+    dev: jpeg
     latex_engine: xelatex
     includes:
       in_header: latex-stuff/header.tex
@@ -115,8 +115,8 @@ library(knitr)
 
 # Set knit defaults for code chunks
 opts_chunk$set(
-  dev='png', # default format of figures
-  fig.ext="png",
+  dev='jpeg', # default format of figures
+  fig.ext="jpeg",
   comment="",
   echo=FALSE, warning=FALSE, message=FALSE,
   cache=TRUE)
@@ -1315,161 +1315,7 @@ The likelihood, $p(cues|category)$, describes the distribution of cues for each 
 
 Paralleling Study 1, we trained and tested separate ideal observers for each combination of normalization account, cues, and training-test fold. Specifically, we use the exact same cross-validation folds as in Study 1. Each ideal observer was trained on the training portion of the folded unnormalized and normalized data, and subsequently evaluated on the held-out test fold. This means that the parameters of each normalization account (e.g., the cue means in C-CuRE) and the resulting category parameters (the $\mu_c$s and $\Sigma_c$s for all categories) were set on the training data, and not changed for the test data. This reflects the realities of speech perception: although this is often ignored in evaluations of normalization accounts [e.g., @barreda2021; @mcmurray-jongman2011], listeners do not *a priori* know the cue means, cue variance, etc. of an unfamiliar talker. Rather, listeners need to incrementally *infer* those statistical properties from the talker's speech input [for discussion and a model, see @xie2022]. An additional advantage of cross-validation is that it gives us an estimate of the uncertainty about the model predictions. The performance of each ideal observer during test is assessed by calculating the ideal observer's predicted posterior probability of the *intended* category for each test token. This is identical to assuming Luce's choice rule for categorization [@luce1959book], as in most models of speech perception and spoken word recognition.
 
-### Advantages compared to separability index and similar measures of category variability
-By using a categorization model to estimate the consequence of normalization for perception, we avoid the pitfalls of the separability index discussed in Study 1. First, by using the density of an acoustic input under the multivariate distribution of all cues, the ideal observers we employ capture the *joint* effect of all cues. This captures that an input can be an improbable instance of a category based on one of its cue values but a probable instance given the values for the other cues. In particular, since we assume multivariate likelihoods, the model can account for category-specific covariances between cues. In the presence of strong correlations between cues, an acoustic input can be an improbable instance of a category based on the marginal distribution of each cue---i.e., if each cue is considered separately---but be a highly probable instance of that category if considered relative to the joint distribution of all cues (and vice versa). This is illustrated by Figure \@ref(fig:gaussians)A.<!-- TO DO: consider giving cumulative probability for both marginals and for joint.-->
-
 ```{r}
-#Subset and manipulate dataset for visualization purposes
-d.data <- d.SwehVd %>%
-  filter(Word != "hädd", Transcribed_vowel == "targeted") %>%
-  select(F1, F2, F3, Talker, Token, category) %>%
-  # Get the geometric mean across the three time points for the five cues
-  group_by(Talker, category, Token) %>%
-  summarise(across(c(F1, F2, F3), ~ geometric.mean(.x))) %>%
-  filter(category == "[oː]", F1 > 380, F2 < 950) %>%
-  ungroup() %>%
-  add_row(Talker = "SW_000", category = "[oː]", F1 = c(550, 540, 543, 542, 530, 532, 520, 515, 540, 550, 530, 510, 505, 515, 520, 380, 385, 375, 388, 390), F2 = c(950, 900, 850, 800, 950, 850, 880, 870, 900, 910, 920, 850, 850, 850, 840, 680, 670, 675, 685, 660))
-
-p.marginal.joint.1cat <- d.data %>%
-  ggplot(
-    aes(x=F2,
-        y=F1,
-        color = category)) +
-  geom_point(alpha = .6, size = 1) +
-  stat_ellipse() +
-  geom_label(
-    data =
-      ~ .x %>%
-      group_by(category) %>%
-      summarise(across(c(F1, F2), ~ mean(.x))),
-    mapping = aes(
-      colour = category,
-      label = category,
-      fontface = ifelse(category %in% levels.vowel.IPA.swe.long, 2, 1)),
-    alpha = .4, size = 4, label.size = NA) +
-    scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour") +
-  scale_x_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(1200, 350)) +
-  scale_y_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(750, 300)) +
-  geom_point(
-    aes(x=quantile(d.data$F2, probs = .95),
-        y=quantile(d.data$F1, probs = .05)),
-    color = "black",
-    size = 1) +
-    guides(color = "none") +
-  geom_point(
-    aes(x=quantile(d.data$F2, probs = .95),
-        y=quantile(d.data$F1, probs = .95)),
-    color = "black",
-    size = 1) +
-    guides(color = "none") +
-  geom_rug(
-    mapping = aes(
-      x=quantile(d.data$F2, probs = .95),
-        y=quantile(d.data$F1, probs = .05)),
-    color = "black",
-    sides = "tr",
-    length = unit(0.04, "npc"),
-    linewidth = .9) +
-  geom_rug(
-    mapping = aes(
-      x=quantile(d.data$F2, probs = .95),
-      y=quantile(d.data$F1, probs = .95)),
-    color = "black",
-    sides = "tr",
-    length = unit(0.04, "npc"),
-    linewidth = .9) +
-  annotate(
-    "text", 
-    x=900,
-    y=320,
-    label = "5\u1d57\u02b0 percentile",
-    size = 3)  +
-  annotate(
-    "text", 
-    x=400,
-    y=400,
-    label = "5\u1d57\u02b0 \npercentile",
-    size = 3)  +
-  annotate(
-    "text", 
-    x=400,
-    y=550,
-    label = "95\u1d57\u02b0 \npercentile",
-    size = 3)
-
-p.marginal.joint.2cat <- d.SwehVd %>%
-    select(F1, F2, F3, Talker, Token, category) %>%
-    # Get the geometric mean across the three time points for the five cues
-    group_by(Talker, category, Token) %>%
-    summarise(across(c(F1, F2, F3), ~ geometric.mean(.x))) %>%
-    filter(category %in% c("[ɑː]", "[oː]")) %>%
-  ggplot(
-    aes(x=F2,
-        y=F1,
-        color = category)) +
-  geom_point(alpha = .6, size = 1) +
-  stat_ellipse() +
-  geom_label(
-    data =
-      ~ .x %>%
-      group_by(category) %>%
-      summarise(across(c(F1, F2), ~ mean(.x))),
-    mapping = aes(
-      colour = category,
-      label = category,
-      fontface = ifelse(category %in% levels.vowel.IPA.swe.long, 2, 1)),
-    alpha = .4, size = 4, label.size = NA) +
-    scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour") +
-  scale_x_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(1400, 550)) +
-  scale_y_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(900, 350)) +
-  geom_point(
-    aes(x=880,
-        y=510),
-    color = "black",
-    size = 1) +
-    guides(color = "none") +
-  geom_point(
-    aes(x=1180,
-        y=790),
-    color = "black",
-    size = 1) +
-    guides(color = "none") +
-  geom_rug(
-    mapping = aes(
-      x=880,
-      y=510),
-    color = "black",
-    sides = "tr",
-    length = unit(0.04, "npc"),
-    linewidth = .9) +
-  geom_rug(
-    mapping = aes(
-      x=1180,
-      y=790),
-    color = "black",
-    sides = "tr",
-    length = unit(0.04, "npc"),
-    linewidth = .9)
-
-p.marginal.joint.1cat %<>% ggExtra::ggMarginal(p.marginal.joint.1cat, groupColour = TRUE, groupFill = TRUE)
-p.marginal.joint.2cat %<>% ggExtra::ggMarginal(p.marginal.joint.2cat, groupColour = TRUE, groupFill = TRUE)
-
-```
-
-(ref:gaussians) Using a perceptual model to evaluate normalization accounts avoids the pitfalls of separability/variability indices. **Panel A:** an acoustic token can be an improbable instance of a category if each cue is considered separately (the marginal densities along the sides of the plot), but highly probable if considered relative to the joint distribution of cues (the bivariate distribution indicated by the ellipse). **Panel B:** two acoustic tokens that are equally far from the mean of one category can have radically different consequences for perception, depending on where the tokens fall relative to other categories. Under the hypothesis that the two black points are instances of category `r linguisticsdown::cond_cmpl("[ɑː]")`, they would be attributed the same separability index but radically different probabilities given the joint distribution of cues relative to the other category in the space. Ellipses show bivariate Gaussian 95% cumulative probability mass. Ticks on axis show marginal cue means for the tokens. 
-
-```{r gaussians, fig.width= base.width * 3, fig.height = base.height * 1+.5, out.height='80%', fig.align='center', fig.cap="(ref:gaussians)"}
-cowplot::plot_grid(p.marginal.joint.1cat, p.marginal.joint.2cat, nrow = 1, labels = c("A", "B"))
-```
-
-Second, by normalizing the support for a category by the support for all other categories (the denominator in Equations \@ref(eq:Bayes-rule) and \@ref(eq:Bayes-rule-normal)), ideal observers consider the perceptual consequences of an acoustic input *relative to all possible categories*. This means that a token that is relatively far away from its category mean does not necessarily result in low recognition accuracy. Rather, low recognition accuracy is only predicted if the relative position of the acoustic input in the acoustic-phonetic space makes it more probable that the input originated from another (unintended) category. This is illustrated in Figure \@ref(fig:gaussians)B, and parallels human perception: e.g., while a more mid-fronted `r linguisticsdown::cond_cmpl("[ɑː]")` with high F1- and F2-values is atypical, human listeners are more likely to recognize it as a `r linguisticsdown::cond_cmpl("[ɑː]")` compared to a more high-back articulated, but equally atypical, `r linguisticsdown::cond_cmpl("[ɑː]")`, presumably because the observed phonetics would be equally likely to occur if the talker intended a `r linguisticsdown::cond_cmpl("[oː]")`. Measures of between- vs. within-category variability like the separability index in Study 1, however, have no means of directly capturing this.
-
-Finally, when an acoustic input is indeed improbable under its intended category relative to other unintended categories, the ideal observer model will correctly predict low recognition accuracy. Unlike the separability index in Study 1, however, the ideal observer will not disproportionally weight this single observation: it will simply be one of many observations---much like human speech perception does not collapse simply because one word (or one vowel) has been misunderstood. As we show next, these differences between the approaches taken in Studies 1 and 2 can, and sometimes do, cause differences in results.
-
-```{r}
-#Remove fake data for plot generation
-rm(d.data)
-
 #Function for training IOs
 train_io <- function(cues, data, group = NULL, no_noise = T, n.category = length(unique(data$category)), verbose = F) {
   cue_transformation = unique(gsub("^_([A-Za-z]+)_.*$" , "\\1", cues))
@@ -1645,7 +1491,171 @@ m.io.SwehVd <- rbind(
     mutate(Cue_space = "F0-F3, duration")) %>%
   mutate(Cue_space = factor(Cue_space, levels = c("F1-F2", "F1-F3", "F0-F3, duration")))
 ```
+
+### Advantages compared to separability index and similar measures of category variability
+By using a categorization model to estimate the consequence of normalization for perception, we avoid the pitfalls of the separability index discussed in Study 1. First, by using the density of an acoustic input under the multivariate distribution of all cues, the ideal observers we employ capture the *joint* effect of all cues. This captures that an input can be an improbable instance of a category based on one of its cue values but a probable instance given the values for the other cues. In particular, since we assume multivariate likelihoods, the model can account for category-specific covariances between cues. In the presence of strong correlations between cues, an acoustic input can be an improbable instance of a category based on the marginal distribution of each cue---i.e., if each cue is considered separately---but be a highly probable instance of that category if considered relative to the joint distribution of all cues (and vice versa). This is illustrated by Figure \@ref(fig:gaussians)A.<!-- TO DO: consider giving cumulative probability for both marginals and for joint.-->
+
 ```{r}
+#Subset and manipulate dataset for visualization purposes
+d.data.A <- m.io.SwehVd.F1F2 %>%
+  filter(IO.Normalization.Type == "r_Hz", IO.crossvalidation_group == 1) %>%
+  select(io) %>%
+  unnest() %>%
+  select(category, mu, Sigma) %>%
+  filter(category %in% c("[ɑː]", "[oː]")) %>%
+  group_by(category) %>%
+  mutate_at(
+      vars(contains("Sigma")),
+      funs(map(. , .f = function(x)  {x * .6}))) %>%
+  group_by(category) %>%
+  mutate(
+    samples = pmap(list(60, mu, Sigma), rmvnorm)) %>%
+  unnest(samples) %>%
+  mutate(
+    F1 = samples[,1],
+    F2 = samples[,2],
+    samples = NULL)
+
+p.marginal.joint.1cat <- d.data.A %>%
+  filter(category == "[ɑː]") %>%
+  ggplot(
+    aes(x=F2,
+        y=F1,
+        color = category)) +
+  geom_point(alpha = .6, size = 1) +
+  stat_ellipse() +
+  geom_label(
+    data =
+      ~ .x %>%
+      group_by(category) %>%
+      summarise(across(c(F1, F2), ~ mean(.x))),
+    mapping = aes(
+      colour = category,
+      label = category,
+      fontface = ifelse(category %in% levels.vowel.IPA.swe.long, 2, 1)),
+    alpha = .4, size = 4, label.size = NA) +
+    scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour") +
+  scale_x_reverse(breaks = scales::pretty_breaks(n = 4)) +
+  scale_y_reverse(breaks = scales::pretty_breaks(n = 4)) +
+  geom_point(
+    aes(x=quantile(d.data.A$F2, probs = .95),
+        y=quantile(d.data.A$F1, probs = .05)),
+    color = "black",
+    size = 1) +
+    guides(color = "none") +
+  geom_point(
+    aes(x=quantile(d.data.A$F2, probs = .95),
+        y=quantile(d.data.A$F1, probs = .95)),
+    color = "black",
+    size = 1) +
+    guides(color = "none") +
+  geom_rug(
+    mapping = aes(
+      x=quantile(d.data.A$F2, probs = .95),
+        y=quantile(d.data.A$F1, probs = .05)),
+    color = "black",
+    sides = "tr",
+    length = unit(0.04, "npc"),
+    linewidth = .9) +
+  geom_rug(
+    mapping = aes(
+      x=quantile(d.data.A$F2, probs = .95),
+      y=quantile(d.data.A$F1, probs = .95)),
+    color = "black",
+    sides = "tr",
+    length = unit(0.04, "npc"),
+    linewidth = .9) +
+  annotate(
+    "text", 
+    x=1200,
+    y=520,
+    label = "5\u1d57\u02b0 percentile",
+    size = 3)  +
+  annotate(
+    "text", 
+    x=850,
+    y=560,
+    label = "5\u1d57\u02b0 \npercentile",
+    size = 3)  +
+  annotate(
+    "text", 
+    x=850,
+    y=760,
+    label = "95\u1d57\u02b0 \npercentile",
+    size = 3)
+
+p.marginal.joint.2cat <- d.data.A %>%
+  ggplot(
+    aes(x=F2,
+        y=F1,
+        color = category)) +
+  geom_point(alpha = .6, size = 1) +
+  stat_ellipse() +
+  geom_label(
+    data =
+      ~ .x %>%
+      group_by(category) %>%
+      summarise(across(c(F1, F2), ~ mean(.x))),
+    mapping = aes(
+      colour = category,
+      label = category,
+      fontface = ifelse(category %in% levels.vowel.IPA.swe.long, 2, 1)),
+    alpha = .4, size = 4, label.size = NA) +
+    scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour") +
+  scale_x_reverse(breaks = scales::pretty_breaks(n = 4)) +
+  scale_y_reverse(breaks = scales::pretty_breaks(n = 4)) +
+  geom_point(
+    aes(x=880,
+        y=510),
+    color = "black",
+    size = 1) +
+    guides(color = "none") +
+  geom_point(
+    aes(x=1180,
+        y=790),
+    color = "black",
+    size = 1) +
+    guides(color = "none")
+
+
+# Marginal densities along x axis
+xdens <- cowplot::axis_canvas(p.marginal.joint.1cat, axis = "x") +
+  #stat_function(fun = dnorm(mean = d.data.A$mu[[1]], sd = d.data.A$Sigma[[1]]), n = n) +
+  geom_density(data = d.data.A %>% filter(category == "[ɑː]"), aes(x = F2, fill = category),
+              alpha = 0.7, size = 0.2) +
+  scale_fill_manual(values = colors.vowel.swe) +
+  scale_x_reverse()
+# Marginal densities along y axis
+# Need to set coord_flip = TRUE, if you plan to use coord_flip()
+ydens <- cowplot::axis_canvas(p.marginal.joint.1cat, axis = "y", coord_flip = TRUE) +
+  geom_density(data = d.data.A %>% filter(category == "[ɑː]"), aes(x = F1, fill = category),
+               alpha = 0.7, size = 0.2) +
+  coord_flip() + 
+  scale_fill_manual(values = colors.vowel.swe) +
+  scale_x_reverse()
+p1 <- cowplot::insert_xaxis_grob(p.marginal.joint.1cat, xdens, grid::unit(.2, "null"), position = "top")
+p2 <- cowplot::insert_yaxis_grob(p1, ydens, grid::unit(.2, "null"), position = "right")
+cowplot::ggdraw(p2)
+
+  #p.marginal.joint.1cat %<>% ggExtra::ggMarginal(p.marginal.joint.1cat, groupColour = TRUE, groupFill = TRUE)
+#p.marginal.joint.2cat %<>% ggExtra::ggMarginal(p.marginal.joint.2cat, groupColour = TRUE, groupFill = TRUE)
+
+```
+
+(ref:gaussians) Using a perceptual model to evaluate normalization accounts avoids the pitfalls of separability/variability indices. **Panel A:** an acoustic token can be an improbable instance of a category if each cue is considered separately (the marginal densities along the sides of the plot), but highly probable if considered relative to the joint distribution of cues (the bivariate distribution indicated by the ellipse). **Panel B:** two acoustic tokens that are equally far from the mean of one category can have radically different consequences for perception, depending on where the tokens fall relative to other categories. Under the hypothesis that the two black points are instances of category `r linguisticsdown::cond_cmpl("[ɑː]")`, they would be attributed the same separability index but radically different probabilities given the joint distribution of cues relative to the other category in the space. Ellipses show bivariate Gaussian 95% cumulative probability mass. Ticks on axis show marginal cue means for the tokens. 
+
+```{r gaussians, fig.width= base.width * 3, fig.height = base.height * 1+.5, out.height='80%', fig.align='center', fig.cap="(ref:gaussians)"}
+#cowplot::plot_grid(p.marginal.joint.1cat, p.marginal.joint.2cat, nrow = 1, labels = c("A", "B"))
+```
+
+Second, by normalizing the support for a category by the support for all other categories (the denominator in Equations \@ref(eq:Bayes-rule) and \@ref(eq:Bayes-rule-normal)), ideal observers consider the perceptual consequences of an acoustic input *relative to all possible categories*. This means that a token that is relatively far away from its category mean does not necessarily result in low recognition accuracy. Rather, low recognition accuracy is only predicted if the relative position of the acoustic input in the acoustic-phonetic space makes it more probable that the input originated from another (unintended) category. This is illustrated in Figure \@ref(fig:gaussians)B, and parallels human perception: e.g., while a more mid-fronted `r linguisticsdown::cond_cmpl("[ɑː]")` with high F1- and F2-values is atypical, human listeners are more likely to recognize it as a `r linguisticsdown::cond_cmpl("[ɑː]")` compared to a more high-back articulated, but equally atypical, `r linguisticsdown::cond_cmpl("[ɑː]")`, presumably because the observed phonetics would be equally likely to occur if the talker intended a `r linguisticsdown::cond_cmpl("[oː]")`. Measures of between- vs. within-category variability like the separability index in Study 1, however, have no means of directly capturing this.
+
+Finally, when an acoustic input is indeed improbable under its intended category relative to other unintended categories, the ideal observer model will correctly predict low recognition accuracy. Unlike the separability index in Study 1, however, the ideal observer will not disproportionally weight this single observation: it will simply be one of many observations---much like human speech perception does not collapse simply because one word (or one vowel) has been misunderstood. As we show next, these differences between the approaches taken in Studies 1 and 2 can, and sometimes do, cause differences in results.
+
+```{r}
+#Remove fake data for plot generation
+rm(d.data.A)
+
 # Accuracies compared to the intended vowel
 d.max.acc.toINTEND <- m.io.SwehVd %>%
   unnest(posterior_of_intended_vowel) %>%
