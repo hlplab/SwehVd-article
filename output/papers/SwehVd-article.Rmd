@@ -97,6 +97,7 @@ library(magrittr)         # pipes, my friend, we need pipes
 library(assertthat)       # for error checking
 library(rlang)            # quosures and unquoting
 library(ggforce)          # correlation matrices
+library(cowplot)
 library(plotly)           # for interactive HTML plots
 library(mvtnorm)          # multivariate Gaussian distributions
 
@@ -1497,71 +1498,87 @@ By using a categorization model to estimate the consequence of normalization for
 
 ```{r}
 set.seed(1423876)
-#Subset and manipulate dataset for visualization purposes
-d.data.A <- m.io.SwehVd.F1F2 %>%
-  filter(IO.Normalization.Type == "r_Hz", IO.crossvalidation_group == 1) %>%
+
+set_cor <- function(m, cor) {
+  m[1,2] <- sqrt(m[1,1]) * sqrt(m[2,2]) * cor
+  m[2,1] <- m[1,2]
+  
+  return(m)
+}
+
+# Subset and manipulate dataset for visualization purposes
+d.two_sim_vowels <- 
+  m.io.SwehVd.F1F2 %>%
+  filter(
+    IO.Normalization.Type == "r_Hz", 
+    IO.crossvalidation_group == 1) %>%
   select(io) %>%
-  unnest() %>%
+  unnest(cols = c(io)) %>%
   select(category, mu, Sigma) %>%
   filter(category %in% c("[ɑː]", "[oː]")) %>%
-  group_by(category) %>%
-  mutate_at(
-      vars(contains("Sigma")),
-      funs(map(. , .f = function(x)  {x * 1.2}))) %>%
-  group_by(category) %>%
   mutate(
-    samples = pmap(list(200, mu, Sigma), rmvnorm)) %>%
+    Sigma = map2(Sigma, category, ~ if (.y == "[ɑː]") { set_cor(.x, .95) } else { .x }))
+
+d.two_sim_vowels.samples <- 
+  d.two_sim_vowels %>%
+  mutate(samples = pmap(list(200, mu, Sigma), rmvnorm)) %>%
   unnest(samples) %>%
   mutate(
     F1 = samples[,1],
     F2 = samples[,2],
     samples = NULL)
 
-p.marginal.joint.1cat <- d.data.A %>%
+p.marginal.joint.1cat <- 
+  d.two_sim_vowels.samples %>%
   filter(category == "[ɑː]") %>%
   ggplot(
-    aes(x=F2,
-        y=F1,
-        color = category)) +
+    aes(
+      x = F2,
+      y = F1,
+      color = category)) +
   geom_point(alpha = .6, size = 1) +
   stat_ellipse() +
-  geom_label(
-    data =
-      ~ .x %>%
-      group_by(category) %>%
-      summarise(across(c(F1, F2), ~ mean(.x))),
-    mapping = aes(
-      colour = category,
-      label = category,
-      fontface = ifelse(category %in% levels.vowel.IPA.swe.long, 2, 1)),
-    alpha = .4, size = 4, label.size = NA) +
-    scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour") +
+  # geom_label(
+  #   data =
+  #     ~ .x %>%
+  #     group_by(category) %>%
+  #     summarise(across(c(F1, F2), ~ mean(.x))),
+  #   mapping = aes(
+  #     colour = category,
+  #     label = category,
+  #     fontface = ifelse(category %in% levels.vowel.IPA.swe.long, 2, 1)),
+  #   alpha = .4, size = 4, label.size = NA) +
+  scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour") +
   scale_x_reverse(breaks = scales::pretty_breaks(n = 4)) +
   scale_y_reverse(breaks = scales::pretty_breaks(n = 4)) +
+  guides(color = "none") +
+  # annotate could be used here for all points 
   geom_point(
-    aes(x=quantile(d.data.A[d.data.A$category == "[ɑː]",]$F2, probs = .95),
-        y=quantile(d.data.A[d.data.A$category == "[ɑː]",]$F1, probs = .05)),
+    aes(
+      x = quantile(F2, probs = .95),
+      y = quantile(F1, probs = .05)),
     color = "black",
     size = 1) +
-    guides(color = "none") +
   geom_point(
-    aes(x=quantile(d.data.A[d.data.A$category == "[ɑː]",]$F2, probs = .95),
-        y=quantile(d.data.A[d.data.A$category == "[ɑː]",]$F1, probs = .95)),
+    aes(
+      x = quantile(F2, probs = .95),
+      y = quantile(F1, probs = .95)),
     color = "black",
     size = 1) +
-    guides(color = "none") +
   geom_rug(
-    mapping = aes(
-      x=quantile(d.data.A[d.data.A$category == "[ɑː]",]$F2, probs = .95),
-        y=quantile(d.data.A[d.data.A$category == "[ɑː]",]$F1, probs = .05)),
+    mapping = 
+      aes(
+        x = quantile(F2, probs = .95),
+        y = quantile(F1, probs = .05)),
     color = "black",
     sides = "tr",
     length = unit(0.04, "npc"),
     linewidth = .9) +
   geom_rug(
-    mapping = aes(
-      x=quantile(d.data.A[d.data.A$category == "[ɑː]",]$F2, probs = .95),
-      y=quantile(d.data.A[d.data.A$category == "[ɑː]",]$F1, probs = .95)),
+    mapping = 
+      aes(
+        x = quantile(F2, probs = .95),
+        y = quantile(F1, probs = .95)),
     color = "black",
     sides = "tr",
     length = unit(0.04, "npc"),
@@ -1585,10 +1602,83 @@ p.marginal.joint.1cat <- d.data.A %>%
     label = "95\u1d57\u02b0 \npercentile",
     size = 3)
 
+# Marginal densities along x axis
+xdens.A <- 
+  axis_canvas(p.marginal.joint.1cat, axis = "x") +
+  stat_function(
+    data = d.two_sim_vowels.samples %>%
+      filter(category == "[ɑː]"),
+    aes(x = F2),
+    # theoretical normal density of *F2* along x-axis
+    fun = function(x) 
+      dnorm(
+         x, 
+        mean = d.two_sim_vowels %>% 
+          filter(category == "[ɑː]") %>% 
+          pull(mu) %>% 
+          .[[1]] %>% 
+          .[2], 
+        sd = sqrt(
+          d.two_sim_vowels %>% 
+            filter(category == "[ɑː]") %>% 
+            pull(Sigma) %>% 
+            .[[1]] %>% 
+            .[2, 2])),
+    color = "green") +
+  scale_fill_manual(values = colors.vowel.swe) +
+  scale_x_reverse() 
+
+# Marginal densities along y axis
+# Need to set coord_flip = TRUE, if you plan to use coord_flip()
+ydens.A <- 
+  axis_canvas(p.marginal.joint.1cat, axis = "y", coord_flip = TRUE) +
+  stat_function(
+    data = d.two_sim_vowels.samples %>%
+      filter(category == "[ɑː]"),
+    aes(x = F1, color = category),
+    # theoretical normal density of *F1* along y-axis
+    fun = function(x) 
+      dnorm(
+        x, 
+        mean = d.two_sim_vowels %>% 
+          filter(category == "[ɑː]") %>% 
+          pull(mu) %>% 
+          .[[1]] %>% 
+          .[1], 
+        sd = sqrt(
+          d.two_sim_vowels %>% 
+            filter(category == "[ɑː]") %>% 
+            pull(Sigma) %>% 
+            .[[1]] %>% 
+            .[1, 1])),
+    color = "green") +
+  coord_flip() + 
+  scale_fill_manual(values = colors.vowel.swe) +
+  scale_x_reverse() +
+  scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour")
+
+p.marginal.joint.1cat <- 
+  insert_xaxis_grob(
+    p.marginal.joint.1cat, 
+    xdens.A, 
+    grid::unit(.2, "null"), 
+    position = "top")
+
+p.marginal.joint.1cat <- 
+  insert_yaxis_grob(
+    p.marginal.joint.1cat, ydens.A, 
+    grid::unit(.2, "null"), 
+    position = "right")
+
+p.marginal.joint.1cat <- ggdraw(p.marginal.joint.1cat)
+```
+
+```{r}
 # SHOULD MODEL BE RUN UNDER THE ASSUMPTION OF ONE CATEGORY ONLY?????????
 m <- lm(F1 ~ F2, data = d.data.A) %>% coefficients()
 
-p.marginal.joint.2cat <- d.data.A %>%
+p.marginal.joint.2cat <- 
+  d.data.A %>%
   ggplot(
     aes(x=F2,
         y=F1,
