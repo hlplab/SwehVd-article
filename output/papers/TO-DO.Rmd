@@ -6,10 +6,10 @@
   * Make OFS public
   * Reduce fig sizes
   
-  * Points for when reviews are back
-    * The neural correlates of intrinsic and extrinsic accounts, and their relative effectiveness (e.g., johnson-sjerps2021)
+## Points for when reviews are back
+  * The neural correlates of intrinsic and extrinsic accounts, and their relative effectiveness (e.g., johnson-sjerps2021)
 
-  * To work on while in review:
-    * Formant transitions - how much information is there in there and does it change the ranking of normalization accounts if those are considered? Check this by including F1-F4 values at the start and end points in the trajectory in the IOs. Potentially include F4 as well, as Barreda said it contained important information.
-    * Can we address the concern that the fact that we only have female talkers might underestimate the performance of some, in particular uniform scaling, accounts. One idea would be to generate fake male talkers by multiplying formants by .8 (15-20% height diff), and lowering f0 by one octave, and then conduct same analyses over combined data of real female and fake male talkers. In interpreting any differences in results this might cause, keep in mind that this approach generates the fake male talkers under the assumption of uniform scaling (still, it's going to be informative how much the performance of the unnormalized decreases).
-    * fig 10: color labels, or only label a few vowels (or none).
+## To work on while in review:
+  * Formant transitions - how much information is there in there and does it change the ranking of normalization accounts if those are considered? Check this by including F1-F4 values at the start and end points in the trajectory in the IOs. Potentially include F4 as well, as Barreda said it contained important information.
+  * Can we address the concern that the fact that we only have female talkers might underestimate the performance of some, in particular uniform scaling, accounts. One idea would be to generate fake male talkers by multiplying formants by .8 (15-20% height diff), and lowering f0 by one octave, and then conduct same analyses over combined data of real female and fake male talkers. In interpreting any differences in results this might cause, keep in mind that this approach generates the fake male talkers under the assumption of uniform scaling (still, it's going to be informative how much the performance of the unnormalized decreases).
+  * fig 10: color labels, or only label a few vowels (or none).
