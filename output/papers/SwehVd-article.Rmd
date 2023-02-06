@@ -307,7 +307,7 @@ p.Eng.LiXie.all.Lob <-
 
 #Get legend from final plot
 legend <-
-  cowplot::get_legend(
+  get_legend(
     # create some space to the left of the legend
     p.Eng.LiXie.all.raw +
       guides(color = guide_legend(nrow = 1, byrow = TRUE)) +
@@ -317,12 +317,12 @@ legend <-
 ```
 
 ```{r illustrate-normalization, fig.width=base.width*2.5, fig.height=base.height*3.5+.5, out.width='75%', fig.align='center', fig.cap="(ref:illustrate-normalization)"}
-cowplot::plot_grid(
+plot_grid(
   legend,
-  cowplot::plot_grid(
-    cowplot::plot_grid(p.Eng.LiXie.raw, p.Eng.LiXie.all.raw + theme(legend.position = "none"), labels = c("A", "C"), ncol = 1, align = "hv", rel_heights = c(3/4, 1/4)), 
+  plot_grid(
+    plot_grid(p.Eng.LiXie.raw, p.Eng.LiXie.all.raw + theme(legend.position = "none"), labels = c("A", "C"), ncol = 1, align = "hv", rel_heights = c(3/4, 1/4)), 
     NULL,
-    cowplot::plot_grid(
+    plot_grid(
       p.Eng.LiXie.Lobanov, p.Eng.LiXie.all.Lob, labels = c("B", "D"), ncol = 1, align = "hv", rel_heights = c(3/4, 1/4)),
     ncol = 3, align = "hv", rel_widths = c(1, -.05, .95)),
     align = "hv", axis = "bltr", nrow = 2, rel_heights = c(.05, .95))
@@ -933,8 +933,8 @@ p.vowels.norm.long <-
   facet_wrap(~ factor(Normalization.Type, levels = labels.normalization), scales = "free", ncol = 5) +
   theme(
     axis.title.y = element_blank()) +
-    cowplot::theme_half_open(12) +
-    cowplot::background_grid() +
+    theme_half_open(12) +
+    background_grid() +
     theme(
       strip.background = element_blank(),
       strip.text = element_textbox_highlight(
@@ -1229,7 +1229,7 @@ p.separability <- plot_separability(d.SwehVd.forStudy.SI.long %>%
 (ref:separability) Separability indices by normalization accounts for long vowels, short vowels, and both long and short vowels together (columns) shown for three different combinations of cues (rows). Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.
 
 ```{r separability, fig.width= base.width * 4, fig.height = base.height * 3, fig.align='center', fig.cap="(ref:separability)"}
-cowplot::plot_grid(NULL, p.separability, rel_widths = c(.01, 1))
+plot_grid(NULL, p.separability, rel_widths = c(.01, 1))
 ```
 
 ## Discussion
@@ -1528,6 +1528,28 @@ d.two_sim_vowels.samples <-
     F2 = samples[,2],
     samples = NULL)
 
+# Run model under assumption of one category only
+m <- lm(F1 ~ F2, data = d.two_sim_vowels.samples %>% filter(category == "[ɑː]")) %>% coefficients()
+
+d.two_sim_vowels.samples %<>%
+  #Add rows for points in 2cat plot below
+  rbind(
+      head(d.two_sim_vowels.samples, 2) %>%
+      select(category, mu, Sigma) %>%
+        cbind(
+          F1 = c(m[[1]]+m[[2]]*860, m[[1]]+m[[2]]*1250),
+          F2 = c(860, 1250))) %>%
+  #Add cumulative probabilities
+  group_by(category) %>%
+  mutate(
+    cumulative_probability = pmap(
+      .l = list(F1, F2, mu, Sigma),
+      .f = get_cumulative_probability)) %>%
+  mutate(across(cumulative_probability,
+                unlist))
+```
+
+```{r}
 p.marginal.joint.1cat <- 
   d.two_sim_vowels.samples %>%
   filter(category == "[ɑː]") %>%
@@ -1538,16 +1560,6 @@ p.marginal.joint.1cat <-
       color = category)) +
   geom_point(alpha = .6, size = 1) +
   stat_ellipse() +
-  # geom_label(
-  #   data =
-  #     ~ .x %>%
-  #     group_by(category) %>%
-  #     summarise(across(c(F1, F2), ~ mean(.x))),
-  #   mapping = aes(
-  #     colour = category,
-  #     label = category,
-  #     fontface = ifelse(category %in% levels.vowel.IPA.swe.long, 2, 1)),
-  #   alpha = .4, size = 4, label.size = NA) +
   scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour") +
   scale_x_reverse(breaks = scales::pretty_breaks(n = 4)) +
   scale_y_reverse(breaks = scales::pretty_breaks(n = 4)) +
@@ -1585,20 +1597,20 @@ p.marginal.joint.1cat <-
     linewidth = .9) +
   annotate(
     "text", 
-    x=1200,
-    y=520,
+    x=1250,
+    y=460,
     label = "5\u1d57\u02b0 percentile",
     size = 3)  +
   annotate(
     "text", 
-    x=850,
-    y=560,
+    x=750,
+    y=500,
     label = "5\u1d57\u02b0 \npercentile",
     size = 3)  +
   annotate(
     "text", 
-    x=850,
-    y=760,
+    x=750,
+    y=800,
     label = "95\u1d57\u02b0 \npercentile",
     size = 3)
 
@@ -1624,7 +1636,7 @@ xdens.A <-
             pull(Sigma) %>% 
             .[[1]] %>% 
             .[2, 2])),
-    color = "green") +
+    color = "#B3B3B3") +
   scale_fill_manual(values = colors.vowel.swe) +
   scale_x_reverse() 
 
@@ -1651,11 +1663,9 @@ ydens.A <-
             pull(Sigma) %>% 
             .[[1]] %>% 
             .[1, 1])),
-    color = "green") +
-  coord_flip() + 
-  scale_fill_manual(values = colors.vowel.swe) +
-  scale_x_reverse() +
-  scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour")
+    color = "#B3B3B3") +
+  coord_flip() +
+  scale_x_reverse()
 
 p.marginal.joint.1cat <- 
   insert_xaxis_grob(
@@ -1672,106 +1682,151 @@ p.marginal.joint.1cat <-
 
 p.marginal.joint.1cat <- ggdraw(p.marginal.joint.1cat)
 ```
-
 ```{r}
-# SHOULD MODEL BE RUN UNDER THE ASSUMPTION OF ONE CATEGORY ONLY?????????
-m <- lm(F1 ~ F2, data = d.data.A) %>% coefficients()
-
 p.marginal.joint.2cat <- 
-  d.data.A %>%
+  d.two_sim_vowels.samples %>%
   ggplot(
-    aes(x=F2,
-        y=F1,
-        color = category)) +
+    aes(
+      x = F2,
+      y = F1,
+      color = category)) +
   geom_point(alpha = .6, size = 1) +
   stat_ellipse() +
-  geom_label(
-    data =
-      ~ .x %>%
-      group_by(category) %>%
-      summarise(across(c(F1, F2), ~ mean(.x))),
-    mapping = aes(
-      colour = category,
-      label = category,
-      fontface = ifelse(category %in% levels.vowel.IPA.swe.long, 2, 1)),
-    alpha = .4, size = 4, label.size = NA) +
-    scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour") +
+  scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour") +
   scale_x_reverse(breaks = scales::pretty_breaks(n = 4)) +
   scale_y_reverse(breaks = scales::pretty_breaks(n = 4)) +
+  guides(color = "none") +
+  # annotate could be used here for all points 
   geom_point(
-    aes(x=950,
-        y=m[[1]]+m[[2]]*950),
+    aes(x=860,
+        y=m[[1]]+m[[2]]*860),
     color = "black",
     size = 1) +
     guides(color = "none") +
   geom_point(
-    aes(x=1200,
-        y=m[[1]]+m[[2]]*1200),
+    aes(x=1250,
+        y=m[[1]]+m[[2]]*1250),
     color = "black",
     size = 1) +
     guides(color = "none") +
   geom_text(
-    aes(x=950,
-        y=m[[1]]+m[[2]]*950),
+    aes(x=860,
+        y=m[[1]]+m[[2]]*860),
     color = "black",
-    label = dmvnorm(x = c(950,m[[1]]+m[[2]]*950), mean = d.data.A$mu[[1]], sigma = d.data.A$Sigma[[1]]) * 100,
+    label = d.two_sim_vowels.samples %>% filter(F2 == 860) %>% pull(cumulative_probability) %>% round(digits = 3),
     size = 3,
-    nudge_y = 10) +
+    nudge_y = 10,
+    check_overlap = T) +
   geom_text(
-    aes(x=1200,
-        y=m[[1]]+m[[2]]*1200),
+    aes(x=1250,
+        y=m[[1]]+m[[2]]*1250),
     color = "black",
-    label = dmvnorm(x = c(1200,m[[1]]+m[[2]]*1200), mean = d.data.A$mu[[1]], sigma = d.data.A$Sigma[[1]]) * 100,
+    label = d.two_sim_vowels.samples %>% filter(F2 == 1250) %>% pull(cumulative_probability) %>% round(digits = 3),
     size = 3,
-    nudge_y = 10)
+    nudge_y = 10,
+    check_overlap = T)
 
 # Marginal densities along x axis
-xdens.A <- cowplot::axis_canvas(p.marginal.joint.1cat, axis = "x") +
-  #stat_function(fun = dnorm(5, mean = d.data.A$mu[[1]][1], sd = d.data.A$Sigma[[1]][1]), n = n) +
-  geom_density(data = d.data.A %>% filter(category == "[ɑː]"), aes(x = F2, fill = category),
-              alpha = 0.7, size = 0.2) +
-  scale_fill_manual(values = colors.vowel.swe) +
-  scale_x_reverse()
+xdens.A <- 
+  axis_canvas(p.marginal.joint.2cat, axis = "x") +
+  stat_function(
+    data = d.two_sim_vowels.samples,
+    aes(x = F2),
+    # theoretical normal density of *F2* along x-axis
+    fun = function(x) 
+      dnorm(
+         x, 
+        mean = d.two_sim_vowels %>%
+          pull(mu) %>% 
+          .[[1]] %>% 
+          .[2], 
+        sd = sqrt(
+          d.two_sim_vowels %>%
+            pull(Sigma) %>% 
+            .[[1]] %>% 
+            .[2, 2])),
+    color = "#B3B3B3") +
+  #Get density for the second category
+  stat_function(
+    data = d.two_sim_vowels.samples,
+    aes(x = F2),
+    # theoretical normal density of *F2* along x-axis
+    fun = function(x) 
+      dnorm(
+         x, 
+        mean = d.two_sim_vowels %>%
+          pull(mu) %>% 
+          .[[2]] %>% 
+          .[2], 
+        sd = sqrt(
+          d.two_sim_vowels %>%
+            pull(Sigma) %>% 
+            .[[2]] %>% 
+            .[2, 2])),
+    color = "#A6CEE3") +
+  scale_x_reverse() 
+
 # Marginal densities along y axis
-# Need to set coord_flip = TRUE, if you plan to use coord_flip()
-ydens.A <- cowplot::axis_canvas(p.marginal.joint.1cat, axis = "y", coord_flip = TRUE) +
-  geom_density(data = d.data.A %>% filter(category == "[ɑː]"), aes(x = F1, fill = category),
-               alpha = 0.7, size = 0.2) +
-  coord_flip() + 
-  scale_fill_manual(values = colors.vowel.swe) +
+ydens.A <- 
+  axis_canvas(p.marginal.joint.1cat, axis = "y", coord_flip = TRUE) +
+  stat_function(
+    data = d.two_sim_vowels.samples,
+    aes(x = F1, color = category),
+    # theoretical normal density of *F1* along y-axis
+    fun = function(x) 
+      dnorm(
+        x, 
+        mean = d.two_sim_vowels %>% 
+          pull(mu) %>% 
+          .[[1]] %>% 
+          .[1], 
+        sd = sqrt(
+          d.two_sim_vowels %>%
+            pull(Sigma) %>% 
+            .[[1]] %>% 
+            .[1, 1])),
+    color = "#B3B3B3") +
+  #Add density for second category
+  stat_function(
+    data = d.two_sim_vowels.samples,
+    aes(x = F1),
+    # theoretical normal density of *F1* along x-axis
+    fun = function(x) 
+      dnorm(
+         x, 
+        mean = d.two_sim_vowels %>%
+          pull(mu) %>% 
+          .[[2]] %>% 
+          .[1], 
+        sd = sqrt(
+          d.two_sim_vowels %>%
+            pull(Sigma) %>% 
+            .[[2]] %>% 
+            .[1, 1])),
+    color = "#A6CEE3") +
+  coord_flip() +
   scale_x_reverse()
-p.A <- cowplot::insert_xaxis_grob(p.marginal.joint.1cat, xdens.A, grid::unit(.2, "null"), position = "top")
-p.A <- cowplot::insert_yaxis_grob(p.A, ydens.A, grid::unit(.2, "null"), position = "right")
-p1 <- cowplot::ggdraw(p.A)
 
-# Marginal densities along x axis
-xdens.B <- cowplot::axis_canvas(p.marginal.joint.2cat, axis = "x") +
-  #stat_function(fun = dnorm(5, mean = d.data.A$mu[[1]][1], sd = d.data.A$Sigma[[1]][1]), n = n) +
-  geom_density(data = d.data.A, aes(x = F2, fill = category),
-              alpha = 0.7, size = 0.2) +
-  scale_fill_manual(values = colors.vowel.swe) +
-  scale_x_reverse()
-# Marginal densities along y axis
-# Need to set coord_flip = TRUE, if you plan to use coord_flip()
-ydens.B <- cowplot::axis_canvas(p.marginal.joint.1cat, axis = "y", coord_flip = TRUE) +
-  geom_density(data = d.data.A, aes(x = F1, fill = category),
-               alpha = 0.7, size = 0.2) +
-  coord_flip() + 
-  scale_fill_manual(values = colors.vowel.swe) +
-  scale_x_reverse()
-p.B <- cowplot::insert_xaxis_grob(p.marginal.joint.2cat, xdens.B, grid::unit(.2, "null"), position = "top")
-p.B <- cowplot::insert_yaxis_grob(p.B, ydens.B, grid::unit(.2, "null"), position = "right")
-p2 <-cowplot::ggdraw(p.B)
+p.marginal.joint.2cat <- 
+  insert_xaxis_grob(
+    p.marginal.joint.2cat, 
+    xdens.A, 
+    grid::unit(.2, "null"), 
+    position = "top")
 
-#p.marginal.joint.1cat %<>% ggExtra::ggMarginal(p.marginal.joint.1cat, groupColour = TRUE, groupFill = TRUE)
-#p.marginal.joint.2cat %<>% ggExtra::ggMarginal(p.marginal.joint.2cat, groupColour = TRUE, groupFill = TRUE)
+p.marginal.joint.2cat <- 
+  insert_yaxis_grob(
+    p.marginal.joint.2cat, ydens.A, 
+    grid::unit(.2, "null"), 
+    position = "right")
 
+p.marginal.joint.2cat <- ggdraw(p.marginal.joint.2cat)
 ```
 
-(ref:gaussians) Using a perceptual model to evaluate normalization accounts avoids the pitfalls of separability/variability indices. **Panel A:** an acoustic token can be an improbable instance of a category if each cue is considered separately (the marginal densities along the sides of the plot), but highly probable if considered relative to the joint distribution of cues (the bivariate distribution indicated by the ellipse). **Panel B:** two acoustic tokens that are equally far from the mean of one category can have radically different consequences for perception, depending on where the tokens fall relative to other categories. Under the hypothesis that the two black points are instances of category `r linguisticsdown::cond_cmpl("[ɑː]")`, they would be attributed the same separability index but radically different probabilities given the joint distribution of cues relative to the other category in the space. Ellipses show bivariate Gaussian 95% cumulative probability mass. Ticks on axis show marginal cue means for the tokens. 
+(ref:gaussians) Using a perceptual model to evaluate normalization accounts avoids the pitfalls of separability/variability indices. **Panel A:** an acoustic token can be an improbable instance of a category if each cue is considered separately (the marginal densities along the sides of the plot), but highly probable if considered relative to the joint distribution of cues (the bivariate distribution indicated by the ellipse). **Panel B:** two acoustic tokens that are equally far from the mean of one category can have radically different consequences for perception, depending on where the tokens fall relative to other categories. Under the hypothesis that the two black points are instances of category `r linguisticsdown::cond_cmpl("[ɑː]")`, they would be attributed the same separability index but radically different probabilities given the joint distribution of cues relative to the other category in the space. Ellipses show bivariate Gaussian 95% cumulative probability mass.
 
 ```{r gaussians, fig.width= base.width * 3, fig.height = base.height * 1+.5, out.height='80%', fig.align='center', fig.cap="(ref:gaussians)"}
-cowplot::plot_grid(p1, p2, nrow = 1, labels = c("A", "B"))
+plot_grid(p.marginal.joint.1cat, p.marginal.joint.2cat, nrow = 1, labels = c("A", "B"))
 ```
 
 Second, by normalizing the support for a category by the support for all other categories (the denominator in Equations \@ref(eq:Bayes-rule) and \@ref(eq:Bayes-rule-normal)), ideal observers consider the perceptual consequences of an acoustic input *relative to all possible categories*. This means that a token that is relatively far away from its category mean does not necessarily result in low recognition accuracy. Rather, low recognition accuracy is only predicted if the relative position of the acoustic input in the acoustic-phonetic space makes it more probable that the input originated from another (unintended) category. This is illustrated in Figure \@ref(fig:gaussians)B, and parallels human perception: e.g., while a more mid-fronted `r linguisticsdown::cond_cmpl("[ɑː]")` with high F1- and F2-values is atypical, human listeners are more likely to recognize it as a `r linguisticsdown::cond_cmpl("[ɑː]")` compared to a more high-back articulated, but equally atypical, `r linguisticsdown::cond_cmpl("[ɑː]")`, presumably because the observed phonetics would be equally likely to occur if the talker intended a `r linguisticsdown::cond_cmpl("[oː]")`. Measures of between- vs. within-category variability like the separability index in Study 1, however, have no means of directly capturing this.
@@ -1780,7 +1835,7 @@ Finally, when an acoustic input is indeed improbable under its intended category
 
 ```{r}
 #Remove fake data for plot generation
-rm(d.data.A)
+rm(d.two_sim_vowels, d.two_sim_vowels.samples)
 
 # Accuracies compared to the intended vowel
 d.max.acc.toINTEND <- m.io.SwehVd %>%
