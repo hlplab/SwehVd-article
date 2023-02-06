@@ -76,7 +76,7 @@ output:
     includes:
       in_header: latex-stuff/header.tex
     keep_tex: yes
-    #citation_package: default
+    citation_package: default
     extra_dependencies: "subfig" 
 always_allow_html: true
 ---
@@ -1825,7 +1825,7 @@ p.marginal.joint.2cat <- ggdraw(p.marginal.joint.2cat)
 
 (ref:gaussians) Using a perceptual model to evaluate normalization accounts avoids the pitfalls of separability/variability indices. **Panel A:** an acoustic token can be an improbable instance of a category if each cue is considered separately (the marginal densities along the sides of the plot), but highly probable if considered relative to the joint distribution of cues (the bivariate distribution indicated by the ellipse). **Panel B:** two acoustic tokens that are equally far from the mean of one category can have radically different consequences for perception, depending on where the tokens fall relative to other categories. Under the hypothesis that the two black points are instances of category `r linguisticsdown::cond_cmpl("[ɑː]")`, they would be attributed the same separability index but radically different probabilities given the joint distribution of cues relative to the other category in the space. Ellipses show bivariate Gaussian 95% cumulative probability mass.
 
-```{r gaussians, fig.width= base.width * 3, fig.height = base.height * 1+.5, out.height='80%', fig.align='center', fig.cap="(ref:gaussians)"}
+```{r gaussians, fig.width= base.width * 2.5, fig.height = base.height * 1+.5, out.height='80%', fig.align='center', fig.cap="(ref:gaussians)"}
 plot_grid(p.marginal.joint.1cat, p.marginal.joint.2cat, nrow = 1, labels = c("A", "B"))
 ```
 
@@ -1835,7 +1835,7 @@ Finally, when an acoustic input is indeed improbable under its intended category
 
 ```{r}
 #Remove fake data for plot generation
-rm(d.two_sim_vowels, d.two_sim_vowels.samples)
+rm(d.two_sim_vowels, d.two_sim_vowels.samples, m)
 
 # Accuracies compared to the intended vowel
 d.max.acc.toINTEND <- m.io.SwehVd %>%
