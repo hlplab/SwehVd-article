@@ -7,34 +7,32 @@ author:
     affiliation: '1'
     etal: Persson # First author's last name. 
     email: anna.persson@su.se # Indicates corresponding Author
-    institution: Laboratory X, Institute X, Department X, Organization X
-    street: Street X
-    city: City X
-    state: State XX # only USA, Australia, Canada
-    zip: Zip Code X
-    country: Country X
+    institution: Department of Swedish Language and Multilingualism
+    street: Stockholm University
+    city: Stockholm
+    zip: SE-106 91
+    country: Sweden
   - name: T. Florian Jaeger
     affiliation: '2,3'
     
 affiliation:
   - id: '1'
-    department: Swedish Language and Multilingualism
+    department: Department of Swedish Language and Multilingualism
     institution: Stockholm University
-    city: City X
-    state: State XX # only USA, Australia, Canada
-    country: Country X
+    city: Stockholm
+    country: Sweden
   - id: '2'
     department: Brain and Cognitive Sciences
     institution: University of Rochester
-    city: City X
-    state: State XX # only USA, Australia, Canada
-    country: Country X
+    city: Rochester
+    state: NY # only USA, Australia, Canada
+    country: USA
   - id: '3'
     department: Computer Science
     institution: University of Rochester
-    city: City X
-    state: State XX # only USA, Australia, Canada
-    country: Country X
+    city: Rochester
+    state: NY # only USA, Australia, Canada
+    country: USA
 
 csl               : frontiers.csl
 link-citations    : yes
@@ -45,11 +43,11 @@ header-includes:
 #
 # I also wasn't sure whether the following are required at all. 
 # What is the purpose of these packages?
-# - \usepackage{booktabs}
- # - \usepackage{siunitx}
- # - \usepackage{soul}
- # - \usepackage{tabto}
- # - \usepackage{placeins}
+# - \usepackage{booktabs}   # Enhances quality of tables
+ # - \usepackage{siunitx}   # SI units package
+ # - \usepackage{soul}    # Hyphenation for letterspacing, underlining, etc.
+ # - \usepackage{tabto}   # Tab to measusured position
+ # - \usepackage{placeins}    # Controls float placement; so that all floats appear before the next section command.
  - \usepackage{colortbl}
  - \usepackage{lscape}
  - \usepackage{pdflscape}
@@ -104,8 +102,8 @@ library(knitr)
 
 # Set knit defaults for code chunks
 opts_chunk$set(
-  dev='jpeg', # default format of figures
-  fig.ext="jpeg",
+  dev='png', # default format of figures
+  fig.ext='png',
   comment="",
   echo=FALSE, warning=FALSE, message=FALSE,
   cache=TRUE)
@@ -128,7 +126,7 @@ knitr::knit_hooks$set(warning = color_block('orange'))
 source("constants.R")
 
 INCLUDE_TODO = F     # switch on/off to get to do list.
-INCLUDE_SI = F     # switch on/off to include SI.
+INCLUDE_SI = T     # switch on/off to include SI.
 
 myGplot.defaults("paper")
 
@@ -955,7 +953,7 @@ p.vowels.norm.long <-
 
 \begin{landscape}
 
-```{r swe-vowels-normalized-long, fig.width=base.width * 4, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:swe-vowels-normalized-long)"}
+```{r swe-vowels-normalized-long, fig.width=base.width * 4, fig.height=base.height * 3, fig.align='center', out.width='90%', fig.cap="(ref:swe-vowels-normalized-long)"}
 p.vowels.norm.long
 ```
 
@@ -974,7 +972,7 @@ p.vowels.norm.short <- p.vowels.norm.long %+%
 ```
 
 \begin{landscape}
-```{r swe-vowels-normalized-short, fig.width=base.width * 4, fig.height=base.height * 3, fig.align='center', fig.cap="(ref:swe-vowels-normalized-short)"}
+```{r swe-vowels-normalized-short, fig.width=base.width * 4, fig.height=base.height * 3, fig.align='center', out.width='90%', fig.cap="(ref:swe-vowels-normalized-short)"}
 p.vowels.norm.short
 ```
 
@@ -1155,7 +1153,7 @@ p.separability.by_cue <- plot_separability(d.SwehVd.forStudy.SI.long %>%
 
 (ref:separability-by-cue) Separability indices by normalization accounts for long vowels, short vowels, and long and short vowels together (columns), shown for each of the five cues considered in this study (rows). Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.
 
-```{r separability-by-cue, fig.width=base.width * 4, fig.height=base.height * 5.5, fig.align='center', fig.cap="(ref:separability-by-cue)"}
+```{r separability-by-cue, fig.width=base.width * 4.5, fig.height=base.height * 5.5, fig.align='center', out.width='100%', fig.cap="(ref:separability-by-cue)"}
 p.separability.by_cue
 ```
 
@@ -1169,7 +1167,7 @@ Returning to Figure \@ref(fig:separability-by-cue), normalization does not incre
 
 (ref:F3-densities) Category densities along F3 illustrates the effectiveness of vowel-intrinsic normalization for this cue. Here shown for Miller, compared to vowel-extrinsic accounts that center and/or standardize cues. For reference, densities in the absence of normalization are also shown.
 
-```{r F3-densities, fig.width= base.width * 4, fig.height = base.height * 2.5, fig.align='center', fig.cap="(ref:F3-densities)"}
+```{r F3-densities, fig.width= base.width * 4, fig.height = base.height * 2.5, fig.align='center', out.width='95%', fig.cap="(ref:F3-densities)"}
 # Generate list of manual y-scale limits, in order to have category labels fit in at density tops
 scales <- list(
   # Specify all the scales, one for each facet
@@ -1216,11 +1214,11 @@ p.separability <- plot_separability(d.SwehVd.forStudy.SI.long %>%
 
 (ref:separability) Separability indices by normalization accounts for long vowels, short vowels, and both long and short vowels together (columns) shown for three different combinations of cues (rows). Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.
 
-```{r separability, fig.width= base.width * 4, fig.height = base.height * 3, fig.align='center', fig.cap="(ref:separability)"}
+```{r separability, fig.width= base.width * 4, fig.height = base.height * 3, fig.align='center', out.width='100%', fig.cap="(ref:separability)"}
 plot_grid(NULL, p.separability, rel_widths = c(.01, 1))
 ```
 
-## Discussion
+## Discussion {-#sec:studyI-discussion}
 When only F1 and F2 are considered, as in most previous work on vowel normalization, we find that extrinsic centering and standardizing accounts achieve the best category separability. Within these two types of accounts, there is considerable variability. For example, among the intrinsic accounts, Miller performs worse than Syrdal & Gopal, among the extrinsic accounts, versions of C-CuRE seem to consistently perform best. It is also worth noting, however, that there is never a single account that performs significantly better than all other normalizations. This points to the inherent similarities across normalization accounts, and perhaps limitations of the approach taken here (and in some previous work). We return to this point in the general discussion. Regardless of these caveats, the findings for F1 and F2 of Study I, revise the results of @disner1980 for Swedish, and instead replicates previous findings for the other Germanic languages in Disner's sample as well as the majority of previous studies on other languages [e.g., @fabricius2009; @Flynn2011; @labov2010]. 
 
 However, when F3 is considered along with F1 and F2, this result does no longer hold. Key to understanding this result and what it says about the suitability of category separability as a measure of normalization accounts is Figure \@ref(fig:separability-by-cue): while extrinsic normalization performs better than other approaches for F1 and F2, the absolute differences in performance are small compared to the advantage of the intrinsic account observed for F3. Combined with a seemingly innocuous aspect of the separability index in Equation \@ref(eq:separability-index), this allows separability along F3 to dominate separability along the other cue dimensions. Our separability index takes the *sum* of (squared) distances along each cue dimension, essentially assuming that the effect of all cues is simply a sum of each cue's effect considered separately. This means that the separability index cannot capture the *joint* effect of cues---whether, for example, one cue effectively separates one set of categories and another cue separates another set of categories, rather than both cues separating the same categories. The separability index thus cannot recognize, for example, that F1 and F2 capture largely complementary aspects of the vowel inventory (as evident in, for example, Figures \@ref(fig:swe-vowels-normalized-long) and \@ref(fig:swe-vowels-normalized-short)).
@@ -1481,7 +1479,7 @@ m.io.SwehVd <- rbind(
   mutate(Cue_space = factor(Cue_space, levels = c("F1-F2", "F1-F3", "F0-F3, duration")))
 ```
 
-### Advantages compared to separability index and similar measures of category variability
+### Advantages compared to separability index and similar measures of category variability {-#sec:IO-advantages}
 By using a categorization model to estimate the consequence of normalization for perception, we avoid the pitfalls of the separability index discussed in Study 1. First, by using the density of an acoustic input under the multivariate distribution of all cues, the ideal observers we employ capture the *joint* effect of all cues. This captures that an input can be an improbable instance of a category based on one of its cue values but a probable instance given the values for the other cues. In particular, since we assume multivariate likelihoods, the model can account for category-specific covariances between cues. In the presence of strong correlations between cues, an acoustic input can be an improbable instance of a category based on the marginal distribution of each cue---i.e., if each cue is considered separately---but be a highly probable instance of that category if considered relative to the joint distribution of all cues (and vice versa). This is illustrated by Figure \@ref(fig:gaussians)A.<!-- TO DO: consider giving cumulative probability for both marginals and for joint.-->
 
 ```{r}
@@ -1813,7 +1811,7 @@ p.marginal.joint.2cat <- ggdraw(p.marginal.joint.2cat)
 
 (ref:gaussians) Using a perceptual model to evaluate normalization accounts avoids the pitfalls of separability/variability indices. **Panel A:** an acoustic token can be an improbable instance of a category if each cue is considered separately (the marginal densities along the sides of the plot), but highly probable if considered relative to the joint distribution of cues (the bivariate distribution indicated by the ellipse). **Panel B:** two acoustic tokens that are equally far from the mean of one category can have radically different consequences for perception, depending on where the tokens fall relative to other categories. Under the hypothesis that the two black points are instances of category `r linguisticsdown::cond_cmpl("[ɑː]")`, they would be attributed the same separability index but radically different probabilities given the joint distribution of cues relative to the other category in the space. Ellipses show bivariate Gaussian 95% cumulative probability mass.
 
-```{r gaussians, fig.width= base.width * 3, fig.height = base.height * 1+.5, out.height='80%', fig.align='center', fig.cap="(ref:gaussians)"}
+```{r gaussians, fig.width= base.width * 3, fig.height = base.height * 1+.5, fig.align='center', out.width='95%', fig.cap="(ref:gaussians)"}
 plot_grid(p.marginal.joint.1cat, p.marginal.joint.2cat, nrow = 1, labels = c("A", "B"))
 ```
 
@@ -1918,11 +1916,11 @@ p.accuracy.io.overall <- plot_io_results(m.io.SwehVd) + facet_grid(Cue_space ~ f
 
 (ref:predictions) Predicted recognition accuracy of ideal observer under different normalization accounts for long vowels, short vowels, and long and short vowels together (columns), shown for for three different combinations of cues (rows). Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. The dashed horizontal line indicates chance (different across columns because of the different number of long and short vowels).
 
-```{r predictions, fig.width= base.width * 4.5, fig.height = base.height * 5.5, fig.align='center', fig.cap="(ref:predictions)"}
+```{r predictions, fig.width= base.width * 4.5, fig.height = base.height * 5.5, fig.align='center', out.width='95%', fig.cap="(ref:predictions)"}
 p.accuracy.io.overall
 ```
 
-## Results for specific vowels
+## Results for specific vowels {-#sec:resultsII-perVowel}
 Finally, the use of a perceptual model lets us assess vowel-specific effects on the predictions of the ideal observers. While this is not the main focus of this paper, it might be of interest to other researchers. In the SI, we therefore plot both the predicted categorization accuracy per vowel in the different evaluations (see \@ref(sec:accuracy-per-vowel)), as well as confusion matrices of the best and the worst performing ideal observers (see \@ref(sec:confusion)), to further investigate *how* normalization improves recognition accuracy. Here, we briefly mention some of the main findings that emerge from these additional visualizations. For reference, Figure \@ref(fig:predictions-per-vowel) visualizes the predicted recognition accuracy for five vowels that illustrate some of the vowel-specific effects across different types of normalization.
 
 Unsurprisingly, some vowels are recognized with much higher accuracy than others---at least when uniform category priors are assumed, as we did here. This is a direct consequence of the position of the vowel in the acoustic-phonetic space, relative to neighboring vowels: the more neighboring vowels overlap with each other, the lower the accuracy with which they are recognized. Which vowels will benefit from normalization will thus naturally vary between languages, reflecting the language-specific properties of the vowel space. For instance, [`r linguisticsdown::cond_cmpl("iː")`] is often described as more easily recognized in previous work on other languages. This contrasts with our findings for Central Swedish: here,  [`r linguisticsdown::cond_cmpl("iː")`] is part of the dense clustering of vowels along the height dimension and so has many close competitors. This highlights that recognition accuracy is due to the position of a vowel *relative* to its competitors [e.g., @Peterson1952; @Kuhl1991; @Polka2003], rather than its *absolute location* in the vowel space (e.g., [`r linguisticsdown::cond_cmpl("iː")`] being a peripheral vowel). 
@@ -1994,7 +1992,7 @@ p.accuracy.io.per.vowel <- plot_io_results_per_vowel(
 
 \begin{landscape}
 
-```{r predictions-per-vowel, fig.width=base.width * 5.5, fig.height=base.height * 4, fig.align='center', fig.cap="(ref:predictions-per-vowel)"}
+```{r predictions-per-vowel, fig.width=base.width * 5.5, fig.height=base.height * 4, fig.align='center', out.width='95%', fig.cap="(ref:predictions-per-vowel)"}
 p.accuracy.io.per.vowel
 ```
 
@@ -2012,12 +2010,12 @@ Additionally, we find that the best-performing centering accounts (C-CuRE) often
 rm(d.max.acc.toINTEND.diff)
 ```
 
-## Methodological considerations
+## Methodological considerations {-#sec:methods-disc}
 We considered two methods of evaluations. In Study 1, we compared the reduction of within-category variability relative to between-category variability by calculating a separability index (i.e., an F-statistics). This methodology facilitated comparison to previous studies, that has most often assessed the efficacy of normalization accounts by means of increase in between-talker category overlap or category separability, or decrease in category variability [@disner1980; @fabricius2009; @Flynn2011; @hindle1978; @labov2010]. However, given the limitations inherent in this index, in the second study, we used Bayesian ideal observers to investigate how normalization accounts differ in predictions for perception. Previous studies have employed linear discriminant analysis [e.g., @adank2004; @syrda1985], fuzzy ARTMAP or K-nearest neighbour classification [e.g., @carpenter1993], or constraint ranking grammars [e.g., @escudero2007]. While these different approaches will generally return similar results, we see two advantages with ideal observers. First, ideal observers remove researchers' degrees of freedom in the evaluation of normalization accounts [see @tan2021]: the statistics of the cue distributions in the training data fully determine the ideal observers' predictions. Second, representing the cue likelihood for each category as multivariate Gaussian distributions [e.g., @kronrod2016; @norris-mcqueen2008; @xie2021cognition], strikes a middle ground between less parsimonious models such as exemplar models [e.g., @johnson1997; @pierrehumbert2001], and more parsimonious models, such as models of cue integration over multiple separate univariate Gaussians [e.g., @toscano-mcmurray2010].^[Parsimony here refers both to the number of degrees of freedom these models afford to the researcher *and* to the amount of information that listeners are assumed to store [for discussion, see @xie2022].] However, like any other model of speech perception, the approach adopted here comes with a set of simplifying assumptions. All of the assumptions in the model, e.g., uniform priors, models of linguistic representations, the normalization accounts selected, can, however, be revisited and altered by the reader, as this paper is written in R markdown and all data and code is provided on OSF.
 
-As a final note on methodology, we find the 5-fold cross-validation approach used for normalization of the acoustic data adopted here, advantageous for several reasons, the two most important being that: (1) it allows us to avoid over-fitting to the sample, while also (2) providing a more realistic reflection of how parameters used for normalization are incrementally inferred from the talker's speech input. Even though many of the commonly adopted normalization accounts involve parameters that are set based on the data, previous studies have rarely considered how these parameters might be affected by the specific dataset used for normalization [for exceptions, see e.g., @barreda2018a]. In the present study, we have seen that accounting for researchers' uncertainty about the effects of normalization, highlights that many of the normalization accounts exhibit statistically indistinguishable performance---at least under the approach taken here and in the majority of previous work. This means that future studies should aim to increase statistical power, in order to determine the normalization mechanism that best describes human behaviour. This will require even larger datasets, and/or by targeted sampling of vowel tokens for which predictions of different normalization accounts are maximally contrasted [see e.g., @barreda2021; and see @xie2022 for more general discussion of how to increase the statistical power to determine what mechanism underlie adaptive speech perception]. Next, we close by discussing additional limitations of the present work and future directions.
+As a final note on methodology, we find the 5-fold cross-validation approach used for normalization of the acoustic data adopted here, advantageous for several reasons, the two most important being that: (1) it allows us to avoid over-fitting to the sample, while also (2) providing a more realistic reflection of how parameters used for normalization are incrementally inferred from the talker's speech input. Even though many of the commonly adopted normalization accounts involve parameters that are set based on the data, previous studies have rarely considered how these parameters might be affected by the specific dataset used for normalization [for exceptions, see e.g., @barreda2018a]. In the present study, we have seen that accounting for researchers' uncertainty about the effects of normalization, highlights that many of the normalization accounts exhibit statistically indistinguishable performance---at least under the approach taken here and in the majority of previous work. This means that future studies should aim to increase statistical power, in order to determine the normalization mechanism that best describes human behavior. This will require even larger datasets, and/or by targeted sampling of vowel tokens for which predictions of different normalization accounts are maximally contrasted [see e.g., @barreda2021; and see @xie2022 for more general discussion of how to increase the statistical power to determine what mechanism underlie adaptive speech perception]. Next, we close by discussing additional limitations of the present work and future directions.
 
-## Limitations and future directions
+## Limitations and future directions {-#sec:limitations}
 Four limitations of the present study, three of which are shared with most previous work, deserve discussion. First, the present study compared normalization accounts against speech from only female talkers of one regional variety of Central Swedish (Stockholm Swedish). In contrast, many previous studies included data from talkers of different genders [e.g., @barreda2021; @clopper2009; @cole2010; @mcmurray2011; @mcmurray-jongman2016], and sometimes from talkers of different ages [e.g., @barreda2018a; @carpenter1993; @Flynn2011; @hindle1978; @johnson-sjerps2021; @kohn2012a; @syrda1985] and/or language backgrounds [e.g., @adank2004; @disner1980; @escudero2007; @fabricius2009; @labov2010; @richter2017]. Given that age, gender, etc. tends to affect formants (and other cues) beyond talker-variability, it is likely that the inclusion of more diverse talkers would increase the lack of invariance problem. For example, we would expect the ideal observers over unnormalized cues (Study 2) to achieve lower recognition performance if vowel productions from male talkers would be included in the data. In short, the models in Study 2 likely over-estimates the recognition accuracy that can be achieved for unnormalized cues if a more diverse range of talkers is considered.
 
 What does that mean for the relative effect of normalization? To the extent that normalization successfully overcomes inter-talker variability that is caused by gender, age, and other social or physiological factors, we expect that the benefit of normalization accounts should show more clearly, relative to unnormalized cues. In this sense, the present study might *under*-estimate the relative benefits of normalization. Whether the *relative* performance of normalization accounts---i.e., the finding of primary interest to us---would differ if a more diverse range of talkers was considered is unclear. To the extent that vowel-specific accounts were originally developed specifically to eliminate physiological differences that are correlated with gender [as reviewed in, e.g., @johnson-sjerps2021], it is theoretically possible that the high performance of general normalization accounts [e.g., C-CuRE, @mcmurray-jongman2011] might not replicate when talkers of different genders are included. Future releases of the SwehVd database will contain data from male talkers, which will allow us or other researchers to revisit these questions.
@@ -2026,7 +2024,7 @@ Second, the present study aggregated acoustic-phonetic measurements taken at dif
 
 Third, we only considered competing *normalization* accounts. This, too, follows previous research on normalization but is potentially problematic. As mentioned in the introduction, it is now believed that at least three different mechanisms contribute to adaptive speech perception, including not only normalization but also changes in category representations and decision-making [for review, see @xie2022]. This has consequences for research on normalization. For example, @xie2021cognition compared normalization accounts against the production of prosodic phrasing in L1-US English, while also considering alternative hypotheses about listeners' ability to adapt category representations. Xie and colleagues found that the effectiveness of cue normalization is substantially reduced if listeners can learn and maintain talker- or group-specific category representations [as assumed in some influential theories of speech perception, exemplar models, e.g., @johnson1997; @pierrehumbert2001; Bayesian ideal adaptors, @kleinschmidt-jaeger2015]. Xie and colleagues only considered two general types of normalization, and their focus was on the interpretation of prosodic signals. But their results call for caution in interpreting studies like the present that do not consider the possibility of talker-specific representations---an assumption shared with basically all previous work on vowel normalization.
 
-Similarly, as mentioned in the introduction, we limited our evaluation to a single level of normalization (and combinations of perceptual transformations and a single level of normalization). Some proposals, however, assume multiple separate normalization steps. For example, some accounts hold that evolutionarily early mechanisms first transform spectral percepts into a phonetic space [e.g., uniform scaling accounts, @barreda2020a; @nearey1983], on which additional subsequent normalization might operate. There is also evidence that speech perception combines aspects of intrinsic and extrinsic normalization [@johnson-sjerps2021 review relevant evidence from brain imaging; early behavioural evidence is found in @nearey1989]. The present study---like most existing evaluations---did not consider these possibilities [for exceptions, see e.g., @barreda2021; @nearey2007]. 
+Similarly, as mentioned in the introduction, we limited our evaluation to a single level of normalization (and combinations of perceptual transformations and a single level of normalization). Some proposals, however, assume multiple separate normalization steps. For example, some accounts hold that evolutionarily early mechanisms first transform spectral percepts into a phonetic space [e.g., uniform scaling accounts, @barreda2020a; @nearey1983], on which additional subsequent normalization might operate. There is also evidence that speech perception combines aspects of intrinsic and extrinsic normalization [@johnson-sjerps2021 review relevant evidence from brain imaging; early behavioral evidence is found in @nearey1989]. The present study---like most existing evaluations---did not consider these possibilities [for exceptions, see e.g., @barreda2021; @nearey2007]. 
 
 Fourth and finally, we followed the majority of previous work and evaluated normalization accounts against *production* data. This is potentially problematic, especially when measures like category separability or reduced cross-talker variability in category means are used to evaluated normalization accounts (as in our Study 1 and many previous studies). These evaluations essentially assume that the goal of speech perception is to make the perceptual realizations of the same category by different talkers as similar as possible in the normalized space [for an in-depth critique, see @barreda2021]. However, the goal of speech perception is presumably to reliably infer the category intended by the talker,^[Or somewhat more precisely, cooperative listeners aim to understand the meaning intended by the talker, and this inference is generally believed to benefit from the correct recognition of phonological categories, such as phonemes, syllables, or word forms. For discussion, see also @hume2016.] and this aim does not necessarily entail perfect removal of cross-talker variability (as evidenced, for example, by the different findings of Studies 1 and 2). 
 
@@ -2038,30 +2036,11 @@ commercial or financial relationships that could be construed as a potential
 conflict of interest.
 
 # Author Contributions {-}
-<!--  GET DRAFT FROM MARYANN'S PAPER -->
-
-<!--  
-
-When determining authorship the following criteria should be observed:
-
- - Substantial contributions to the conception or design of the work; or the
-   acquisition, analysis, or interpretation of data for the work; AND
- - Drafting the work or revising it critically for important intellectual
-   content; AND
- - Final approval of the version to be published ; AND
- - Agreement to be accountable for all aspects of the work in ensuring that
-   questions related to the accuracy or integrity of any part of the work are
-   appropriately investigated and resolved.
-
-Contributors who meet fewer than all 4 of the above criteria for authorship
-should not be listed as authors, but they should be acknowledged.
-(http://www.icmje.org/roles_a.html)
-
--->
+AP recorded and processed the vowel production data. TFJ led in the statistical analyses. AP contributed to the statistical analyses. Both authors contributed to the writing of the manuscript.
 
 # Acknowledgments {-}
 We are grateful to OMITTED FOR REVIEW.
-<!-- We thank audiences at the Department of Swedish language and multilingualism at Stockholm University and the ExLing 2022 conference in Paris for feedback on earlier presentations of this work. We are particularly grateful to Santiago Barreda for insightful discussion of issues in the evaluation of normalization accounts, Tomas Riad for discussion of Swedish vowel systems, Maryann Tan for collaboration in preparation of the SwehVd database, and to Nathan Young for feedback on segmentation procedures, as well as for access to, and support for, the [SweFA software](https://github.com/mcgarrah/LG-FAVE) for the automatic annotation of Swedish vowels. Finally, we thank Maryann Tan, Xin Xie XXXXXXX and other members of the Human Language Processing lab for feedback on earlier versions of the manuscript. -->
+<!-- We thank audiences at the Department of Swedish language and multilingualism at Stockholm University and the ExLing 2022 conference in Paris for feedback on earlier presentations of this work. We are particularly grateful to Santiago Barreda for insightful discussion of issues in the evaluation of normalization accounts, Tomas Riad for discussion of Swedish vowel systems, Maryann Tan for collaboration in preparation of the SwehVd database, and to Nathan Young for feedback on segmentation procedures, as well as for access to, and support for, the [SweFA software](https://github.com/mcgarrah/LG-FAVE) for the automatic annotation of Swedish vowels. Finally, we thank Maryann Tan, Xin Xie, Chigusa Kurumada XXXXXXX and other members of the Human Language Processing lab for feedback on earlier versions of the manuscript. -->
 
 # References {-#sec:references}
 
