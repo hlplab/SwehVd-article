@@ -341,7 +341,7 @@ Our selection of accounts to consider in the present study is primarily based on
 \hline
 
 & & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{Syrdal \& Gopal's} & \cellcolor[HTML]{E6BE8A}{Bark} & \cellcolor[HTML]{E6BE8A}{Syrdal \& Gopal (1986)} & \cellcolor[HTML]{E6BE8A}{$F1^{SyrdalGopal} = F1^{Bark} - F0^{Bark}$} \\
-& & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{Bark-distance model\tablefootnote{Previous work has considered two different implementations of Syrdal \& Gopal's Bark-distance model for F2, depending on the language (Adank, 2003; Fant, 1983; Syrdal \& Gopal, 1986). In the SI (see [Evaluation of implementations of Syrdal & Gopal](#sec:SG-eval)), we compare these two implementations, and find that the F2-F1 implementation performs better for the present data. We thus present that version of Syrdal \& Gopal's model in the main text of Studies 1 and 2.}} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{$F2^{SyrdalGopal} = F2^{Bark} - F1^{Bark}$} \\
+& & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{Bark-distance model\tablefootnote{Previous work has considered two different implementations of Syrdal \& Gopal's Bark-distance model for F2, depending on the language (Adank, 2003; Fant, 1983; Syrdal \& Gopal, 1986). In the SI (see Section Evaluation of implementations of Syrdal \& Gopal), we compare these two implementations, and find that the F2-F1 implementation performs better for the present data. We thus present that version of Syrdal \& Gopal's model in the main text of Studies 1 and 2.}} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{$F2^{SyrdalGopal} = F2^{Bark} - F1^{Bark}$} \\
 & & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{Miller} & \cellcolor[HTML]{E6BE8A}{log} & \cellcolor[HTML]{E6BE8A}{Miller (1989)} & \cellcolor[HTML]{E6BE8A}{$SR = k (\frac{GM f0}{k})^{1/3}$} \\
 & & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{(formant-ratio)} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{$F1^{Miller} = log(\frac{F1}{SR})$} \\
 & & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{} & \cellcolor[HTML]{E6BE8A}{$F2^{Miller} = log(\frac{F2}{F1})$} \\
@@ -1483,6 +1483,41 @@ m.io.SwehVd <- rbind(
 By using a categorization model to estimate the consequence of normalization for perception, we avoid the pitfalls of the separability index discussed in Study 1. First, by using the density of an acoustic input under the multivariate distribution of all cues, the ideal observers we employ capture the *joint* effect of all cues. This captures that an input can be an improbable instance of a category based on one of its cue values but a probable instance given the values for the other cues. In particular, since we assume multivariate likelihoods, the model can account for category-specific covariances between cues. In the presence of strong correlations between cues, an acoustic input can be an improbable instance of a category based on the marginal distribution of each cue---i.e., if each cue is considered separately---but be a highly probable instance of that category if considered relative to the joint distribution of all cues (and vice versa). This is illustrated by Figure \@ref(fig:gaussians)A.<!-- TO DO: consider giving cumulative probability for both marginals and for joint.-->
 
 ```{r}
+get_bivariate_normal_ellipse <- function(
+    mu = c(0, 0), 
+    Sigma = diag(2),
+    level = .95, 
+    segments = 51,
+    varnames = c("F1", "F2")
+) {
+  # Ths function is based on calculate_ellipse from ggplot2, with modification to 
+  # remove uncertainty about Sigma (since we're plotting the theoretical distribution,
+  # for which Sigma is known)
+  require(tidyverse)
+  
+  chol_decomp <- chol(Sigma) 
+  # Adapted from https://stats.stackexchange.com/questions/64680/how-to-determine-quantiles-isolines-of-a-multivariate-normal-distribution
+  # (tested)
+  radius <- sqrt(-2 * log(1 - level))
+  
+  # Make n + 1 point over unit circle
+  angles <- (0:segments) * 2 * pi/segments
+  unit.circle <- cbind(cos(angles), sin(angles))
+  
+  # Shape unit circle by covariance, scale by radius, and move it to mu
+  # (the t() calls are necessary since we allow mu to be a vector, so we
+  # need to transform the 2-col x segements-rows matrix into a segments-col 
+  # x 2-row matrix, and then---after adding mu---transforming the whole 
+  # thing back into a 2-col x segements-rows matrix)
+  ellipse <- as.data.frame(t(mu + radius * t(unit.circle %*% chol_decomp)))
+  names(ellipse) <- varnames
+  
+  return(ellipse)
+}
+```
+
+
+```{r}
 set.seed(1423876)
 
 set_cor <- function(m, cor) {
@@ -1536,6 +1571,16 @@ d.two_sim_vowels.samples %<>%
 ```
 
 ```{r}
+#Select points
+#Use the above function at e.g., level = .9. All points it'll generate will be on the 80th quantile (or 80% highest density interval, HDI), or whatever value you want. Segments = 4 should suffice:
+maaaa_points <- get_bivariate_normal_ellipse(mu = unlist(d.two_sim_vowels$mu[2]), Sigma = matrix(unlist(d.two_sim_vowels$Sigma[2]), ncol = 2), level = .9, segments = 4)
+
+# have a look
+#plot(maaaa_points)
+#Select the two points with the most extreme F2-values 
+# maaaa_points %>%
+#   filter(F2 %in% range(F2))
+
 p.marginal.joint.1cat <- 
   d.two_sim_vowels.samples %>%
   filter(category == "[ɑː]") %>%
@@ -1545,10 +1590,21 @@ p.marginal.joint.1cat <-
       y = F1,
       color = category)) +
   geom_point(alpha = .6, size = 1) +
-  stat_ellipse(type = "norm") +
-  scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour") +
-  scale_x_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(1400, 300)) +
-  scale_y_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(900, 320)) +
+  geom_path(
+    data = get_bivariate_normal_ellipse(mu = d.two_sim_vowels %>% 
+          filter(category == "[ɑː]") %>% 
+          pull(mu) %>% 
+          .[[1]], Sigma = d.two_sim_vowels %>% 
+          filter(category == "[ɑː]") %>% 
+          pull(Sigma) %>% 
+          .[[1]]),
+    aes(x = F2, 
+        y = F1), 
+    color = "#B3B3B3") +
+  #stat_ellipse(type = "norm") +
+  #scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour") +
+  #scale_x_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(1400, 300)) +
+  #scale_y_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(900, 320)) +
   guides(color = "none") +
   # annotate could be used here for all points 
   geom_point(
@@ -1679,7 +1735,7 @@ p.marginal.joint.2cat <-
       color = cumulative_probability)) +
   geom_point(alpha = .6, size = 1) +
   stat_ellipse(type = "norm") +
-  scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour") +
+  #scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour") +
   scale_x_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(1400, 300)) +
   scale_y_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(900, 320)) +
   guides(color = "none") +
