@@ -9,7 +9,7 @@
 
 # Additional information about the SwehVd databasee
 
-## Participant recruitment {#sec:recruitment}
+## Participant recruitment {#sec:recruitment -}
 Participants were recruited through word-of-mouth, flyers at Stockholm University Campus, and online channels (accindi.se). Figure \@ref(fig:flyer) is an example of flyers distributed at Stockholm University Campus. The flyer gives information on criteria for participation, recording procedure, reimbursement and contact information to experimenter (first author).
 
 (ref:flyer) Example flyer for recruiting Stockholm Swedish talkers for recording of the SwehVd database.
@@ -130,7 +130,7 @@ topp&nå\\
 
 # Additional information for Study 1
 
-## Evaluation of implementations of Syrdal & Gopal's (1986) second dimension {#sec:SG-eval}
+## Evaluation of implementations of Syrdal & Gopal's (1986) second dimension {#sec:SG-eval -}
 For the second dimension, distinguishing between front and back vowels, @Syrdal1986 evaluates two different bark-difference measures: F2-F1 and F3-F2. Previous studies had concluded that F2-F1 distinguishes between all Swedish vowels [@fant1983], however, in @Syrdal1986's evaluation of American English, the F3-F2 dimension provided a better fit. Given that there seems to be language specific effects concerning @Syrdal1986's second dimension [e.g., @adank2003], here we compare the two difference measures for the vowels in the SwehVd database.
 
 ```{r}
@@ -198,7 +198,7 @@ We also evaluated the two Syrdal & Gopal implementations in terms of model predi
 
 \newpage
 
-## Correlation matrices for all normalization accounts {#sec:correlation-matrices}
+## Correlation matrices for all normalization accounts {#sec:correlation-matrices -}
 Here we include correlation matrices for the SwehVd vowel data, transformed into the 15 different normalization spaces.
 
 (ref:correlation-matrix-Mel) The SwehVd vowel data in Mel space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
@@ -323,7 +323,7 @@ p.matrix.cues %+%
 
 # Additional information for Study 2
 
-## Per-vowel categorization accuracy of models trained on long and short vowels separately {#sec:accuracy-per-vowel}
+## Per-vowel categorization accuracy of models trained on long and short vowels separately {#sec:accuracy-per-vowel -}
 
 ```{r}
 #Do multiple plots because of plot size
@@ -415,7 +415,7 @@ gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.all.secon
 
 \newpage
 
-## Confusion and difference matrices of ideal observers {#sec:confusion}
+## Confusion and difference matrices of ideal observers {#sec:confusion -}
 To further explore effects of neighbouring categories, and which categories are more easily confused by the models and with what, we plot confusion matrices of the worst and best performing models trained on the long, short or all Central Swedish vowels, under the different assumptions about the relevant cues. Next to the confusion matrices, we plot difference matrices to facilitate comparison.
 
 ```{r, echo=FALSE}
