@@ -102,8 +102,9 @@ library(knitr)
 
 # Set knit defaults for code chunks
 opts_chunk$set(
-  dev='png', # default format of figures
-  fig.ext='png',
+  dpi=300,
+  dev='jpeg', # default format of figures
+  #fig.ext='jpeg',
   comment="",
   echo=FALSE, warning=FALSE, message=FALSE,
   cache=TRUE)
@@ -1547,8 +1548,8 @@ p.marginal.joint.1cat <-
   geom_point(alpha = .6, size = 1) +
   stat_ellipse() +
   scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour") +
-  scale_x_reverse(breaks = scales::pretty_breaks(n = 4)) +
-  scale_y_reverse(breaks = scales::pretty_breaks(n = 4)) +
+  scale_x_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(1400, 300)) +
+  scale_y_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(900, 320)) +
   guides(color = "none") +
   # annotate could be used here for all points 
   geom_point(
@@ -1583,19 +1584,19 @@ p.marginal.joint.1cat <-
     linewidth = .9) +
   annotate(
     "text", 
-    x=1250,
-    y=460,
+    x=1225,
+    y=340,
     label = "5\u1d57\u02b0 percentile",
     size = 3)  +
   annotate(
     "text", 
-    x=750,
-    y=500,
+    x=400,
+    y=460,
     label = "5\u1d57\u02b0 \npercentile",
     size = 3)  +
   annotate(
     "text", 
-    x=750,
+    x=400,
     y=800,
     label = "95\u1d57\u02b0 \npercentile",
     size = 3)
@@ -1679,8 +1680,8 @@ p.marginal.joint.2cat <-
   geom_point(alpha = .6, size = 1) +
   stat_ellipse() +
   scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour") +
-  scale_x_reverse(breaks = scales::pretty_breaks(n = 4)) +
-  scale_y_reverse(breaks = scales::pretty_breaks(n = 4)) +
+  scale_x_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(1400, 300)) +
+  scale_y_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(900, 320)) +
   guides(color = "none") +
   # annotate could be used here for all points 
   geom_point(
@@ -1701,7 +1702,7 @@ p.marginal.joint.2cat <-
     color = "black",
     label = d.two_sim_vowels.samples %>% filter(F2 == 860) %>% pull(cumulative_probability) %>% round(digits = 3),
     size = 3,
-    nudge_y = 10,
+    nudge_y = 30,
     check_overlap = T) +
   geom_text(
     aes(x=1250,
@@ -1709,7 +1710,7 @@ p.marginal.joint.2cat <-
     color = "black",
     label = d.two_sim_vowels.samples %>% filter(F2 == 1250) %>% pull(cumulative_probability) %>% round(digits = 3),
     size = 3,
-    nudge_y = 10,
+    nudge_y = 30,
     check_overlap = T)
 
 # Marginal densities along x axis
@@ -1722,12 +1723,14 @@ xdens.A <-
     fun = function(x) 
       dnorm(
          x, 
-        mean = d.two_sim_vowels %>%
+        mean = d.two_sim_vowels %>% 
+          filter(category == "[ɑː]") %>%
           pull(mu) %>% 
           .[[1]] %>% 
           .[2], 
         sd = sqrt(
-          d.two_sim_vowels %>%
+          d.two_sim_vowels %>% 
+          filter(category == "[ɑː]") %>%
             pull(Sigma) %>% 
             .[[1]] %>% 
             .[2, 2])),
@@ -1740,14 +1743,16 @@ xdens.A <-
     fun = function(x) 
       dnorm(
          x, 
-        mean = d.two_sim_vowels %>%
+        mean = d.two_sim_vowels %>% 
+          filter(category == "[oː]") %>%
           pull(mu) %>% 
-          .[[2]] %>% 
+          .[[1]] %>% 
           .[2], 
         sd = sqrt(
-          d.two_sim_vowels %>%
+          d.two_sim_vowels %>% 
+          filter(category == "[oː]") %>%
             pull(Sigma) %>% 
-            .[[2]] %>% 
+            .[[1]] %>% 
             .[2, 2])),
     color = "#A6CEE3") +
   scale_x_reverse() 
@@ -1757,17 +1762,19 @@ ydens.A <-
   axis_canvas(p.marginal.joint.1cat, axis = "y", coord_flip = TRUE) +
   stat_function(
     data = d.two_sim_vowels.samples,
-    aes(x = F1, color = category),
+    aes(x = F1),
     # theoretical normal density of *F1* along y-axis
     fun = function(x) 
       dnorm(
         x, 
         mean = d.two_sim_vowels %>% 
+          filter(category == "[ɑː]") %>% 
           pull(mu) %>% 
           .[[1]] %>% 
           .[1], 
         sd = sqrt(
           d.two_sim_vowels %>%
+          filter(category == "[ɑː]") %>%
             pull(Sigma) %>% 
             .[[1]] %>% 
             .[1, 1])),
@@ -1780,14 +1787,16 @@ ydens.A <-
     fun = function(x) 
       dnorm(
          x, 
-        mean = d.two_sim_vowels %>%
+        mean = d.two_sim_vowels %>% 
+          filter(category == "[oː]") %>%
           pull(mu) %>% 
-          .[[2]] %>% 
+          .[[1]] %>% 
           .[1], 
         sd = sqrt(
-          d.two_sim_vowels %>%
+          d.two_sim_vowels %>% 
+          filter(category == "[oː]") %>%
             pull(Sigma) %>% 
-            .[[2]] %>% 
+            .[[1]] %>% 
             .[1, 1])),
     color = "#A6CEE3") +
   coord_flip() +
@@ -1802,7 +1811,8 @@ p.marginal.joint.2cat <-
 
 p.marginal.joint.2cat <- 
   insert_yaxis_grob(
-    p.marginal.joint.2cat, ydens.A, 
+    p.marginal.joint.2cat, 
+    ydens.A, 
     grid::unit(.2, "null"), 
     position = "right")
 
@@ -1811,7 +1821,7 @@ p.marginal.joint.2cat <- ggdraw(p.marginal.joint.2cat)
 
 (ref:gaussians) Using a perceptual model to evaluate normalization accounts avoids the pitfalls of separability/variability indices. **Panel A:** an acoustic token can be an improbable instance of a category if each cue is considered separately (the marginal densities along the sides of the plot), but highly probable if considered relative to the joint distribution of cues (the bivariate distribution indicated by the ellipse). **Panel B:** two acoustic tokens that are equally far from the mean of one category can have radically different consequences for perception, depending on where the tokens fall relative to other categories. Under the hypothesis that the two black points are instances of category `r linguisticsdown::cond_cmpl("[ɑː]")`, they would be attributed the same separability index but radically different probabilities given the joint distribution of cues relative to the other category in the space. Ellipses show bivariate Gaussian 95% cumulative probability mass.
 
-```{r gaussians, fig.width= base.width * 3, fig.height = base.height * 1+.5, fig.align='center', out.width='95%', fig.cap="(ref:gaussians)"}
+```{r gaussians, fig.width= base.width * 3.2, fig.height = base.height * 1.25+.5, fig.align='center', out.width='90%', fig.cap="(ref:gaussians)"}
 plot_grid(p.marginal.joint.1cat, p.marginal.joint.2cat, nrow = 1, labels = c("A", "B"))
 ```
 
