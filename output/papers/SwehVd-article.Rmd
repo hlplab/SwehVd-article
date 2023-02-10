@@ -1480,52 +1480,10 @@ m.io.SwehVd <- rbind(
 ```
 
 ### Advantages compared to separability index and similar measures of category variability {#sec:IO-advantages -}
-By using a categorization model to estimate the consequence of normalization for perception, we avoid the pitfalls of the separability index discussed in Study 1. First, by using the density of an acoustic input under the multivariate distribution of all cues, the ideal observers we employ capture the *joint* effect of all cues. This captures that an input can be an improbable instance of a category based on one of its cue values but a probable instance given the values for the other cues. In particular, since we assume multivariate likelihoods, the model can account for category-specific covariances between cues. In the presence of strong correlations between cues, an acoustic input can be an improbable instance of a category based on the marginal distribution of each cue---i.e., if each cue is considered separately---but be a highly probable instance of that category if considered relative to the joint distribution of all cues (and vice versa). This is illustrated by Figure \@ref(fig:gaussians)A.<!-- TO DO: consider giving cumulative probability for both marginals and for joint.-->
-
-```{r}
-get_bivariate_normal_ellipse <- function(
-    mu = c(0, 0), 
-    Sigma = diag(2),
-    level = .95, 
-    segments = 51,
-    varnames = c("F1", "F2")
-) {
-  # Ths function is based on calculate_ellipse from ggplot2, with modification to 
-  # remove uncertainty about Sigma (since we're plotting the theoretical distribution,
-  # for which Sigma is known)
-  require(tidyverse)
-  
-  chol_decomp <- chol(Sigma) 
-  # Adapted from https://stats.stackexchange.com/questions/64680/how-to-determine-quantiles-isolines-of-a-multivariate-normal-distribution
-  # (tested)
-  radius <- sqrt(-2 * log(1 - level))
-  
-  # Make n + 1 point over unit circle
-  angles <- (0:segments) * 2 * pi/segments
-  unit.circle <- cbind(cos(angles), sin(angles))
-  
-  # Shape unit circle by covariance, scale by radius, and move it to mu
-  # (the t() calls are necessary since we allow mu to be a vector, so we
-  # need to transform the 2-col x segements-rows matrix into a segments-col 
-  # x 2-row matrix, and then---after adding mu---transforming the whole 
-  # thing back into a 2-col x segements-rows matrix)
-  ellipse <- as.data.frame(t(mu + radius * t(unit.circle %*% chol_decomp)))
-  names(ellipse) <- varnames
-  
-  return(ellipse)
-}
-```
-
+By using a categorization model to estimate the consequence of normalization for perception, we avoid the pitfalls of the separability index discussed in Study 1. First, by using the density of an acoustic input under the multivariate distribution of all cues, the ideal observers we employ capture the *joint* effect of all cues. This captures that an input can be an improbable instance of a category based on one of its cue values but a probable instance given the values for the other cues. In particular, since we assume multivariate likelihoods, the model can account for category-specific covariances between cues. In the presence of strong correlations between cues, an acoustic input can be an improbable instance of a category based on the marginal distribution of each cue---i.e., if each cue is considered separately---but be a highly probable instance of that category if considered relative to the joint distribution of all cues (and vice versa). This is illustrated by Figure \@ref(fig:gaussians)A.
 
 ```{r}
 set.seed(1423876)
-
-set_cor <- function(m, cor) {
-  m[1,2] <- sqrt(m[1,1]) * sqrt(m[2,2]) * cor
-  m[2,1] <- m[1,2]
-  
-  return(m)
-}
 
 # Subset and manipulate dataset for visualization purposes
 d.two_sim_vowels <- 
@@ -1537,10 +1495,12 @@ d.two_sim_vowels <-
   unnest(cols = c(io)) %>%
   select(category, mu, Sigma) %>%
   filter(category %in% c("[ɑː]", "[oː]")) %>%
+  group_by(category) %>%
   mutate(
-    Sigma = map2(Sigma, category, ~ if (.y == "[ɑː]") { set_cor(.x, .95) } else { .x }))
+    F1 = map_dbl(mu, first),
+    F2 = map_dbl(mu, last))
 
-d.two_sim_vowels.samples <- 
+d.two_sim_vowels.samples <-
   d.two_sim_vowels %>%
   mutate(samples = pmap(list(200, mu, Sigma), rmvnorm)) %>%
   unnest(samples) %>%
@@ -1549,47 +1509,14 @@ d.two_sim_vowels.samples <-
     F2 = samples[,2],
     samples = NULL)
 
-# Run model under assumption of one category only
-m <- lm(F1 ~ F2, data = d.two_sim_vowels.samples %>% filter(category == "[ɑː]")) %>% coefficients()
-
-d.two_sim_vowels.samples %<>%
-  #Add rows for points in 2cat plot below
-  rbind(
-      head(d.two_sim_vowels.samples, 2) %>%
-      select(category, mu, Sigma) %>%
-        cbind(
-          F1 = c(m[[1]]+m[[2]]*860, m[[1]]+m[[2]]*1250),
-          F2 = c(860, 1250))) %>%
-  #Add cumulative probabilities
-  group_by(category) %>%
-  mutate(
-    cumulative_probability = pmap(
-      .l = list(F1, F2, mu, Sigma),
-      .f = get_cumulative_probability)) %>%
-  mutate(across(cumulative_probability,
-                unlist))
-```
-
-```{r}
-#Select points
-#Use the above function at e.g., level = .9. All points it'll generate will be on the 80th quantile (or 80% highest density interval, HDI), or whatever value you want. Segments = 4 should suffice:
-maaaa_points <- get_bivariate_normal_ellipse(mu = unlist(d.two_sim_vowels$mu[2]), Sigma = matrix(unlist(d.two_sim_vowels$Sigma[2]), ncol = 2), level = .9, segments = 4)
-
-# have a look
-#plot(maaaa_points)
-#Select the two points with the most extreme F2-values 
-# maaaa_points %>%
-#   filter(F2 %in% range(F2))
-
 p.marginal.joint.1cat <- 
   d.two_sim_vowels.samples %>%
-  filter(category == "[ɑː]") %>%
+    filter(category == "[ɑː]") %>%
   ggplot(
     aes(
       x = F2,
       y = F1,
       color = category)) +
-  geom_point(alpha = .6, size = 1) +
   geom_path(
     data = get_bivariate_normal_ellipse(mu = d.two_sim_vowels %>% 
           filter(category == "[ɑː]") %>% 
@@ -1601,11 +1528,6 @@ p.marginal.joint.1cat <-
     aes(x = F2, 
         y = F1), 
     color = "#B3B3B3") +
-  #stat_ellipse(type = "norm") +
-  #scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour") +
-  #scale_x_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(1400, 300)) +
-  #scale_y_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(900, 320)) +
-  guides(color = "none") +
   # annotate could be used here for all points 
   geom_point(
     aes(
@@ -1645,16 +1567,18 @@ p.marginal.joint.1cat <-
     size = 3)  +
   annotate(
     "text", 
-    x=400,
-    y=460,
+    x=350,
+    y=480,
     label = "5\u1d57\u02b0 \npercentile",
     size = 3)  +
   annotate(
     "text", 
-    x=400,
-    y=800,
+    x=350,
+    y=820,
     label = "95\u1d57\u02b0 \npercentile",
-    size = 3)
+    size = 3) +
+  scale_x_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(1400, 200)) +
+  scale_y_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(900, 320))
 
 # Marginal densities along x axis
 xdens.A <- 
@@ -1724,50 +1648,55 @@ p.marginal.joint.1cat <-
 
 p.marginal.joint.1cat <- ggdraw(p.marginal.joint.1cat)
 ```
+
 ```{r}
-p.marginal.joint.2cat <- 
-  d.two_sim_vowels.samples %>%
-  filter(category == "[ɑː]") %>%
-  ggplot(
+p.marginal.joint.2cat <- ggplot() +
+  geom_path(
+    data = get_bivariate_normal_ellipse(
+      mu = d.two_sim_vowels %>% 
+            filter(category == "[ɑː]") %>% 
+            pull(mu) %>% 
+            .[[1]], 
+      Sigma = d.two_sim_vowels %>% 
+            filter(category == "[ɑː]") %>% 
+            pull(Sigma) %>% 
+            .[[1]]),
+    aes(x = F2,
+        y = F1),
+    color = "#B3B3B3") +
+  geom_path(
+    data = get_bivariate_normal_ellipse(
+      mu = d.two_sim_vowels %>% 
+            filter(category == "[oː]") %>% 
+            pull(mu) %>% 
+            .[[1]], 
+      Sigma = d.two_sim_vowels %>% 
+            filter(category == "[oː]") %>% 
+            pull(Sigma) %>% 
+            .[[1]]),
+    aes(x = F2,
+        y = F1),
+    color = "#A6CEE3") +
+  geom_point(
+    data = get_bivariate_normal_ellipse(
+      mu = d.two_sim_vowels %>% 
+                filter(category == "[ɑː]") %>% 
+                pull(mu) %>% 
+                .[[1]], 
+      Sigma = d.two_sim_vowels %>% 
+                filter(category == "[ɑː]") %>% 
+                pull(Sigma) %>% 
+                .[[1]], 
+      level = .9, 
+      segments = 4) %>%
+      filter(F1 %in% range(F1)),
     aes(
       x = F2,
-      y = F1,
-      color = cumulative_probability)) +
-  geom_point(alpha = .6, size = 1) +
-  stat_ellipse(type = "norm") +
-  #scale_colour_manual(name = "category", values = colors.vowel.swe, aesthetics = "colour") +
-  scale_x_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(1400, 300)) +
-  scale_y_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(900, 320)) +
-  guides(color = "none") +
-  # annotate could be used here for all points 
-  geom_point(
-    aes(x=860,
-        y=m[[1]]+m[[2]]*860),
+      y = F1),
     color = "black",
     size = 1) +
-    guides(color = "none") +
-  geom_point(
-    aes(x=1250,
-        y=m[[1]]+m[[2]]*1250),
-    color = "black",
-    size = 1) +
-    guides(color = "none") +
-  geom_text(
-    aes(x=860,
-        y=m[[1]]+m[[2]]*860),
-    color = "black",
-    label = d.two_sim_vowels.samples %>% filter(F2 == 860) %>% pull(cumulative_probability) %>% round(digits = 3),
-    size = 3,
-    nudge_y = 30,
-    check_overlap = T) +
-  geom_text(
-    aes(x=1250,
-        y=m[[1]]+m[[2]]*1250),
-    color = "black",
-    label = d.two_sim_vowels.samples %>% filter(F2 == 1250) %>% pull(cumulative_probability) %>% round(digits = 3),
-    size = 3,
-    nudge_y = 30,
-    check_overlap = T)
+  scale_x_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(1400, 200)) +
+  scale_y_reverse(breaks = scales::pretty_breaks(n = 4), limits = c(900, 320))
 
 # Marginal densities along x axis
 xdens.A <- 
@@ -1875,7 +1804,7 @@ p.marginal.joint.2cat <-
 p.marginal.joint.2cat <- ggdraw(p.marginal.joint.2cat)
 ```
 
-(ref:gaussians) Using a perceptual model to evaluate normalization accounts avoids the pitfalls of separability/variability indices. **Panel A:** an acoustic token can be an improbable instance of a category if each cue is considered separately (the marginal densities along the sides of the plot), but highly probable if considered relative to the joint distribution of cues (the bivariate distribution indicated by the ellipse). **Panel B:** two acoustic tokens that are equally far from the mean of one category can have radically different consequences for perception, depending on where the tokens fall relative to other categories. Under the hypothesis that the two black points are instances of category `r linguisticsdown::cond_cmpl("[ɑː]")`, they would be attributed the same separability index but radically different probabilities given the joint distribution of cues relative to the other category in the space. Ellipses show bivariate Gaussian 95% cumulative probability mass.
+(ref:gaussians) Using a perceptual model to evaluate normalization accounts avoids the pitfalls of separability/variability indices. **Panel A:** an acoustic token can be an improbable instance of a category if each cue is considered separately (the marginal densities along the sides of the plot), but highly probable if considered relative to the joint distribution of cues (the bivariate distribution indicated by the ellipse). **Panel B:** two acoustic tokens that are equally far from the mean of one category can have radically different consequences for perception, depending on where the tokens fall relative to other categories. Under the hypothesis that the two black points are instances of category `r linguisticsdown::cond_cmpl("[ɑː]")`, they would be attributed the same separability index but radically different probabilities given the joint distribution of cues relative to the other category in the space.
 
 ```{r gaussians, fig.width= base.width * 3.2, fig.height = base.height * 1.25+.5, fig.align='center', out.width='90%', fig.cap="(ref:gaussians)"}
 plot_grid(p.marginal.joint.1cat, p.marginal.joint.2cat, nrow = 1, labels = c("A", "B"))
@@ -1887,7 +1816,7 @@ Finally, when an acoustic input is indeed improbable under its intended category
 
 ```{r}
 #Remove fake data for plot generation
-rm(d.two_sim_vowels, d.two_sim_vowels.samples, m)
+rm(d.two_sim_vowels, d.two_sim_vowels.samples)
 
 # Accuracies compared to the intended vowel
 d.max.acc.toINTEND <- m.io.SwehVd %>%
