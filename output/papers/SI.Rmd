@@ -196,10 +196,10 @@ p.accuracy.io.overall.SG
 
 We also evaluated the two Syrdal & Gopal implementations in terms of model predictions for perception. Figure \@ref(fig:accuracy-SG) displays the categorization accuracy for models trained on normalized data under the two implementations of the Syrdal & Gopal account. Mirroring the results from the separability index, the first implementation using F2-F1 for the second dimension, outperforms the implementation using F3-F2 bark-difference measure. These results taken together indicate that the F2-F1 implementation is more suitable for the materials used here, we therefore decided to use the first implementation throughout this paper.
 
-\newpage
-
 ## Correlation matrices for all normalization accounts {#sec:correlation-matrices -}
 Here we include correlation matrices for the SwehVd vowel data, transformed into the 15 different normalization spaces.
+
+\newpage
 
 (ref:correlation-matrix-Mel) The SwehVd vowel data in Mel space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95% confidence interval of category means.
 
@@ -319,6 +319,7 @@ p.matrix.cues %+%
   (d.SwehVd.forStudy.long %>%
   filter(fold_type == "test" & Normalization.Type == "Lobanov (Hz)"))
 ```
+
 \newpage
 
 # Additional information for Study 2
