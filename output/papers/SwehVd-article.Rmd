@@ -39,15 +39,6 @@ link-citations    : yes
 bibliography      : ["latex-stuff/library.bib", "latex-stuff/r-references.bib"]
 
 header-includes:
-# A number of packages are already loaded by the FrontiersFPHY.cls
-#
-# I also wasn't sure whether the following are required at all. 
-# What is the purpose of these packages?
-# - \usepackage{booktabs}   # Enhances quality of tables
- # - \usepackage{siunitx}   # SI units package
- # - \usepackage{soul}    # Hyphenation for letterspacing, underlining, etc.
- # - \usepackage{tabto}   # Tab to measusured position
- # - \usepackage{placeins}    # Controls float placement; so that all floats appear before the next section command.
  - \usepackage{colortbl}
  - \usepackage{lscape}
  - \usepackage{pdflscape}
@@ -1738,7 +1729,7 @@ xdens.A <-
             pull(Sigma) %>% 
             .[[1]] %>% 
             .[2, 2])),
-    color = "#A6CEE3") +
+    color = "#B3B3B3") +
   #Get density for the second category
   stat_function(
     data = d.two_sim_vowels.samples,
@@ -1758,7 +1749,7 @@ xdens.A <-
             pull(Sigma) %>% 
             .[[1]] %>% 
             .[2, 2])),
-    color = "#B3B3B3") +
+    color = "#A6CEE3") +
   scale_x_reverse()
 
 # Marginal densities along y axis
@@ -1782,7 +1773,7 @@ ydens.A <-
             pull(Sigma) %>% 
             .[[1]] %>% 
             .[1, 1])),
-    color = "#A6CEE3") +
+    color = "#B3B3B3") +
   #Add density for second category
   stat_function(
     data = d.two_sim_vowels.samples,
@@ -1802,7 +1793,7 @@ ydens.A <-
             pull(Sigma) %>% 
             .[[1]] %>% 
             .[1, 1])),
-    color = "#B3B3B3") +
+    color = "#A6CEE3") +
   coord_flip() +
   scale_x_reverse()
 
