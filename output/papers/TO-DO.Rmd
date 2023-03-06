@@ -4,8 +4,7 @@
   * **Revisit outlier correction**. We are using cumulative probability to detect measurement errors/outliers, but this is not giving us the density. We should use the quantile functions to determine the space that contains 99% of the probability mass, and then ask, are the point outside of that region.
   * Edits to text
     * anticipate main points in both introduction and discussion - inherent in many of the suggested accounts, a bunch of assumptions that follow much of the literature but may affect the results.
-  * Make OFS public
-  * Reduce fig sizes
+    * add categorization accuracy results from Eklund & Traunmuller (1997): for phonated vowels produced by female talkers 94.7% (10 listeners).
   
 ## Points for when reviews are back
   * The neural correlates of intrinsic and extrinsic accounts, and their relative effectiveness (e.g., johnson-sjerps2021)
