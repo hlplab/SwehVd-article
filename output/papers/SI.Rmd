@@ -1002,7 +1002,7 @@ p.separability.by_cue <- plot_separability(d.SwehVd.forStudy.SI.long %>%
   facet_grid(factor(Cues, levels = c("F1", "F2", "F3", "F0", "Duration"), labels = c("F1", "F2", "F3", "F0", "duration")) ~ factor(Quantity, levels = c("long vowels", "short vowels", "all vowels")), scales = "free_y")
 ```
 
-(ref:separability-by-cue) Separability indices by normalization accounts for long vowels, short vowels, and long and short vowels together (columns), shown for each of the five cues considered in this study (rows). Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.
+(ref:separability-by-cue) Separability indices by normalization accounts for long vowels, short vowels, and all vowels together (columns), shown for each of the five cues considered in this study (rows). Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.
 
 ```{r separability-by-cue, fig.width=base.width * 4.5, fig.height=base.height * 5.5, fig.align='center', out.width='100%', fig.cap="(ref:separability-by-cue)"}
 p.separability.by_cue
