@@ -131,6 +131,62 @@ topp&nå\\
 
 # Per-vowel categorization accuracy of models trained on long and short vowels separately {#sec:accuracy-per-vowel -}
 
+```{r cache.lazy=FALSE}
+#Plot the overall accuracy of the different normalization accounts
+plot_io_results_per_vowel <- function(data) {
+  data %>%
+  # Rename IO.Normalization.Type for plotting
+  mutate(
+    IO.Normalization.Type =
+      factor(
+        plyr::mapvalues(IO.Normalization.Type, levels.normalization.plots, labels.normalization),
+        levels = labels.normalization)) %>%
+    unnest(posterior_of_intended_vowel) %>%
+    # Get the CI over the five folds
+    { if ("IO.Quantity" %in% names(data)) group_by(., IO.Normalization.Type, IO.Quantity, IO.crossvalidation_group, Intended.Vowel, Cue_space) else group_by(., IO.Normalization.Type, IO.crossvalidation_group, Intended.Vowel, Cue_space) } %>%
+    summarise(
+      chance = 1 / n_distinct(Intended.Vowel),
+      ci = list(enframe(Hmisc::smean.cl.boot(Posterior)))) %>%
+    unnest(ci) %>%
+    spread(name, value) %>%
+    { if ("IO.Quantity" %in% names(data)) group_by(., IO.Normalization.Type, IO.Quantity, Intended.Vowel, Cue_space) else  group_by(., IO.Normalization.Type, Intended.Vowel, Cue_space) } %>%
+    summarise(
+      chance = first(chance),
+      mean_CI_lower = mean(Lower),
+      mean_CI_upper = mean(Upper),
+      mean = mean(Mean)) %>%
+    ggplot() +
+    geom_pointrange(
+      aes(x = IO.Normalization.Type,
+          y = mean,
+          ymin = mean_CI_lower,
+          ymax = mean_CI_upper,
+          color = IO.Normalization.Type),
+      position = position_dodge2(width = 0.3),
+      fatten = 2.5) +
+    geom_text(mapping = 
+                 aes(x = IO.Normalization.Type,
+                     y = mean_CI_upper + .01,
+                     colour = IO.Normalization.Type,
+                     label = sprintf("%0.1f", mean)),
+               alpha = .85,
+               size = 2.5,
+               angle = 90,
+               hjust = 0) +
+    geom_hline(aes(yintercept = case_when(IO.Quantity == "long" ~ 1/11,
+                                          IO.Quantity == "short" ~ 1/10,
+                                          IO.Quantity == "all" ~ 1/21)), color = "gray", linetype = 2) +
+    scale_y_continuous("Accuracy (of predicting *intended* vowel)", limits = c(0,1))+
+    scale_colour_manual(
+      "Normalization \nprocedure of IO",
+      labels = labels.normalization.1SG,
+      values = colors.all.procedures.1SG) +
+    guides(color = "none") +
+    theme(axis.text.x = ggtext::element_markdown(angle = 60, vjust = 1, hjust = 1, colour = colors.all.procedures.1SG, size = 7),
+        axis.title.x = element_blank())
+}
+```
+
 ```{r}
 #Do multiple plots because of plot size
 p.accuracy.io.per.vowel.long.1 <- plot_io_results_per_vowel(
@@ -675,6 +731,8 @@ norm_accounts_eval %>%
   landscape() %>%
   collapse_rows()
 ```
+<!--AP: moved from main paper-->
+Previous studies have used different measures to assess the relative success of a normalization procedure in reducing inter-talker variability [see Table \@ref(tab:norm-evaluation-variability) and @nearey1989 for an overview on classification accounts]. This includes assessing the reduction in variance or distance between means by visual inspection [e.g., @clopper2009; @disner1980; @hindle1978], or by calculating the reduction in within-category variance across talkers [e.g., @disner1980; @fabricius2009; @Flynn2011; @hindle1978], or comparing the degree of separation between category means for unnormalized and normalized data, i.e., an F-ratio [e.g., @labov2010].<!--AP: end here-->
 
 <!--AP: this entire chunk is suggested to be moved to introduction by R2 (including the above table). Copied into main text for now.-->Table \@ref(tab:norm-evaluation-variability) lists previous studies that have compared normalization accounts in terms of their effectiveness in reducing inter-talker variability. These studies varied in the specific metrics they employed to assess the effects of normalization, the languages they studied, and the conclusions they arrived at. Two generalizations emerge from Table \@ref(tab:norm-evaluation-variability). First, transformation to a perceptual scale alone does not seem to be sufficient to reduce inter-talker variability [see also @adank2004; @carpenter1993; @clopper2009; @escudero2007; @Flynn2011; @kohn2012a]. Second, normalization accounts that include centering and/or standardizing seem to perform best in reducing inter-talker variability [see e.g. @barreda2018a; @disner1980; @fabricius2009; @kohn2012a; @labov2010; @lobanov1971]. When Lobanov and Gerstman normalization---both involving standardizing---were included in a study, they often rank among the top two performing accounts. Of note, Nearey normalization [@nearey1978] seems to perform well even though it does not involve the computationally more complex operation of standardizing. This suggests that simple centering of formants relative to the talker's mean *might* be sufficient to achieve significant variance reduction [but see @disner1980 for Swedish, which is revisited in this study].<!-- Commented out for now as it doesn't seem critical. ^[Some studies have further investigated the extent to which different normalization accounts remove socially-relevant variance along with the intended removal of physiologically-caused variance [e.g., @adank2004; @disner1980; @hindle1978; @labov2010]. Removal of socially-relevant variance has been argued to be problematic for two separate reasons. First, for *researchers* who employ normalization as part of their data analysis, it can make it difficult to investigate the effects of social variables on pronunciation. Second, as a theory of how *listeners* overcome the lack of invariance in the speech signal, it has been argued to conflict with the finding that listeners infer social group membership from speech signal [@REFS]. Only this latter concern is of relevant for the present study, and---as others have pointed out---normalization does not necessarily mean that the raw input to normalization is discarded [@sumner2014; @OTHERS]. We thus do not further discuss this aspect.]  -->
 
