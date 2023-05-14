@@ -48,9 +48,9 @@ names(colors.vowel.word) <- levels.response.natural
 colors.vowel.IO <- c("#1B9E77", "#D95F02", "#7570B3", "#E7298A", "#66A61E", "#E6AB02", "#A6761D", "#666666")
 names(colors.vowel.IO) <- levels.response
 # Colors for plotting IOs categorization accuracy
-colors.all.procedures.1SG <- c("#C9C0BB", "#C9C0BB", "#C9C0BB", "#C9C0BB", "#C9C0BB", "#E6BE8A", "#E6BE8A", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#DDADAF", "#DDADAF")
+colors.all.procedures.1SG <- c("#100C08", "#C9C0BB", "#C9C0BB", "#C9C0BB", "#C9C0BB", "#E6BE8A", "#E6BE8A", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#DDADAF", "#DDADAF")
 names(colors.all.procedures.1SG) <- labels.normalization.1SG
-colors.all.procedures <- c("#C9C0BB", "#C9C0BB", "#C9C0BB", "#C9C0BB", "#C9C0BB", "#E6BE8A", "#E6BE8A","#E6BE8A", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#DDADAF", "#DDADAF")
+colors.all.procedures <- c("#100C08", "#C9C0BB", "#C9C0BB", "#C9C0BB", "#C9C0BB", "#E6BE8A", "#E6BE8A","#E6BE8A", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#ABCDEF", "#DDADAF", "#DDADAF")
 names(colors.all.procedures) <- labels.normalization
 colors.normalization <- c("unnormalized" = "royalblue1", "centered" = "orangered1", "scaled" = "palegreen3")
 colors.transform <- c("Hz" = "royalblue1", "Mel" = "orangered1", "Bark" = "palegreen3", "log" = "lightblue1", "semitones" = "orange1", "ERB" = "green1")
