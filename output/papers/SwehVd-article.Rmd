@@ -523,10 +523,10 @@ d.SwehVd <-
   read_csv('../../data/phonetic vowel statistics/Swedish/Persson_2021_L1_vowels_wDistrOutliers.csv')
 ```
 
-All data and code for this article can be downloaded from OSF at <https://osf.io/zb8gx/>. This article is written in R markdown, allowing readers to replicate our analyses using freely available software [@R; @RStudio], while changing any of the parameters of our models. Readers can revisit and alter the assumptions we make---for example, uniform priors, models of linguistic representations, the normalization accounts selected. The supplementary information (SI) lists the software/libraries required to compile this document. Next we introduce the new phonetically annotated corpus of Central Swedish vowel productions employed in the present studies.
+All data and code for this article can be downloaded from OSF at <https://osf.io/zb8gx/>. This article is written in R markdown, allowing readers to replicate our analyses using freely available software [@R; @RStudio], while changing any of the parameters of our models. Readers can revisit and alter the assumptions we make---for example, uniform priors, models of linguistic representations, the normalization accounts selected. The supplementary information (SI) lists the software/libraries required to compile this document.
 
 # Methods and materials {#sec:methodsII -}
-<!--AP: add broad outline here-->
+In this section, we begin by introducing the new phonetically annotated corpus of Central Swedish vowel productions employed in the present study. We then present the perceptual model that we use for assessing the predicted effects of different normalization accounts.
 
 ## Speech materials {#sec:speechMaterialsII -}
 
