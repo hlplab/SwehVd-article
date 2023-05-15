@@ -652,7 +652,7 @@ cowplot::plot_grid(
 
 \end{landscape}
 
-# Alternative approaches to evaluating normalization accounts: Comparing the effects of normalization accounts on between- vs. within-category variability {#sec:studyI -}
+# Alternative approaches to evaluating normalization accounts: Comparing the effects of normalization accounts on between- vs. within-category variability {#sec:auxiliaryStudy -}
 A large portion of previous studies evaluating normalization accounts against production data, has compared approaches in terms of how they affect category variability. In this additional study, we follow this traditional approach and evaluate how effectively different normalization accounts reduce the within-category variability of Central Swedish vowels. We visualize the vowel space under different normalization accounts, and assess the effects on vowel category variability by calculating a measure of category separability. To anticipate one take-home point, the results highlight important shortcomings of separability indices in evaluating normalization accounts and underlines the benefits of using a perceptual model to compare the effects of different normalization accounts.
 
 ```{r}

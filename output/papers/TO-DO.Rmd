@@ -15,4 +15,3 @@
   
 ## To-Do during revision 1
   * Moving study 1 to SI: should any visualizations of the vowel space after normalization be included in the main text?
-  * double-check refs to sections after editing.
