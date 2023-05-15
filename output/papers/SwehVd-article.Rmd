@@ -137,7 +137,7 @@ base_size = 10
 # Introduction {#sec:intro -}
 Talkers differ in their pronunciation of individual speech sounds due to both physiological differences and socio-cultural factors, including style, regional dialect, and second language accents. For listeners, this means that the mapping from acoustic cues to linguistic categories---phonemes, syllables, words, and ultimately word meanings---varies depending on the talker. How listeners manage to typically understand talkers despite this "lack of invariance" [@liberman1967] has remained one of the central questions for research on speech perception. Hypotheses about the mechanisms underlying this ability can be grouped into three, mutually compatible and complementary, accounts: (1) low-level, pre-linguistic auditory transformation of the acoustic signal, (2) learning of changes in the linguistic representations, and (3) post-linguistic changes in decision-making biases [see e.g., @johnson2006; @pardo2006; @xie2022]. The present study focuses on the first type of account, that the acoustic signal is transformed and normalized early on during auditory processing [for recent reviews, @johnson-sjerps2021; @stilp2020]. 
 
-The existence of some form of pre-linguistic normalization is motivated by *a priori* considerations about the physics of sounds [cf. the discussion of uniform scaling in @barreda2020a], evolutionary arguments [e.g., even non-human animals exhibit similar abilities, as reviewed in @barreda2020a], as well as brain imaging evidence: talker-normalized information about the speech signal can be decoded from areas as early as the brain stem [e.g., @sjerps2019; @sussman1986], and thus prior to even the earliest cortical areas typically associated with linguistic category representations or decision-making. While it is rather uncontroversial that normalization is part of adaptive speech perception, questions remain about the specific nature of the operations involved in normalization. We contribute to this line of research by comparing different types of normalization accounts against vowel production data from a new phonetically annotated database of Central Swedish vowels, the SwehVd, that is presented in this paper.
+The existence of some form of pre-linguistic normalization is motivated by *a priori* considerations about the physics of sounds [cf. the discussion of uniform scaling in @barreda2020a], evolutionary arguments [e.g., even non-human animals exhibit similar abilities, as reviewed in @barreda2020a], as well as brain imaging evidence: talker-normalized information about the speech signal can be decoded from areas as early as the brain stem [e.g., @skoe2021auditory], and thus prior to even the earliest cortical areas typically associated with linguistic category representations or decision-making. While it is rather uncontroversial that normalization is part of adaptive speech perception, questions remain about the specific nature of the operations involved in normalization. We contribute to this line of research by comparing different types of normalization accounts against vowel production data from a new phonetically annotated database of Central Swedish vowels, the SwehVd, that is presented in this paper.
 
 Normalization accounts were originally proposed as a theory of how the brain removes *physiologically*-conditioned variation from the speech signal, reducing variability in, for example, category means between talkers, and thus reducing the overlap of phonological categories in the acoustic-phonetic space [e.g., @Bladon1984; @gerstman1968; @lobanov1971; @miller1989c; @nearey1978; @nordstrom1975; @peterson1961; @Syrdal1986; @sussman1986]. Most of this early work focused specifically on differences in formants, which cross-linguistically are the primary cues to distinctions in vowel quality, and known to be affected by the vocal tract size of the talker [e.g., @fox1995; @Peterson1952; @Verbrugge1977; @yang2014].
 
@@ -610,41 +610,6 @@ In order to correct for measurement errors in the automatic extraction of cues, 
 
 The procedure of adding written guides to *hod* and *hodd* to facilitate vowel identification was mostly successful, however not for all talkers. Some talkers corrected themselves after one trial, others failed to produce the intended vowel altogether. The SwehVd database contains columns for both the targeted vowel category, and the vowel category that the talker actually produced (as annotated by the first author).
 
-For the vast majority of talkers, *hädd* productions elicited the same vowel as *hedd* (see Figure \@ref(fig:hedd)). This confirms the common assumption that the short allophone to /e/ neutralizes with the short allophone to [`r linguisticsdown::cond_cmpl("ɛ")`] in Central Swedish.
-
-(ref:hedd) The *hedd* and *hädd* words in the SwehVd vowel data in unnormalized F1-F2 space. Points show recordings of the *hedd* and *hädd* words ([`r linguisticsdown::cond_cmpl("ɛ")`]) by the 23 female native talkers in the database, averaged across the five measurement points within each vowel segment. Word labels indicate word means across talkers. Since *hädd* and *hedd* resulted in the same allophone, we exclude *hädd* from this and all other visualizations below. This facilitates comparison of, for example, densities across vowels (see diagonal of Figure \@ref(fig:swe-vowels-all-cues)).
-
-```{r hedd, fig.width=base.width*1.5, fig.height=base.height*1.5, out.width='30%', fig.align='center', fig.cap="(ref:hedd)"}
-d.SwehVd %>%
-  filter(Transcribed_vowel == "targeted", Word %in% c("hedd", "hädd")) %>%
-  # Get the geometric mean F1-F2 across the five time points
-  group_by(Talker, Word, Token) %>%
-  summarise(across(c(F1, F2), ~ geometric.mean(.x))) %>%
-  ggplot(
-    aes(
-      x = F2,
-      y = F1,
-      color = Word)) +
-  geom_point(alpha = .4) +
-  stat_ellipse() +
-  # Add between-talker mean
-  geom_label(
-    data =
-      ~ .x %>%
-      group_by(Word) %>%
-      summarise(across(c(F1, F2), ~ geometric.mean(.x))),
-    mapping = aes(
-      colour = Word,
-      label = Word),
-    alpha = .8,
-    size = 4,
-    label.size = NA,
-    label.padding = unit(.03, "cm")) +
-  scale_x_reverse("F2 (in Hz)", position = "top", breaks = scales::breaks_pretty(6)) +
-  scale_y_reverse("F1 (in Hz)", position = "right", breaks = scales::breaks_pretty(6)) +
-  guides(color = "none") +
-  theme(legend.position = "top")
-```
 ```{r echo=FALSE}
 # Keep code for reproducibility.
 # d.SwehVd %<>%
@@ -655,9 +620,7 @@ d.SwehVd %>%
 ```
 
 #### Characterizing vowel productions in SwehVd {#sec:characterizing-swehvd -}
-Figure \@ref(fig:swe-vowels) visualizes the vowel data from the SwehVd in F1-F2 space. The plot highlights the density of the Central Swedish vowel space, the categories are numerous and closely located. Category overlap is especially large among some of the high vowels (e.g., [`r linguisticsdown::cond_cmpl("iː")`] & [`r linguisticsdown::cond_cmpl("yː")`]; [`r linguisticsdown::cond_cmpl("uː")`], [`r linguisticsdown::cond_cmpl("oː")`]  & [`r linguisticsdown::cond_cmpl("ʊ")`]). The contextually conditioned allophone [`r linguisticsdown::cond_cmpl("æ")`], almost completely overlaps with the long [`r linguisticsdown::cond_cmpl("ɛː")`], whereas the contextual allophones to [`r linguisticsdown::cond_cmpl("ø")`] are more separated. Not all contextual allophones are articulated lower (higher F1) in relation to their phonemes [compare e.g., @riad2014]. They are, however, all articulated further back (lower F2).
-
-In line with Riad [-@riad2014, cf. Table \@ref(tab:swedish-vowels) above], the short vowels are overall more centralized and form a more condensed space, whereas the long vowels are more dispersed.^[[`r linguisticsdown::cond_cmpl("ɪ")`] and [`r linguisticsdown::cond_cmpl("ʏ")`] are, however, more fronted than their long counterparts, which does not replicate previous descriptions of Central Swedish. We elaborate on this result in other ongoing work [@persson2023].] Differences in formant patterns between long and short vowels have been found to be smallest for the allophones to [`r linguisticsdown::cond_cmpl("ɛ")`] and [`r linguisticsdown::cond_cmpl("ø")`], and largest for /u/ ([`r linguisticsdown::cond_cmpl("ʉː")`] and [`r linguisticsdown::cond_cmpl("ɵ")`]), and /a/ ([`r linguisticsdown::cond_cmpl("ɑː")`] and [`r linguisticsdown::cond_cmpl("a")`]) [e.g., @fant2001; @kuronen2000]. This pattern does not entirely replicate here. We do see large differences in F1-F2 for the allophones to /u/ and /a/, but also substantial differences between [`r linguisticsdown::cond_cmpl("ɛ")`] and [`r linguisticsdown::cond_cmpl("ɛː")`]. Formant differences are apparent even for some category distinctions for which quantity has been found to be the primary cue [as shown in perceptual studies, see e.g., @behne1997; @haddingkoch1964], ([`r linguisticsdown::cond_cmpl("ɛː")`] - [`r linguisticsdown::cond_cmpl("ɛ")`], [`r linguisticsdown::cond_cmpl("øː")`] - [`r linguisticsdown::cond_cmpl("ø")`], [`r linguisticsdown::cond_cmpl("iː")`] - [`r linguisticsdown::cond_cmpl("ɪ")`], and [`r linguisticsdown::cond_cmpl("oː")`] - [`r linguisticsdown::cond_cmpl("ɔ")`]).
+Figure \@ref(fig:swe-vowels) visualizes the vowel data from the SwehVd in F1-F2 space. The plot highlights the density of the Central Swedish vowel space, the categories are numerous and closely located. Category overlap is especially large among some of the high vowels (e.g., [`r linguisticsdown::cond_cmpl("iː")`] & [`r linguisticsdown::cond_cmpl("yː")`]; [`r linguisticsdown::cond_cmpl("uː")`], [`r linguisticsdown::cond_cmpl("oː")`]  & [`r linguisticsdown::cond_cmpl("ʊ")`]). The contextually conditioned allophone [`r linguisticsdown::cond_cmpl("æ")`], almost completely overlaps with the long [`r linguisticsdown::cond_cmpl("ɛː")`], whereas the contextual allophones to [`r linguisticsdown::cond_cmpl("ø")`] are more separated. Not all contextual allophones are articulated lower (higher F1) in relation to their phonemes [compare e.g., @riad2014]. They are, however, all articulated further back (lower F2). In line with Riad [-@riad2014, cf. Table \@ref(tab:swedish-vowels) above], the short vowels are overall more centralized and form a more condensed space, whereas the long vowels are more dispersed. We postpone a more in-dept characterization on the proposed phonology and phonetics of SwehVd, we have a manuscript currently under composition where these and other points will be elaborated upon [@persson2023].
 
 Figure \@ref(fig:swe-vowels-all-cues) visualizes the vowel data from the SwehVd database for all pairwise combinations of five cues: F0, F1, F2, F3 and vowel duration. As is to be expected, vowels differing in quality are most separated in the F1-F2 plot, indicating the two cues most important for vowel category distinction. However, the F1-F3 and F3-F2 plots both display less overlap between the high vowels [`r linguisticsdown::cond_cmpl("iː")`], [`r linguisticsdown::cond_cmpl("yː")`] and [`r linguisticsdown::cond_cmpl("ʉː")`], comparing to when plotted along F1-F2. The increased separation of these categories along F3 in vowel production data could point to the importance of F3 for some category distinctions, as found in previous studies [see e.g., @fant1969; @fujimura1967; @kuronen2000, for [`r linguisticsdown::cond_cmpl("iː")`] and [`r linguisticsdown::cond_cmpl("yː")`] categorization].
 
@@ -665,7 +628,7 @@ Also as expected, duration is the primary cue that distinguishes vowel quantity:
 
 Finally, the densities along the diagonal of Figure \@ref(fig:swe-vowels-all-cues) suggest that F0 carries the least information about vowel identity, exhibiting the least between-category separation, followed by F3. This, too, is not surprising: while some accounts use F0 to _normalize_ F1 and F2 [e.g., @miller1989c; @Syrdal1986], F0 is not considered an important cue to vowel identity by itself [for demonstrations that F0 can, however, have strong *in*direct effects on vowel categorization, see @barreda2012a; @barreda2020a]. 
 
-(ref:swe-vowels) The SwehVd vowel data in unnormalized F1-F2 space. Points show recordings of each of the 21 Central Swedish vowels by the 23 female native talkers in the database, averaged across the five measurement points within each vowel segment. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Vowels that mismatched intended label are excluded (`r signif((d.SwehVd %>% filter(Transcribed_vowel != "targeted") %>% nrow() / d.SwehVd %>% nrow()) * 100)`% of all recordings). Note that the F1 and F2 axes are reversed. We follow this convention whenever plotting vowels in the F1-F2 space.
+(ref:swe-vowels) The SwehVd vowel data in unnormalized F1-F2 space. Points show recordings of each of the 21 Central Swedish vowels by the 24 female native talkers in the database, averaged across the five measurement points within each vowel segment. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Vowels that mismatched intended label are excluded (`r signif((d.SwehVd %>% filter(Transcribed_vowel != "targeted") %>% nrow() / d.SwehVd %>% nrow()) * 100)`% of all recordings). Note that the F1 and F2 axes are reversed. We follow this convention whenever plotting vowels in the F1-F2 space.
 
 (ref:swe-vowels-all-cues) The same data as in Figure \ref{fig:swe-vowels} but for all pairwise combinations of five cues: F0, F1, F2, F3, and vowel duration. The primary purpose of this figure is to provide an overview of the SwehVd data. Additionally, comparisons across the panels sheds light on which cues carry information about vowel quality and vowel quantity, respectively. Note that, unlike in Figure \@ref(fig:swe-vowels), axis directions are not reversed. **Panels on diagonal:** marginal cue densities of all five cues. **Lower off-diagonal panels:** each point corresponds to a recording, averaged across the five measurement points within each vowel segment. Vowel labels indicate category means across talkers. Long vowels are boldfaced. **Upper off-diagonal panels:** Same data as in the lower off-diagonal panels but showing bivariate Gaussian 95% probability mass ellipses around category means. This makes it more obvious, for example, that long and short vowels are primarily distinguished by vowel duration (top right panel).
 
@@ -814,7 +777,7 @@ d.SwehVd.forStudy %<>%
   arrange(crossvalidation_group)
 ```
 
-We use the SwehVd database with some exclusions. Since we are interested in assessing the effects of normalization, we excluded any productions on which the talker did not produce the targeted vowel. We then excluded all talkers (N = `r n_distinct(d.SwehVd.exclusions$Talker)`) with fewer than 5 remaining recordings for at least one of the vowels. Five of these talkers rarely ever produced the targeted [`r linguisticsdown::cond_cmpl("ʊ")`] vowel despite our recording instructions (see [Extraction of phonetic cues](#sec:cue-extraction)). Instead, they often mispronounced the vowel. This left data from `r n_distinct(d.SwehVd$Talker) - n_distinct(d.SwehVd.exclusions$Talker)` female native talkers, with on average `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = mean(n)) %>% pull() %>% round(digits = 0)` (se= `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = se(n)) %>% pull() %>% round(digits = 1)`) tokens per vowel (range = `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = min(n)) %>% pull() %>% round(digits = 0)` to `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = max(n)) %>% pull() %>% round(digits = 0)`), for a total of `r nrow(d.SwehVd.forStudy)` observations. We also exclude all *hädd* productions, as they elicited the same vowel as *hedd* (see [Extraction of phonetic cues](#sec:cue-extraction)). This way, we have about equally many tokens from all vowels, simplifying the cross-validation procedure presented below and facilitating visual comparisons across vowels in our figures.<!--AP: the last phrase needs removing depending on the in/exclusion of visualizations.-->
+We use the SwehVd database with some exclusions. Since we are interested in assessing the effects of normalization, we excluded any productions on which the talker did not produce the targeted vowel. We then excluded all talkers (N = `r n_distinct(d.SwehVd.exclusions$Talker)`) with fewer than 5 remaining recordings for at least one of the vowels. Five of these talkers rarely ever produced the targeted [`r linguisticsdown::cond_cmpl("ʊ")`] vowel despite our recording instructions (see [Extraction of phonetic cues](#sec:cue-extraction)). Instead, they often mispronounced the vowel. This left data from `r n_distinct(d.SwehVd$Talker) - n_distinct(d.SwehVd.exclusions$Talker)` female native talkers, with on average `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = mean(n)) %>% pull() %>% round(digits = 0)` (se= `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = se(n)) %>% pull() %>% round(digits = 1)`) tokens per vowel (range = `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = min(n)) %>% pull() %>% round(digits = 0)` to `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = max(n)) %>% pull() %>% round(digits = 0)`), for a total of `r nrow(d.SwehVd.forStudy)` observations. We also exclude all *hädd* productions, as they elicited the same vowel as *hedd* (in line with @riad2014, see [SI, Neutralization of hedd and hädd](#sec:neutralize)). This way, we have about equally many tokens from all vowels, simplifying the cross-validation procedure presented below and facilitating visual comparisons across vowels in our figures.
 
 Since our goal is to obtain a reliable estimate of the formant values during the steady state of the vowel, we use only the three formant measurements extracted from the middle of the vowel (at 35%, 50%, and 65% into the vowel).^[While this is the approach most commonly employed in the literature, it has the potential downside that co-articulation might affect formant values at the measurement points differently for long and short vowels (since the long and short vowels differ in overall duration). An alternative approach would be to extract formants at fixed durations (e.g., 30 ms) after the vowel onset and before the vowel offset. Since the findings we present below do not indicate any systematic differences in the performance of normalization accounts between long and short vowels, we do not consider this issue further here.]
 
@@ -859,6 +822,112 @@ d.SwehVd.forStudy.long <-
    select(-c(Duration_CCuRE, Normalization.Scale)) %>%
    relocate(Talker, Age, Normalization.Type, crossvalidation_group, fold_type, fold, category, Quantity, Token)
 ```
+
+As an initial visualization of how normalization transforms the acoustic space, Figure \@ref(fig:swe-vowels-normalized) plots of a subset of the 15 accounts we evaluate in F1-F2 space. In the SI, Section [Visualizing the distribution of vowel productions](#sec:normVowelSpace), we include plots of all 15 accounts.
+
+(ref:swe-vowels-normalized) The 11 long vowels and the 10 short vowels of Central Swedish when F1 and F2 are left unnormalized or transformed into a perceptual scale (**grey**), intrinsically normalized (**yellow**), or extrinsically normalized through centering (**blue**) or standardizing (**purple**). Each point corresponds to one recording, averaged across the five measurement points within each vowel segment. Each panel combines the data from all five test folds.
+
+```{r}
+#Store grob.element
+element_textbox_highlight <- function(
+    ...,
+    hi.labels = NULL, hi.fill = NULL,
+    hi.col = NULL, hi.box.col = NULL,
+    hi.labels2 = NULL, hi.fill2 = NULL,
+    hi.col2 = NULL, hi.box.col2 = NULL,
+    hi.labels3 = NULL, hi.fill3 = NULL,
+    hi.col3 = NULL, hi.box.col3 = NULL
+) {
+  structure(
+    c(ggtext::element_textbox(...),
+      list(hi.labels = hi.labels, hi.fill = hi.fill, hi.col = hi.col, hi.box.col = hi.box.col,
+           hi.labels2 = hi.labels2, hi.fill2 = hi.fill2, hi.col2 = hi.col2, hi.box.col2 = hi.box.col2,
+           hi.labels3 = hi.labels3, hi.fill3 = hi.fill3, hi.col3 = hi.col3, hi.box.col3 = hi.box.col3)),
+    class = c("element_textbox_highlight", "element_textbox", "element_text", "element",
+              "element_textbox_highlight", "element_textbox", "element_text", "element",
+              "element_textbox_highlight", "element_textbox", "element_text", "element"))
+}
+
+element_grob.element_textbox_highlight <- function(element, label = "", ...) {
+  if (label %in% element$hi.labels) {
+    element$fill <- element$hi.fill %||% element$fill
+    element$colour <- element$hi.col %||% element$colour
+    element$box.colour <- element$hi.box.col %||% element$box.colour
+  }
+  if (label %in% element$hi.labels2) {
+    element$fill <- element$hi.fill2 %||% element$fill
+    element$colour <- element$hi.col2 %||% element$colour
+    element$box.colour <- element$hi.box.col2 %||% element$box.colour
+  }
+  if (label %in% element$hi.labels3) {
+    element$fill <- element$hi.fill3 %||% element$fill
+    element$colour <- element$hi.col3 %||% element$colour
+    element$box.colour <- element$hi.box.col3 %||% element$box.colour
+  }
+  NextMethod()
+}
+
+# Plot vowel data in all normalization formats
+p.vowels.norm <-
+  d.SwehVd.forStudy.long %>%
+  # filter down to test folds since that's what we later evaluate SI and IOs for + the best performing SyrdalGopal
+  filter(fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "Miller (log)", "C-CuRE (Hz)", "Nearey2 (log)", "Lobanov (Hz)")) %>%
+  ggplot(
+    aes(
+      x = F2,
+      y = F1)) +
+  geom_point(
+    aes(
+      colour = category,
+      shape = Quantity),
+    alpha = 0.4,
+    size = .7) +
+  scale_colour_manual(name = "category", values = colors.vowel.swe) +
+  scale_x_reverse("F2", position = "top", scales::pretty_breaks(n = 3)) +
+  scale_y_reverse("F1", position = "right", scales::pretty_breaks(n = 3)) +
+  guides(alpha = "none", color = "none", shape = "none") +
+  facet_wrap(Quantity ~ factor(Normalization.Type, levels = labels.normalization), scales = "free", ncol = 5) +
+  theme(
+    axis.title.y = element_blank()) +
+    theme_half_open(12) +
+    background_grid() +
+    theme(
+      strip.background = element_blank(),
+      strip.text = element_textbox_highlight(
+        size = 8,
+        color = "black", fill = "#C9C0BB", box.color = "#C9C0BB",
+        halign = 0.5, linetype = 1, r = unit(3, "pt"),
+        #width = unit(1, "npc"),
+        padding = margin(2, 3, 2, 3), margin = margin(3, 3, 3, 3),
+        #margin = margin(0.6, 0.5, 0.5, 0.3),
+        # this is new relative to element_textbox():
+        # first named set
+        hi.labels = c("SyrdalGopal (Bark)", "Miller (log)"),
+        hi.fill = "#E6BE8A", hi.col = "black", hi.box.col = "#E6BE8A",
+        # add second set
+        hi.labels2 = c("C-CuRE (Hz)", "C-CuRE (Mel)", "C-CuRE (Bark)", "C-CuRE (ERB)", "C-CuRE (semitones)", "Nearey1 (log)", "Nearey2 (log)"),
+        hi.fill2 = "#ABCDEF", hi.col2 = "black", hi.box.col2 = "#ABCDEF",
+        # add third set
+        hi.labels3 = c("Gerstman (Hz)", "Lobanov (Hz)"),
+        hi.fill3 = "#DDADAF", hi.col3 = "black", hi.box.col3 = "#DDADAF"),
+      axis.text.x = element_text(size=8, vjust=1),
+      axis.text.y = element_text(size=8, hjust=1, vjust=.5),
+      axis.title.x = element_text(size=8, vjust=0, hjust=0.5, face = "bold"),
+      axis.title.y = element_text(size=8, hjust= 0.5, vjust=0.5, face = "bold"),
+      legend.title = element_text(size=8, face = "bold", hjust= 0),
+      legend.text = element_text(size=8),
+      strip.placement = "outside",
+      aspect.ratio = 1,
+      panel.grid.major = element_blank())
+```
+
+\begin{landscape}
+
+```{r swe-vowels-normalized, fig.width=base.width * 4, fig.height=base.height * 3, fig.align='center', out.width='90%', fig.cap="(ref:swe-vowels-normalized)"}
+p.vowels.norm
+```
+
+\end{landscape}
 
 ## Ideal Observers to predict the consequences of normalization for perception {#sec:IOs -}
 Ideal observers provide an analytical framework for estimating how a rational listener would optimally behave in response to input (here: $n$-way alternative forced-choice categorization). Ideal observer models have been found to provide a good qualitative and quantitative fit against human speech perception [e.g., @clayards2008; @feldman2009; @kleinschmidt-jaeger2015; @kronrod2016; @norris-mcqueen2008; @xie2021cognition]. Unlike most other models of speech perception, ideal observers in their simplest form---as employed here---have zero degrees of freedom in the link from production to perception: once the ideal observer is trained on phonetic data from a database of *productions*, its predictions about *perception* are not mediated by additional parameters (unlike, e.g., exemplar models, connectionist accounts, or neural networks). This removes researchers' degrees of freedom in the evaluation of normalization accounts, which is the reason we chose ideal observers for this study. <!--AP: moved to discussion, as suggested by R2: We emphasize, however, that other researchers can download the R markdown document for this article (which contains the R code for our models) from OSF and substitute any other perceptual model for the ideal observers to assess the extent to which our choice of computational framework affects the findings reported below.-->
