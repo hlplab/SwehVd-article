@@ -170,7 +170,7 @@ plot_io_results_per_vowel <- function(data) {
                      colour = IO.Normalization.Type,
                      label = sprintf("%0.1f", mean)),
                alpha = .85,
-               size = 2.5,
+               size = 2,
                angle = 90,
                hjust = 0) +
     geom_hline(aes(yintercept = case_when(IO.Quantity == "long" ~ 1/11,
@@ -283,20 +283,30 @@ To further explore effects of neighbouring categories, and which categories are 
 ```{r, echo=FALSE}
 # Keep code for reproducibility
 # run a model assessing the difference in performance between models as a function of the normalization scheme.
-# data.io <- m.io.SwehVd.F1F2 %>%
+# data.io <- m.io.SwehVd.all_by_quantity %>%
+#   filter(IO.Quantity == "long") %>%
 #   unnest(posterior_of_intended_vowel) %>%
-#   mutate(IO.Normalization.Type = factor(IO.Normalization.Type, levels = levels.normalization.plots, labels = labels.normalization))
+#   mutate(IO.Normalization.Type = factor(IO.Normalization.Type, levels = levels.normalization.noSG, labels = labels.normalization.noSG))
 
 #Add treatment coding for IO.Normalization.Type
-#contrasts(data.io$IO.Normalization.Type) = contr.treatment(16)
-# # contrasts(data.io$IO.cue_normalization) = cbind(
-# #   "C-CuRE Hz" = c(0, 1, 0, 0, 0, 0, 0),
-# #   "Lobanov Hz" = c(0, 0, 1, 0, 0, 0, 0),
-# #   "Gerstman Hz" = c(0, 0, 0, 1, 0, 0, 0),
-# #   "Nearey1 log" = c(0, 0, 0, 0, 1, 0, 0),
-# #   "Nearey2 log" = c(0, 0, 0, 0, 0, 1, 0),
-# #   "Miller log" = c(0, 0, 0, 0, 0, 0, 1))
-# 
+#contrasts(data.io$IO.Normalization.Type) = contr.treatment(15)
+# contrasts(data.io$IO.Normalization.Type) = cbind(
+#   "transformed (Mel)" = c(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+#   "transformed (Bark)" = c(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+#   "transformed (ERB)" = c(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+#   "transformed (semitones)" = c(0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+#   "SyrdalGopal (Bark)" = c(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+#   "Miller (log)" = c(0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+#   "C-CuRE (Hz)" = c(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+#   "C-CuRE (Mel)" = c(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+#   "C-CuRE (Bark)" = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0),
+#   "C-CuRE (ERB)" = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0),
+#   "C-CuRE (semitones)" = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0),
+#   "Nearey1 (log)" = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+#   "Nearey2 (log)" = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0),
+#   "Gerstman (Hz)" = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+#   "Lobanov (Hz)" = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1))
+
 # model <- glm(Posterior ~ IO.Normalization.Type, family=gaussian, data = data.io)
 # summary(model)
 ```
@@ -330,26 +340,26 @@ plot_io_confusion <- function(
 ```{r }
 # Make confusion matrices of best and worst for all cue evaluations under the assumption of long, short or all vowels
 p.confusion.long.F1F2 <- plot_io_confusion(
-  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F2", IO.Quantity == "long"),
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("SyrdalGopal_Bark", "Lobanov_Hz"), Cue_space == "F1-F2", IO.Quantity == "long"),
                          cols = levels.vowel.IPA.swe.long) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "Lobanov_Hz"), labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("SyrdalGopal_Bark", "Lobanov_Hz"), labels = c("SyrdalGopal (Bark)", "Lobanov (Hz)"))) + theme(legend.position="none")
 p.confusion.long.F1F3 <- plot_io_confusion(
-  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F3", IO.Quantity == "long"),
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Gerstman_Hz", "Lobanov_Hz"), Cue_space == "F1-F3", IO.Quantity == "long"),
                          cols = levels.vowel.IPA.swe.long) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "Lobanov_Hz"), labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Gerstman_Hz", "Lobanov_Hz"), labels = c("Gerstman (Hz)", "Lobanov (Hz)"))) + theme(legend.position="none")
 p.confusion.long.all <- plot_io_confusion(
   m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Gerstman_Hz", "Lobanov_Hz"), Cue_space == "F0-F3, duration", IO.Quantity == "long"),
                          cols = levels.vowel.IPA.swe.long) +
     facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Gerstman_Hz", "Lobanov_Hz"), labels = c("Gerstman (Hz)", "Lobanov (Hz)"))) + theme(legend.position="none")
 
 p.confusion.short.F1F2 <- plot_io_confusion(
-  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "CCuRE_Mel"), Cue_space == "F1-F2", IO.Quantity == "short"),
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("SyrdalGopal_Bark", "Lobanov_Hz"), Cue_space == "F1-F2", IO.Quantity == "short"),
                          cols = levels.vowel.IPA.swe.short) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "CCuRE_Mel"), labels = c("Miller (log)", "C-CuRE (Mel)"))) + theme(legend.position="none")
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("SyrdalGopal_Bark", "Lobanov_Hz"), labels = c("SyrdalGopal (Bark)", "Lobanov (Hz)"))) + theme(legend.position="none")
 p.confusion.short.F1F3 <- plot_io_confusion(
-  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "CCuRE_Mel"), Cue_space == "F1-F3", IO.Quantity == "short"),
+  m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Gerstman_Hz", "Lobanov_Hz"), Cue_space == "F1-F3", IO.Quantity == "short"),
                          cols = levels.vowel.IPA.swe.short) +
-    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "CCuRE_Mel"), labels = c("Miller (log)", "C-CuRE (Mel)"))) + theme(legend.position="none")
+    facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Gerstman_Hz", "Lobanov_Hz"), labels = c("Gerstman (Hz)", "Lobanov (Hz)"))) + theme(legend.position="none")
 p.confusion.short.all <- plot_io_confusion(
   m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Gerstman_Hz", "Lobanov_Hz"), Cue_space == "F0-F3, duration", IO.Quantity == "short"),
                          cols = levels.vowel.IPA.swe.short) +
@@ -360,9 +370,9 @@ p.confusion.all.F1F2 <- plot_io_confusion(
                          cols = levels.vowel.IPA.swe) +
     facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("SyrdalGopal_Bark", "Lobanov_Hz"), labels = c("SyrdalGopal (bark)", "Lobanov (Hz)"))) + theme(legend.position="none")
 p.confusion.all.F1F3 <- plot_io_confusion(
-    m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Miller_log", "Lobanov_Hz"), Cue_space == "F1-F3", IO.Quantity == "all"), 
+    m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Gerstman_Hz", "Lobanov_Hz"), Cue_space == "F1-F3", IO.Quantity == "all"), 
     cols = levels.vowel.IPA.swe) + 
-  facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Miller_log", "Lobanov_Hz"), labels = c("Miller (log)", "Lobanov (Hz)"))) + theme(legend.position="none")
+  facet_grid(Cue_space ~ factor(IO.Normalization.Type, levels = c("Gerstman_Hz", "Lobanov_Hz"), labels = c("Gerstman (Hz)", "Lobanov (Hz)"))) + theme(legend.position="none")
 p.confusion.all.all <- plot_io_confusion(
   m.io.SwehVd %>% filter(IO.Normalization.Type %in% c("Gerstman_Hz", "CCuRE_Hz"), Cue_space == "F0-F3, duration", IO.Quantity == "all"),
                          cols = levels.vowel.IPA.swe) +
@@ -387,7 +397,7 @@ p.diff.long.F1F2 <- p.confusion.long.F1F2 %+%
       names_from = IO.Normalization.Type,
       values_from = Posterior) %>%
     mutate(
-      "Difference Lobanov (Hz) - Miller (log)" = Lobanov_Hz - Miller_log) %>%
+      "Difference Lobanov (Hz) - SyrdalGopal (Bark)" = Lobanov_Hz - SyrdalGopal_Bark) %>%
     select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
     pivot_longer(
          cols = starts_with("Diff"),
@@ -411,7 +421,7 @@ p.diff.long.F1F3 <- p.confusion.long.F1F3 %+%
       names_from = IO.Normalization.Type,
       values_from = Posterior) %>%
     mutate(
-      "Difference Lobanov (Hz) - Miller (log)" = Lobanov_Hz - Miller_log) %>%
+      "Difference Lobanov (Hz) - Gerstman (Hz)" = Lobanov_Hz - Gerstman_Hz) %>%
     select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
     pivot_longer(
          cols = starts_with("Diff"),
@@ -460,7 +470,7 @@ p.diff.short.F1F2 <- p.confusion.short.F1F2 %+%
       names_from = IO.Normalization.Type,
       values_from = Posterior) %>%
     mutate(
-      "Difference C-CuRE (Mel) - Miller (log)" = CCuRE_Mel - Miller_log) %>%
+      "Difference Lobanov (Hz) - SyrdalGopal (Bark)" = Lobanov_Hz - SyrdalGopal_Bark) %>%
     select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
     pivot_longer(
          cols = starts_with("Diff"),
@@ -484,7 +494,7 @@ p.diff.short.F1F3 <- p.confusion.short.F1F3 %+%
       names_from = IO.Normalization.Type,
       values_from = Posterior) %>%
     mutate(
-      "Difference C-CuRE (Mel) - Miller (log)" = CCuRE_Mel - Miller_log) %>%
+      "Difference Lobanov (Hz) - Gerstman (Hz)" = Lobanov_Hz - Gerstman_Hz) %>%
     select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
     pivot_longer(
          cols = starts_with("Diff"),
@@ -557,7 +567,7 @@ p.diff.all.F1F3 <- p.confusion.all.F1F3 %+%
       names_from = IO.Normalization.Type,
       values_from = Posterior) %>%
     mutate(
-      "Difference Lobanov (Hz) - Miller (log)" = Lobanov_Hz - Miller_log) %>%
+      "Difference Lobanov (Hz) - Gerstman (Hz)" = Lobanov_Hz - Gerstman_Hz) %>%
     select(starts_with("Diff"), IO.Vowel, Intended.Vowel) %>%
     pivot_longer(
          cols = starts_with("Diff"),
