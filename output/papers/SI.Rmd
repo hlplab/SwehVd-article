@@ -127,6 +127,8 @@ puss&nav\\
 topp&nå\\
 \end{tabular}
 \end{table}
+```{r}
+```
 
 # Neutralization of hedd and hädd {#sec:neutralize -}
 For the vast majority of talkers, *hädd* productions elicited the same vowel as *hedd* (see Figure \@ref(fig:hedd)). This confirms the common assumption that the short allophone to /e/ neutralizes with the short allophone to [`r linguisticsdown::cond_cmpl("ɛ")`] in Central Swedish.

@@ -777,7 +777,7 @@ d.SwehVd.forStudy %<>%
   arrange(crossvalidation_group)
 ```
 
-We use the SwehVd database with some exclusions. Since we are interested in assessing the effects of normalization, we excluded any productions on which the talker did not produce the targeted vowel. We then excluded all talkers (N = `r n_distinct(d.SwehVd.exclusions$Talker)`) with fewer than 5 remaining recordings for at least one of the vowels. Five of these talkers rarely ever produced the targeted [`r linguisticsdown::cond_cmpl("ʊ")`] vowel despite our recording instructions (see [Extraction of phonetic cues](#sec:cue-extraction)). Instead, they often mispronounced the vowel. This left data from `r n_distinct(d.SwehVd$Talker) - n_distinct(d.SwehVd.exclusions$Talker)` female native talkers, with on average `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = mean(n)) %>% pull() %>% round(digits = 0)` (se= `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = se(n)) %>% pull() %>% round(digits = 1)`) tokens per vowel (range = `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = min(n)) %>% pull() %>% round(digits = 0)` to `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = max(n)) %>% pull() %>% round(digits = 0)`), for a total of `r nrow(d.SwehVd.forStudy)` observations. We also exclude all *hädd* productions, as they elicited the same vowel as *hedd* (in line with @riad2014, see [SI, Neutralization of hedd and hädd](#sec:neutralize)). This way, we have about equally many tokens from all vowels, simplifying the cross-validation procedure presented below and facilitating visual comparisons across vowels in our figures.
+We use the SwehVd database with some exclusions. Since we are interested in assessing the effects of normalization, we excluded any productions on which the talker did not produce the targeted vowel. We then excluded all talkers (N = `r n_distinct(d.SwehVd.exclusions$Talker)`) with fewer than 5 remaining recordings for at least one of the vowels. Five of these talkers rarely ever produced the targeted [`r linguisticsdown::cond_cmpl("ʊ")`] vowel despite our recording instructions (see [Extraction of phonetic cues](#sec:cue-extraction)). Instead, they often mispronounced the vowel. This left data from `r n_distinct(d.SwehVd$Talker) - n_distinct(d.SwehVd.exclusions$Talker)` female native talkers, with on average `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = mean(n)) %>% pull() %>% round(digits = 0)` (se= `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = se(n)) %>% pull() %>% round(digits = 1)`) tokens per vowel (range = `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = min(n)) %>% pull() %>% round(digits = 0)` to `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = max(n)) %>% pull() %>% round(digits = 0)`), for a total of `r nrow(d.SwehVd.forStudy)` observations. We also exclude all *hädd* productions, as they elicited the same vowel as *hedd* (in line with @riad2014, see also [SI, Neutralization of hedd and hädd](#sec:neutralize)). This way, we have about equally many tokens from all vowels, simplifying the cross-validation procedure presented below and facilitating visual comparisons across vowels in our figures.
 
 Since our goal is to obtain a reliable estimate of the formant values during the steady state of the vowel, we use only the three formant measurements extracted from the middle of the vowel (at 35%, 50%, and 65% into the vowel).^[While this is the approach most commonly employed in the literature, it has the potential downside that co-articulation might affect formant values at the measurement points differently for long and short vowels (since the long and short vowels differ in overall duration). An alternative approach would be to extract formants at fixed durations (e.g., 30 ms) after the vowel onset and before the vowel offset. Since the findings we present below do not indicate any systematic differences in the performance of normalization accounts between long and short vowels, we do not consider this issue further here.]
 
@@ -825,7 +825,7 @@ d.SwehVd.forStudy.long <-
 
 As an initial visualization of how normalization transforms the acoustic space, Figure \@ref(fig:swe-vowels-normalized) plots of a subset of the 15 accounts we evaluate in F1-F2 space. In the SI, Section [Visualizing the distribution of vowel productions](#sec:normVowelSpace), we include plots of all 15 accounts.
 
-(ref:swe-vowels-normalized) The 11 long vowels and the 10 short vowels of Central Swedish when F1 and F2 are left unnormalized or transformed into a perceptual scale (**grey**), intrinsically normalized (**yellow**), or extrinsically normalized through centering (**blue**) or standardizing (**purple**). Each point corresponds to one recording, averaged across the five measurement points within each vowel segment. Each panel combines the data from all five test folds.
+(ref:swe-vowels-normalized) The 11 long vowels (**top**) and the 10 short vowels (**bottom**) of Central Swedish when F1 and F2 are left unnormalized or transformed into a perceptual scale (**grey**), intrinsically normalized (**yellow**), or extrinsically normalized through centering (**blue**) or standardizing (**purple**). Each point corresponds to one recording, averaged across the five measurement points within each vowel segment. Each panel combines the data from all five test folds.
 
 ```{r}
 #Store grob.element
@@ -871,7 +871,7 @@ element_grob.element_textbox_highlight <- function(element, label = "", ...) {
 p.vowels.norm <-
   d.SwehVd.forStudy.long %>%
   # filter down to test folds since that's what we later evaluate SI and IOs for + the best performing SyrdalGopal
-  filter(fold_type == "test", Normalization.Type %in% c("no normalization (Hz)", "Miller (log)", "C-CuRE (Hz)", "Nearey2 (log)", "Lobanov (Hz)")) %>%
+  filter(fold_type == "test", Quantity == "long", Normalization.Type %in% c("transformed (Bark)", "Miller (log)", "C-CuRE (Hz)", "Nearey2 (log)", "Lobanov (Hz)")) %>%
   ggplot(
     aes(
       x = F2,
@@ -886,7 +886,7 @@ p.vowels.norm <-
   scale_x_reverse("F2", position = "top", scales::pretty_breaks(n = 3)) +
   scale_y_reverse("F1", position = "right", scales::pretty_breaks(n = 3)) +
   guides(alpha = "none", color = "none", shape = "none") +
-  facet_wrap(Quantity ~ factor(Normalization.Type, levels = labels.normalization), scales = "free", ncol = 5) +
+  facet_wrap(~ factor(Normalization.Type, levels = labels.normalization), scales = "free", ncol = 5) +
   theme(
     axis.title.y = element_blank()) +
     theme_half_open(12) +
@@ -919,12 +919,22 @@ p.vowels.norm <-
       strip.placement = "outside",
       aspect.ratio = 1,
       panel.grid.major = element_blank())
+
+p.vowels.norm.subset.short <- p.vowels.norm %+%
+  (d.SwehVd.forStudy.long %>%
+  # filter down to test folds since that's what we later evaluate SI and IOs for + the best performing SyrdalGopal
+  filter(fold_type == "test", Quantity == "short", Normalization.Type %in% c("transformed (Bark)", "Miller (log)", "C-CuRE (Hz)", "Nearey2 (log)", "Lobanov (Hz)")))  +
+  geom_point(aes(color = category),
+             shape = 17,
+             alpha = .4,
+             size = .7)
+  
 ```
 
 \begin{landscape}
 
-```{r swe-vowels-normalized, fig.width=base.width * 4, fig.height=base.height * 3, fig.align='center', out.width='90%', fig.cap="(ref:swe-vowels-normalized)"}
-p.vowels.norm
+```{r swe-vowels-normalized, fig.width=base.width * 4, fig.height=base.height * 2.5, fig.align='center', out.width='90%', fig.cap="(ref:swe-vowels-normalized)"}
+cowplot::plot_grid(p.vowels.norm, p.vowels.norm.subset.short, cols = 1)
 ```
 
 \end{landscape}
