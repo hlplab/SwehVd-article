@@ -166,11 +166,11 @@ plot_io_results_per_vowel <- function(data) {
       fatten = 2.5) +
     geom_text(mapping = 
                  aes(x = IO.Normalization.Type,
-                     y = mean_CI_upper + .01,
+                     y = mean_CI_lower - .1,
                      colour = IO.Normalization.Type,
-                     label = sprintf("%0.1f", mean)),
+                     label = sprintf("%0.2f", mean)),
                alpha = .85,
-               size = 2,
+               size = 2.5,
                angle = 90,
                hjust = 0) +
     geom_hline(aes(yintercept = case_when(IO.Quantity == "long" ~ 1/11,
