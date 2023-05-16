@@ -146,7 +146,7 @@ topp&nå\\
 \end{table}
 
 
-## Unanticipated challenges during recording (and how they were addressed)]{#sec:challenges}
+## Unanticipated challenges during recording (and how they were addressed){#sec:challenges}
 In a small-scale pilot preceding recordings, the expected transparency of the orthography for eliciting the long and short vowels was confirmed by three native talkers and one non-native talker of Swedish (these talkers did not participate in the study). However, *hodd* [`r linguisticsdown::cond_cmpl("ʊ")`] and *hod* [`r linguisticsdown::cond_cmpl("uː")`] sometimes elicited [`r linguisticsdown::cond_cmpl("ɔ")`].^[The difficulty for some native talkers to produce [`r linguisticsdown::cond_cmpl("ʊ")`] when reading *hodd* might be due to frequency effects. Forms with stressed [`r linguisticsdown::cond_cmpl("ʊ")`] are rare in the Swedish language, and phonotactically similar words are most often pronounced as [`r linguisticsdown::cond_cmpl("ɔ")`] [see e.g., @riad2014].] We therefore decided to add instructions to the participants for these two words. When *hod* or *hodd* appeared on screen, a written guide indicating the target vowel appeared below the word in smaller font size: "hod som i hot", "hodd som i hosta", with *hot* and *hosta* being real Swedish words containing [`r linguisticsdown::cond_cmpl("uː")`] and [`r linguisticsdown::cond_cmpl("ʊ")`], respectively.^[English translations: "hod as in threat"(phonologically [`r linguisticsdown::cond_cmpl("uː")`]), "hodd as in cough"(phonologically [`r linguisticsdown::cond_cmpl("ʊ")`]).] Whenever the experimenter noticed that the pronunciations clearly targeted another vowel, recordings were stopped and participants were reminded to carefully read the guide. Despite our recording instructions, five of the talkers rarely ever produced the targeted [`r linguisticsdown::cond_cmpl("ʊ")`] vowel. Instead, they often mispronounced the vowel, hence they are not included in the subsetted SwehVd we use in this study.
 
 ## Neutralization of hedd and hädd {#sec:neutralize}
@@ -1150,92 +1150,6 @@ A large portion of previous studies evaluating normalization accounts against pr
 
 Before we evaluate how category separability is affected by normalization in F1-F2, F1-F3, and F0-F3 and duration space, we look at how the normalization accounts affect the separability of vowels along each cue separately (Figure \@ref(fig:separability-by-cue)). As we show below, this is helpful in understanding the subsequently presented results for combinations of cues.
 
-```{r}
-#Write table of previous studies
-norm_accounts_eval <- tibble(
-      "Language investigated" = c(
-        "US English",
-        "US English",
-        "US English",
-        "US English",
-        "US English",
-        "US English, Norwegian, Swedish, German, Danish, Dutch",
-        "UK English",
-        "UK English",
-        "Russian"),
-
-      "Article" = c(
-               "Barreda & Nearey, 2018",
-               "Clopper, 2009",
-               "Hindle, 1978",
-               "Kohn & Farrington, 2012",
-               "Labov, 2010",
-               "Disner, 1980",
-               "Fabricius, Watt & Johnson, 2009",
-               "Flynn & Foulkes, 2011",
-               "Lobanov, 1971"),
-
-  "Speech materials" = c(
-                         "120,000 simulated languages (of 5 or 9 vowels) modeled on Hillenbrand et al.'s (1995) data (98 female/male child/adult talkers * 12 vowels)",
-                         "2 female/male talkers from Ohio (1 token * 10 vowels)",
-                         "Peterson & Barney's (1952) database; 19 female/male talkers from Philadelphia + 60 telephone informants (minimum 3 tokens per category; analysis focus on /ay/)",
-                         "Longitudinal data from 10 female/male African American talkers from North Carolina (approx. 10 tokens * 10 vowels * 5 ages)",
-                         "Peterson & Barney's (1952) database; Philadelphia/Linguistic Change and Variation project (120 female/male talkers, stratified for age, sociolinguistic factors)",  
-                         "Differing number of tokens, vowels, and phonetic contexts across the six languages",
-                         "20 old/young female/male talkers of Received pronunciation (11 vowels); 6 old/young female/male talkers of Aberdeen English (8 vowels in different phonetic contexts)",
-                         "20 old/young female/male Nottingham talkers (mean 180 recordings per talker; categories not reported)",
-                         "5 female/male talkers (9 vowels in different phonetic contexts)"),
-
-  "Normalization accounts" = c(
-    "Nearey2, Lobanov, log-mean in linear regression framework",                                     
-    "Bladon et al.'s scale factor of 1 Bark (1994), Syrdal & Gopal, Nordström & Lindblom, Nearey1, Nearey2, Watt & Fabricius, Gerstman, Lobanov, Miller",
-    "Nearey2, Nordström-Lindblom, Sankoff-Shorrock-McKay",
-    "Lobanov, Gerstman, Nearey1, Nordström & Lindblom, Syrdal & Gopal/Thomas, Watt & Fabricius",
-    "Nearey2, Nordström-Lindblom, Sankoff-Shorrock-McKay ",
-    "Gerstman, Lobanov, Nearey2, Harshman's PARAFAC model",
-    "Watt & Fabricius, Lobanov, Nearey1",
-    "log-transformation (base 10), log-transformation (natural), Mel, ERB, Bark (*2 gender-specific versions), Syrdal & Gopal, Nordström (*2 gender-specific versions), LCE, Gerstman, Lobanov, Watt & Fabricius (* 4 versions), lettER, Nearey (*4 versions)",
-    "linear compression or expansion (Fant, 1960), Gerstman, Lobanov"),
-
-  "Approach" = c(
-    "distance between means (Eucledian distance)",                    
-    "variance reduction (visual inspection)",
-    "distance between means, variance reduction (regression)",
-    "variance reduction (regression)",
-    "distance between means (F-statistics)",
-    "variance reduction (visual inspection)",
-    "variance reduction (SCV in talker-means)",
-    "variance reduction (SCV in talker-means)",
-    "distance between means"),
-
-  "Best two performing" = c(
-    "log-mean in linear regression framework (1), Nearey2 (2)",
-    "Nearey, Watt & Fabricius, Gerstman, Lobanov (no order)",
-                            "Sankoff (1)",
-                            "Lobanov (1), Gerstman, Watt & Fabricius (2)",
-                            "Sankoff (1), Nearey2 (2)",
-                            "Nearey2 (1), Lobanov (2)",
-                            "Lobanov (1), Watt & Fabricius (2)",
-                            "Gerstman (1), LCE (2)",
-                            "Lobanov (1), Gerstman (2)"))
-```
-
-
-```{r norm-evaluation-variability-SI, results='asis'}
-norm_accounts_eval %>%
-  kable(
-    format = "latex",
-    booktabs = TRUE,
-    caption = "Previous studies comparing the effectiveness of normalization accounts in reducing within-category cue variability") %>%
-  kable_styling(font_size = 7) %>%
-  column_spec(1:2, width = "2cm") %>%
-  column_spec(3, width = "5.5cm") %>%
-  column_spec(4, width = "6cm") %>%
-  column_spec(5:6, width = "2.5cm") %>%
-  landscape() %>%
-  collapse_rows()
-```
-
 <!--AP: this entire chunk is suggested to be moved to introduction by R2 (including the above table). Copied into main text for now: 
 Table \@ref(tab:norm-evaluation-variability-SI) lists previous studies that have compared normalization accounts in terms of their effectiveness in reducing inter-talker variability. These studies varied in the specific metrics they employed to assess the effects of normalization, the languages they studied, and the conclusions they arrived at. Two generalizations emerge from Table \@ref(tab:norm-evaluation-variability-SI). First, transformation to a perceptual scale alone does not seem to be sufficient to reduce inter-talker variability [see also @adank2004; @carpenter1993; @clopper2009; @escudero2007; @Flynn2011; @kohn2012a]. Second, normalization accounts that include centering and/or standardizing seem to perform best in reducing inter-talker variability [see e.g. @barreda2018a; @disner1980; @fabricius2009; @kohn2012a; @labov2010; @lobanov1971]. When Lobanov and Gerstman normalization---both involving standardizing---were included in a study, they often rank among the top two performing accounts. Of note, Nearey normalization [@nearey1978] seems to perform well even though it does not involve the computationally more complex operation of standardizing. This suggests that simple centering of formants relative to the talker's mean *might* be sufficient to achieve significant variance reduction [but see @disner1980 for Swedish, which is revisited in this study].-->
 <!-- Commented out for now as it doesn't seem critical. ^[Some studies have further investigated the extent to which different normalization accounts remove socially-relevant variance along with the intended removal of physiologically-caused variance [e.g., @adank2004; @disner1980; @hindle1978; @labov2010]. Removal of socially-relevant variance has been argued to be problematic for two separate reasons. First, for *researchers* who employ normalization as part of their data analysis, it can make it difficult to investigate the effects of social variables on pronunciation. Second, as a theory of how *listeners* overcome the lack of invariance in the speech signal, it has been argued to conflict with the finding that listeners infer social group membership from speech signal [@REFS]. Only this latter concern is of relevant for the present study, and---as others have pointed out---normalization does not necessarily mean that the raw input to normalization is discarded [@sumner2014; @OTHERS]. We thus do not further discuss this aspect.]  -->
@@ -1247,7 +1161,7 @@ This study employs the same speech materials as in the main study. Paralleling t
 
 ### Separability index {#sec:separabilityIndex}
 <!--AP: moved from main paper-->
-Previous studies have used different measures to assess the relative success of a normalization procedure in reducing inter-talker variability [see Table \@ref(tab:norm-evaluation-variability-SI) and @nearey1989 for an overview on classification accounts]. This includes assessing the reduction in variance or distance between means by visual inspection [e.g., @clopper2009; @disner1980; @hindle1978], or by calculating the reduction in within-category variance across talkers [e.g., @disner1980; @fabricius2009; @Flynn2011; @hindle1978], or comparing the degree of separation between category means for unnormalized and normalized data, i.e., an F-ratio [e.g., @labov2010].<!--AP: end here--> We will assess how distinguishable vowels become under different normalization accounts by calculating a separability index, as described in Equation \@ref(eq:separability-index). Following some previous studies [e.g., @labov2010], this separability index is essentially an F statistics, where the F statistics is the ratio of the within- and between-category variances:
+Previous studies have used different measures to assess the relative success of a normalization procedure in reducing inter-talker variability [see Table \@ref(tab:norm-evaluation-variability) and @nearey1989 for an overview on classification accounts]. This includes assessing the reduction in variance or distance between means by visual inspection [e.g., @clopper2009; @disner1980; @hindle1978], or by calculating the reduction in within-category variance across talkers [e.g., @disner1980; @fabricius2009; @Flynn2011; @hindle1978], or comparing the degree of separation between category means for unnormalized and normalized data, i.e., an F-ratio [e.g., @labov2010].<!--AP: end here--> We will assess how distinguishable vowels become under different normalization accounts by calculating a separability index, as described in Equation \@ref(eq:separability-index). Following some previous studies [e.g., @labov2010], this separability index is essentially an F statistics, where the F statistics is the ratio of the within- and between-category variances:
 
 \begin{equation}\label{eq:separability-index}
 \begin{split}

@@ -536,7 +536,7 @@ The Central Swedish vowel inventory contains 21 monophthong vowels. Seventeen of
 
 Additionally, there are four contextually conditioned allophones to [`r linguisticsdown::cond_cmpl("ɛ")`] and [`r linguisticsdown::cond_cmpl("ø")`]. Before /r/ (or any retroflex segment), both the long and short versions of these vowels lower to long and short [`r linguisticsdown::cond_cmpl("æ")`] and [`r linguisticsdown::cond_cmpl("œ")`], respectively. As shown in Table \@ref(tab:swedish-vowels) [adapted from @riad2014], some long-short vowel pairs are described to differ not only in quantity but also in quality: generally, short vowels are described as more open and also more centralized, forming a more condensed vowel space. In ongoing work [@persson2023], we found this to be confirmed for SwehVd.
 
-Several of the long vowels have been claimed to be diphthongized in Central Swedish [e.g., @elert1981; @fant1969; @fant1971; @kuronen2000] and/or with consonantal elements [@mcallister1974], though empirical evaluations of this claim have returned mixed results [@eklund1997; @fant1969; @leinonen2010]. Here do not discuss this issue further [but see @persson2023] since it is unclear how the presence of diphthongization would *bias* our results (rather than to lead to worse performance across all accounts).
+Several of the long vowels have been claimed to be diphthongized in Central Swedish [e.g., @elert1981; @fant1969; @fant1971; @kuronen2000] and/or with consonantal elements [@mcallister1974], though empirical evaluations of this claim have returned mixed results [@eklund1997; @fant1969; @leinonen2010]. Here we do not discuss this issue further [but see @persson2023] since it is unclear how the presence of diphthongization would *bias* our results (rather than to lead to worse performance across all accounts).
 
 \begin{table}
 \caption{\label{tab:swedish-vowels}The phonological characterization of long (left) and short (right) Central Swedish vowels (based on Riad, 2014)}
@@ -1038,7 +1038,7 @@ d.max.acc.toINTEND.diff <- d.max.acc.toINTEND %>%
 # Results {-}
 As an initial visualization of how normalization transforms the acoustic space, Figure \@ref(fig:swe-vowels-normalized) shows the transformed F1-F2 space for 5 of the accounts we evaluate. The SI (Section \@ref(sec:normVowelSpace)) provides plots of all 15 accounts.
 
-(ref:swe-vowels-normalized) The 11 long vowels (**top**) and the 10 short vowels (**bottom**) of Central Swedish when F1 and F2 are left unnormalized or transformed into a perceptual scale (**grey**), intrinsically normalized (**yellow**), or extrinsically normalized through centering (**blue**) or standardizing (**purple**). Each point corresponds to one recording, averaged across the five measurement points within each vowel segment. Each panel combines the data from all five test folds.
+(ref:swe-vowels-normalized) The 11 long vowels (**top**) and the 10 short vowels (**bottom**) of Central Swedish when F1 and F2 are transformed into a perceptual scale (**grey**), intrinsically normalized (**yellow**), or extrinsically normalized through centering (**blue**) or standardizing (**purple**). Each point corresponds to one recording, averaged across the five measurement points within each vowel segment. Each panel combines the data from all five test folds.
 
 ```{r}
 #Store grob.element
