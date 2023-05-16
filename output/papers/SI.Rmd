@@ -28,7 +28,7 @@ We used the following R packages to create this document: `r cite_r("latex-stuff
 
 # Additional information about the SwehVd databasee
 
-## Participant recruitment {#sec:recruitment -}
+## Participant recruitment {#sec:recruitment}
 Participants were recruited through word-of-mouth, flyers at Stockholm University Campus, and online channels (accindi.se). Figure \@ref(fig:flyer) is an example of flyers distributed at Stockholm University Campus. The flyer gives information on criteria for participation, recording procedure, reimbursement and contact information to experimenter (first author).
 
 (ref:flyer) Example flyer for recruiting Stockholm Swedish talkers for recording of the SwehVd database.
@@ -37,7 +37,7 @@ Participants were recruited through word-of-mouth, flyers at Stockholm Universit
 include_graphics("ad_recruitment.png")
 ```
 
-## Word list {#sec:wordlist -}
+## Word list {#sec:wordlist}
 Word list with all target and filler words, recorded by all talkers in the SwehVd database.
 
 \begin{table}
@@ -148,10 +148,10 @@ topp&nå\\
 \end{table}
 
 
-## Unanticipated challenges during recording (and how they were addressed)]{#sec:challenges -}
+## Unanticipated challenges during recording (and how they were addressed)]{#sec:challenges}
 In a small-scale pilot preceding recordings, the expected transparency of the orthography for eliciting the long and short vowels was confirmed by three native talkers and one non-native talker of Swedish (these talkers did not participate in the study). However, *hodd* [`r linguisticsdown::cond_cmpl("ʊ")`] and *hod* [`r linguisticsdown::cond_cmpl("uː")`] sometimes elicited [`r linguisticsdown::cond_cmpl("ɔ")`].^[The difficulty for some native talkers to produce [`r linguisticsdown::cond_cmpl("ʊ")`] when reading *hodd* might be due to frequency effects. Forms with stressed [`r linguisticsdown::cond_cmpl("ʊ")`] are rare in the Swedish language, and phonotactically similar words are most often pronounced as [`r linguisticsdown::cond_cmpl("ɔ")`] [see e.g., @riad2014].] We therefore decided to add instructions to the participants for these two words. When *hod* or *hodd* appeared on screen, a written guide indicating the target vowel appeared below the word in smaller font size: "hod som i hot", "hodd som i hosta", with *hot* and *hosta* being real Swedish words containing [`r linguisticsdown::cond_cmpl("uː")`] and [`r linguisticsdown::cond_cmpl("ʊ")`], respectively.^[English translations: "hod as in threat"(phonologically [`r linguisticsdown::cond_cmpl("uː")`]), "hodd as in cough"(phonologically [`r linguisticsdown::cond_cmpl("ʊ")`]).] Whenever the experimenter noticed that the pronunciations clearly targeted another vowel, recordings were stopped and participants were reminded to carefully read the guide. Despite our recording instructions, five of the talkers rarely ever produced the targeted [`r linguisticsdown::cond_cmpl("ʊ")`] vowel. Instead, they often mispronounced the vowel, hence they are not included in the subsetted SwehVd we use in this study.
 
-## Neutralization of hedd and hädd {#sec:neutralize -}
+## Neutralization of hedd and hädd {#sec:neutralize}
 For the vast majority of talkers, *hädd* productions elicited the same vowel as *hedd* (see Figure \@ref(fig:hedd)). This confirms the common assumption that the short allophone to /e/ neutralizes with the short allophone to [`r linguisticsdown::cond_cmpl("ɛ")`] in Central Swedish.
 
 (ref:hedd) The *hedd* and *hädd* words in the SwehVd vowel data in unnormalized F1-F2 space. Points show recordings of the *hedd* and *hädd* words ([`r linguisticsdown::cond_cmpl("ɛ")`]) by the 24 female native talkers in the database, averaged across the five measurement points within each vowel segment. Word labels indicate word means across talkers. Since *hädd* and *hedd* resulted in the same allophone, we exclude *hädd* from this and all other visualizations below. This facilitates comparison of, for example, densities across vowels (see diagonal of Figure \@ref(fig:swe-vowels-all-cues)).
@@ -188,7 +188,7 @@ d.SwehVd %>%
   theme(legend.position = "top")
 ```
 
-# Evaluation of implementations of Syrdal & Gopal's (1986) second dimension {#sec:SG-eval -}
+# Evaluation of implementations of Syrdal & Gopal's (1986) second dimension {#sec:SG-eval}
 For the second dimension, distinguishing between front and back vowels, @Syrdal1986 evaluates two different bark-difference measures: F2-F1 and F3-F2. Previous studies had concluded that F2-F1 distinguishes between all Swedish vowels [@fant1983], however, in @Syrdal1986's evaluation of American English, the F3-F2 dimension provided a better fit. Given that there seems to be language specific effects concerning @Syrdal1986's second dimension [e.g., @adank2003], here we compare the two difference measures for the vowels in the SwehVd database.
 
 ```{r}
@@ -416,7 +416,7 @@ p.accuracy.io.overall.SG
 
 We also evaluated the two Syrdal & Gopal implementations in terms of model predictions for perception. Figure \@ref(fig:accuracy-SG) displays the categorization accuracy for models trained on normalized data under the two implementations of the Syrdal & Gopal account. Mirroring the results from the separability index, the first implementation using F2-F1 for the second dimension, outperforms the implementation using F3-F2 bark-difference measure. These results taken together indicate that the F2-F1 implementation is more suitable for the materials used here, we therefore decided to use the first implementation throughout this paper.
 
-# Visualizing the distribution of vowel productions {#sec:normVowelSpace -}
+# Visualizing the distribution of vowel productions {#sec:normVowelSpace}
 Figures \@ref(fig:swe-vowels-normalized-long) and \@ref(fig:swe-vowels-normalized-short) visualize the Central Swedish vowels in the test data, after applying the 15 different scale-transformations and normalization accounts for a visual inspection. For this purpose, we focus on F1 and F2 only. In Section [Correlation matrices for all normalization accounts](#sec:correlation-matrices) below, we plot pairwise correlation plots of all cues for all different normalization accounts we compare.
 
 Visual inspection suggests a few initial observations. The most striking difference is perhaps between intrinsic normalization accounts [@Syrdal1986; @miller1989c] and all other approaches, though it is not immediately visually obvious which type of approach achieves better separability. Second, transforming the vowels to a different perceptual scale does not seem to affect the vowel distributions much, besides a minor decrease in category variance for some of the vowels. Some transformations bring the vowel categories closer together, towards the center of the vowel space, e.g., ERB and semitones. Third, centering formants by subtracting each talkers' mean [@mcmurray-jongman2011; @nearey1978] reduces some of the category variance, and as a result, increases the category separability. Transforming the vowel data into different scales prior to centering also seems to further improve separability (compare e.g., C-CuRE (Hz) and C-CuRE (semitones)). Overall, the top two performing accounts across the long and short vowels appear to be @lobanov1971 and @nearey1978. However, even for the best performing normalization accounts, there is still considerable category overlap. This involves some of the high long vowels, and some of the mid-center short vowels. This highlights the need to more systematically quantify the effects of normalization, as we do in this study.
@@ -465,7 +465,7 @@ p.vowels.norm.short
 \end{landscape}
 
 
-# Cue correlation matrices for all normalization accounts {#sec:correlation-matrices -}
+# Cue correlation matrices for all normalization accounts {#sec:correlation-matrices}
 Here we include correlation matrices for the SwehVd vowel data, transformed into the 15 different normalization spaces.
 
 \newpage
@@ -594,7 +594,7 @@ p.matrix.cues %+%
 # Vowel-specific ideal observer analyses {#sec:vowel-specific}
 The use of a perceptual model (here: ideal observers) also makes it straightforward to assess vowel-specific effects of normalization. The next two subsections provide both the predicted categorization accuracy per vowel in the different evaluations, as well as confusion matrices of the best and the worst performing ideal observers, shedding light on *how* normalization improves recognition accuracy. 
 
-## Per-vowel categorization accuracy of models trained on long and short vowels separately {#sec:accuracy-per-vowel -}
+## Per-vowel categorization accuracy of models trained on long and short vowels separately {#sec:accuracy-per-vowel}
 Unsurprisingly, some vowels are recognized with much higher accuracy than others---at least when uniform category priors are assumed, as we did here. This is a direct consequence of the position of the vowel in the acoustic-phonetic space, relative to neighboring vowels: the more neighboring vowels overlap with each other, the lower the accuracy with which they are recognized. Which vowels will benefit from normalization will thus naturally vary between languages, reflecting the language-specific properties of the vowel space. For instance, [`r linguisticsdown::cond_cmpl("iː")`] is often described as more easily recognized in previous work on other languages. This contrasts with our findings for Central Swedish: here, [`r linguisticsdown::cond_cmpl("iː")`] is part of the dense clustering of vowels along the height dimension and so has many close competitors. This highlights that recognition accuracy is due to the position of a vowel *relative* to its competitors [e.g., @Peterson1952; @Kuhl1991; @Polka2003], rather than its *absolute location* in the vowel space (e.g., [`r linguisticsdown::cond_cmpl("iː")`] being a peripheral vowel).
 
 Also of interest is that not all vowels exhibit the benefit of normalization. In general, across evaluations, it seems to be vowels that are already recognized with high accuracy that does not benefit from normalization, which replicate previous studies that have included per-vowel accuracies [e.g., @adank2003; @Syrdal1986]. For one vowel in particular, normalization can actually be detrimental to recognition. The accuracy of some normalized models is reduced compared to unnormalized models for [`r linguisticsdown::cond_cmpl("ʉː")`] when more cues than F1 and F2 are considered. Finally, while there are minor differences across vowels in the relative goodness of different normalizations, the models that perform overall best also perform best on each vowel [in line with @adank2003]. This further demonstrates the plausibility of these normalization accounts for perception.
@@ -745,7 +745,7 @@ gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.all.secon
 
 \newpage
 
-## Confusion and difference matrices of ideal observers {#sec:confusion -}
+## Confusion and difference matrices of ideal observers {#sec:confusion}
 To further explore effects of neighbouring categories, and which categories are more easily confused by the models and with what, we plot confusion matrices of the worst and best performing models trained on the long, short or all Central Swedish vowels, under the different assumptions about the relevant cues. Next to the confusion matrices, we plot difference matrices to facilitate comparison.
 
 ```{r, echo=FALSE}
@@ -1120,7 +1120,7 @@ cowplot::plot_grid(
 
 \end{landscape}
 
-# Auxliary study: comparing the effects of normalization accounts on between- vs. within-category variability {#sec:auxiliaryStudy -}
+# Auxliary study: comparing the effects of normalization accounts on between- vs. within-category variability {#sec:auxiliaryStudy}
 A large portion of previous studies evaluating normalization accounts against production data, has compared approaches in terms of how they affect category variability. In this additional study, we follow this traditional approach and evaluate how effectively different normalization accounts reduce the within-category variability of Central Swedish vowels. We calculate a separability index under different assumptions about the relevant cues and the size of the vowel space (the long and short vowels separately, or the entire space) and assess the effects on vowel category variability. To anticipate one take-home point, the results highlight important shortcomings of separability indices in evaluating normalization accounts and underlines the benefits of using a perceptual model to compare the effects of different normalization accounts.
 
 Before we evaluate how category separability is affected by normalization in F1-F2, F1-F3, and F0-F3 and duration space, we look at how the normalization accounts affect the separability of vowels along each cue separately (Figure \@ref(fig:separability-by-cue)). As we show below, this is helpful in understanding the subsequently presented results for combinations of cues.
@@ -1215,12 +1215,12 @@ norm_accounts_eval %>%
 Table \@ref(tab:norm-evaluation-variability-SI) lists previous studies that have compared normalization accounts in terms of their effectiveness in reducing inter-talker variability. These studies varied in the specific metrics they employed to assess the effects of normalization, the languages they studied, and the conclusions they arrived at. Two generalizations emerge from Table \@ref(tab:norm-evaluation-variability-SI). First, transformation to a perceptual scale alone does not seem to be sufficient to reduce inter-talker variability [see also @adank2004; @carpenter1993; @clopper2009; @escudero2007; @Flynn2011; @kohn2012a]. Second, normalization accounts that include centering and/or standardizing seem to perform best in reducing inter-talker variability [see e.g. @barreda2018a; @disner1980; @fabricius2009; @kohn2012a; @labov2010; @lobanov1971]. When Lobanov and Gerstman normalization---both involving standardizing---were included in a study, they often rank among the top two performing accounts. Of note, Nearey normalization [@nearey1978] seems to perform well even though it does not involve the computationally more complex operation of standardizing. This suggests that simple centering of formants relative to the talker's mean *might* be sufficient to achieve significant variance reduction [but see @disner1980 for Swedish, which is revisited in this study].-->
 <!-- Commented out for now as it doesn't seem critical. ^[Some studies have further investigated the extent to which different normalization accounts remove socially-relevant variance along with the intended removal of physiologically-caused variance [e.g., @adank2004; @disner1980; @hindle1978; @labov2010]. Removal of socially-relevant variance has been argued to be problematic for two separate reasons. First, for *researchers* who employ normalization as part of their data analysis, it can make it difficult to investigate the effects of social variables on pronunciation. Second, as a theory of how *listeners* overcome the lack of invariance in the speech signal, it has been argued to conflict with the finding that listeners infer social group membership from speech signal [@REFS]. Only this latter concern is of relevant for the present study, and---as others have pointed out---normalization does not necessarily mean that the raw input to normalization is discarded [@sumner2014; @OTHERS]. We thus do not further discuss this aspect.]  -->
 
-## Methods {#sec:methodsI -}
+## Methods {#sec:methodsI}
 
-### Speech materials {#sec:speechMaterialsI -}
+### Speech materials {#sec:speechMaterialsI}
 This study employs the same speech materials as in the main study. Paralleling the main study, we evaluated category separability for each combination of normalization account, cues, and training-test fold. Specifically, we use the exact same cross-validation folds as in the main study.
 
-### Separability index {#sec:separabilityIndex -}
+### Separability index {#sec:separabilityIndex}
 <!--AP: moved from main paper-->
 Previous studies have used different measures to assess the relative success of a normalization procedure in reducing inter-talker variability [see Table \@ref(tab:norm-evaluation-variability-SI) and @nearey1989 for an overview on classification accounts]. This includes assessing the reduction in variance or distance between means by visual inspection [e.g., @clopper2009; @disner1980; @hindle1978], or by calculating the reduction in within-category variance across talkers [e.g., @disner1980; @fabricius2009; @Flynn2011; @hindle1978], or comparing the degree of separation between category means for unnormalized and normalized data, i.e., an F-ratio [e.g., @labov2010].<!--AP: end here--> We will assess how distinguishable vowels become under different normalization accounts by calculating a separability index, as described in Equation \@ref(eq:separability-index). Following some previous studies [e.g., @labov2010], this separability index is essentially an F statistics, where the F statistics is the ratio of the within- and between-category variances:
 
@@ -1233,7 +1233,7 @@ Previous studies have used different measures to assess the relative success of 
 
 where $K$ is the number of categories, $N_c$ is the number of observations for category $c$, $x_{i,c}$ is the cue vector (for all cues considered in the calculation of the separability index) for observation $i$ of category $c$, $\bar{x}_c$ is the cue mean vector for category $c$, and $\bar{x}$ is the overall cue mean vector. We calculated this separability index separately for each combination of normalization account, cues, and training-test fold, as described next.
 
-## Results {-#sec:resultsI}
+## Results {#sec:resultsI}
 
 ```{r}
 p.separability.by_cue <- plot_separability(d.SwehVd.forStudy.SI.long %>%
@@ -1310,7 +1310,7 @@ p.separability <- plot_separability(d.SwehVd.forStudy.SI.long %>%
 plot_grid(NULL, p.separability, rel_widths = c(.01, 1))
 ```
 
-## Discussion {#sec:studyI-discussion -}
+## Discussion {#sec:studyI-discussion}
 When only F1 and F2 are considered, as in most previous work on vowel normalization, we find that extrinsic centering and standardizing accounts achieve the best category separability. Within these two types of accounts, there is considerable variability. For example, among the intrinsic accounts, Miller performs worse than Syrdal & Gopal, among the extrinsic accounts, versions of C-CuRE seem to consistently perform best. It is also worth noting, however, that there is never a single account that performs significantly better than all other normalizations. This points to the inherent similarities across normalization accounts, and perhaps limitations of the approach taken here (and in some previous work). This point is also raised in the general discussion in the main paper. Regardless of these caveats, the findings for F1 and F2 in this additional study, revise the results of @disner1980 for Swedish, and instead replicates previous findings for the other Germanic languages in Disner's sample as well as the majority of previous studies on other languages [e.g., @fabricius2009; @Flynn2011; @labov2010]. 
 
 However, when F3 is considered along with F1 and F2, this result does no longer hold. Key to understanding this result and what it says about the suitability of category separability as a measure of normalization accounts is Figure \@ref(fig:separability-by-cue): while extrinsic normalization performs better than other approaches for F1 and F2, the absolute differences in performance are small compared to the advantage of the intrinsic account observed for F3. Combined with a seemingly innocuous aspect of the separability index in Equation \@ref(eq:separability-index), this allows separability along F3 to dominate separability along the other cue dimensions. Our separability index takes the *sum* of (squared) distances along each cue dimension, essentially assuming that the effect of all cues is simply a sum of each cue's effect considered separately. This means that the separability index cannot capture the *joint* effect of cues---whether, for example, one cue effectively separates one set of categories and another cue separates another set of categories, rather than both cues separating the same categories. The separability index thus cannot recognize, for example, that F1 and F2 capture largely complementary aspects of the vowel inventory (as evident in, for example, Figures \@ref(fig:swe-vowels-normalized-long) and \@ref(fig:swe-vowels-normalized-short)).
