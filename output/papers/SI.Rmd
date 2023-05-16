@@ -2,7 +2,7 @@
 \setcounter{page}{1}
 
 # Supplementary information for *Persson & Jaeger (2023). Evaluating normalization accounts against the dense vowel space of Central Swedish* {-}
-Both the main text and these supplementary information (SI) are derived from the same R markdown document available via OSF at [https://osf.io/q7gjp/](https://osf.io/q7gjp/). **The PDFs for both the main text and the SI are best viewed using Acrobat Reader.** Some links and animations might not work in other PDF viewers.
+Both the main text and these supplementary information (SI) are derived from the same R markdown document available via OSF at [https://osf.io/zb8gx/](https://osf.io/zb8gx/). 
 
 \setcounter{section}{0}
 \setcounter{footnote}{0}
@@ -1338,3 +1338,4 @@ However, when F3 is considered along with F1 and F2, this result does no longer 
 This is not the only deficiency of the separability index or similar measures of category variability. The use of *squared* distances means that even a small number of observations located far away from the category mean can disproportionally affect the index. Consider, for example, the F3 densities in Figure \@ref(fig:F3-densities). For non-intrinsic normalizations, some categories have low but non-zero densities far away from the mode. Because of the use of squared distances, this results in low category separability for these normalization accounts despite the fact that observations with such cue values are rare and thus not expected to have a large effect on the *average* perceptual separability of vowels. For the same reason (the use of squared distances), category separability can be high even if a cue separates only a small subset of categories (as is the case for F3), compared to another cue that more gradiently separates *all* categories (as is the case for F1 and F2; see Figure \@ref(fig:swe-vowels-all-cues)).
 
 In sum, indices of variability and category separability like that in Equation \@ref(eq:separability-index) fail to adequately assess the expected consequences of normalization for perception, which is the primary interest of this paper, and addressed by the methodology we employed in the main study.
+
