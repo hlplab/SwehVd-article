@@ -636,7 +636,7 @@ plot_io_results_per_vowel <- function(data) {
                      colour = IO.Normalization.Type,
                      label = sprintf("%0.2f", mean)),
                alpha = .85,
-               size = 2.5,
+               size = 2,
                angle = 90,
                hjust = 0) +
     geom_hline(aes(yintercept = case_when(IO.Quantity == "long" ~ 1/11,
@@ -704,7 +704,7 @@ p.accuracy.io.per.vowel.all.4 <- plot_io_results_per_vowel(
 
 \begin{landscape}
 
-```{r predictions-per-vowel-long, fig.width=base.width * 5, fig.height=base.height * 3, fig.align='center', out.width='90%', fig.cap="(ref:predictions-per-vowel-long)"}
+```{r predictions-per-vowel-long, fig.width=base.width * 6, fig.height=base.height * 4, fig.align='center', out.width='90%', fig.cap="(ref:predictions-per-vowel-long)"}
 p.accuracy.io.per.vowel.long.1
 ```
 \end{landscape}
@@ -713,33 +713,55 @@ p.accuracy.io.per.vowel.long.1
 
 \begin{landscape}
 
-```{r predictions-per-vowel-long-2, fig.width=base.width * 5, fig.height=base.height * 3, fig.align='center', out.width='90%', fig.cap="(ref:predictions-per-vowel-long-2)"}
+```{r predictions-per-vowel-long-2, fig.width=base.width * 6.5, fig.height=base.height * 4, fig.align='center', out.width='90%', fig.cap="(ref:predictions-per-vowel-long-2)"}
 p.accuracy.io.per.vowel.long.2
 ```
 \end{landscape}
 
 (ref:predictions-per-vowel-short) Per-vowel predicted categorization accuracy of the ideal observers trained on the **short** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
-```{r predictions-per-vowel-short, fig.width=base.width * 4, fig.height=base.height * 5, fig.align='center', out.width='90%', fig.cap="(ref:predictions-per-vowel-short)"}
+```{r predictions-per-vowel-short, fig.width=base.width * 4, fig.height=base.height * 5, fig.align='center', out.width='80%', fig.cap="(ref:predictions-per-vowel-short)"}
 p.accuracy.io.per.vowel.short <- cowplot::plot_grid(p.accuracy.io.per.vowel.short.1, NULL, p.accuracy.io.per.vowel.short.2 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l", rel_heights = c(1,-.15,1))
 gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.short, left = axis.title.accuracy))
 ```
 
 (ref:predictions-per-vowel-all-1) Per-vowel predicted categorization accuracy of the ideal observers trained on **all** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
-```{r predictions-per-vowel-all-1, fig.width=base.width * 4, fig.height=base.height * 5, fig.align='center', out.width='90%', fig.cap="(ref:predictions-per-vowel-all-1)"}
-p.accuracy.io.per.vowel.all.first <- cowplot::plot_grid(p.accuracy.io.per.vowel.all.1, NULL, p.accuracy.io.per.vowel.all.2 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l", rel_heights = c(1,-.15,1))
-gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.all.first, left = axis.title.accuracy))
+\begin{landscape}
+
+```{r predictions-per-vowel-all-1, fig.width=base.width * 6, fig.height=base.height * 4, fig.align='center', out.width='80%', fig.cap="(ref:predictions-per-vowel-all-1)"}
+p.accuracy.io.per.vowel.all.1
 ```
+\end{landscape}
 
 (ref:predictions-per-vowel-all-2) (*Continued from last page*)Per-vowel predicted categorization accuracy of the ideal observers trained on **all** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
 
-```{r predictions-per-vowel-all-2, fig.width=base.width * 4.5, fig.height=base.height * 5, fig.align='center', out.width='90%', fig.cap="(ref:predictions-per-vowel-all-2)"}
-p.accuracy.io.per.vowel.all.second <- cowplot::plot_grid(
-  cowplot::plot_grid(p.accuracy.io.per.vowel.all.3, NULL, rel_widths = c(5/6, 1/6), align = "hv", axis = "l"),
-                     p.accuracy.io.per.vowel.all.4 + theme(axis.title.y = element_blank()), ncol = 1, align = "hv", axis = "l", rel_heights = c(3/7, 3.5/7))
-gridExtra::grid.arrange(gridExtra::arrangeGrob(p.accuracy.io.per.vowel.all.second, left = axis.title.accuracy))
+\begin{landscape}
+
+```{r predictions-per-vowel-all-2, fig.width=base.width * 6, fig.height=base.height * 4, fig.align='center', out.width='80%', fig.cap="(ref:predictions-per-vowel-all-2)"}
+p.accuracy.io.per.vowel.all.2
 ```
+\end{landscape}
+
+\begin{landscape}
+
+(ref:predictions-per-vowel-all-3) (*Continued from last page*)Per-vowel predicted categorization accuracy of the ideal observers trained on **all** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+
+```{r predictions-per-vowel-all-3, fig.width=base.width * 6, fig.height=base.height * 6, fig.align='center', out.width='80%', fig.cap="(ref:predictions-per-vowel-all-3)"}
+p.accuracy.io.per.vowel.all.3
+```
+
+\end{landscape}
+
+\begin{landscape}
+
+(ref:predictions-per-vowel-all-4) (*Continued from last page*)Per-vowel predicted categorization accuracy of the ideal observers trained on **all** vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95% bootstrapped CI across the five folds. Chance level is indicated by grey line.
+
+```{r predictions-per-vowel-all-4, fig.width=base.width * 6, fig.height=base.height * 4, fig.align='center', out.width='80%', fig.cap="(ref:predictions-per-vowel-all-4)"}
+p.accuracy.io.per.vowel.all.4
+```
+
+\end{landscape}
 
 \newpage
 
