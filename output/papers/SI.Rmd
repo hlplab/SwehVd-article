@@ -3,9 +3,28 @@
 \renewcommand{\thesection}{\S \arabic{section}}
 \renewcommand{\theHsection}{sisection. \arabic{section}}
 
-# Supplementary information {-}
+# Supplementary information for *Persson & Jaeger (2023). Evaluating normalization accounts against the dense vowel space of Central Swedish* {-}
+Both the main text and these supplementary information (SI) are derived from the same R markdown document available via OSF at [https://osf.io/q7gjp/](https://osf.io/q7gjp/). **The PDFs for both the main text and the SI are best viewed using Acrobat Reader.** Some links and animations might not work in other PDF viewers.
 
 \setcounter{section}{0}
+\setcounter{footnote}{0}
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\setcounter{equation}{0}
+\renewcommand{\thefootnote}{S\arabic{footnote}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\theequation}{S\arabic{equation}}
+
+# Required software {#sec:SI-software}
+
+The document was compiled using \texttt{knitr} [@xie2021] in RStudio with R:
+
+```{r}
+version
+```
+
+We used the following R packages to create this document: `r cite_r("latex-stuff/r-references.bib")`.
 
 # Additional information about the SwehVd databasee
 
