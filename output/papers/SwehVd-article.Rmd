@@ -772,7 +772,7 @@ d.SwehVd.forStudy %<>%
   arrange(crossvalidation_group)
 ```
 
-## Exclusions
+## Exclusions {-}
 We use the SwehVd database with some exclusions. Since we are interested in assessing the effects of normalization, we excluded any productions on which the talker did not produce the targeted vowel. We then excluded all talkers (N = `r n_distinct(d.SwehVd.exclusions$Talker)`) with fewer than 5 remaining recordings for at least one of the vowels. This left data from `r n_distinct(d.SwehVd$Talker) - n_distinct(d.SwehVd.exclusions$Talker)` female native talkers, with on average `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = mean(n)) %>% pull() %>% round(digits = 0)` (se= `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = se(n)) %>% pull() %>% round(digits = 1)`) tokens per vowel (range = `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = min(n)) %>% pull() %>% round(digits = 0)` to `r d.SwehVd.forStudy %>% group_by(category) %>% tally() %>% summarise(x = max(n)) %>% pull() %>% round(digits = 0)`), for a total of `r nrow(d.SwehVd.forStudy)` observations. We also exclude all *hädd* productions, as they elicited the same vowel as *hedd* (in line with @riad2014; see SI \@ref(#sec:neutralize)). This way, we have about equally many tokens from all vowels, simplifying the cross-validation procedure presented below and facilitating visual comparisons across vowels in our figures.
 
 Since our goal is to obtain a reliable estimate of the formant values during the steady state of the vowel, we use only the three formant measurements extracted from the middle of the vowel (at 35%, 50%, and 65% into the vowel).^[While this is the approach most commonly employed in the literature, it has the potential downside that co-articulation might affect formant values at the measurement points differently for long and short vowels (since the long and short vowels differ in overall duration). An alternative approach would be to extract formants at fixed durations (e.g., 30 ms) after the vowel onset and before the vowel offset. Since the findings we present below do not indicate any systematic differences in the performance of normalization accounts between long and short vowels, we do not consider this issue further here.]
@@ -818,122 +818,6 @@ d.SwehVd.forStudy.long <-
    select(-c(Duration_CCuRE, Normalization.Scale)) %>%
    relocate(Talker, Age, Normalization.Type, crossvalidation_group, fold_type, fold, category, Quantity, Token)
 ```
-
-As an initial visualization of how normalization transforms the acoustic space, Figure \@ref(fig:swe-vowels-normalized) plots of a subset of the 15 accounts we evaluate in F1-F2 space. In the SI, Section [Visualizing the distribution of vowel productions](#sec:normVowelSpace), we include plots of all 15 accounts.
-
-(ref:swe-vowels-normalized) The 11 long vowels (**top**) and the 10 short vowels (**bottom**) of Central Swedish when F1 and F2 are left unnormalized or transformed into a perceptual scale (**grey**), intrinsically normalized (**yellow**), or extrinsically normalized through centering (**blue**) or standardizing (**purple**). Each point corresponds to one recording, averaged across the five measurement points within each vowel segment. Each panel combines the data from all five test folds.
-
-```{r}
-#Store grob.element
-element_textbox_highlight <- function(
-    ...,
-    hi.labels = NULL, hi.fill = NULL,
-    hi.col = NULL, hi.box.col = NULL,
-    hi.labels2 = NULL, hi.fill2 = NULL,
-    hi.col2 = NULL, hi.box.col2 = NULL,
-    hi.labels3 = NULL, hi.fill3 = NULL,
-    hi.col3 = NULL, hi.box.col3 = NULL
-) {
-  structure(
-    c(ggtext::element_textbox(...),
-      list(hi.labels = hi.labels, hi.fill = hi.fill, hi.col = hi.col, hi.box.col = hi.box.col,
-           hi.labels2 = hi.labels2, hi.fill2 = hi.fill2, hi.col2 = hi.col2, hi.box.col2 = hi.box.col2,
-           hi.labels3 = hi.labels3, hi.fill3 = hi.fill3, hi.col3 = hi.col3, hi.box.col3 = hi.box.col3)),
-    class = c("element_textbox_highlight", "element_textbox", "element_text", "element",
-              "element_textbox_highlight", "element_textbox", "element_text", "element",
-              "element_textbox_highlight", "element_textbox", "element_text", "element"))
-}
-
-element_grob.element_textbox_highlight <- function(element, label = "", ...) {
-  if (label %in% element$hi.labels) {
-    element$fill <- element$hi.fill %||% element$fill
-    element$colour <- element$hi.col %||% element$colour
-    element$box.colour <- element$hi.box.col %||% element$box.colour
-  }
-  if (label %in% element$hi.labels2) {
-    element$fill <- element$hi.fill2 %||% element$fill
-    element$colour <- element$hi.col2 %||% element$colour
-    element$box.colour <- element$hi.box.col2 %||% element$box.colour
-  }
-  if (label %in% element$hi.labels3) {
-    element$fill <- element$hi.fill3 %||% element$fill
-    element$colour <- element$hi.col3 %||% element$colour
-    element$box.colour <- element$hi.box.col3 %||% element$box.colour
-  }
-  NextMethod()
-}
-
-# Plot vowel data in all normalization formats
-p.vowels.norm <-
-  d.SwehVd.forStudy.long %>%
-  # filter down to test folds since that's what we later evaluate SI and IOs for + the best performing SyrdalGopal
-  filter(fold_type == "test", Quantity == "long", Normalization.Type %in% c("transformed (Bark)", "Miller (log)", "C-CuRE (Hz)", "Nearey2 (log)", "Lobanov (Hz)")) %>%
-  ggplot(
-    aes(
-      x = F2,
-      y = F1)) +
-  geom_point(
-    aes(
-      colour = category,
-      shape = Quantity),
-    alpha = 0.4,
-    size = .7) +
-  scale_colour_manual(name = "category", values = colors.vowel.swe) +
-  scale_x_reverse("F2", position = "top", scales::pretty_breaks(n = 3)) +
-  scale_y_reverse("F1", position = "right", scales::pretty_breaks(n = 3)) +
-  guides(alpha = "none", color = "none", shape = "none") +
-  facet_wrap(~ factor(Normalization.Type, levels = labels.normalization), scales = "free", ncol = 5) +
-  theme(
-    axis.title.y = element_blank()) +
-    theme_half_open(12) +
-    background_grid() +
-    theme(
-      strip.background = element_blank(),
-      strip.text = element_textbox_highlight(
-        size = 8,
-        color = "black", fill = "#C9C0BB", box.color = "#C9C0BB",
-        halign = 0.5, linetype = 1, r = unit(3, "pt"),
-        #width = unit(1, "npc"),
-        padding = margin(2, 3, 2, 3), margin = margin(3, 3, 3, 3),
-        #margin = margin(0.6, 0.5, 0.5, 0.3),
-        # this is new relative to element_textbox():
-        # first named set
-        hi.labels = c("SyrdalGopal (Bark)", "Miller (log)"),
-        hi.fill = "#E6BE8A", hi.col = "black", hi.box.col = "#E6BE8A",
-        # add second set
-        hi.labels2 = c("C-CuRE (Hz)", "C-CuRE (Mel)", "C-CuRE (Bark)", "C-CuRE (ERB)", "C-CuRE (semitones)", "Nearey1 (log)", "Nearey2 (log)"),
-        hi.fill2 = "#ABCDEF", hi.col2 = "black", hi.box.col2 = "#ABCDEF",
-        # add third set
-        hi.labels3 = c("Gerstman (Hz)", "Lobanov (Hz)"),
-        hi.fill3 = "#DDADAF", hi.col3 = "black", hi.box.col3 = "#DDADAF"),
-      axis.text.x = element_text(size=8, vjust=1),
-      axis.text.y = element_text(size=8, hjust=1, vjust=.5),
-      axis.title.x = element_text(size=8, vjust=0, hjust=0.5, face = "bold"),
-      axis.title.y = element_text(size=8, hjust= 0.5, vjust=0.5, face = "bold"),
-      legend.title = element_text(size=8, face = "bold", hjust= 0),
-      legend.text = element_text(size=8),
-      strip.placement = "outside",
-      aspect.ratio = 1,
-      panel.grid.major = element_blank())
-
-p.vowels.norm.subset.short <- p.vowels.norm %+%
-  (d.SwehVd.forStudy.long %>%
-  # filter down to test folds since that's what we later evaluate SI and IOs for + the best performing SyrdalGopal
-  filter(fold_type == "test", Quantity == "short", Normalization.Type %in% c("transformed (Bark)", "Miller (log)", "C-CuRE (Hz)", "Nearey2 (log)", "Lobanov (Hz)")))  +
-  geom_point(aes(color = category),
-             shape = 17,
-             alpha = .4,
-             size = .7)
-
-```
-
-\begin{landscape}
-
-```{r swe-vowels-normalized, fig.width=base.width * 4, fig.height=base.height * 2.5, fig.align='center', out.width='90%', fig.cap="(ref:swe-vowels-normalized)"}
-cowplot::plot_grid(p.vowels.norm, p.vowels.norm.subset.short, cols = 1)
-```
-
-\end{landscape}
 
 ## Ideal Observers to predict the consequences of normalization for perception {#sec:IOs -}
 Ideal observers provide an analytical framework for estimating how a rational listener would optimally behave in response to input (here: $n$-way alternative forced-choice categorization). Ideal observer models have been found to provide a good qualitative and quantitative fit against human speech perception [e.g., @clayards2008; @feldman2009; @kleinschmidt-jaeger2015; @kronrod2016; @norris-mcqueen2008; @xie2021cognition]. Unlike most other models of speech perception, ideal observers in their simplest form---as employed here---have zero degrees of freedom in the link from production to perception: once the ideal observer is trained on phonetic data from a database of *productions*, its predictions about *perception* are not mediated by additional parameters (unlike, e.g., exemplar models, connectionist accounts, or neural networks). This removes researchers' degrees of freedom in the evaluation of normalization accounts, which is the reason we chose ideal observers for this study.
@@ -1150,11 +1034,124 @@ d.max.acc.toINTEND.diff <- d.max.acc.toINTEND %>%
 ```
 
 # Results {-}
+As an initial visualization of how normalization transforms the acoustic space, Figure \@ref(fig:swe-vowels-normalized) shows the transformed F1-F2 space for 5 of the accounts we evaluate. The SI (\@ref(#sec:normVowelSpace)) provides plots of all 15 accounts.
 
-## Results aggregating across vowels {#sec:resultsII -}
-Figure \@ref(fig:predictions) visualizes the unnormalized and normalized models' predictions for perception of Central Swedish vowels, under different assumptions about the relevant cues. This figure aggregates results across vowels of a given type (long, short, all). We first discuss these results, and then briefly summarize how different vowels are affected by normalization.
+(ref:swe-vowels-normalized) The 11 long vowels (**top**) and the 10 short vowels (**bottom**) of Central Swedish when F1 and F2 are left unnormalized or transformed into a perceptual scale (**grey**), intrinsically normalized (**yellow**), or extrinsically normalized through centering (**blue**) or standardizing (**purple**). Each point corresponds to one recording, averaged across the five measurement points within each vowel segment. Each panel combines the data from all five test folds.
 
-The first observation is that the relative performance of the different normalization accounts within each panel is remarkably constant across all panels. Regardless of the combination of cues or the vowel types considered (long, short, all), transformation into a perceptual space does little to improve recognition accuracy, compared to unnormalized cues. Intrinsic normalization, too, does not improve recognition accuracy. This replicates previous work on Dutch [@adank2004] but conflicts with some evaluations of English [e.g., @syrda1985]. @adank2004 discussed whether the discrepancy in results might be attributed to implementations of the Bark-transformation, or to what @syrda1985 describes as language-specificity of the second dimension of @Syrdal1986 normalization. The present results would seem to confirm this vulnerability of intrinsic normalizations. <!-- TO DO: Starting at @adank2004 discussed, this feels to me more like sth that should go into the discussion. Perhaps we do the same with any replication statements? (but at least these more complicated ones) -->
+```{r}
+#Store grob.element
+element_textbox_highlight <- function(
+    ...,
+    hi.labels = NULL, hi.fill = NULL,
+    hi.col = NULL, hi.box.col = NULL,
+    hi.labels2 = NULL, hi.fill2 = NULL,
+    hi.col2 = NULL, hi.box.col2 = NULL,
+    hi.labels3 = NULL, hi.fill3 = NULL,
+    hi.col3 = NULL, hi.box.col3 = NULL
+) {
+  structure(
+    c(ggtext::element_textbox(...),
+      list(hi.labels = hi.labels, hi.fill = hi.fill, hi.col = hi.col, hi.box.col = hi.box.col,
+           hi.labels2 = hi.labels2, hi.fill2 = hi.fill2, hi.col2 = hi.col2, hi.box.col2 = hi.box.col2,
+           hi.labels3 = hi.labels3, hi.fill3 = hi.fill3, hi.col3 = hi.col3, hi.box.col3 = hi.box.col3)),
+    class = c("element_textbox_highlight", "element_textbox", "element_text", "element",
+              "element_textbox_highlight", "element_textbox", "element_text", "element",
+              "element_textbox_highlight", "element_textbox", "element_text", "element"))
+}
+
+element_grob.element_textbox_highlight <- function(element, label = "", ...) {
+  if (label %in% element$hi.labels) {
+    element$fill <- element$hi.fill %||% element$fill
+    element$colour <- element$hi.col %||% element$colour
+    element$box.colour <- element$hi.box.col %||% element$box.colour
+  }
+  if (label %in% element$hi.labels2) {
+    element$fill <- element$hi.fill2 %||% element$fill
+    element$colour <- element$hi.col2 %||% element$colour
+    element$box.colour <- element$hi.box.col2 %||% element$box.colour
+  }
+  if (label %in% element$hi.labels3) {
+    element$fill <- element$hi.fill3 %||% element$fill
+    element$colour <- element$hi.col3 %||% element$colour
+    element$box.colour <- element$hi.box.col3 %||% element$box.colour
+  }
+  NextMethod()
+}
+
+# Plot vowel data in all normalization formats
+p.vowels.norm <-
+  d.SwehVd.forStudy.long %>%
+  # filter down to test folds since that's what we later evaluate SI and IOs for + the best performing SyrdalGopal
+  filter(fold_type == "test", Quantity == "long", Normalization.Type %in% c("transformed (Bark)", "Miller (log)", "C-CuRE (Hz)", "Nearey2 (log)", "Lobanov (Hz)")) %>%
+  ggplot(
+    aes(
+      x = F2,
+      y = F1)) +
+  geom_point(
+    aes(
+      colour = category,
+      shape = Quantity),
+    alpha = 0.4,
+    size = .7) +
+  scale_colour_manual(name = "category", values = colors.vowel.swe) +
+  scale_x_reverse("F2", position = "top", scales::pretty_breaks(n = 3)) +
+  scale_y_reverse("F1", position = "right", scales::pretty_breaks(n = 3)) +
+  guides(alpha = "none", color = "none", shape = "none") +
+  facet_wrap(~ factor(Normalization.Type, levels = labels.normalization), scales = "free", ncol = 5) +
+  theme(
+    axis.title.y = element_blank()) +
+    theme_half_open(12) +
+    background_grid() +
+    theme(
+      strip.background = element_blank(),
+      strip.text = element_textbox_highlight(
+        size = 8,
+        color = "black", fill = "#C9C0BB", box.color = "#C9C0BB",
+        halign = 0.5, linetype = 1, r = unit(3, "pt"),
+        #width = unit(1, "npc"),
+        padding = margin(2, 3, 2, 3), margin = margin(3, 3, 3, 3),
+        #margin = margin(0.6, 0.5, 0.5, 0.3),
+        # this is new relative to element_textbox():
+        # first named set
+        hi.labels = c("SyrdalGopal (Bark)", "Miller (log)"),
+        hi.fill = "#E6BE8A", hi.col = "black", hi.box.col = "#E6BE8A",
+        # add second set
+        hi.labels2 = c("C-CuRE (Hz)", "C-CuRE (Mel)", "C-CuRE (Bark)", "C-CuRE (ERB)", "C-CuRE (semitones)", "Nearey1 (log)", "Nearey2 (log)"),
+        hi.fill2 = "#ABCDEF", hi.col2 = "black", hi.box.col2 = "#ABCDEF",
+        # add third set
+        hi.labels3 = c("Gerstman (Hz)", "Lobanov (Hz)"),
+        hi.fill3 = "#DDADAF", hi.col3 = "black", hi.box.col3 = "#DDADAF"),
+      axis.text.x = element_text(size=8, vjust=1),
+      axis.text.y = element_text(size=8, hjust=1, vjust=.5),
+      axis.title.x = element_text(size=8, vjust=0, hjust=0.5, face = "bold"),
+      axis.title.y = element_text(size=8, hjust= 0.5, vjust=0.5, face = "bold"),
+      legend.title = element_text(size=8, face = "bold", hjust= 0),
+      legend.text = element_text(size=8),
+      strip.placement = "outside",
+      aspect.ratio = 1,
+      panel.grid.major = element_blank())
+
+p.vowels.norm.subset.short <- p.vowels.norm %+%
+  (d.SwehVd.forStudy.long %>%
+  # filter down to test folds since that's what we later evaluate SI and IOs for + the best performing SyrdalGopal
+  filter(fold_type == "test", Quantity == "short", Normalization.Type %in% c("transformed (Bark)", "Miller (log)", "C-CuRE (Hz)", "Nearey2 (log)", "Lobanov (Hz)")))  +
+  geom_point(aes(color = category),
+             shape = 17,
+             alpha = .4,
+             size = .7)
+```
+
+\begin{landscape}
+
+```{r swe-vowels-normalized, fig.width=base.width * 4, fig.height=base.height * 2.5, fig.align='center', out.width='90%', fig.cap="(ref:swe-vowels-normalized)"}
+cowplot::plot_grid(p.vowels.norm, p.vowels.norm.subset.short, cols = 1)
+```
+
+\end{landscape}
+
+Figure \@ref(fig:predictions) visualizes the unnormalized and normalized models' predictions for perception of Central Swedish vowels, under different assumptions about the relevant cues. This figure aggregates results across vowels of a given type (long, short, all). Additional studies in the SI (\@ref(sec:vowel-specific)) show results separately for each vowel, as well as visualizations summarizing how normalization affects the vowel-to-vowel confusion. These additional studies demonstrate, for example, that not all vowels benefit equally from normalization.
+
+Averaging over all vowels, Figure \@ref(fig:predictions) highlights that the relative performance of the different normalization accounts within each panel is remarkably constant across panels. Regardless of the combination of cues or the vowel types considered (long, short, all), transformation into a perceptual space does little to improve recognition accuracy, compared to unnormalized cues. Intrinsic normalization, too, does not improve recognition accuracy. This replicates previous work on Dutch [@adank2004] but conflicts with some evaluations of English [e.g., @syrda1985]. @adank2004 discussed whether the discrepancy in results might be attributed to implementations of the Bark-transformation, or to what @syrda1985 describes as language-specificity of the second dimension of @Syrdal1986 normalization. The present results would seem to confirm this vulnerability of intrinsic normalizations. <!-- TO DO: Starting at @adank2004 discussed, this feels to me more like sth that should go into the discussion. Perhaps we do the same with any replication statements? (but at least these more complicated ones) -->
 Extrinsic normalization, however, tends to substantially improve recognition accuracy (with the exception of Gerstman normalization). Depending on the specific combination of cues and the vowel qualities considered, the best-performing normalization model increases recognition accuracy by at least `r d.max.acc.toINTEND.diff %>% filter(mean.x == min(mean.x)) %>% pull(mean.x) %>% round(digits = 3) * 100`% (from `r d.max.acc.toINTEND.diff %>% filter(mean.x == min(mean.x)) %>% pull(mean.y) %>% round(digits = 3) * 100`% for unnormalized cues for all vowels when only F1-F2 are considered) to `r d.max.acc.toINTEND.diff %>% filter(mean.x == max(mean.x)) %>% pull(mean.x) %>% round(digits = 3) * 100`% (from `r d.max.acc.toINTEND.diff %>% filter(mean.x == max(mean.x)) %>% pull(mean.y) %>% round(digits = 3) * 100`% for short vowels when all cues are considered). The benefit of extrinsic normalization models, as well as the lower performance of perceptual transformations, replicates previous findings on other languages [e.g., @adank2004; @escudero2007; @nearey1989 found effects of both intrinsic and extrinsic accounts, but larger effects for extrinsic].
 
 We also see that all models---even for unnormalized cues---perform substantially above chance. When long and short vowels are considered separately, the best ideal observers achieve recognition accuracies of `r d.max.acc.toINTEND.diff %>% filter(IO.Quantity == "long") %>% summarise(max = max(mean.x)) %>% round(digits = 3) * 100`% for long vowels and `r d.max.acc.toINTEND.diff %>% filter(IO.Quantity == "short") %>% summarise(max = max(mean.x)) %>% round(digits = 3) * 100`% for short vowels. For reference, in a recent perception experiment we conducted on the eight monophthongs of US English, L1-US English listeners achieved 71.1% accuracy in categorizing isolated hVd words [chance = 12.5%, @persson-jaeger2023]. A previous study on Swedish report an average recognition accuracy of 94.7% for the categorization of the long (isolated) vowels [@eklund1997]. The ideal observers for the Central Swedish vowel system thus achieve performance that is more or less comparable to that of human listeners, at least when cues are normalized.
@@ -1226,13 +1223,6 @@ p.accuracy.io.overall <- plot_io_results(m.io.SwehVd) + facet_grid(Cue_space ~ f
 ```{r predictions, fig.width= base.width * 4.5, fig.height = base.height * 5.5, fig.align='center', out.width='95%', fig.cap="(ref:predictions)"}
 p.accuracy.io.overall
 ```
-
-## Results for specific vowels {#sec:resultsII-perVowel -}
-Finally, the use of a perceptual model lets us assess vowel-specific effects on the predictions of the ideal observers. While this is not the main focus of this paper, it might be of interest to other researchers. In the SI, we therefore plot both the predicted categorization accuracy per vowel in the different evaluations (see [SI, Per-vowel categorization accuracy](#sec:accuracy-per-vowel)), as well as confusion matrices of the best and the worst performing ideal observers (see [SI, Confusion and difference matrices](#sec:confusion)), to further investigate *how* normalization improves recognition accuracy. Here, we briefly mention some of the main findings that emerge from these additional visualizations.
-
-Unsurprisingly, some vowels are recognized with much higher accuracy than others---at least when uniform category priors are assumed, as we did here. This is a direct consequence of the position of the vowel in the acoustic-phonetic space, relative to neighboring vowels: the more neighboring vowels overlap with each other, the lower the accuracy with which they are recognized. Which vowels will benefit from normalization will thus naturally vary between languages, reflecting the language-specific properties of the vowel space. For instance, [`r linguisticsdown::cond_cmpl("iː")`] is often described as more easily recognized in previous work on other languages. This contrasts with our findings for Central Swedish: here,  [`r linguisticsdown::cond_cmpl("iː")`] is part of the dense clustering of vowels along the height dimension and so has many close competitors. This highlights that recognition accuracy is due to the position of a vowel *relative* to its competitors [e.g., @Peterson1952; @Kuhl1991; @Polka2003], rather than its *absolute location* in the vowel space (e.g., [`r linguisticsdown::cond_cmpl("iː")`] being a peripheral vowel).
-
-Also of interest is that not all vowels exhibit the benefit of normalization. In general, across evaluations, it seems to be vowels that are already recognized with high accuracy that does not benefit from normalization, which replicate previous studies that have included per-vowel accuracies [e.g., @adank2003; @Syrdal1986]. For one vowel in particular, normalization can actually be detrimental to recognition. The accuracy of some normalized models is reduced compared to unnormalized models for [`r linguisticsdown::cond_cmpl("ʉː")`] when more cues than F1 and F2 are considered. Finally, while there are minor differences across vowels in the relative goodness of different normalizations, the models that perform overall best also perform best on each vowel [in line with @adank2003]. This further demonstrates the plausibility of these normalization accounts for perception.
 
 # Discussion {#sec:discussion -}
 We have compared low-level pre-linguistic normalization accounts against a new phonetically annotated database of Central Swedish vowels. We set out to evaluate how the different accounts differ in predicted consequences for perception. Previous work found that the types of normalization accounts that performed well on other languages did not seem to perform well on Swedish vowel data [@disner1980]. However, as pointed out by Disner, the Swedish data differed from the data for other languages in that study, and the majority of studies on other languages. Here, we followed the majority of previous work on vowel productions and analyzed productions of hVd recordings. We find that the same accounts found in previous work to perform well on other languages also perform well for the dense vowel space of Swedish. Specifically, Lobanov and centering approaches---incl. Nearey normalization and C-CuRE normalization---were the top-performing accounts, replicating the pattern found in previous studies on other languages [e.g., @adank2004; @carpenter1993; @escudero2007; @syrda1985]. This result suggests that the (somewhat) diverging results for Swedish in @disner1980's study, were not caused by properties inherent to Swedish, but more likely were an artifact of the dataset employed by Disner. It also suggests that languages with dense vowel spaces do not necessarily require more complex normalization mechanisms.
