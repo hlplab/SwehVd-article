@@ -37,7 +37,7 @@ Participants were recruited through word-of-mouth, flyers at Stockholm Universit
 include_graphics("ad_recruitment.png")
 ```
 
-## Word list
+## Word list {#sec:wordlist -}
 Word list with all target and filler words, recorded by all talkers in the SwehVd database.
 
 \begin{table}
@@ -146,6 +146,11 @@ puss&nav\\
 topp&nå\\
 \end{tabular}
 \end{table}
+
+
+## Unanticipated challenges during recording (and how they were addressed)]{#sec:challenges -}
+In a small-scale pilot preceding recordings, the expected transparency of the orthography for eliciting the long and short vowels was confirmed by three native talkers and one non-native talker of Swedish (these talkers did not participate in the study). However, *hodd* [`r linguisticsdown::cond_cmpl("ʊ")`] and *hod* [`r linguisticsdown::cond_cmpl("uː")`] sometimes elicited [`r linguisticsdown::cond_cmpl("ɔ")`].^[The difficulty for some native talkers to produce [`r linguisticsdown::cond_cmpl("ʊ")`] when reading *hodd* might be due to frequency effects. Forms with stressed [`r linguisticsdown::cond_cmpl("ʊ")`] are rare in the Swedish language, and phonotactically similar words are most often pronounced as [`r linguisticsdown::cond_cmpl("ɔ")`] [see e.g., @riad2014].] We therefore decided to add instructions to the participants for these two words. When *hod* or *hodd* appeared on screen, a written guide indicating the target vowel appeared below the word in smaller font size: "hod som i hot", "hodd som i hosta", with *hot* and *hosta* being real Swedish words containing [`r linguisticsdown::cond_cmpl("uː")`] and [`r linguisticsdown::cond_cmpl("ʊ")`], respectively.^[English translations: "hod as in threat"(phonologically [`r linguisticsdown::cond_cmpl("uː")`]), "hodd as in cough"(phonologically [`r linguisticsdown::cond_cmpl("ʊ")`]).] Whenever the experimenter noticed that the pronunciations clearly targeted another vowel, recordings were stopped and participants were reminded to carefully read the guide. Despite our recording instructions, five of the talkers rarely ever produced the targeted [`r linguisticsdown::cond_cmpl("ʊ")`] vowel. Instead, they often mispronounced the vowel, hence they are not included in the subsetted SwehVd we use in this study.
+
 ```{r}
 ```
 
