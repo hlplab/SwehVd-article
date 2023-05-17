@@ -94,8 +94,9 @@ library(knitr)
 
 # Set knit defaults for code chunks
 opts_chunk$set(
-  dpi=300,
-  dev='jpeg', # default format of figures
+  fig.path = "../../figures/knitted/",
+  dpi=72,
+  dev= c('jpeg', 'pdf'), # default format of figures
   comment="",
   echo=FALSE, warning=FALSE, message=FALSE,
   cache=TRUE)
