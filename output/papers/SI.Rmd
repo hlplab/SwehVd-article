@@ -189,6 +189,50 @@ d.SwehVd %>%
 # Evaluation of implementations of Syrdal & Gopal's (1986) second dimension {#sec:SG-eval}
 For the second dimension, distinguishing between front and back vowels, @Syrdal1986 evaluates two different bark-difference measures: F2-F1 and F3-F2. Previous studies had concluded that F2-F1 distinguishes between all Swedish vowels [@fant1983], however, in @Syrdal1986's evaluation of American English, the F3-F2 dimension provided a better fit. Given that there seems to be language specific effects concerning @Syrdal1986's second dimension [e.g., @adank2003], here we compare the two difference measures for the vowels in the SwehVd database.
 
+Figure \@ref(fig:accuracy-SG) displays the categorization accuracy for models trained on normalized data under the two implementations of the Syrdal & Gopal account. The first version uses the F2-F1 bark-difference metric for the second dimension, whereas the second version (labelled *SyrdalGopal2 (Bark)*) implements the second dimension as suggested by @Syrdal1986, F3-F2. Figure \@ref(fig:accuracy-SG) indicates that the first implementation outperforms the implementation using F3-F2 bark-difference measure, which replicates @fant1983.
+
+```{r}
+# Make talker-independent IOs on long and short vowels *separately*, for different cue combinations
+m.io.SwehVd.F1F2_by_quantity.SG <-
+  make_IOs_and_add_test_data(
+    data = d.SwehVd.forStudy.long %>%
+      filter(Normalization.Type %in% c("SyrdalGopal (Bark)", "SyrdalGopal2 (Bark)")),
+    cues = c("F1", "F2"),
+    separate_by = c("Quantity")) %>%
+  mutate(IO.cue_normalization = ifelse(is.na(IO.cue_normalization), "SyrdalGopal2", "SyrdalGopal"))
+
+# Make talker-independent IOs on long and short vowels *combined*, for different cue combinations
+m.io.SwehVd.F1F2.SG <-
+  make_IOs_and_add_test_data(
+    data = d.SwehVd.forStudy.long %>%
+      filter(Normalization.Type %in% c("SyrdalGopal (Bark)", "SyrdalGopal2 (Bark)")),
+    cues = c("F1", "F2")) %>%
+  # Add column for plotting
+  mutate(
+    IO.Quantity = "all",
+    IO.cue_normalization = ifelse(is.na(IO.cue_normalization), "SyrdalGopal2", "SyrdalGopal"))
+
+#Make combined dataframe for plotting
+m.io.SwehVd.SG <- rbind(
+  m.io.SwehVd.F1F2_by_quantity.SG %>%
+    mutate(Cue_space = "F1-F2"),
+  m.io.SwehVd.F1F2.SG %>%
+    mutate(Cue_space = "F1-F2")) %>%
+  mutate(Cue_space = factor(Cue_space, levels = c("F1-F2", "F1-F3", "F0-F3, duration")))
+
+p.accuracy.io.overall.SG <- plot_io_results(m.io.SwehVd.SG) + facet_grid(Cue_space ~ factor(IO.Quantity, levels = c("long", "short", "all"), labels = c("long vowels", "short vowels", "all vowels"))) +
+  scale_colour_manual(values =  c("#E6BE8A", "#E6BE8A")) +
+  theme(
+    axis.text.x = ggtext::element_markdown(angle = 60, vjust = 1, hjust=1, colour = "#E6BE8A"))
+```
+(ref:accuracy-SG) Predicted recognition accuracy of ideal observer under two versions of the Syrdal & Gopal (1986) account for long vowels, short vowels, and long and short vowels together, shown for the F1-F2 cue combination. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. The dashed horizontal line indicates chance (different across columns because of the different number of long and short vowels).
+
+```{r accuracy-SG, fig.width=base.width * 5, fig.height=base.height * 2, out.width='90%', fig.align='center', fig.cap="(ref:accuracy-SG)"}
+p.accuracy.io.overall.SG
+```
+
+We also compared the two implementations in terms of the separability index used in the auxiliary study (\@ref(sec:auxiliaryStudy)). Figure \@ref(fig:separability-by-cue-SG) mirrors the results from the modelling---the first implementation performs better at separating categories in the SwehVd data. These results taken together indicate that the F2-F1 implementation is more suitable for the materials used here, we therefore decided to use the first implementation throughout this paper. 
+
 ```{r}
 cues <- c("F0", "F1", "F2", "F3", "Duration")
 
@@ -366,53 +410,9 @@ p.separability.by_cue.SG <- plot_separability(d.SwehVd.forStudy.SI.long %>%
 
 (ref:separability-by-cue-SG) Separability indices of the two versions of the Syrdal & Gopal (1986) account for long vowels, short vowels, and long and short vowels together, shown for four of the five cues considered in this study and the combined F1-F2. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.
 
-Figure \@ref(fig:separability-by-cue-SG) displays the separability index for the two implementations. The first version uses the F2-F1 bark-difference metric for the second dimension, whereas the second version (labelled *SyrdalGopal2 (Bark)*) implements the second dimension as suggested by @Syrdal1986, F3-F2. As evident from Figure \@ref(fig:separability-by-cue-SG), the first implementation performs better at separating categories in the SwehVd data, which replicates @fant1983.
-
 ```{r separability-by-cue-SG, fig.width=base.width * 4, fig.height=base.height * 5.5, fig.align='center', out.height='90%', fig.cap="(ref:separability-by-cue-SG)"}
 p.separability.by_cue.SG
 ```
-
-```{r}
-# Make talker-independent IOs on long and short vowels *separately*, for different cue combinations
-m.io.SwehVd.F1F2_by_quantity.SG <-
-  make_IOs_and_add_test_data(
-    data = d.SwehVd.forStudy.long %>%
-      filter(Normalization.Type %in% c("SyrdalGopal (Bark)", "SyrdalGopal2 (Bark)")),
-    cues = c("F1", "F2"),
-    separate_by = c("Quantity")) %>%
-  mutate(IO.cue_normalization = ifelse(is.na(IO.cue_normalization), "SyrdalGopal2", "SyrdalGopal"))
-
-# Make talker-independent IOs on long and short vowels *combined*, for different cue combinations
-m.io.SwehVd.F1F2.SG <-
-  make_IOs_and_add_test_data(
-    data = d.SwehVd.forStudy.long %>%
-      filter(Normalization.Type %in% c("SyrdalGopal (Bark)", "SyrdalGopal2 (Bark)")),
-    cues = c("F1", "F2")) %>%
-  # Add column for plotting
-  mutate(
-    IO.Quantity = "all",
-    IO.cue_normalization = ifelse(is.na(IO.cue_normalization), "SyrdalGopal2", "SyrdalGopal"))
-
-#Make combined dataframe for plotting
-m.io.SwehVd.SG <- rbind(
-  m.io.SwehVd.F1F2_by_quantity.SG %>%
-    mutate(Cue_space = "F1-F2"),
-  m.io.SwehVd.F1F2.SG %>%
-    mutate(Cue_space = "F1-F2")) %>%
-  mutate(Cue_space = factor(Cue_space, levels = c("F1-F2", "F1-F3", "F0-F3, duration")))
-
-p.accuracy.io.overall.SG <- plot_io_results(m.io.SwehVd.SG) + facet_grid(Cue_space ~ factor(IO.Quantity, levels = c("long", "short", "all"), labels = c("long vowels", "short vowels", "all vowels"))) +
-  scale_colour_manual(values =  c("#E6BE8A", "#E6BE8A")) +
-  theme(
-    axis.text.x = ggtext::element_markdown(angle = 60, vjust = 1, hjust=1, colour = "#E6BE8A"))
-```
-(ref:accuracy-SG) Predicted recognition accuracy of ideal observer under two versions of the Syrdal & Gopal (1986) account for long vowels, short vowels, and long and short vowels together, shown for the F1-F2 cue combination. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. The dashed horizontal line indicates chance (different across columns because of the different number of long and short vowels).
-
-```{r accuracy-SG, fig.width=base.width * 5, fig.height=base.height * 2, out.width='90%', fig.align='center', fig.cap="(ref:accuracy-SG)"}
-p.accuracy.io.overall.SG
-```
-
-We also evaluated the two Syrdal & Gopal implementations in terms of model predictions for perception. Figure \@ref(fig:accuracy-SG) displays the categorization accuracy for models trained on normalized data under the two implementations of the Syrdal & Gopal account. Mirroring the results from the separability index, the first implementation using F2-F1 for the second dimension, outperforms the implementation using F3-F2 bark-difference measure. These results taken together indicate that the F2-F1 implementation is more suitable for the materials used here, we therefore decided to use the first implementation throughout this paper.
 
 # Visualizing the distribution of vowel productions {#sec:normVowelSpace}
 Figures \@ref(fig:swe-vowels-normalized-long) and \@ref(fig:swe-vowels-normalized-short) visualize the Central Swedish vowels in the test data, after applying the 15 different scale-transformations and normalization accounts for a visual inspection. For this purpose, we focus on F1 and F2 only. In Section [Correlation matrices for all normalization accounts](#sec:correlation-matrices) below, we plot pairwise correlation plots of all cues for all different normalization accounts we compare.
@@ -897,7 +897,7 @@ p.diff.long.F1F2 <- p.confusion.long.F1F2 %+%
          names_to = "Comparison",
          values_to = "Difference")) +
     aes(fill = Difference) +
-    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    scale_fill_gradient2("Difference in posterior probability", midpoint = 0, limits = c(-.5,.5), breaks = seq(-.5, .5, .1)) +
     facet_wrap(~ Comparison, ncol = 1) + 
   theme(legend.position = "none")
 p.diff.long.F1F3 <- p.confusion.long.F1F3 %+%
@@ -921,7 +921,7 @@ p.diff.long.F1F3 <- p.confusion.long.F1F3 %+%
          names_to = "Comparison",
          values_to = "Difference")) +
     aes(fill = Difference) +
-    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    scale_fill_gradient2("Difference in posterior probability", midpoint = 0, limits = c(-.5,.5), breaks = seq(-.5, .5, .1)) +
     facet_wrap(~ Comparison, ncol = 1) + 
   theme(legend.position = "none")
 p.diff.long.all <- p.confusion.long.all %+%
@@ -945,7 +945,7 @@ p.diff.long.all <- p.confusion.long.all %+%
          names_to = "Comparison",
          values_to = "Difference")) +
     aes(fill = Difference) +
-    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    scale_fill_gradient2("Difference in posterior probability", midpoint = 0, limits = c(-.5,.5), breaks = seq(-.5, .5, .1)) +
     facet_wrap(~ Comparison, ncol = 1) + 
   theme(legend.position = "none")
 # Diff matrices of the short vowels
@@ -970,7 +970,7 @@ p.diff.short.F1F2 <- p.confusion.short.F1F2 %+%
          names_to = "Comparison",
          values_to = "Difference")) +
     aes(fill = Difference) +
-    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    scale_fill_gradient2("Difference in posterior probability", midpoint = 0, limits = c(-.5,.5), breaks = seq(-.5, .5, .1)) +
     facet_wrap(~ Comparison, ncol = 1) + 
   theme(legend.position = "none")
 p.diff.short.F1F3 <- p.confusion.short.F1F3 %+%
@@ -994,7 +994,7 @@ p.diff.short.F1F3 <- p.confusion.short.F1F3 %+%
          names_to = "Comparison",
          values_to = "Difference")) +
     aes(fill = Difference) +
-    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    scale_fill_gradient2("Difference in posterior probability", midpoint = 0, limits = c(-.5,.5), breaks = seq(-.5, .5, .1)) +
     facet_wrap(~ Comparison, ncol = 1) + 
   theme(legend.position = "none")
 p.diff.short.all <- p.confusion.short.all %+%
@@ -1018,7 +1018,7 @@ p.diff.short.all <- p.confusion.short.all %+%
          names_to = "Comparison",
          values_to = "Difference")) +
     aes(fill = Difference) +
-    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    scale_fill_gradient2("Difference in posterior probability", midpoint = 0, limits = c(-.5,.5), breaks = seq(-.5, .5, .1)) +
     facet_wrap(~ Comparison, ncol = 1) + 
   theme(legend.position = "none")
 # Diff matrices of all vowels
@@ -1043,7 +1043,7 @@ p.diff.all.F1F2 <- p.confusion.all.F1F2 %+%
          names_to = "Comparison",
          values_to = "Difference")) +
     aes(fill = Difference) +
-    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    scale_fill_gradient2("Difference in posterior probability", midpoint = 0, limits = c(-.5,.5), breaks = seq(-.5, .5, .1)) +
     facet_wrap(~ Comparison, ncol = 1) + 
   theme(legend.position = "none")
 p.diff.all.F1F3 <- p.confusion.all.F1F3 %+%
@@ -1067,7 +1067,7 @@ p.diff.all.F1F3 <- p.confusion.all.F1F3 %+%
          names_to = "Comparison",
          values_to = "Difference")) +
     aes(fill = Difference) +
-    scale_fill_gradient2("Difference in posterior probability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    scale_fill_gradient2("Difference in posterior probability", midpoint = 0, limits = c(-.5,.5), breaks = seq(-.5, .5, .1)) +
     facet_wrap(~ Comparison, ncol = 1) + 
   theme(legend.position = "none")
 p.diff.all.all <- p.confusion.all.all %+%
@@ -1091,7 +1091,7 @@ p.diff.all.all <- p.confusion.all.all %+%
          names_to = "Comparison",
          values_to = "Difference")) +
     aes(fill = Difference) +
-    scale_fill_gradient2("Difference \nin posterior \nprobability", limits = c(-.25,.25), breaks = seq(-.25, .25, .05)) +
+    scale_fill_gradient2("Difference \nin posterior \nprobability", midpoint = 0, limits = c(-.5,.5), breaks = seq(-.5, .5, .1)) +
     facet_wrap(~ Comparison, ncol = 1) +
   theme(legend.position = "right")
 
@@ -1150,8 +1150,6 @@ A large portion of previous studies evaluating normalization accounts against pr
 
 Before we evaluate how category separability is affected by normalization in F1-F2, F1-F3, and F0-F3 and duration space, we look at how the normalization accounts affect the separability of vowels along each cue separately (Figure \@ref(fig:separability-by-cue)). As we show below, this is helpful in understanding the subsequently presented results for combinations of cues.
 
-<!--AP: this entire chunk is suggested to be moved to introduction by R2 (including the above table). Copied into main text for now: 
-Table \@ref(tab:norm-evaluation-variability-SI) lists previous studies that have compared normalization accounts in terms of their effectiveness in reducing inter-talker variability. These studies varied in the specific metrics they employed to assess the effects of normalization, the languages they studied, and the conclusions they arrived at. Two generalizations emerge from Table \@ref(tab:norm-evaluation-variability-SI). First, transformation to a perceptual scale alone does not seem to be sufficient to reduce inter-talker variability [see also @adank2004; @carpenter1993; @clopper2009; @escudero2007; @Flynn2011; @kohn2012a]. Second, normalization accounts that include centering and/or standardizing seem to perform best in reducing inter-talker variability [see e.g. @barreda2018a; @disner1980; @fabricius2009; @kohn2012a; @labov2010; @lobanov1971]. When Lobanov and Gerstman normalization---both involving standardizing---were included in a study, they often rank among the top two performing accounts. Of note, Nearey normalization [@nearey1978] seems to perform well even though it does not involve the computationally more complex operation of standardizing. This suggests that simple centering of formants relative to the talker's mean *might* be sufficient to achieve significant variance reduction [but see @disner1980 for Swedish, which is revisited in this study].-->
 <!-- Commented out for now as it doesn't seem critical. ^[Some studies have further investigated the extent to which different normalization accounts remove socially-relevant variance along with the intended removal of physiologically-caused variance [e.g., @adank2004; @disner1980; @hindle1978; @labov2010]. Removal of socially-relevant variance has been argued to be problematic for two separate reasons. First, for *researchers* who employ normalization as part of their data analysis, it can make it difficult to investigate the effects of social variables on pronunciation. Second, as a theory of how *listeners* overcome the lack of invariance in the speech signal, it has been argued to conflict with the finding that listeners infer social group membership from speech signal [@REFS]. Only this latter concern is of relevant for the present study, and---as others have pointed out---normalization does not necessarily mean that the raw input to normalization is discarded [@sumner2014; @OTHERS]. We thus do not further discuss this aspect.]  -->
 
 ## Methods {#sec:methodsI}
