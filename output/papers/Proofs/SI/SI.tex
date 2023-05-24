@@ -1,0 +1,751 @@
+\documentclass[utf8]{frontiers_suppmat} % for all articles
+
+\usepackage{url,hyperref,lineno,microtype,subcaption}
+\usepackage[onehalfspacing]{setspace}
+
+% BELOW TAKEN FROM rticles plos template
+%
+% amsmath package, useful for mathematical formulas
+\usepackage{amsmath}
+% amssymb package, useful for mathematical symbols
+\usepackage{amssymb}
+
+% hyperref package, useful for hyperlinks
+\usepackage{hyperref}
+
+% graphicx package, useful for including eps and pdf graphics
+% include graphics with the command \includegraphics
+\usepackage{graphicx}
+
+% Sweave(-like)
+\usepackage{fancyvrb}
+\DefineVerbatimEnvironment{Sinput}{Verbatim}{fontshape=sl}
+\DefineVerbatimEnvironment{Soutput}{Verbatim}{}
+\DefineVerbatimEnvironment{Scode}{Verbatim}{fontshape=sl}
+\newenvironment{Schunk}{}{}
+\DefineVerbatimEnvironment{Code}{Verbatim}{}
+\DefineVerbatimEnvironment{CodeInput}{Verbatim}{fontshape=sl}
+\DefineVerbatimEnvironment{CodeOutput}{Verbatim}{}
+\newenvironment{CodeChunk}{}{}
+
+% cite package, to clean up citations in the main text. Do not remove.
+\usepackage{cite}
+\usepackage{color}
+
+% Below is from frontiers
+%
+\bibliographystyle{frontiersinSCNS}
+
+% tightlist command for lists without linebreak
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% From pandoc table feature
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+
+% Pandoc citation processing
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+% for Pandoc 2.8 to 2.10.1
+\newenvironment{cslreferences}%
+  {}%
+  {\par}
+% For Pandoc 2.11+
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\usepackage{fontspec}
+%% Special font for IPA
+%% Make sure "Doulos SIL" is installed on your computer
+%% For other typefaces supporting IPA symbols, see
+%% https://en.wikipedia.org/wiki/International_Phonetic_Alphabet#Typefaces
+\newfontfamily\ipa{Doulos SIL} % Font for IPA symbols
+\DeclareTextFontCommand{\ipatext}{\ipa}
+
+%%%         Section for CJK Characters                   %%%
+%%%   You may want to uncomment the code below if        %%%
+%%%   you're writing this document with CJK characters   %%%
+
+%\usepackage{xeCJK}  % Uncomment for using CJK characters
+%% Set main font for CJK characters
+%% Make sure your system has the font set
+%\setCJKmainfont[
+%	BoldFont={HanWangHeiHeavy}  % Set font for CJK boldface
+%    ]{標楷體}    % Set font for normal CJK
+%% Some Traditional Chinese fonts: AR PL KaitiM Big5, PingFang TC, Noto Sans CJK TC
+%\XeTeXlinebreaklocale "zh"
+%\XeTeXlinebreakskip = 0pt plus 1pt
+
+\usepackage{colortbl}
+\usepackage{lscape}
+\usepackage{pdflscape}
+\usepackage{tablefootnote}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+  
+\begin{document}
+\onecolumn
+\firstpage{1}
+
+\title {{\helveticaitalic{Supplementary Material for ``Evaluating normalization accounts against the dense vowel space of Central Swedish''}}}
+
+\maketitle
+\begin{center}Anna Persson and T. Florian Jaeger\end{center}
+
+Both the main text and these supplementary information (SI) are derived from the same R markdown document available via OSF at \url{https://osf.io/zb8gx/}.
+
+\setcounter{section}{0}
+\setcounter{footnote}{0}
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\setcounter{equation}{0}
+\renewcommand{\thefootnote}{S\arabic{footnote}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\theequation}{S\arabic{equation}}
+
+\hypertarget{sec:SI-software}{%
+\section{Required software}\label{sec:SI-software}}
+
+The document was compiled using \texttt{knitr} (\protect\hyperlink{ref-xie2021}{Xie, 2021}) in RStudio with R:
+
+\begin{verbatim}
+               _                           
+platform       aarch64-apple-darwin20      
+arch           aarch64                     
+os             darwin20                    
+system         aarch64, darwin20           
+status                                     
+major          4                           
+minor          3.0                         
+year           2023                        
+month          04                          
+day            21                          
+svn rev        84292                       
+language       R                           
+version.string R version 4.3.0 (2023-04-21)
+nickname       Already Tomorrow            
+\end{verbatim}
+
+We used the following R packages to create this document: R (Version 4.3.0; \protect\hyperlink{ref-R-base}{R Core Team, 2021b}) and the R-packages \emph{assertthat} (Version 0.2.1; \protect\hyperlink{ref-R-assertthat}{Wickham, 2019a}), \emph{brms} (Version 2.19.0; \protect\hyperlink{ref-R-brms_a}{Bürkner, 2017}, \protect\hyperlink{ref-R-brms_b}{2018}, \protect\hyperlink{ref-R-brms_c}{2021}), \emph{cowplot} (Version 1.1.1; \protect\hyperlink{ref-R-cowplot}{Wilke, 2020}), \emph{data.table} (Version 1.14.8; \protect\hyperlink{ref-R-data.table}{Dowle and Srinivasan, 2021}), \emph{diptest} (Version 0.76.0; \protect\hyperlink{ref-R-diptest}{Maechler, 2021}), \emph{dplyr} (Version 1.1.2; \protect\hyperlink{ref-R-dplyr}{Wickham et al., 2021a}), \emph{forcats} (Version 1.0.0; \protect\hyperlink{ref-R-forcats}{Wickham, 2021a}), \emph{gganimate} (Version 1.0.8; \protect\hyperlink{ref-R-gganimate}{Pedersen and Robinson, 2020}), \emph{ggplot2} (Version 3.4.2; \protect\hyperlink{ref-R-ggplot2}{Wickham, 2016}), \emph{LaplacesDemon} (Version 16.1.6; \protect\hyperlink{ref-R-LaplacesDemon}{Statisticat and LLC., 2021}), \emph{latexdiffr} (Version 0.1.0; \protect\hyperlink{ref-R-latexdiffr}{Hugh-Jones, 2021}), \emph{linguisticsdown} (Version 1.2.0; \protect\hyperlink{ref-R-linguisticsdown}{Liao, 2019}), \emph{lme4} (Version 1.1.33; \protect\hyperlink{ref-R-lme4}{Bates et al., 2015}), \emph{magick} (\protect\hyperlink{ref-R-magick}{Ooms, 2021}), \emph{magrittr} (Version 2.0.3; \protect\hyperlink{ref-R-magrittr}{Bache and Wickham, 2020}), \emph{Matrix} (Version 1.5.4; \protect\hyperlink{ref-R-Matrix}{Bates and Maechler, 2021}), \emph{modelr} (Version 0.1.11; \protect\hyperlink{ref-R-modelr}{Wickham, 2020}), \emph{MVBeliefUpdatr} (Version 0.0.1.2; \protect\hyperlink{ref-R-MVBeliefUpdatr}{Kleinschmidt and Jaeger, 2015b}), \emph{papaja} (Version 0.1.1.9001; \protect\hyperlink{ref-R-papaja}{Aust and Barth, 2020}), \emph{plotly} (Version 4.10.1; \protect\hyperlink{ref-R-plotly}{Sievert, 2020}), \emph{processx} (Version 3.8.1; \protect\hyperlink{ref-R-processx}{Csárdi and Chang, 2021}), \emph{purrr} (Version 1.0.1; \protect\hyperlink{ref-R-purrr}{Henry and Wickham, 2020}), \emph{Rcpp} (Version 1.0.10; \protect\hyperlink{ref-R-Rcpp_a}{Eddelbuettel and François, 2011}; \protect\hyperlink{ref-R-Rcpp_b}{Eddelbuettel and Balamuta, 2018}), \emph{readr} (Version 2.1.4; \protect\hyperlink{ref-R-readr}{Wickham et al., 2021b}), \emph{rlang} (Version 1.1.1; \protect\hyperlink{ref-R-rlang}{Henry and Wickham, 2021}), \emph{stringr} (Version 1.5.0; \protect\hyperlink{ref-R-stringr}{Wickham, 2019b}), \emph{tibble} (Version 3.2.1; \protect\hyperlink{ref-R-tibble}{Müller and Wickham, 2021}), \emph{tidyr} (Version 1.3.0; \protect\hyperlink{ref-R-tidyr}{Wickham, 2021b}), \emph{tidyverse} (Version 2.0.0; \protect\hyperlink{ref-R-tidyverse}{Wickham et al., 2019}), \emph{tinylabels} (Version 0.2.3; \protect\hyperlink{ref-R-tinylabels}{Barth, 2022}), and \emph{tufte} (Version 0.12; \protect\hyperlink{ref-R-tufte}{Xie and Allaire, 2022}).
+
+\hypertarget{additional-information-about-the-swehvd-databasee}{%
+\section{Additional information about the SwehVd databasee}\label{additional-information-about-the-swehvd-databasee}}
+
+\hypertarget{sec:recruitment}{%
+\subsection{Participant recruitment}\label{sec:recruitment}}
+
+Participants were recruited through word-of-mouth, flyers at Stockholm University Campus, and online channels (accindi.se). Figure \ref{fig:flyer} is an example of flyers distributed at Stockholm University Campus. The flyer gives information on criteria for participation, recording procedure, reimbursement and contact information to experimenter (first author).
+
+
+
+\begin{figure}
+\includegraphics[width=0.65\linewidth]{../../ad_recruitment} \caption{Example flyer for recruiting Stockholm Swedish talkers for recording of the SwehVd database.}\label{fig:flyer}
+\end{figure}
+
+\hypertarget{sec:wordlist}{%
+\subsection{Word list}\label{sec:wordlist}}
+
+Word list with all target and filler words, recorded by all talkers in the SwehVd database.
+
+\begin{table}
+\caption{\label{tab:word-list}Words recorded by the female talkers of Stockholm Swedish for the SwehVd database}
+\centering
+\begin{tabular}[t]{c|c}
+\hline
+Target words&Vowel IPA\\
+\hline
+hid&\ipatext{[iː]}\\
+\hline
+hidd&\ipatext{[ɪ]}\\
+\hline
+hyd&\ipatext{[yː]}\\
+\hline
+hydd&\ipatext{[ʏ]}\\
+\hline
+hed&\ipatext{[eː]}\\
+\hline
+hedd&\ipatext{[ɛ]}\\
+\hline
+häd&\ipatext{[ɛː]}\\
+\hline
+hädd&\ipatext{[ɛ]}\\
+\hline
+härd&\ipatext{[æː]}\\
+\hline
+härr&\ipatext{[æ]}\\
+\hline
+höd&\ipatext{[øː]}\\
+\hline
+hödd&\ipatext{[ø]}\\
+\hline
+hörd&\ipatext{[œː]}\\
+\hline
+hörr&\ipatext{[œ]}\\
+\hline
+hud&\ipatext{[ʉː]}\\
+\hline
+hudd&\ipatext{[ɵ]}\\
+\hline
+hod&\ipatext{[uː]}\\
+\hline
+hodd&\ipatext{[ʊ]}\\
+\hline
+håd&\ipatext{[oː]}\\
+\hline
+hådd&\ipatext{[ɔ]}\\
+\hline
+had&\ipatext{[ɑː]}\\
+\hline
+hadd&\ipatext{[a]}\\
+\hline
+\end{tabular}
+\hspace{2em}
+\begin{tabular}[t]{c|c}
+\hline
+\multicolumn{2}{c}{Filler words}\\
+\hline
+titt&tand\\
+\hline
+damm&dipp\\
+\hline
+tå&buss\\
+\hline
+bål&ding\\
+\hline
+dill&porr\\
+\hline
+tugga&mitt\\
+\hline
+mat&dopp\\
+\hline
+norr&tal\\
+\hline
+must&namn\\
+\hline
+pil&pall\\
+\hline
+dina&bar\\
+\hline
+biff&till\\
+\hline
+Tina&mål\\
+\hline
+borr&Nina\\
+\hline
+dal&då\\
+\hline
+Pål&nick\\
+\hline
+nunna&ditt\\
+\hline
+mil&dugga\\
+\hline
+ting&mall\\
+\hline
+ball&bil\\
+\hline
+piff&par\\
+\hline
+tipp&morr\\
+\hline
+puss&nav\\
+\hline
+topp&nå\\
+\end{tabular}
+\end{table}
+
+\hypertarget{sec:challenges}{%
+\subsection{Unanticipated challenges during recording (and how they were addressed){]}}\label{sec:challenges}}
+
+In a small-scale pilot preceding recordings, the expected transparency of the orthography for eliciting the long and short vowels was confirmed by three native talkers and one non-native talker of Swedish (these talkers did not participate in the study). However, \emph{hodd} {[}\ipatext{ʊ}{]} and \emph{hod} {[}\ipatext{uː}{]} sometimes elicited {[}\ipatext{ɔ}{]}.\footnote{The difficulty for some native talkers to produce {[}\ipatext{ʊ}{]} when reading \emph{hodd} might be due to frequency effects. Forms with stressed {[}\ipatext{ʊ}{]} are rare in the Swedish language, and phonotactically similar words are most often pronounced as {[}\ipatext{ɔ}{]} (see e.g., \protect\hyperlink{ref-riad2014}{Riad, 2014}).} We therefore decided to add instructions to the participants for these two words. When \emph{hod} or \emph{hodd} appeared on screen, a written guide indicating the target vowel appeared below the word in smaller font size: ``hod som i hot'', ``hodd som i hosta'', with \emph{hot} and \emph{hosta} being real Swedish words containing {[}\ipatext{uː}{]} and {[}\ipatext{ʊ}{]}, respectively.\footnote{English translations: ``hod as in threat''(phonologically {[}\ipatext{uː}{]}), ``hodd as in cough''(phonologically {[}\ipatext{ʊ}{]}).} Whenever the experimenter noticed that the pronunciations clearly targeted another vowel, recordings were stopped and participants were reminded to carefully read the guide. Despite our recording instructions, five of the talkers rarely ever produced the targeted {[}\ipatext{ʊ}{]} vowel. Instead, they often mispronounced the vowel, hence they are not included in the subsetted SwehVd we use in this study.
+
+\hypertarget{sec:neutralize}{%
+\subsection{Neutralization of hedd and hädd}\label{sec:neutralize}}
+
+For the vast majority of talkers, \emph{hädd} productions elicited the same vowel as \emph{hedd} (see Figure \ref{fig:hedd}). This confirms the common assumption that the short allophone to /e/ neutralizes with the short allophone to {[}\ipatext{ɛ}{]} in Central Swedish.
+
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.3\linewidth]{../../SwehVd-article_files/figure-latex/hedd-1} 
+
+}
+
+\caption{The \emph{hedd} and \emph{hädd} words in the SwehVd vowel data in unnormalized F1-F2 space. Points show recordings of the \emph{hedd} and \emph{hädd} words ({[}\ipatext{ɛ}{]}) by the 24 female native talkers in the database, averaged across the five measurement points within each vowel segment. Word labels indicate word means across talkers. Since \emph{hädd} and \emph{hedd} resulted in the same allophone, we exclude \emph{hädd} from this and all other visualizations below. This facilitates comparison of, for example, densities across vowels.}\label{fig:hedd}
+\end{figure}
+
+\hypertarget{sec:SG-eval}{%
+\section{Evaluation of implementations of Syrdal \& Gopal's (1986) second dimension}\label{sec:SG-eval}}
+
+For the second dimension, distinguishing between front and back vowels, Syrdal and Gopal (\protect\hyperlink{ref-Syrdal1986}{1986}) evaluates two different bark-difference measures: F2-F1 and F3-F2. Previous studies had concluded that F2-F1 distinguishes between all Swedish vowels (\protect\hyperlink{ref-fant1983}{Fant, 1983}), however, in Syrdal and Gopal (\protect\hyperlink{ref-Syrdal1986}{1986})'s evaluation of American English, the F3-F2 dimension provided a better fit. Given that there seems to be language specific effects concerning Syrdal and Gopal (\protect\hyperlink{ref-Syrdal1986}{1986})'s second dimension (e.g., \protect\hyperlink{ref-adank2003}{Adank, 2003}), here we compare the two difference measures for the vowels in the SwehVd database.
+
+
+
+Figure \ref{fig:separability-by-cue-SG} displays the separability index for the two implementations. The first version uses the F2-F1 bark-difference metric for the second dimension, whereas the second version (labelled \emph{SyrdalGopal2 (Bark)}) implements the second dimension as suggested by Syrdal and Gopal (\protect\hyperlink{ref-Syrdal1986}{1986}), F3-F2. As evident from Figure \ref{fig:separability-by-cue-SG}, the first implementation performs better at separating categories in the SwehVd data, which replicates Fant (\protect\hyperlink{ref-fant1983}{1983}).
+
+\begin{figure}
+
+{\centering \includegraphics[height=0.9\textheight]{../../SwehVd-article_files/figure-latex/separability-by-cue-SG-1} 
+
+}
+
+\caption{Separability indices of the two versions of the Syrdal \& Gopal (1986) account for long vowels, short vowels, and long and short vowels together, shown for four of the five cues considered in this study and the combined F1-F2. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95\% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.}\label{fig:separability-by-cue-SG}
+\end{figure}
+
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.9\linewidth]{../../SwehVd-article_files/figure-latex/accuracy-SG-1} 
+
+}
+
+\caption{Predicted recognition accuracy of ideal observer under two versions of the Syrdal \& Gopal (1986) account for long vowels, short vowels, and long and short vowels together, shown for the F1-F2 cue combination. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95\% confidence intervals across the test folds. The dashed horizontal line indicates chance (different across columns because of the different number of long and short vowels).}\label{fig:accuracy-SG}
+\end{figure}
+
+We also evaluated the two Syrdal \& Gopal implementations in terms of model predictions for perception. Figure \ref{fig:accuracy-SG} displays the categorization accuracy for models trained on normalized data under the two implementations of the Syrdal \& Gopal account. Mirroring the results from the separability index, the first implementation using F2-F1 for the second dimension, outperforms the implementation using F3-F2 bark-difference measure. These results taken together indicate that the F2-F1 implementation is more suitable for the materials used here, we therefore decided to use the first implementation throughout this paper.
+
+\hypertarget{sec:normVowelSpace}{%
+\section{Visualizing the distribution of vowel productions}\label{sec:normVowelSpace}}
+
+Figures \ref{fig:swe-vowels-normalized-long} and \ref{fig:swe-vowels-normalized-short} visualize the Central Swedish vowels in the test data, after applying the 15 different scale-transformations and normalization accounts for a visual inspection. For this purpose, we focus on F1 and F2 only. In Section \protect\hyperlink{sec:correlation-matrices}{Correlation matrices for all normalization accounts} below, we plot pairwise correlation plots of all cues for all different normalization accounts we compare.
+
+Visual inspection suggests a few initial observations. The most striking difference is perhaps between intrinsic normalization accounts (\protect\hyperlink{ref-Syrdal1986}{Syrdal and Gopal, 1986}; \protect\hyperlink{ref-miller1989c}{Miller, 1989}) and all other approaches, though it is not immediately visually obvious which type of approach achieves better separability. Second, transforming the vowels to a different perceptual scale does not seem to affect the vowel distributions much, besides a minor decrease in category variance for some of the vowels. Some transformations bring the vowel categories closer together, towards the center of the vowel space, e.g., ERB and semitones. Third, centering formants by subtracting each talkers' mean (\protect\hyperlink{ref-mcmurray-jongman2011}{McMurray and Jongman, 2011}; \protect\hyperlink{ref-nearey1978}{Nearey, 1978}) reduces some of the category variance, and as a result, increases the category separability. Transforming the vowel data into different scales prior to centering also seems to further improve separability (compare e.g., C-CuRE (Hz) and C-CuRE (semitones)). Overall, the top two performing accounts across the long and short vowels appear to be Lobanov (\protect\hyperlink{ref-lobanov1971}{1971}) and Nearey (\protect\hyperlink{ref-nearey1978}{1978}). However, even for the best performing normalization accounts, there is still considerable category overlap. This involves some of the high long vowels, and some of the mid-center short vowels. This highlights the need to more systematically quantify the effects of normalization, as we do in this study.
+
+
+
+
+
+\begin{landscape}
+\begin{figure}
+
+{\centering \includegraphics[width=0.9\linewidth]{../../SwehVd-article_files/figure-latex/swe-vowels-normalized-long-1} 
+
+}
+
+\caption{The 11 long vowels of Central Swedish when F1 and F2 are left unnormalized or transformed into a perceptual scales (\textbf{grey}), intrinsically normalized (\textbf{yellow}), or extrinsically normalized through centering (\textbf{blue}) or standardizing (\textbf{purple}). Each point corresponds to one recording, averaged across the five measurement points within each vowel segment. Each panel combines the data from all five test folds.}\label{fig:swe-vowels-normalized-long}
+\end{figure}
+
+\end{landscape}
+
+\begin{landscape}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.9\linewidth]{../../SwehVd-article_files/figure-latex/swe-vowels-normalized-short-1} 
+
+}
+
+\caption{The 10 short vowels of Central Swedish when F1 and F2 are left unnormalized or transformed into a perceptual scales (\textbf{grey}), intrinsically normalized (\textbf{yellow}), or extrinsically normalized through centering (\textbf{blue}) or standardizing (\textbf{purple}). Each point corresponds to one recording, averaged across the five measurement points within each vowel segment. Each panel combines the data from all five test folds.}\label{fig:swe-vowels-normalized-short}
+\end{figure}
+
+\end{landscape}
+
+\hypertarget{sec:correlation-matrices}{%
+\section{Cue correlation matrices for all normalization accounts}\label{sec:correlation-matrices}}
+
+Here we include correlation matrices for the SwehVd vowel data, transformed into the 15 different normalization spaces.
+
+\newpage
+
+
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{../../SwehVd-article_files/figure-latex/correlation-matrix-Mel-1} \caption{The SwehVd vowel data in Mel space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-Mel}
+\end{figure}
+
+
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{../../SwehVd-article_files/figure-latex/correlation-matrix-Bark-1} \caption{The SwehVd vowel data in Bark space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-Bark}
+\end{figure}
+
+
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{../../SwehVd-article_files/figure-latex/correlation-matrix-ERB-1} \caption{The SwehVd vowel data in ERB space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-ERB}
+\end{figure}
+
+
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{../../SwehVd-article_files/figure-latex/correlation-matrix-semitones-1} \caption{The SwehVd vowel data in semitones space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-semitones}
+\end{figure}
+
+
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{../../SwehVd-article_files/figure-latex/correlation-matrix-syrdalgopal-1} \caption{The SwehVd vowel data in SyrdalGopal (Bark) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-syrdalgopal}
+\end{figure}
+
+
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{../../SwehVd-article_files/figure-latex/correlation-matrix-miller-1} \caption{The SwehVd vowel data in Miller (log) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-miller}
+\end{figure}
+
+
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{../../SwehVd-article_files/figure-latex/correlation-matrix-ccure-hz-1} \caption{The SwehVd vowel data in C-CuRE Hz space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-ccure-hz}
+\end{figure}
+
+
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{../../SwehVd-article_files/figure-latex/correlation-matrix-ccure-mel-1} \caption{The SwehVd vowel data in C-CuRE Mel space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-ccure-mel}
+\end{figure}
+
+
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{../../SwehVd-article_files/figure-latex/correlation-matrix-ccure-bark-1} \caption{The SwehVd vowel data in C-CuRE Bark space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-ccure-bark}
+\end{figure}
+
+
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{../../SwehVd-article_files/figure-latex/correlation-matrix-ccure-erb-1} \caption{The SwehVd vowel data in C-CuRE ERB space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-ccure-erb}
+\end{figure}
+
+
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{../../SwehVd-article_files/figure-latex/correlation-matrix-ccure-semitones-1} \caption{The SwehVd vowel data in C-CuRE semitones space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-ccure-semitones}
+\end{figure}
+
+
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{../../SwehVd-article_files/figure-latex/correlation-matrix-nearey1-1} \caption{The SwehVd vowel data in Nearey1 (log) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-nearey1}
+\end{figure}
+
+
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{../../SwehVd-article_files/figure-latex/correlation-matrix-nearey2-1} \caption{The SwehVd vowel data in Nearey2 (log) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-nearey2}
+\end{figure}
+
+
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{../../SwehVd-article_files/figure-latex/correlation-matrix-gerstman-1} \caption{The SwehVd vowel data in Gerstman (Hz) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-gerstman}
+\end{figure}
+
+
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{../../SwehVd-article_files/figure-latex/correlation-matrix-lobanov-1} \caption{The SwehVd vowel data in Lobanov (Hz) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-lobanov}
+\end{figure}
+
+\newpage
+
+\hypertarget{sec:vowel-specific}{%
+\section{Vowel-specific ideal observer analyses}\label{sec:vowel-specific}}
+
+The use of a perceptual model (here: ideal observers) also makes it straightforward to assess vowel-specific effects of normalization. The next two subsections provide both the predicted categorization accuracy per vowel in the different evaluations, as well as confusion matrices of the best and the worst performing ideal observers, shedding light on \emph{how} normalization improves recognition accuracy.
+
+\hypertarget{sec:accuracy-per-vowel}{%
+\subsection{Per-vowel categorization accuracy of models trained on long and short vowels separately}\label{sec:accuracy-per-vowel}}
+
+Unsurprisingly, some vowels are recognized with much higher accuracy than others---at least when uniform category priors are assumed, as we did here. This is a direct consequence of the position of the vowel in the acoustic-phonetic space, relative to neighboring vowels: the more neighboring vowels overlap with each other, the lower the accuracy with which they are recognized. Which vowels will benefit from normalization will thus naturally vary between languages, reflecting the language-specific properties of the vowel space. For instance, {[}\ipatext{iː}{]} is often described as more easily recognized in previous work on other languages. This contrasts with our findings for Central Swedish: here, {[}\ipatext{iː}{]} is part of the dense clustering of vowels along the height dimension and so has many close competitors. This highlights that recognition accuracy is due to the position of a vowel \emph{relative} to its competitors (e.g., \protect\hyperlink{ref-Peterson1952}{Peterson and Barney, 1952}; \protect\hyperlink{ref-Kuhl1991}{Kuhl, 1991}; \protect\hyperlink{ref-Polka2003}{Polka and Bohn, 2003}), rather than its \emph{absolute location} in the vowel space (e.g., {[}\ipatext{iː}{]} being a peripheral vowel).
+
+Also of interest is that not all vowels exhibit the benefit of normalization. In general, across evaluations, it seems to be vowels that are already recognized with high accuracy that does not benefit from normalization, which replicate previous studies that have included per-vowel accuracies (e.g., \protect\hyperlink{ref-adank2003}{Adank, 2003}; \protect\hyperlink{ref-Syrdal1986}{Syrdal and Gopal, 1986}). For one vowel in particular, normalization can actually be detrimental to recognition. The accuracy of some normalized models is reduced compared to unnormalized models for {[}\ipatext{ʉː}{]} when more cues than F1 and F2 are considered. Finally, while there are minor differences across vowels in the relative goodness of different normalizations, the models that perform overall best also perform best on each vowel (in line with \protect\hyperlink{ref-adank2003}{Adank, 2003}). This further demonstrates the plausibility of these normalization accounts for perception.
+
+
+
+\begin{landscape}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.9\linewidth]{../../SwehVd-article_files/figure-latex/predictions-per-vowel-long-1} 
+
+}
+
+\caption{Per-vowel predicted categorization accuracy of the ideal observers trained on the \textbf{long} vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95\% bootstrapped CI across the five folds. Chance level is indicated by grey line.}\label{fig:predictions-per-vowel-long}
+\end{figure}
+\end{landscape}
+
+
+
+\begin{landscape}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.9\linewidth]{../../SwehVd-article_files/figure-latex/predictions-per-vowel-long-2-1} 
+
+}
+
+\caption{(\emph{Continued from last page})Per-vowel predicted categorization accuracy of the ideal observers trained on the \textbf{long} vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95\% bootstrapped CI across the five folds. Chance level is indicated by grey line.}\label{fig:predictions-per-vowel-long-2}
+\end{figure}
+\end{landscape}
+
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.9\linewidth]{../../SwehVd-article_files/figure-latex/predictions-per-vowel-short-1} 
+
+}
+
+\caption{Per-vowel predicted categorization accuracy of the ideal observers trained on the \textbf{short} vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95\% bootstrapped CI across the five folds. Chance level is indicated by grey line.}\label{fig:predictions-per-vowel-short}
+\end{figure}
+
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.9\linewidth]{../../SwehVd-article_files/figure-latex/predictions-per-vowel-all-1-1} 
+
+}
+
+\caption{Per-vowel predicted categorization accuracy of the ideal observers trained on \textbf{all} vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95\% bootstrapped CI across the five folds. Chance level is indicated by grey line.}\label{fig:predictions-per-vowel-all-1}
+\end{figure}
+
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.9\linewidth]{../../SwehVd-article_files/figure-latex/predictions-per-vowel-all-2-1} 
+
+}
+
+\caption{(\emph{Continued from last page})Per-vowel predicted categorization accuracy of the ideal observers trained on \textbf{all} vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95\% bootstrapped CI across the five folds. Chance level is indicated by grey line.}\label{fig:predictions-per-vowel-all-2}
+\end{figure}
+
+\newpage
+
+\hypertarget{sec:confusion}{%
+\subsection{Confusion and difference matrices of ideal observers}\label{sec:confusion}}
+
+To further explore effects of neighbouring categories, and which categories are more easily confused by the models and with what, we plot confusion matrices of the worst and best performing models trained on the long, short or all Central Swedish vowels, under the different assumptions about the relevant cues. Next to the confusion matrices, we plot difference matrices to facilitate comparison.
+
+
+
+\begin{landscape}
+
+\begin{figure}
+
+{\centering \includegraphics[height=0.85\textheight]{../../SwehVd-article_files/figure-latex/confusion-matrix-long-1} 
+
+}
+
+\caption{Illustration of the category-specific differences in predictions of the worst and best performing normalization models for each combination of cues (\textbf{rows}). The confusion matrices (\textbf{Panel A}) plot the predictions for the worst (\textbf{left}) and best (\textbf{right}) performing models in predicting the \textbf{long} vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by ideal observer model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel. The difference matrices (\textbf{Panel B}) illustrates the differences in predictions between the best and the worst performing models. Color fill indicates the difference in the posterior probability of the models predicting the intended vowel. More \textbf{purple} indicates an increase in posterior probability for the former over the latter model, more \textbf{red} indicates an advantage for the latter over the former.}\label{fig:confusion-matrix-long}
+\end{figure}
+\end{landscape}
+
+
+
+\begin{landscape}
+
+\begin{figure}
+
+{\centering \includegraphics[height=0.85\textheight]{../../SwehVd-article_files/figure-latex/confusion-matrix-short-1} 
+
+}
+
+\caption{Illustration of the category-specific differences in predictions of the worst and best performing normalization models for each combination of cues (\textbf{rows}). The confusion matrices (\textbf{Panel A}) plot the predictions for the worst (\textbf{left}) and best (\textbf{right}) performing models in predicting the \textbf{short} vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by ideal observer model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel. The difference matrices (\textbf{Panel B}) illustrates the differences in predictions between the best and the worst performing models. Color fill indicates the difference in the posterior probability of the models predicting the intended vowel. More \textbf{purple} indicates an increase in posterior probability for the former over the latter model, more \textbf{red} indicates an advantage for the latter over the former.}\label{fig:confusion-matrix-short}
+\end{figure}
+
+\end{landscape}
+
+
+
+\begin{landscape}
+
+\begin{figure}
+
+{\centering \includegraphics[height=0.85\textheight]{../../SwehVd-article_files/figure-latex/confusion-matrix-allVowels-1} 
+
+}
+
+\caption{Illustration of the category-specific differences in predictions of the worst and best performing normalization models for each combination of cues (\textbf{rows}). The confusion matrices (\textbf{Panel A}) plot the predictions for the worst (\textbf{left}) and best (\textbf{right}) performing models in predicting the \textbf{all} vowels, under different assumptions about the relevant cues. Vowel intended by talker (x-axis) is plotted against vowel selected by ideal observer model (y-axis). Color fill indicates the posterior probability of the models predicting the intended vowel. The difference matrices (\textbf{Panel B}) illustrates the differences in predictions between the best and the worst performing models. Color fill indicates the difference in the posterior probability of the models predicting the intended vowel. More \textbf{purple} indicates an increase in posterior probability for the former over the latter model, more \textbf{red} indicates an advantage for the latter over the former.}\label{fig:confusion-matrix-allVowels}
+\end{figure}
+
+\end{landscape}
+
+\hypertarget{sec:auxiliaryStudy}{%
+\section{Auxliary study: comparing the effects of normalization accounts on between- vs.~within-category variability}\label{sec:auxiliaryStudy}}
+
+A large portion of previous studies evaluating normalization accounts against production data, has compared approaches in terms of how they affect category variability. In this additional study, we follow this traditional approach and evaluate how effectively different normalization accounts reduce the within-category variability of Central Swedish vowels. We calculate a separability index under different assumptions about the relevant cues and the size of the vowel space (the long and short vowels separately, or the entire space) and assess the effects on vowel category variability. To anticipate one take-home point, the results highlight important shortcomings of separability indices in evaluating normalization accounts and underlines the benefits of using a perceptual model to compare the effects of different normalization accounts.
+
+Before we evaluate how category separability is affected by normalization in F1-F2, F1-F3, and F0-F3 and duration space, we look at how the normalization accounts affect the separability of vowels along each cue separately (Figure \ref{fig:separability-by-cue}). As we show below, this is helpful in understanding the subsequently presented results for combinations of cues.
+
+\begin{landscape}\begin{table}
+
+\caption{\label{tab:norm-evaluation-variability-SI}Previous studies comparing the effectiveness of normalization accounts in reducing within-category cue variability}
+\centering
+\fontsize{7}{9}\selectfont
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{2cm}>{\raggedright\arraybackslash}p{2cm}>{\raggedright\arraybackslash}p{5.5cm}>{\raggedright\arraybackslash}p{6cm}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{2.5cm}}
+\toprule
+Language investigated & Article & Speech materials & Normalization accounts & Approach & Best two performing\\
+\midrule
+ & Barreda \& Nearey, 2018 & 120,000 simulated languages (of 5 or 9 vowels) modeled on Hillenbrand et al.'s (1995) data (98 female/male child/adult talkers * 12 vowels) & Nearey2, Lobanov, log-mean in linear regression framework & distance between means (Eucledian distance) & log-mean in linear regression framework (1), Nearey2 (2)\\
+\cmidrule{2-6}
+ & Clopper, 2009 & 2 female/male talkers from Ohio (1 token * 10 vowels) & Bladon et al.'s scale factor of 1 Bark (1994), Syrdal \& Gopal, Nordström \& Lindblom, Nearey1, Nearey2, Watt \& Fabricius, Gerstman, Lobanov, Miller & variance reduction (visual inspection) & Nearey, Watt \& Fabricius, Gerstman, Lobanov (no order)\\
+\cmidrule{2-6}
+ & Hindle, 1978 & Peterson \& Barney's (1952) database; 19 female/male talkers from Philadelphia + 60 telephone informants (minimum 3 tokens per category; analysis focus on /ay/) & Nearey2, Nordström-Lindblom, Sankoff-Shorrock-McKay & distance between means, variance reduction (regression) & Sankoff (1)\\
+\cmidrule{2-6}
+ & Kohn \& Farrington, 2012 & Longitudinal data from 10 female/male African American talkers from North Carolina (approx. 10 tokens * 10 vowels * 5 ages) & Lobanov, Gerstman, Nearey1, Nordström \& Lindblom, Syrdal \& Gopal/Thomas, Watt \& Fabricius & variance reduction (regression) & Lobanov (1), Gerstman, Watt \& Fabricius (2)\\
+\cmidrule{2-6}
+\multirow{-5}{2cm}{\raggedright\arraybackslash US English} & Labov, 2010 & Peterson \& Barney's (1952) database; Philadelphia/Linguistic Change and Variation project (120 female/male talkers, stratified for age, sociolinguistic factors) & Nearey2, Nordström-Lindblom, Sankoff-Shorrock-McKay & distance between means (F-statistics) & Sankoff (1), Nearey2 (2)\\
+\cmidrule{1-6}
+US English, Norwegian, Swedish, German, Danish, Dutch & Disner, 1980 & Differing number of tokens, vowels, and phonetic contexts across the six languages & Gerstman, Lobanov, Nearey2, Harshman's PARAFAC model & variance reduction (visual inspection) & Nearey2 (1), Lobanov (2)\\
+\cmidrule{1-6}
+ & Fabricius, Watt \& Johnson, 2009 & 20 old/young female/male talkers of Received pronunciation (11 vowels); 6 old/young female/male talkers of Aberdeen English (8 vowels in different phonetic contexts) & Watt \& Fabricius, Lobanov, Nearey1 &  & Lobanov (1), Watt \& Fabricius (2)\\
+\cmidrule{2-4}
+\cmidrule{6-6}
+\multirow{-2}{2cm}{\raggedright\arraybackslash UK English} & Flynn \& Foulkes, 2011 & 20 old/young female/male Nottingham talkers (mean 180 recordings per talker; categories not reported) & log-transformation (base 10), log-transformation (natural), Mel, ERB, Bark (*2 gender-specific versions), Syrdal \& Gopal, Nordström (*2 gender-specific versions), LCE, Gerstman, Lobanov, Watt \& Fabricius (* 4 versions), lettER, Nearey (*4 versions) & \multirow{-2}{2.5cm}{\raggedright\arraybackslash variance reduction (SCV in talker-means)} & Gerstman (1), LCE (2)\\
+\cmidrule{1-6}
+Russian & Lobanov, 1971 & 5 female/male talkers (9 vowels in different phonetic contexts) & linear compression or expansion (Fant, 1960), Gerstman, Lobanov & distance between means & Lobanov (1), Gerstman (2)\\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\hypertarget{sec:methodsI}{%
+\subsection{Methods}\label{sec:methodsI}}
+
+\hypertarget{sec:speechMaterialsI}{%
+\subsubsection{Speech materials}\label{sec:speechMaterialsI}}
+
+This study employs the same speech materials as in the main study. Paralleling the main study, we evaluated category separability for each combination of normalization account, cues, and training-test fold. Specifically, we use the exact same cross-validation folds as in the main study.
+
+\hypertarget{sec:separabilityIndex}{%
+\subsubsection{Separability index}\label{sec:separabilityIndex}}
+
+Previous studies have used different measures to assess the relative success of a normalization procedure in reducing inter-talker variability (see Table \ref{tab:norm-evaluation-variability-SI} and \protect\hyperlink{ref-nearey1989}{Nearey, 1989} for an overview on classification accounts). This includes assessing the reduction in variance or distance between means by visual inspection (e.g., \protect\hyperlink{ref-clopper2009}{Clopper, 2009}; \protect\hyperlink{ref-disner1980}{Disner, 1980}; \protect\hyperlink{ref-hindle1978}{Hindle, 1978}), or by calculating the reduction in within-category variance across talkers (e.g., \protect\hyperlink{ref-disner1980}{Disner, 1980}; \protect\hyperlink{ref-fabricius2009}{Fabricius et al., 2009}; \protect\hyperlink{ref-Flynn2011}{Flynn and Foulkes, 2011}; \protect\hyperlink{ref-hindle1978}{Hindle, 1978}), or comparing the degree of separation between category means for unnormalized and normalized data, i.e., an F-ratio (e.g., \protect\hyperlink{ref-labov2010}{Labov, 2010}). We will assess how distinguishable vowels become under different normalization accounts by calculating a separability index, as described in Equation \eqref{eq:separability-index}. Following some previous studies (e.g., \protect\hyperlink{ref-labov2010}{Labov, 2010}), this separability index is essentially an F statistics, where the F statistics is the ratio of the within- and between-category variances:
+
+\begin{equation}\label{eq:separability-index}
+\begin{split}
+ separability\ index &= \frac{between\ category\ MS}{within\ category\ MS}\\
+ &= \frac{\sum\limits_{c=1,\ldots,K}(N_{c}-1)}{K-1}\frac{\sum\limits_{c=1,\ldots,K}(\bar{x}_{c}-\bar{x})^{2}}{\sum\limits_{c=1,\ldots,K} \sum\limits_{i=1,\ldots,N_{c}}(x_{i,c}-\bar{x}_{c})^{2}}
+\end{split}
+\end{equation}
+
+where \(K\) is the number of categories, \(N_c\) is the number of observations for category \(c\), \(x_{i,c}\) is the cue vector (for all cues considered in the calculation of the separability index) for observation \(i\) of category \(c\), \(\bar{x}_c\) is the cue mean vector for category \(c\), and \(\bar{x}\) is the overall cue mean vector. We calculated this separability index separately for each combination of normalization account, cues, and training-test fold, as described next.
+
+\hypertarget{sec:resultsI}{%
+\subsection{Results}\label{sec:resultsI}}
+
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{../../SwehVd-article_files/figure-latex/separability-by-cue-1} 
+
+}
+
+\caption{Separability indices by normalization accounts for long vowels, short vowels, and all vowels together (columns), shown for each of the five cues considered in this study (rows). Labels indicate mean across the five test folds. Intervals show average bootstrapped 95\% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.}\label{fig:separability-by-cue}
+\end{figure}
+
+For F1 (first row of Figure \ref{fig:separability-by-cue}), we see a clear advantage for centering (in blue) and standardizing (in purple) compared to transformations (in grey) and intrinsic accounts (in yellow). In particular Lobanov normalization seems to maximize category separability along F1, at least for the long vowels and all vowels together. Notably, the accounts pattern differently along F2 (second row of Figure \ref{fig:separability-by-cue}). Overall, differences between accounts are much smaller along F2, and the clear advantage of centering and standardizing accounts along F1 does not extend to F2.
+
+An altogether different picture is observed for F3. Compared to F1 and F2, the intrinsic account (Miller) performs substantially better in separating categories along F3, while all other accounts perform poorly. This result is surprising: one of the downsides of intrinsic approaches that has been noted in previous work is their sensitivity to measurement error (\protect\hyperlink{ref-thomas2007}{Thomas and Kendall, 2007}). This sensitivity is caused by the fact that intrinsic accounts use a single measurement for normalization, rather than the less noisy estimates resulting from aggregating across segments that are used in extrinsic accounts. Since the third formant is often described as more difficult to reliably estimate than other formants (leading to more measurement error), F3 would be expected to be particularly affected by this weakness of intrinsic accounts.
+
+Yet, further visualization in Figure \ref{fig:F3-densities} confirms that F3 indeed separates categories particularly well when intrinsic normalization is applied. Compared to other accounts, Miller (\protect\hyperlink{ref-miller1989c}{1989}) seems to be particularly successful in separating vowels that differ in lip rounding. For example, Miller (\protect\hyperlink{ref-miller1989c}{1989}) separates two clusters among the high and mid-high vowels, one consisting of the back vowels \ipatext{[oː]} and \ipatext{[uː]}, and the other one of the front \ipatext{[iː]}, and rounded \ipatext{[yː]} and \ipatext{[ʉː]}. One possible explanation for this result is that intrinsic normalization is indeed particularly effective for F3, and that our correction of measurement errors---equally applied to all formants---effectively reduced the issue with F3 measurement errors (presumably the human brain, too, can do better than an uncorrected Praat algorithm without error correction). As we show below, this result for F3 carries over to any combination of cues that includes F3. It is, however, an artifact of using category separability to assess the effectiveness of normalization, as we show in the main study. We elaborate on this issue in the discussion further down.
+
+Returning to Figure \ref{fig:separability-by-cue}, normalization does not increase category separability for F0. This is expected given that F0 is known to affect vowel separability primarily through its indirect influence on the interpretation of other formants (e.g., \protect\hyperlink{ref-barreda2012a}{Barreda and Nearey, 2012}; \protect\hyperlink{ref-barreda2020a}{Barreda, 2020}). Finally, for duration all of the C-CuRE accounts group together against the remaining accounts. This, too, is expected since all other accounts are formant-specific and thus do not normalize duration. In summary, the five cues contribute to category separability in different ways, and this is reflected in varying effectiveness of different normalization accounts. We also note that the best performing normalization account for any combination of cues and vowel qualities is typically never significantly better than the next best performing model (the 95\% confidence intervals of the best model overlap with the mean of the next best model). In fact, for many combinations of cues and vowel qualities, many of the models perform similarly.
+
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.95\linewidth]{../../SwehVd-article_files/figure-latex/F3-densities-1} 
+
+}
+
+\caption{Category densities along F3 illustrates the effectiveness of vowel-intrinsic normalization for this cue. Here shown for Miller, compared to vowel-extrinsic accounts that center and/or standardize cues. For reference, densities in the absence of normalization are also shown.}\label{fig:F3-densities}
+\end{figure}
+
+Next, we summarize how normalization affects category separability when combinations of the fives cues are considered. Figure \ref{fig:separability} shows the separability index for the different normalization accounts for three different combinations of cues. For the first row of Figure \ref{fig:separability}, we followed most previous research in assessing category separability for the combination of F1 and F2 (e.g., \protect\hyperlink{ref-disner1980}{Disner, 1980}; \protect\hyperlink{ref-fabricius2009}{Fabricius et al., 2009}; \protect\hyperlink{ref-Flynn2011}{Flynn and Foulkes, 2011}; \protect\hyperlink{ref-hindle1978}{Hindle, 1978}; \protect\hyperlink{ref-labov2010}{Labov, 2010}). Accounts that center against the talker's overall formant mean (in blue) are among the best performing normalization accounts. No matter the assumed perceptual scale, centering always improves category separability. Standardizing accounts (in purple), primarily Lobanov (\protect\hyperlink{ref-lobanov1971}{1971}), also perform well at separating categories, more so for the long vowels. However, scale transformations (in grey), and intrinsic accounts (in yellow), do not improve category separability compared to unnormalized Hz, at least not when assessed on the long vowels or the entire vowel space.
+
+The remaining rows of Figure \ref{fig:separability} compare normalization accounts when F3 (second row) or F0, F3, and duration are included (third row). Overall, the category separability is now lower, a result of how the accounts affect category separability along the cues added (see Figure \ref{fig:separability-by-cue}). The most drastic change in performance concerns the intrinsic Miller (\protect\hyperlink{ref-miller1989c}{1989}) and the standardizing accounts. When including F3, Miller (\protect\hyperlink{ref-miller1989c}{1989}) performs as well or better, in absolute numbers, as when evaluated on only the combination of F1 and F2, thereby increasing its performance relative to other accounts. This increase in performance might be particularly pronounced for languages like Swedish, where F3 carries important information about lip rounding and thus vowel identity. In contrast, performance of standardizing accounts drops substantially if F3 or any other cue besides F1 and F2 is included.\footnote{We confirmed this by conducting additional comparisons using only F1, F2 and F0, or only F1, F2 and duration. For both of these comparisons too, we found that standardizing accounts perform poorly.} This mirrors what was found when assessing category separability separately for each cue (Figure \ref{fig:separability-by-cue}).
+
+Finally, looking across all three rows, category separability is consistently higher for short than long vowels. The same pattern is evident for each cue separately in Figure \ref{fig:separability-by-cue}. This result conceptually replicates an initially surprising result of the main study: while short vowels are more densely clustered in the center of the vowel space, and thus occupy a smaller perceptual space, they also exhibit less category variability and less category overlap, making them overall more separable.
+
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{../../SwehVd-article_files/figure-latex/separability-1} 
+
+}
+
+\caption{Separability indices by normalization accounts for long vowels, short vowels, and both long and short vowels together (columns) shown for three different combinations of cues (rows). Labels indicate mean across the five test folds. Intervals show average bootstrapped 95\% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.}\label{fig:separability}
+\end{figure}
+
+\hypertarget{sec:studyI-discussion}{%
+\subsection{Discussion}\label{sec:studyI-discussion}}
+
+When only F1 and F2 are considered, as in most previous work on vowel normalization, we find that extrinsic centering and standardizing accounts achieve the best category separability. Within these two types of accounts, there is considerable variability. For example, among the intrinsic accounts, Miller performs worse than Syrdal \& Gopal, among the extrinsic accounts, versions of C-CuRE seem to consistently perform best. It is also worth noting, however, that there is never a single account that performs significantly better than all other normalizations. This points to the inherent similarities across normalization accounts, and perhaps limitations of the approach taken here (and in some previous work). This point is also raised in the general discussion in the main paper. Regardless of these caveats, the findings for F1 and F2 in this additional study, revise the results of Disner (\protect\hyperlink{ref-disner1980}{1980}) for Swedish, and instead replicates previous findings for the other Germanic languages in Disner's sample as well as the majority of previous studies on other languages (e.g., \protect\hyperlink{ref-fabricius2009}{Fabricius et al., 2009}; \protect\hyperlink{ref-Flynn2011}{Flynn and Foulkes, 2011}; \protect\hyperlink{ref-labov2010}{Labov, 2010}).
+
+However, when F3 is considered along with F1 and F2, this result does no longer hold. Key to understanding this result and what it says about the suitability of category separability as a measure of normalization accounts is Figure \ref{fig:separability-by-cue}: while extrinsic normalization performs better than other approaches for F1 and F2, the absolute differences in performance are small compared to the advantage of the intrinsic account observed for F3. Combined with a seemingly innocuous aspect of the separability index in Equation \eqref{eq:separability-index}, this allows separability along F3 to dominate separability along the other cue dimensions. Our separability index takes the \emph{sum} of (squared) distances along each cue dimension, essentially assuming that the effect of all cues is simply a sum of each cue's effect considered separately. This means that the separability index cannot capture the \emph{joint} effect of cues---whether, for example, one cue effectively separates one set of categories and another cue separates another set of categories, rather than both cues separating the same categories. The separability index thus cannot recognize, for example, that F1 and F2 capture largely complementary aspects of the vowel inventory (as evident in, for example, Figures \ref{fig:swe-vowels-normalized-long} and \ref{fig:swe-vowels-normalized-short}).
+
+This is not the only deficiency of the separability index or similar measures of category variability. The use of \emph{squared} distances means that even a small number of observations located far away from the category mean can disproportionally affect the index. Consider, for example, the F3 densities in Figure \ref{fig:F3-densities}. For non-intrinsic normalizations, some categories have low but non-zero densities far away from the mode. Because of the use of squared distances, this results in low category separability for these normalization accounts despite the fact that observations with such cue values are rare and thus not expected to have a large effect on the \emph{average} perceptual separability of vowels. For the same reason (the use of squared distances), category separability can be high even if a cue separates only a small subset of categories (as is the case for F3), compared to another cue that more gradiently separates \emph{all} categories (as is the case for F1 and F2; see Figure \ref{fig:swe-vowels-all-cues}).
+
+In sum, indices of variability and category separability like that in Equation \eqref{eq:separability-index} fail to adequately assess the expected consequences of normalization for perception, which is the primary interest of this paper, and addressed by the methodology we employed in the main study.
+
+\hypertarget{sec:references}{%
+%\bibliographystyle{frontiersinSCNS_ENG_HUMS} %  for Science, Engineering and Humanities and Social Sciences articles, for Humanities and Social Sciences articles please include page numbers in the in-text citations
+%\bibliographystyle{frontiersinHLTH&FPHY} % for Health and Physics articles
+%\bibliography{test}
+\section*{References}\label{sec:references}}
+\addcontentsline{toc}{section}{References}
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+
+ADD REFERENCES FOR SI HERE
+
+\end{CSLReferences}
+
+\endgroup
+
+\end{document}
