@@ -227,7 +227,7 @@ p.accuracy.io.overall.SG <- plot_io_results(m.io.SwehVd.SG) + facet_grid(Cue_spa
 ```
 (ref:accuracy-SG) Predicted recognition accuracy of ideal observer under two versions of the Syrdal & Gopal (1986) account for long vowels, short vowels, and long and short vowels together, shown for the F1-F2 cue combination. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. The dashed horizontal line indicates chance (different across columns because of the different number of long and short vowels).
 
-```{r accuracy-SG, fig.width=base.width * 5, fig.height=base.height * 2, out.width='90%', fig.align='center', fig.cap="(ref:accuracy-SG)"}
+```{r accuracy-SG, fig.width=base.width * 4, fig.height=base.height * 1.5, out.width='90%', fig.align='center', fig.cap="(ref:accuracy-SG)"}
 p.accuracy.io.overall.SG
 ```
 
@@ -410,7 +410,7 @@ p.separability.by_cue.SG <- plot_separability(d.SwehVd.forStudy.SI.long %>%
 
 (ref:separability-by-cue-SG) Separability indices of the two versions of the Syrdal & Gopal (1986) account for long vowels, short vowels, and long and short vowels together, shown for four of the five cues considered in this study and the combined F1-F2. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.
 
-```{r separability-by-cue-SG, fig.width=base.width * 4, fig.height=base.height * 5.5, fig.align='center', out.height='90%', fig.cap="(ref:separability-by-cue-SG)"}
+```{r separability-by-cue-SG, fig.width=base.width * 3, fig.height=base.height * 4.5, fig.align='center', out.height='90%', fig.cap="(ref:separability-by-cue-SG)"}
 p.separability.by_cue.SG
 ```
 
