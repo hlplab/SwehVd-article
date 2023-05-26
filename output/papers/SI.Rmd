@@ -220,14 +220,22 @@ m.io.SwehVd.SG <- rbind(
     mutate(Cue_space = "F1-F2")) %>%
   mutate(Cue_space = factor(Cue_space, levels = c("F1-F2", "F1-F3", "F0-F3, duration")))
 
-p.accuracy.io.overall.SG <- plot_io_results(m.io.SwehVd.SG) + facet_grid(Cue_space ~ factor(IO.Quantity, levels = c("long", "short", "all"), labels = c("long vowels", "short vowels", "all vowels"))) +
+p.accuracy.io.overall.SG <- 
+  plot_io_results(m.io.SwehVd.SG) + 
+  facet_grid(
+    Cue_space ~ factor(IO.Quantity, 
+                       levels = c("long", "short", "all"), 
+                       labels = c("long vowels", "short vowels", "all vowels"))) +
   scale_colour_manual(values =  c("#E6BE8A", "#E6BE8A")) +
   theme(
-    axis.text.x = ggtext::element_markdown(angle = 60, vjust = 1, hjust=1, colour = "#E6BE8A"))
+    axis.text.x = ggtext::element_markdown(angle = 60, vjust = 1, hjust=1, colour = "#E6BE8A")) +
+  scale_y_continuous("Overall accuracy\n(of predicting *intended* vowel)")
 ```
+
+
 (ref:accuracy-SG) Predicted recognition accuracy of ideal observer under two versions of the Syrdal & Gopal (1986) account for long vowels, short vowels, and long and short vowels together, shown for the F1-F2 cue combination. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. The dashed horizontal line indicates chance (different across columns because of the different number of long and short vowels).
 
-```{r accuracy-SG, fig.width=base.width * 5, fig.height=base.height * 2, out.width='90%', fig.align='center', fig.cap="(ref:accuracy-SG)"}
+```{r accuracy-SG, fig.width=base.width * 2.5, fig.height=base.height*1.5, out.width='60%', fig.align='center', fig.cap="(ref:accuracy-SG)"}
 p.accuracy.io.overall.SG
 ```
 
@@ -410,7 +418,7 @@ p.separability.by_cue.SG <- plot_separability(d.SwehVd.forStudy.SI.long %>%
 
 (ref:separability-by-cue-SG) Separability indices of the two versions of the Syrdal & Gopal (1986) account for long vowels, short vowels, and long and short vowels together, shown for four of the five cues considered in this study and the combined F1-F2. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. Note that the ranges of the y-axes varies across plots.
 
-```{r separability-by-cue-SG, fig.width=base.width * 4, fig.height=base.height * 5.5, fig.align='center', out.height='90%', fig.cap="(ref:separability-by-cue-SG)"}
+```{r separability-by-cue-SG, fig.width=base.width * 2.5, fig.height=base.height * 4.5, fig.align='center', out.height='50%', fig.cap="(ref:separability-by-cue-SG)"}
 p.separability.by_cue.SG
 ```
 
