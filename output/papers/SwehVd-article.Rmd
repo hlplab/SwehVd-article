@@ -1050,14 +1050,18 @@ element_textbox_highlight <- function(
     hi.labels2 = NULL, hi.fill2 = NULL,
     hi.col2 = NULL, hi.box.col2 = NULL,
     hi.labels3 = NULL, hi.fill3 = NULL,
-    hi.col3 = NULL, hi.box.col3 = NULL
+    hi.col3 = NULL, hi.box.col3 = NULL,
+    hi.labels4 = NULL, hi.fill4 = NULL,
+    hi.col4 = NULL, hi.box.col4 = NULL
 ) {
   structure(
     c(ggtext::element_textbox(...),
       list(hi.labels = hi.labels, hi.fill = hi.fill, hi.col = hi.col, hi.box.col = hi.box.col,
            hi.labels2 = hi.labels2, hi.fill2 = hi.fill2, hi.col2 = hi.col2, hi.box.col2 = hi.box.col2,
-           hi.labels3 = hi.labels3, hi.fill3 = hi.fill3, hi.col3 = hi.col3, hi.box.col3 = hi.box.col3)),
+           hi.labels3 = hi.labels3, hi.fill3 = hi.fill3, hi.col3 = hi.col3, hi.box.col3 = hi.box.col3,
+           hi.labels4 = hi.labels4, hi.fill4 = hi.fill4, hi.col4 = hi.col4, hi.box.col4 = hi.box.col4)),
     class = c("element_textbox_highlight", "element_textbox", "element_text", "element",
+              "element_textbox_highlight", "element_textbox", "element_text", "element",
               "element_textbox_highlight", "element_textbox", "element_text", "element",
               "element_textbox_highlight", "element_textbox", "element_text", "element"))
 }
@@ -1077,6 +1081,11 @@ element_grob.element_textbox_highlight <- function(element, label = "", ...) {
     element$fill <- element$hi.fill3 %||% element$fill
     element$colour <- element$hi.col3 %||% element$colour
     element$box.colour <- element$hi.box.col3 %||% element$box.colour
+  }
+  if (label %in% element$hi.labels4) {
+    element$fill <- element$hi.fill4 %||% element$fill
+    element$colour <- element$hi.col4 %||% element$colour
+    element$box.colour <- element$hi.box.col4 %||% element$box.colour
   }
   NextMethod()
 }
@@ -1109,21 +1118,24 @@ p.vowels.norm <-
       strip.background = element_blank(),
       strip.text = element_textbox_highlight(
         size = 8,
-        color = "black", fill = "#C9C0BB", box.color = "#C9C0BB",
+        color = "white", fill = "#100C08", box.color = "#100C08",
         halign = 0.5, linetype = 1, r = unit(3, "pt"),
         #width = unit(1, "npc"),
         padding = margin(2, 3, 2, 3), margin = margin(3, 3, 3, 3),
         #margin = margin(0.6, 0.5, 0.5, 0.3),
         # this is new relative to element_textbox():
         # first named set
-        hi.labels = c("SyrdalGopal (Bark)", "Miller (log)"),
-        hi.fill = "#E6BE8A", hi.col = "black", hi.box.col = "#E6BE8A",
-        # add second set
-        hi.labels2 = c("C-CuRE (Hz)", "C-CuRE (Mel)", "C-CuRE (Bark)", "C-CuRE (ERB)", "C-CuRE (semitones)", "Nearey1 (log)", "Nearey2 (log)"),
-        hi.fill2 = "#ABCDEF", hi.col2 = "black", hi.box.col2 = "#ABCDEF",
+        hi.labels = c("transformed (Mel)", "transformed (Bark)", "transformed (ERB)","transformed (semitones)"),
+        hi.fill = "#C9C0BB", hi.col = "black", hi.box.col = "#C9C0BB",
+        # second named set
+        hi.labels2 = c("SyrdalGopal (Bark)", "Miller (log)"),
+        hi.fill2 = "#E6BE8A", hi.col2 = "black", hi.box.col2 = "#E6BE8A",
         # add third set
-        hi.labels3 = c("Gerstman (Hz)", "Lobanov (Hz)"),
-        hi.fill3 = "#DDADAF", hi.col3 = "black", hi.box.col3 = "#DDADAF"),
+        hi.labels3 = c("C-CuRE (Hz)", "C-CuRE (Mel)", "C-CuRE (Bark)", "C-CuRE (ERB)", "C-CuRE (semitones)", "Nearey1 (log)", "Nearey2 (log)"),
+        hi.fill3 = "#ABCDEF", hi.col3 = "black", hi.box.col3 = "#ABCDEF",
+        # add forth set
+        hi.labels4 = c("Gerstman (Hz)", "Lobanov (Hz)"),
+        hi.fill4 = "#DDADAF", hi.col4 = "black", hi.box.col4 = "#DDADAF"),
       axis.text.x = element_text(size=8, vjust=1),
       axis.text.y = element_text(size=8, hjust=1, vjust=.5),
       axis.title.x = element_text(size=8, vjust=0, hjust=0.5, face = "bold"),
