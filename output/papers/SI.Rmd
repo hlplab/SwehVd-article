@@ -219,23 +219,67 @@ m.io.SwehVd.SG <- rbind(
   m.io.SwehVd.F1F2.SG %>%
     mutate(Cue_space = "F1-F2")) %>%
   mutate(Cue_space = factor(Cue_space, levels = c("F1-F2", "F1-F3", "F0-F3, duration")))
-
+```
+```{r}
+# Plot the overall accuracy of the different normalization accounts
 p.accuracy.io.overall.SG <- 
-  plot_io_results(m.io.SwehVd.SG) + 
+  m.io.SwehVd.SG %>%
+  # Rename IO.Normalization.Type for plotting
+  mutate(
+    IO.Normalization.Type =
+      factor(
+        plyr::mapvalues(IO.Normalization.Type, levels.normalization.plots, labels.normalization),
+        levels = labels.normalization)) %>%
+  unnest(posterior_of_intended_vowel) %>%
+  # Get the CI over the five folds
+  group_by(IO.Normalization.Type, IO.Quantity, IO.crossvalidation_group, Cue_space) %>%
+  summarise(
+    chance = 1 / n_distinct(Intended.Vowel, na.rm = TRUE),
+    ci = list(enframe(Hmisc::smean.cl.boot(Posterior)))) %>%
+  unnest(ci) %>%
+  spread(name, value) %>%
+  group_by(IO.Normalization.Type, IO.Quantity, Cue_space) %>%
+  summarise(
+    chance = first(chance),
+    mean_CI_lower = mean(Lower),
+    mean_CI_upper = mean(Upper),
+    mean = mean(Mean)) %>%
+  ggplot() +
+  geom_pointrange(
+    aes(x = IO.Normalization.Type,
+        y = mean,
+        ymin = mean_CI_lower,
+        ymax = mean_CI_upper,
+        color = IO.Normalization.Type),
+    position = position_dodge2(width = 0.3),
+    fatten = 2.5) +
+  geom_text(mapping = 
+              aes(x = IO.Normalization.Type,
+                  y = mean_CI_lower - .1,
+                  colour = IO.Normalization.Type,
+                  label = sprintf("%0.2f", mean)),
+            alpha = .85,
+            size = 2,
+            angle = 90,
+            hjust = 0) +
+  geom_hline(aes(yintercept = chance), color = "gray", linetype = 2) +
+  scale_y_continuous("Overall accuracy\n(of predicting *intended* vowel)") +
+  scale_colour_manual(values =  c("#E6BE8A", "#E6BE8A")) +
+  guides(color = "none") +
+  theme(axis.text.x = ggtext::element_markdown(angle = 60, vjust = 1, hjust = 1, colour = colors.all.procedures.1SG),
+        axis.title.x = element_blank()) + 
   facet_grid(
     Cue_space ~ factor(IO.Quantity, 
                        levels = c("long", "short", "all"), 
                        labels = c("long vowels", "short vowels", "all vowels"))) +
-  scale_colour_manual(values =  c("#E6BE8A", "#E6BE8A")) +
   theme(
-    axis.text.x = ggtext::element_markdown(angle = 60, vjust = 1, hjust=1, colour = "#E6BE8A")) +
-  scale_y_continuous("Overall accuracy\n(of predicting *intended* vowel)")
+    axis.text.x = ggtext::element_markdown(angle = 60, vjust = 1, hjust=1, colour = "#E6BE8A"))
 ```
 
 
 (ref:accuracy-SG) Predicted recognition accuracy of ideal observer under two versions of the Syrdal & Gopal (1986) account for long vowels, short vowels, and long and short vowels together, shown for the F1-F2 cue combination. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. The dashed horizontal line indicates chance (different across columns because of the different number of long and short vowels).
 
-```{r accuracy-SG, fig.width=base.width * 2.5, fig.height=base.height*1.5, out.width='60%', fig.align='center', fig.cap="(ref:accuracy-SG)"}
+```{r accuracy-SG, fig.width=base.width * 3, fig.height=base.height * 1.5, out.width='80%', fig.align='center', fig.cap="(ref:accuracy-SG)"}
 p.accuracy.io.overall.SG
 ```
 
