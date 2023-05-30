@@ -263,7 +263,7 @@ p.accuracy.io.overall.SG <-
             angle = 90,
             hjust = 0) +
   geom_hline(aes(yintercept = chance), color = "gray", linetype = 2) +
-  scale_y_continuous("Overall accuracy\n(of predicting *intended* vowel)") +
+  scale_y_continuous("Overall accuracy\n(of predicting *intended* vowel)", limits = c(0, 1)) +
   scale_colour_manual(values =  c("#E6BE8A", "#E6BE8A")) +
   guides(color = "none") +
   theme(axis.text.x = ggtext::element_markdown(angle = 60, vjust = 1, hjust = 1, colour = colors.all.procedures.1SG),
@@ -279,7 +279,7 @@ p.accuracy.io.overall.SG <-
 
 (ref:accuracy-SG) Predicted recognition accuracy of ideal observer under two versions of the Syrdal & Gopal (1986) account for long vowels, short vowels, and long and short vowels together, shown for the F1-F2 cue combination. Labels indicate mean across the five test folds. Intervals show average bootstrapped 95% confidence intervals across the test folds. The dashed horizontal line indicates chance (different across columns because of the different number of long and short vowels).
 
-```{r accuracy-SG, fig.width=base.width * 3, fig.height=base.height * 1.5, out.width='80%', fig.align='center', fig.cap="(ref:accuracy-SG)"}
+```{r accuracy-SG, fig.width=base.width * 3, fig.height=base.height * 1.75, out.width='80%', fig.align='center', fig.cap="(ref:accuracy-SG)"}
 p.accuracy.io.overall.SG
 ```
 
@@ -467,24 +467,23 @@ p.separability.by_cue.SG
 ```
 
 # Visualizing the distribution of vowel productions {#sec:normVowelSpace}
-Figures \@ref(fig:swe-vowels-normalized-long) and \@ref(fig:swe-vowels-normalized-short) visualize the Central Swedish vowels in the test data, after applying the 15 different scale-transformations and normalization accounts for a visual inspection. For this purpose, we focus on F1 and F2 only. In Section [Correlation matrices for all normalization accounts](#sec:correlation-matrices) below, we plot pairwise correlation plots of all cues for all different normalization accounts we compare.
+Figures \@ref(fig:swe-vowels-normalized-long) and \@ref(fig:swe-vowels-normalized-short) show the Central Swedish vowels, after applying the 15 different normalization accounts. For this purpose, we focus on F1 and F2 only. In Section [Correlation matrices for all normalization accounts](#sec:correlation-matrices) below, we plot pairwise correlation plots of all cues for all different normalization accounts we compare.
 
 Visual inspection suggests a few initial observations. The most striking difference is perhaps between intrinsic normalization accounts [@Syrdal1986; @miller1989c] and all other approaches, though it is not immediately visually obvious which type of approach achieves better separability. Second, transforming the vowels to a different perceptual scale does not seem to affect the vowel distributions much, besides a minor decrease in category variance for some of the vowels. Some transformations bring the vowel categories closer together, towards the center of the vowel space, e.g., ERB and semitones. Third, centering formants by subtracting each talkers' mean [@mcmurray-jongman2011; @nearey1978] reduces some of the category variance, and as a result, increases the category separability. Transforming the vowel data into different scales prior to centering also seems to further improve separability (compare e.g., C-CuRE (Hz) and C-CuRE (semitones)). Overall, the top two performing accounts across the long and short vowels appear to be @lobanov1971 and @nearey1978. However, even for the best performing normalization accounts, there is still considerable category overlap. This involves some of the high long vowels, and some of the mid-center short vowels. This highlights the need to more systematically quantify the effects of normalization, as we do in this study.
 
-(ref:swe-vowels-normalized-long) The 11 long vowels of Central Swedish when F1 and F2 are left unnormalized or transformed into a perceptual scales (**grey**), intrinsically normalized (**yellow**), or extrinsically normalized through centering (**blue**) or standardizing (**purple**). Each point corresponds to one recording, averaged across the five measurement points within each vowel segment. Each panel combines the data from all five test folds.
+(ref:swe-vowels-normalized-long) The 11 long vowels of Central Swedish when F1 and F2 are transformed into a perceptual scale (**grey**), intrinsically normalized (**yellow**), or extrinsically normalized through centering (**blue**) or standardizing (**purple**). Each point corresponds to one recording, averaged across the five measurement points within each vowel segment. Each panel combines the data from all five test folds.
 
-(ref:swe-vowels-normalized-short) The 10 short vowels of Central Swedish when F1 and F2 are left unnormalized or transformed into a perceptual scales (**grey**), intrinsically normalized (**yellow**), or extrinsically normalized through centering (**blue**) or standardizing (**purple**). Each point corresponds to one recording, averaged across the five measurement points within each vowel segment. Each panel combines the data from all five test folds.
+(ref:swe-vowels-normalized-short) The 10 short vowels of Central Swedish when F1 and F2 are transformed into a perceptual scale (**grey**), intrinsically normalized (**yellow**), or extrinsically normalized through centering (**blue**) or standardizing (**purple**). Each point corresponds to one recording, averaged across the five measurement points within each vowel segment. Each panel combines the data from all five test folds.
 
 ```{r echo=FALSE}
-# Plot vowel data in all normalization formats
-p.vowels.norm.long <- p.vowels.norm %+%
+p.vowels.norm.long <- 
+  p.vowels.norm %+%
   (d.SwehVd.forStudy.long %>%
      #Filter down to test data, and to the best performing implementation of Syrdal&Gopal
-     filter(fold_type == "test", Quantity == "long", Normalization.Type != "SyrdalGopal2 (Bark)")) +
-  geom_point(aes(color = category),
-             shape = 17,
-             alpha = .4,
-             size = .7)
+     filter(fold_type == "test", Quantity == "long", 
+            Normalization.Type != "no normalization (Hz)",
+            Normalization.Type != "SyrdalGopal2 (Bark)")) +
+  geom_point(aes(color = category), shape = 17, alpha = .4, size = .7)
 ```
 
 \begin{landscape}
@@ -495,15 +494,14 @@ p.vowels.norm.long
 \end{landscape}
 
 ```{r echo=FALSE}
-# Plot vowel data in all normalization formats
-p.vowels.norm.short <- p.vowels.norm %+%
+p.vowels.norm.short <- 
+  p.vowels.norm %+%
   (d.SwehVd.forStudy.long %>%
-     #Filter down to test data, and to the best performing implementation of Syrdal&Gopal
-     filter(fold_type == "test", Quantity == "short", Normalization.Type != "SyrdalGopal2 (Bark)")) +
-  geom_point(aes(color = category),
-             shape = 17,
-             alpha = .4,
-             size = .7)
+     # Filter down to test data, and to the best performing implementation of Syrdal&Gopal
+     filter(fold_type == "test", Quantity == "short", 
+            Normalization.Type != "no normalization (Hz)",
+            Normalization.Type != "SyrdalGopal2 (Bark)")) +
+  geom_point(aes(color = category), shape = 17, alpha = .4, size = .7)
 ```
 
 \begin{landscape}

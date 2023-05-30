@@ -348,7 +348,7 @@ Figure \ref{fig:separability-by-cue-SG} displays the separability index for the 
 \hypertarget{sec:normVowelSpace}{%
 \section{Visualizing the distribution of vowel productions}\label{sec:normVowelSpace}}
 
-Figures \ref{fig:swe-vowels-normalized-long} and \ref{fig:swe-vowels-normalized-short} visualize the Central Swedish vowels in the test data, after applying the 15 different scale-transformations and normalization accounts for a visual inspection. For this purpose, we focus on F1 and F2 only. In Section \protect\hyperlink{sec:correlation-matrices}{Correlation matrices for all normalization accounts}, we plot pairwise correlation plots of all cues for all different normalization accounts we compare.
+Figures \ref{fig:swe-vowels-normalized-long} and \ref{fig:swe-vowels-normalized-short} show the Central Swedish vowels, after applying the 15 different normalization accounts. For this purpose, we focus on F1 and F2 only. In Section \protect\hyperlink{sec:correlation-matrices}{Correlation matrices for all normalization accounts}, we plot pairwise correlation plots of all cues for all different normalization accounts we compare.
 
 Visual inspection suggests a few initial observations. The most striking difference is perhaps between intrinsic normalization accounts (\protect\hyperlink{ref-Syrdal1986}{Syrdal and Gopal, 1986}; \protect\hyperlink{ref-miller1989c}{Miller, 1989}) and all other approaches, though it is not immediately visually obvious which type of approach achieves better separability. Second, transforming the vowels to a different perceptual scale does not seem to affect the vowel distributions much, besides a minor decrease in category variance for some of the vowels. Some transformations bring the vowel categories closer together, towards the center of the vowel space, e.g., ERB and semitones. Third, centering formants by subtracting each talkers' mean (\protect\hyperlink{ref-mcmurray-jongman2011}{McMurray and Jongman, 2011}; \protect\hyperlink{ref-nearey1978}{Nearey, 1978}) reduces some of the category variance, and as a result, increases the category separability. Transforming the vowel data into different scales prior to centering also seems to further improve separability (compare e.g., C-CuRE (Hz) and C-CuRE (semitones)). Overall, the top two performing accounts across the long and short vowels appear to be Lobanov (\protect\hyperlink{ref-lobanov1971}{1971}) and Nearey (\protect\hyperlink{ref-nearey1978}{1978}). However, even for the best performing normalization accounts, there is still considerable category overlap. This involves some of the high long vowels, and some of the mid-center short vowels. This highlights the need to more systematically quantify the effects of normalization, as we do in this study.
 
@@ -363,7 +363,7 @@ Visual inspection suggests a few initial observations. The most striking differe
 
 }
 
-\caption{The 11 long vowels of Central Swedish when F1 and F2 are left unnormalized or transformed into a perceptual scales (\textbf{grey}), intrinsically normalized (\textbf{yellow}), or extrinsically normalized through centering (\textbf{blue}) or standardizing (\textbf{purple}). Each point corresponds to one recording, averaged across the five measurement points within each vowel segment. Each panel combines the data from all five test folds.}\label{fig:swe-vowels-normalized-long}
+\caption{The 11 long vowels of Central Swedish when F1 and F2 are transformed into a perceptual scale (\textbf{grey}), intrinsically normalized (\textbf{yellow}), or extrinsically normalized through centering (\textbf{blue}) or standardizing (\textbf{purple}). Each point corresponds to one recording, averaged across the five measurement points within each vowel segment. Each panel combines the data from all five test folds.}\label{fig:swe-vowels-normalized-long}
 \end{figure}
 
 \end{landscape}
@@ -376,7 +376,7 @@ Visual inspection suggests a few initial observations. The most striking differe
 
 }
 
-\caption{The 10 short vowels of Central Swedish when F1 and F2 are left unnormalized or transformed into a perceptual scales (\textbf{grey}), intrinsically normalized (\textbf{yellow}), or extrinsically normalized through centering (\textbf{blue}) or standardizing (\textbf{purple}). Each point corresponds to one recording, averaged across the five measurement points within each vowel segment. Each panel combines the data from all five test folds.}\label{fig:swe-vowels-normalized-short}
+\caption{The 10 short vowels of Central Swedish when F1 and F2 are transformed into a perceptual scale (\textbf{grey}), intrinsically normalized (\textbf{yellow}), or extrinsically normalized through centering (\textbf{blue}) or standardizing (\textbf{purple}). Each point corresponds to one recording, averaged across the five measurement points within each vowel segment. Each panel combines the data from all five test folds.}\label{fig:swe-vowels-normalized-short}
 \end{figure}
 
 \end{landscape}
@@ -390,91 +390,91 @@ Visual inspection suggests a few initial observations. The most striking differe
 Figures \ref{fig:correlation-matrix-Mel} - \ref{fig:correlation-matrix-lobanov} show the cue correlation matrices for the SwehVd vowel data for all 15 normalization accounts.
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-Mel-1} \caption{The SwehVd vowel data in Mel space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-Mel}
+\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-Mel-1.jpeg} \caption{The SwehVd vowel data in Mel space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-Mel}
 \end{figure}
 
 
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-Bark-1} \caption{The SwehVd vowel data in Bark space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-Bark}
+\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-Bark-1.jpeg} \caption{The SwehVd vowel data in Bark space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-Bark}
 \end{figure}
 
 
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-ERB-1} \caption{The SwehVd vowel data in ERB space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-ERB}
+\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-ERB-1.jpeg} \caption{The SwehVd vowel data in ERB space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-ERB}
 \end{figure}
 
 
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-semitones-1} \caption{The SwehVd vowel data in semitones space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-semitones}
+\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-semitones-1.jpeg} \caption{The SwehVd vowel data in semitones space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-semitones}
 \end{figure}
 
 
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-syrdalgopal-1} \caption{The SwehVd vowel data in SyrdalGopal (Bark) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-syrdalgopal}
+\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-syrdalgopal-1.jpeg} \caption{The SwehVd vowel data in SyrdalGopal (Bark) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-syrdalgopal}
 \end{figure}
 
 
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-miller-1} \caption{The SwehVd vowel data in Miller (log) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-miller}
+\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-miller-1.jpeg} \caption{The SwehVd vowel data in Miller (log) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-miller}
 \end{figure}
 
 
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-ccure-hz-1} \caption{The SwehVd vowel data in C-CuRE Hz space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-ccure-hz}
+\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-ccure-hz-1.jpeg} \caption{The SwehVd vowel data in C-CuRE Hz space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-ccure-hz}
 \end{figure}
 
 
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-ccure-mel-1} \caption{The SwehVd vowel data in C-CuRE Mel space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-ccure-mel}
+\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-ccure-mel-1.jpeg} \caption{The SwehVd vowel data in C-CuRE Mel space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-ccure-mel}
 \end{figure}
 
 
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-ccure-bark-1} \caption{The SwehVd vowel data in C-CuRE Bark space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-ccure-bark}
+\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-ccure-bark-1.jpeg} \caption{The SwehVd vowel data in C-CuRE Bark space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-ccure-bark}
 \end{figure}
 
 
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-ccure-erb-1} \caption{The SwehVd vowel data in C-CuRE ERB space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-ccure-erb}
+\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-ccure-erb-1.jpeg} \caption{The SwehVd vowel data in C-CuRE ERB space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-ccure-erb}
 \end{figure}
 
 
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-ccure-semitones-1} \caption{The SwehVd vowel data in C-CuRE semitones space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-ccure-semitones}
+\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-ccure-semitones-1.jpeg} \caption{The SwehVd vowel data in C-CuRE semitones space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-ccure-semitones}
 \end{figure}
 
 
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-nearey1-1} \caption{The SwehVd vowel data in Nearey1 (log) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-nearey1}
+\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-nearey1-1.jpeg} \caption{The SwehVd vowel data in Nearey1 (log) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-nearey1}
 \end{figure}
 
 
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-nearey2-1} \caption{The SwehVd vowel data in Nearey2 (log) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-nearey2}
+\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-nearey2-1.jpeg} \caption{The SwehVd vowel data in Nearey2 (log) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-nearey2}
 \end{figure}
 
 
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-gerstman-1} \caption{The SwehVd vowel data in Gerstman (Hz) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-gerstman}
+\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-gerstman-1.jpeg} \caption{The SwehVd vowel data in Gerstman (Hz) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-gerstman}
 \end{figure}
 
 
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-lobanov-1} \caption{The SwehVd vowel data in Lobanov (Hz) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-lobanov}
+\includegraphics[width=1\linewidth]{../../../../figures/knitted/correlation-matrix-lobanov-1.jpeg} \caption{The SwehVd vowel data in Lobanov (Hz) space. Points show repetitions of each of the 21 Central Swedish vowels by 16 female native talkers in the database in F0-F3 and vowel duration cue space. Vowel labels indicate category means across talkers. Long vowels are boldfaced. Ellipses show bivariate Gaussian 95\% confidence interval of category means.}\label{fig:correlation-matrix-lobanov}
 \end{figure}
 
 \newpage
@@ -494,7 +494,7 @@ Also of interest is that not all vowels exhibit the benefit of normalization. In
 \begin{landscape}
 \begin{figure}[H]
 
-{\centering \includegraphics[width=0.9\linewidth]{../../../../figures/knitted/predictions-per-vowel-long-1} 
+{\centering \includegraphics[width=0.9\linewidth]{../../../../figures/knitted/predictions-per-vowel-long-1.jpeg} 
 
 }
 \caption{Per-vowel predicted categorization accuracy of the ideal observers trained on the \textbf{long} vowels, under different assumptions about the relevant cues. Point ranges indicate the average mean accuracy and average 95\% bootstrapped CI across the five folds. Chance level is indicated by grey line.}\label{fig:predictions-per-vowel-long}
@@ -506,7 +506,7 @@ Also of interest is that not all vowels exhibit the benefit of normalization. In
 \begin{landscape}
 
 \begin{figure}[H]
-{\centering \includegraphics[width=0.9\linewidth]{../../../../figures/knitted/predictions-per-vowel-long-2-1} 
+{\centering \includegraphics[width=0.9\linewidth]{../../../../figures/knitted/predictions-per-vowel-long-2-1.jpeg} 
 
 }
 
@@ -518,7 +518,7 @@ Also of interest is that not all vowels exhibit the benefit of normalization. In
 
 \begin{figure}[H]
 
-{\centering \includegraphics[width=0.9\linewidth]{../../../../figures/knitted/predictions-per-vowel-short-1} 
+{\centering \includegraphics[width=0.9\linewidth]{../../../../figures/knitted/predictions-per-vowel-short-1.jpeg} 
 
 }
 
@@ -529,7 +529,7 @@ Also of interest is that not all vowels exhibit the benefit of normalization. In
 
 \begin{figure}[H]
 
-{\centering \includegraphics[width=0.9\linewidth]{../../../../figures/knitted/predictions-per-vowel-all-1-1} 
+{\centering \includegraphics[width=0.9\linewidth]{../../../../figures/knitted/predictions-per-vowel-all-1-1.jpeg} 
 
 }
 
@@ -540,7 +540,7 @@ Also of interest is that not all vowels exhibit the benefit of normalization. In
 
 \begin{figure}[H]
 
-{\centering \includegraphics[width=0.9\linewidth]{../../../../figures/knitted/predictions-per-vowel-all-2-1} 
+{\centering \includegraphics[width=0.9\linewidth]{../../../../figures/knitted/predictions-per-vowel-all-2-1.jpeg} 
 
 }
 
@@ -663,7 +663,7 @@ Yet, further visualization in Figure \ref{fig:F3-densities} confirms that F3 ind
 Returning to Figure \ref{fig:separability-by-cue}, normalization does not increase category separability for F0. This is expected given that F0 is known to affect vowel separability primarily through its indirect influence on the interpretation of other formants (e.g., \protect\hyperlink{ref-barreda2012a}{Barreda and Nearey, 2012}; \protect\hyperlink{ref-barreda2020a}{Barreda, 2020}). Finally, for duration all of the C-CuRE accounts group together against the remaining accounts. This, too, is expected since all other accounts are formant-specific and thus do not normalize duration. In summary, the five cues contribute to category separability in different ways, and this is reflected in varying effectiveness of different normalization accounts. We also note that the best performing normalization account for any combination of cues and vowel qualities is typically never significantly better than the next best performing model (the 95\% confidence intervals of the best model overlap with the mean of the next best model). In fact, for many combinations of cues and vowel qualities, many of the models perform similarly.
 
 \begin{figure}
-{\centering \includegraphics[width=0.95\linewidth]{../../../../figures/knitted/F3-densities-1} }
+{\centering \includegraphics[width=0.95\linewidth]{../../../../figures/knitted/F3-densities-1.jpeg} }
 \caption{Category densities along F3 illustrates the effectiveness of vowel-intrinsic normalization for this cue. Here shown for Miller, compared to vowel-extrinsic accounts that center and/or standardize cues. For reference, densities in the absence of normalization are also shown.}\label{fig:F3-densities}
 \end{figure}
 
