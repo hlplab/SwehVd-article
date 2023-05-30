@@ -96,7 +96,7 @@ library(knitr)
 opts_chunk$set(
   fig.path = "../../figures/knitted/",
   dpi=150,
-  dev= c('jpeg', 'pdf'), # default format of figures
+  dev= c('jpeg', 'png'), # default format of figures
   comment="",
   echo=FALSE, warning=FALSE, message=FALSE,
   cache=TRUE)
