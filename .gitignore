@@ -2,6 +2,8 @@
 *.Rproj
 *.rds
 *.log
+*.out
+*.aux
 *.gz
 *.tex
 *.jpeg
@@ -11,3 +13,4 @@
 .RData
 .Ruserdata
 *_cache*
+figures/knitted/
