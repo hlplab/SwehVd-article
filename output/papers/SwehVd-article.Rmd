@@ -95,7 +95,7 @@ library(knitr)
 # Set knit defaults for code chunks
 opts_chunk$set(
   fig.path = "../../figures/knitted/",
-  dpi=150,
+  dpi=300,
   dev= c('jpeg', 'png'), # default format of figures
   comment="",
   echo=FALSE, warning=FALSE, message=FALSE,
@@ -560,6 +560,8 @@ low&`r linguisticsdown::cond_cmpl("[æː]")`&`r linguisticsdown::cond_cmpl("[œ�
 &front&rounded&central&back\\
 \hline
 high&`r linguisticsdown::cond_cmpl("[ɪ]")`&`r linguisticsdown::cond_cmpl("[ʏ]")`&`r linguisticsdown::cond_cmpl("[ɵ]")`&`r linguisticsdown::cond_cmpl("[ʊ]")`\\
+\hline
+&&&&\\
 \hline
 mid&`r linguisticsdown::cond_cmpl("[ɛ]")`&`r linguisticsdown::cond_cmpl("[ø]")`&`r linguisticsdown::cond_cmpl("[œ]")`&`r linguisticsdown::cond_cmpl("[ɔ]")`\\
 \hline
